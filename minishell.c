@@ -1,11 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+#include "minishell.h"
 
-// cc minishell.c -o minishell -lreadline -lcurses
-
-void parse_input(const char *input);
 
 void print_history()
 {
@@ -24,12 +18,24 @@ void print_history()
 	}
 }
 
+void	signal_handler(int signum) //ctrl c
+{
+	if (signum == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+}
+
 char* read_input(void)
 {
 	char *input;
 
-	input = readline("minishell> ");
+	input = readline("minishell> "); //221 leak
 	// add input to history if not empty
+
 	if (input && *input)
 		add_history(input);
 	return (input);
@@ -38,19 +44,31 @@ char* read_input(void)
 int	main(void)
 {
 	char	*input;
+	t_args	*args;
+	t_args	*temp;
+
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
+	args = NULL;
+	args = create_struct(args);
+	add_node(&args);
+	temp = args->next;
+	printf("args = %s, %d, %p\n\n", args->arg, args->token, args->next);
+	printf("args = %s, %d, %p\n\n", temp->arg, temp->token, temp->next);
+
 	while (1)
 	{
 		input = read_input();
 		if (input == NULL) //ctrl d
 		{
-			printf("\nExiting minishell...\n");
+			printf("exit\n");
 			break;
 		}
-		printf("%s\n\n", input);
-		parse_input(input);
+		// printf("%s", input);
+		parse_input(input, args);
 		free(input);
 	}
-	printf("\n--- Historique des commandes ---\n");
-	print_history();
+	rl_clear_history();
+	free_struct(args);
 	return (0);
 }
