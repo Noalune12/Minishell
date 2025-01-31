@@ -1,3 +1,16 @@
+### Table des matières
+- [Minishell](#minishell)
+		- [Table des matières](#table-des-matières)
+	- [Ressources pour travailler en groupe avec Git](#ressources-pour-travailler-en-groupe-avec-git)
+	- [Git ressources](#git-ressources)
+	- [Ligne directrice de nos commits/push/reviews](#ligne-directrice-de-nos-commitspushreviews)
+	- [Qu'est-ce que Minishell ?](#quest-ce-que-minishell-)
+	- [Autres ressources](#autres-ressources)
+		- [Garbage Collector](#garbage-collector)
+	- [Fonctions autorisées](#fonctions-autorisées)
+	- [Quelques rendus avec erreurs](#quelques-rendus-avec-erreurs-)
+	- [Random](#random)
+
 # Minishell
 
 *This project is about creating a simple shell.
@@ -5,12 +18,6 @@ Yes, your own little bash.
 You will learn a lot about processes and file descriptors.*
 
 ---
-
-
-### Table des matières
-1. [Git ressources](#git-ressources)
-2.
-3. [Fonctions autorisées](#fonctions-autorisées)
 
 ## Ressources pour travailler en groupe avec Git
 
@@ -38,16 +45,11 @@ Dans l'ensemble, j'aimerais qu'on suive cette ligne directrice :
 ---
 
 
-# a formater
-
 ### Qu'est-ce que Minishell ?
 - [Vidéo YouTube : Introduction à Minishell](https://www.youtube.com/watch?v=yTR00r8vBH8)
 - [Documentation sur la création d'un shell](https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf)
 - [Architecture de Minishell](https://whimsical.com/minishell-architecture-big-picture-7b9N8PL3qHrddbs977mQ2J)
-### Quelques rendus avec erreurs :
-- [Rendu de Minishell avec erreurs (Push invalidés)](https://projects.intra.42.fr/1331/aascedu)
-- [Autre rendu avec erreurs](https://projects.intra.42.fr/projects/42cursus-minishell/projects_users/3658701)
-- [Encore un autre rendu](https://projects.intra.42.fr/projects/42cursus-minishell/projects_users/3676106)
+
 ---
 ## Autres ressources
 ### Garbage Collector
@@ -55,15 +57,21 @@ Pas sûr si c'est nécessaire pour le projet, mais voici quelques ressources :
 - [Écrire un simple Garbage Collector en C](https://maplant.com/2020-04-25-Writing-a-Simple-Garbage-Collector-in-C.html)
 - [BDWGC : Garbage Collector pour C](https://github.com/ivmai/bdwgc)
 
-
-## Fonctions autorisées
-
-
-## Random
+### Random
 
 - Décomposition **"./programme_name"** -> but de comprendre les
 -
 
-flags de compilation : valgrind --supressions=.valgrind_suppress.txt --leak-check=full --trace-children=yes --track-fds=yes -- show-leak-kinds=all
+Flags a utiliser avec valgrind : **make valgrind** :
 
-avec le fichier 
+`valgrind --supressions=.valgrind_suppress.txt --leak-check=full --trace-children=yes --track-fds=yes -- show-leak-kinds=all`
+
+
+## Fonctions autorisées
+
+**TO DO**
+
+## Quelques rendus avec erreurs :
+- [Rendu de Minishell avec erreurs (Push invalidés)](https://projects.intra.42.fr/1331/aascedu)
+- [Autre rendu avec erreurs](https://projects.intra.42.fr/projects/42cursus-minishell/projects_users/3658701)
+- [Encore un autre rendu](https://projects.intra.42.fr/projects/42cursus-minishell/projects_users/3676106)
