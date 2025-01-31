@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gueberso <gueberso@student.42.fr>          +#+  +:+       +#+         #
+#    By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/17 17:11:29 by lbuisson          #+#    #+#              #
-#    Updated: 2025/01/31 18:04:09 by gueberso         ###   ########.fr        #
+#    Updated: 2025/01/31 18:07:47 by gueberso         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
