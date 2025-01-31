@@ -1,92 +1,62 @@
-NAME	:= minishell
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: gueberso <gueberso@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/12/17 17:11:29 by lbuisson          #+#    #+#              #
+#    Updated: 2025/01/31 18:04:09 by gueberso         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-include minishell.mk
+NAME = minishell
+CC = cc
+CFLAGS = -MMD -MP
+RLFLAGS = -lreadline -lcurses
+RM = rm -f
 
-BUILD_DIR	:= .build/
-OBJS 		:= $(patsubst $(SRCSDIR)%.c,$(BUILD_DIR)%.o,$(SRCS))
-DEPS		:= $(OBJS:.o=.d)
+SRCS = minishell.c parsing.c struct.c
 
-# ********** FLAGS AND COMPILATION FLAGS ************************************* #
+OBJDIR = objs
 
-CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror
-CPPFLAGS	:= -MMD -MP -I incs/ -I libft/incs/
-RLFLAGS		:= -lreadline -lcurses # pourquoi lreadline et lcurses ? lcurses c'est pas pour la librarie graphique ncurse ?
+OBJS = $(patsubst %.c,$(OBJDIR)/%.o,$(SRCS))
+DEPS = $(OBJS:.o=.d)
 
-RM			:= rm -f
-RMDIR		+= -r
-MAKEFLAGS	+= --no-print-directory
-DIR_DUP		= mkdir -p $(BUILD_DIR)
+LIBFT_DIR = libft
+LIBFT_A = libft/libft.a
+LIBFT_FLAGS = -L$(LIBFT_DIR) $(LIBFT_A) -lft
 
-.DEFAULT_GOAL	:= all
+all: $(LIBFT_A) $(NAME)
 
-# ********** DEBUG *********************************************************** #
+$(NAME): $(OBJS) $(LIBFT_A)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_FLAGS) -o $(NAME) $(RLFLAGS)
+	@echo "💫✨💫 \033[92mMinishell compiled\033[0m 💫✨💫"
 
-# en bloc ici pour l'instant, on ferra peut etre des mode de compilation plus tard je sais pas comment faire par contre
 
-VALGRIND_SUPPRESS_FILE = .valgrind_suppress.txt
+$(OBJDIR)/%.o: %.c Makefile
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
 
-$(VALGRIND_SUPPRESS_FILE):
-	@echo "{\n    leak readline\n    Memcheck:Leak\n    ...\n    fun:readline\n}" > $@
-	@echo "{\n    leak add_history\n    Memcheck:Leak\n    ...\n    fun:add_history\n}" >> $@
-	@echo "$(GREEN_BOLD)✓ $(VALGRIND_SUPPRESS_FILE) is ready$(RESETC)"
+$(LIBFT_OBJDIR)/%.o: $(LIBFT_SRCDIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
 
-VALGRIND_FLAGS = valgrind \
-	--suppressions=$(VALGRIND_SUPPRESS_FILE) \
-	--leak-check=full \
-	--trace-children=yes \
-	--track-fds=yes \
-	--show-leak-kinds=all \
+$(LIBFT_A): libft
 
-# ********** RULES *********************************************************** #
+libft:
+	@$(MAKE) --no-print-directory -C $(LIBFT_DIR)
+
+clean:
+	$(RM) -rf $(OBJDIR)
+	$(MAKE) -C $(LIBFT_DIR) clean
+
+fclean: clean
+	$(RM) $(NAME) $(LIBFT_A)
+	@echo "🧹🧹🧹 \033[92mCleaning minishell complete\033[0m 🧹🧹🧹"
+
+re : fclean all
+
+.PHONY : all clean fclean re libft
 
 -include $(DEPS)
-
-.PHONY: all
-all: $(NAME)
-
-$(NAME): libft/libft.a Makefile $(OBJS)
-	@$(CC) $(CFLAGS) $(CPPFLAGS) $(RLFLAGS) -o $(NAME) $(OBJS) -L libft -lft
-	@echo "\n$(GREEN_BOLD)✓ $(NAME) is ready$(RESETC)"
-
-# on peut rajouter tes petit emojis si tu veux 💫✨💫 🧹🧹🧹
-
-libft/libft.a: FORCE
-	@$(MAKE) -C libft
-
-$(BUILD_DIR)%.o: $(SRCSDIR)%.c
-	@mkdir -p $(dir $@)
-	@echo "$(CYAN)[Compiling]$(RESETC) $<"
-	@$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
-
-.PHONY: valgrind
-valgrind: $(VALGRIND_SUPPRESS_FILE) $(NAME)
-	$(VALGRIND_FLAGS) ./$(NAME)
-
-.PHONY: clean
-clean:
-	@$(MAKE) clean -C libft/
-	@$(RM) $(OBJS) $(DEPS) $(VALGRIND_SUPPRESS_FILE)
-	@echo "$(RED_BOLD)[Cleaning]$(RESETC)"
-
-.PHONY: fclean
-fclean: clean
-	@$(MAKE) fclean -C libft/
-	@$(RM) $(RMDIR) $(NAME) $(BUILD_DIR)
-	@echo "$(RED_BOLD)✓ $(NAME) is fully cleaned!$(RESETC)"
-
-.PHONY: re
-re: fclean all
-
-.PHONY: FORCE
-FORCE:
-
-.SILENT: clean fclean
-
-# ********** COLORS AND BACKGROUND COLORS ************************************ #
-
-RESETC				:=	\033[0m
-
-GREEN_BOLD			:= \033[1;32m
-RED_BOLD			:= \033[1;31m
-CYAN				:= \033[0;36m
