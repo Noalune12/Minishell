@@ -7,6 +7,7 @@
 	- [Qu'est-ce que Minishell ?](#quest-ce-que-minishell-)
 	- [Autres ressources](#autres-ressources)
 		- [Garbage Collector](#garbage-collector)
+    	- [Valgrind and readline() leaks](#valgrind-and-readline-leaks)
 	- [Fonctions autorisées](#fonctions-autorisées)
 	- [Quelques rendus avec erreurs](#quelques-rendus-avec-erreurs-)
 	- [Random](#random)
@@ -87,9 +88,22 @@ Options a utiliser avec valgrind pour masquer les leaks de `readline()` : **make
 
 ## Fonctions autorisées
 
-**TO DO**
+### Readline() [manpage](https://linux.die.net/man/3/readline)
+
+
 
 ## Quelques rendus avec erreurs :
 - [Rendu de Minishell avec erreurs (Push invalidés)](https://projects.intra.42.fr/1331/aascedu)
 - [Autre rendu avec erreurs](https://projects.intra.42.fr/projects/42cursus-minishell/projects_users/3658701)
 - [Encore un autre rendu](https://projects.intra.42.fr/projects/42cursus-minishell/projects_users/3676106)
+
+
+
+liens sur lesquels jetais en train de travailler avant de partir vendredi soir:
+
+https://github.com/achrafelkhnissi/minishell
+https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf
+https://linux.die.net/man/3/readline
+https://chatgpt.com/c/6797e03d-6c84-8004-a112-5acbcc432f34
+https://42-cursus.gitbook.io/guide/rank-03/minishell/functions
+
