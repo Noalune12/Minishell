@@ -10,7 +10,7 @@ You will learn a lot about processes and file descriptors.*
 ### Table des matières
 1. [Git ressources](#git-ressources)
 2.
-3.
+3. [Fonctions autorisées](#fonctions-autorisées)
 
 ## Ressources pour travailler en groupe avec Git
 
@@ -36,3 +36,34 @@ Dans l'ensemble, j'aimerais qu'on suive cette ligne directrice :
 - Suivre une nomenclature claire pour les commits, au moins préciser le **type** de commit. Pour le sujet et le corps du message, ne pas hésiter à détailler un minimum les fonctionnalités ou changements ajoutés.
 - ***whatelse??***
 ---
+
+
+# a formater
+
+### Qu'est-ce que Minishell ?
+- [Vidéo YouTube : Introduction à Minishell](https://www.youtube.com/watch?v=yTR00r8vBH8)
+- [Documentation sur la création d'un shell](https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf)
+- [Architecture de Minishell](https://whimsical.com/minishell-architecture-big-picture-7b9N8PL3qHrddbs977mQ2J)
+### Quelques rendus avec erreurs :
+- [Rendu de Minishell avec erreurs (Push invalidés)](https://projects.intra.42.fr/1331/aascedu)
+- [Autre rendu avec erreurs](https://projects.intra.42.fr/projects/42cursus-minishell/projects_users/3658701)
+- [Encore un autre rendu](https://projects.intra.42.fr/projects/42cursus-minishell/projects_users/3676106)
+---
+## Autres ressources
+### Garbage Collector
+Pas sûr si c'est nécessaire pour le projet, mais voici quelques ressources :
+- [Écrire un simple Garbage Collector en C](https://maplant.com/2020-04-25-Writing-a-Simple-Garbage-Collector-in-C.html)
+- [BDWGC : Garbage Collector pour C](https://github.com/ivmai/bdwgc)
+
+
+## Fonctions autorisées
+
+
+## Random
+
+- Décomposition **"./programme_name"** -> but de comprendre les
+-
+
+flags de compilation : valgrind --supressions=.valgrind_suppress.txt --leak-check=full --trace-children=yes --track-fds=yes -- show-leak-kinds=all
+
+avec le fichier 
