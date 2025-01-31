@@ -57,15 +57,33 @@ Pas sûr si c'est nécessaire pour le projet, mais voici quelques ressources :
 - [Écrire un simple Garbage Collector en C](https://maplant.com/2020-04-25-Writing-a-Simple-Garbage-Collector-in-C.html)
 - [BDWGC : Garbage Collector pour C](https://github.com/ivmai/bdwgc)
 
+---
+
 ### Random
 
-- Décomposition **"./programme_name"** -> but de comprendre les
--
+Décomposition **"./program_name"**
+- Dans un chemin (`PATH`), le `/` sépare les répertoires et fichiers dans un système (UNIX/Linux)
+- Le point `.` représente le `répertoire actuel`
+- `./program_name` indique explicitement ou ce trouve le programme
+- `../program_name` ira chercher dans le dossier `parent` au `répertoire actuel`
+- **Chemins absolus et chemins relatifs**
+  - Chemin absolu:
+    - comment toujours par `/` (racine du fichier)
+    - exemple : `/bin/ls`
+  - Chemin relatif:
+    - Ne commence pas par `/`
+    - Dépend du `répertoire actuel`
+- `.` et `..` permettent d'executer un programme qui n'est pas dans le `PATH`
 
-Flags a utiliser avec valgrind : **make valgrind** :
+**Pourquoi `.` n'est pas dans `PATH` par defaut**
+- N'importe quel fichier exécutable dans le répertoire courant pourrait etre exécuté sans précaution.
+
+---
+### Valgrind and `readline()` leaks
+
+Options a utiliser avec valgrind pour masquer les leaks de `readline()` : **make valgrind**
 
 `valgrind --supressions=.valgrind_suppress.txt --leak-check=full --trace-children=yes --track-fds=yes -- show-leak-kinds=all`
-
 
 ## Fonctions autorisées
 
