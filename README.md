@@ -129,30 +129,34 @@ Options a utiliser avec valgrind pour masquer les leaks de `readline()` : **make
 
 ---
 
-liens sur lesquels jetais en train de travailler avant de partir vendredi soir:
-
-https://github.com/achrafelkhnissi/minishell
-
-https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf
-
-https://linux.die.net/man/3/readline
-
-https://chatgpt.com/c/6797e03d-6c84-8004-a112-5acbcc432f34
-
-https://42-cursus.gitbook.io/guide/rank-03/minishell/functions
-
-https://www.gnu.org/software/bash/manual/bash.html#Redirections
-
-https://www.gnu.org/software/bash/manual/bash.html#Pipelines
-
-https://www.quennec.fr/trucs-astuces/syst%C3%A8mes/gnulinux/programmation-shell-sous-gnulinux/param%C3%A9trer-son-environnement-de-travail/les-options-du-shell
-
-https://eli.thegreenplace.net/2012/08/02/parsing-expressions-by-precedence-climbing
-
-https://brilliant.org/wiki/shunting-yard-algorithm/
-
-https://fr.wikipedia.org/wiki/Algorithme_Shunting-yard
-
-https://www.reddit.com/r/ProgrammingLanguages/comments/llc2i3/modifying_the_shuntingyard_algorithm_for_logical/?tl=fr&rdt=38434
-
 ![alt text](image.png)
+
+---
+
+liens sur lesquels jetais en train de travailler avant de partir samedi soir:
+
+[minishell tuto ??](https://github.com/achrafelkhnissi/minishell)
+
+[write your own shell](https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf)
+
+
+[personal chatgpt history](https://chatgpt.com/c/6797e03d-6c84-8004-a112-5acbcc432f34)
+
+[42gitbook](https://42-cursus.gitbook.io/guide/rank-03/minishell/functions)
+
+[GNU redirection](https://www.gnu.org/software/bash/manual/bash.html#Redirections)
+
+[GNU pipelines](https://www.gnu.org/software/bash/manual/bash.html#Pipelines)
+
+[shell options (built-in ??)](https://www.quennec.fr/trucs-astuces/syst%C3%A8mes/gnulinux/programmation-shell-sous-gnulinux/param%C3%A9trer-son-environnement-de-travail/les-options-du-shell)
+
+
+[Parsing #1](https://eli.thegreenplace.net/2012/08/02/parsing-expressions-by-precedence-climbing)
+
+[Parsing #2 - Shunting-Yard algo 1](https://brilliant.org/wiki/shunting-yard-algorithm/)
+
+[Parsing #2 - Shunting-Yard algo 2](https://fr.wikipedia.org/wiki/Algorithme_Shunting-yard)
+
+[Parsing #2 - Shunting-Yard algo 3](https://www.reddit.com/r/ProgrammingLanguages/comments/llc2i3/modifying_the_shuntingyard_algorithm_for_logical/?tl=fr&rdt=38434)
+
+[Abstract syntax tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree)
