@@ -54,46 +54,12 @@ Dans l'ensemble, j'aimerais qu'on suive cette ligne directrice :
 - [Architecture de Minishell](https://whimsical.com/minishell-architecture-big-picture-7b9N8PL3qHrddbs977mQ2J)
 
 ---
-### Autres ressources
-### Garbage Collector
-Pas sûr si c'est nécessaire pour le projet, mais voici quelques ressources :
-- [Écrire un simple Garbage Collector en C](https://maplant.com/2020-04-25-Writing-a-Simple-Garbage-Collector-in-C.html)
-- [BDWGC : Garbage Collector pour C](https://github.com/ivmai/bdwgc)
-
----
-
-### Random
-
-Décomposition **"./program_name"**
-- Dans un chemin (`PATH`), le `/` sépare les répertoires et fichiers dans un système (UNIX/Linux)
-- Le point `.` représente le `répertoire actuel`
-- `./program_name` indique explicitement ou ce trouve le programme
-- `../program_name` ira chercher dans le dossier `parent` au `répertoire actuel`
-- **Chemins absolus et chemins relatifs**
-  - Chemin absolu:
-    - commence toujours par `/` (racine du fichier)
-    - exemple : `/bin/ls`
-  - Chemin relatif:
-    - Ne commence pas par `/`
-    - Dépend du `répertoire actuel`
-- `.` et `..` permettent d'executer un programme qui n'est pas dans le `PATH`
-
-**Pourquoi `.` n'est pas dans `PATH` par defaut**
-- N'importe quel fichier exécutable dans le répertoire courant pourrait etre exécuté sans précaution.
-
----
-### Valgrind and `readline()` leaks
-
-Options a utiliser avec valgrind pour masquer les leaks de `readline()` : **make valgrind**
-
-`valgrind --supressions=.valgrind_suppress.txt --leak-check=full --trace-children=yes --track-fds=yes -- show-leak-kinds=all`
 
 
----
 ## Fonctions autorisées
 
+- **Pour toutes les fonctions de GNU Readline, tout est expliqué dans la doc du MIT** : [Programming with GNU Readline](https://web.mit.edu/gnu/doc/html/rlman_2.html)
 ### `readline()`
-- [manpage](https://linux.die.net/man/3/readline)
 - Fais parti de la bibliothèque `GNU Readline`, permet de gérer l'entrée utilisateur avec des fonctionnalité avancées comme l'édition de ligne et l'historique.
 - `readline()` récupère une ligne de texte.
 - prototype : `char *readline(const char prompt);`
@@ -111,6 +77,9 @@ Options a utiliser avec valgrind pour masquer les leaks de `readline()` : **make
 - Supprime toutes les commandes enregistrées avec ``add_history()``
 - **add_history(input)** ajoute une commande a l'historique
 - **rl_clear_history()** efface toutes les commandes de l'historique
+
+### `rl_on_new_line()`
+
 ---
 
 ## Quelques rendus avec erreurs :
@@ -139,9 +108,61 @@ Options a utiliser avec valgrind pour masquer les leaks de `readline()` : **make
 - idée pour les heredoc :  `O_TEMP` option d'`open()`
 - `fork cree une copie des variables du programme parent. Donc il faut bien penser a free les variables qui ont ete malloc avant de fork a la fois dans le parent et dans les enfants.`
 
----
 
 ![alt text](image.png)
+
+---
+
+### Random
+
+Décomposition **"./program_name"**
+- Dans un chemin (`PATH`), le `/` sépare les répertoires et fichiers dans un système (UNIX/Linux)
+- Le point `.` représente le `répertoire actuel`
+- `./program_name` indique explicitement ou ce trouve le programme
+- `../program_name` ira chercher dans le dossier `parent` au `répertoire actuel`
+- **Chemins absolus et chemins relatifs**
+  - Chemin absolu:
+    - commence toujours par `/` (racine du fichier)
+    - exemple : `/bin/ls`
+  - Chemin relatif:
+    - Ne commence pas par `/`
+    - Dépend du `répertoire actuel`
+- `.` et `..` permettent d'executer un programme qui n'est pas dans le `PATH`
+
+**Pourquoi `.` n'est pas dans `PATH` par défaut**
+- N'importe quel fichier exécutable dans le répertoire courant pourrait etre exécuté sans précaution.
+
+---
+### Valgrind and `readline()` leaks
+
+Options a utiliser avec valgrind pour masquer les leaks de `readline()` : **make valgrind**
+
+`valgrind --supressions=.valgrind_suppress.txt --leak-check=full --trace-children=yes --track-fds=yes -- show-leak-kinds=all`
+
+---
+
+### Random attributs et optimisations
+
+`__attribute__((noreturn))`
+- Contexte: Utile pour les fonctions qui une fois appelées, ne reviennent jamais (`exit`).
+- **Optimisation** -> le compilateur peut éliminer du code mort qui suivrait un appel a cette fonction.
+- **Sécurité** -> Prévenir certains avertissements liés aux chemins de code non atteints.
+
+
+`__attribute__((always_inline))`
+- Contexte: Utile pour les fonctions courtes et souvent appelées (`ft_isspace()` etc pour le parsing)
+- Le compilateur insère le code directement à l'endroit ou la fonction est appelée.
+- **Performance** -> réduit le surcout d'appel de fonction.
+
+`__attribute__((nonnull (indices)))`
+- Contexte: Utile pour indiquer que certains arguments d'une fonctions ne doivent pas etre `NULL`
+- Pas sur que ca reproduise le comportement d'un shell je pense pas que ca nous soit utile.
+
+### Autres ressources
+### Garbage Collector
+Pas sûr si c'est nécessaire pour le projet, mais voici quelques ressources :
+- [Écrire un simple Garbage Collector en C](https://maplant.com/2020-04-25-Writing-a-Simple-Garbage-Collector-in-C.html)
+- [BDWGC : Garbage Collector pour C](https://github.com/ivmai/bdwgc)
 
 ---
 
@@ -173,24 +194,4 @@ liens sur lesquels jetais en train de travailler avant de partir samedi soir:
 
 [Abstract syntax tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree)
 
-[Programming with GNU Readline](https://web.mit.edu/gnu/doc/html/rlman_2.html)
-
 [Aller à une section spécifique d'un autre Markdown](XXX.md#nom-de-la-section)
-
-
-### Random attributs et optimisations
-
-`__attribute__((noreturn))`
-- Contexte: Utile pour les fonctions qui une fois appelées, ne reviennent jamais (`exit`).
-- **Optimisation** -> le compilateur peut éliminer du code mort qui suivrait un appel a cette fonction.
-- **Sécurité** -> Prévenir certains avertissements liés aux chemins de code non atteints.
-
-
-`__attribute__((always_inline))`
-- Contexte: Utile pour les fonctions courtes et souvent appelées (`ft_isspace()` etc pour le parsing)
-- Le compilateur insère le code directement à l'endroit ou la fonction est appelée.
-- **Performance** -> réduit le surcout d'appel de fonction.
-
-`__attribute__((nonnull (indices)))`
-- Contexte: Utile pour indiquer que certains arguments d'une fonctions ne doivent pas etre `NULL`
-- Pas sur que ca reproduise le comportement d'un shell je pense pas que ca nous soit utile.
