@@ -88,6 +88,8 @@ Options a utiliser avec valgrind pour masquer les leaks de `readline()` : **make
 
 `valgrind --supressions=.valgrind_suppress.txt --leak-check=full --trace-children=yes --track-fds=yes -- show-leak-kinds=all`
 
+
+---
 ## Fonctions autorisées
 
 ### `readline()`
@@ -95,10 +97,20 @@ Options a utiliser avec valgrind pour masquer les leaks de `readline()` : **make
 - Fais parti de la bibliothèque `GNU Readline`, permet de gérer l'entrée utilisateur avec des fonctionnalité avancées comme l'édition de ligne et l'historique.
 - `readline()` récupère une ligne de texte.
 - prototype : `char *readline(const char prompt);`
-  - **prompt** est la chaine affichée avant l'entrée utilisateur (**pour notre minishell pourquoi pas le pwd actuel (ou uniquement le dossier courant + le nom de la branche git actuelle ?**))
+  - **prompt** est la chaine affichée avant l'entrée utilisateur (**pour notre minishell pourquoi pas le pwd actuel (ou uniquement le dossier courant + le nom de la branche git actuelle ?**)) *ALORS: mettre de la couleur cest un enfer + ca nous causera des soucis, peut etre commencer avec quelque chose de simple et a la fin si on veut pimper notre prompt on le ferra (cest du detail)*
   - Elle retourne un pointeur **vers la ligne lue (entrée par l'utilisateur)**, alloué dynamiquement
-  - Si l'utilisateur envoie le signal
+  - Si l'utilisateur envoie `Ctrl+D`, `readline()` retourne `NULL` (EOF). `Ctrl+D = SIG???` [Ctrl-D behavior detailed](https://stackoverflow.com/questions/1516122/how-to-capture-controld-signal)
+  - Tout input dans `readline()` doit etre libéré avec `free()`
+  - **Fonctionnalités avancées de `readline()`**
+    - Edition de ligne : flèches directionnelles pour se balader et modifier l'entrée.
 
+###  `rl_clear_history()`
+- [manpage ???]()
+- Permet de supprimer l'historique des commandes stockées par `readline()`
+- prototype : `void rl_clear_history(void);`
+- Supprime toutes les commandes enregistrées avec ``add_history()``
+- **add_history(input)** ajoute une commande a l'historique
+- **rl_clear_history()** efface toutes les commandes de l'historique
 ---
 
 ## Quelques rendus avec erreurs :
@@ -160,3 +172,25 @@ liens sur lesquels jetais en train de travailler avant de partir samedi soir:
 [Parsing #2 - Shunting-Yard algo 3](https://www.reddit.com/r/ProgrammingLanguages/comments/llc2i3/modifying_the_shuntingyard_algorithm_for_logical/?tl=fr&rdt=38434)
 
 [Abstract syntax tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree)
+
+[Programming with GNU Readline](https://web.mit.edu/gnu/doc/html/rlman_2.html)
+
+[Aller à une section spécifique d'un autre Markdown](XXX.md#nom-de-la-section)
+
+
+### Random attributs et optimisations
+
+`__attribute__((noreturn))`
+- Contexte: Utile pour les fonctions qui une fois appelées, ne reviennent jamais (`exit`).
+- **Optimisation** -> le compilateur peut éliminer du code mort qui suivrait un appel a cette fonction.
+- **Sécurité** -> Prévenir certains avertissements liés aux chemins de code non atteints.
+
+
+`__attribute__((always_inline))`
+- Contexte: Utile pour les fonctions courtes et souvent appelées (`ft_isspace()` etc pour le parsing)
+- Le compilateur insère le code directement à l'endroit ou la fonction est appelée.
+- **Performance** -> réduit le surcout d'appel de fonction.
+
+`__attribute__((nonnull (indices)))`
+- Contexte: Utile pour indiquer que certains arguments d'une fonctions ne doivent pas etre `NULL`
+- Pas sur que ca reproduise le comportement d'un shell je pense pas que ca nous soit utile.
