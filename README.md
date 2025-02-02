@@ -79,6 +79,7 @@ Dans l'ensemble, j'aimerais qu'on suive cette ligne directrice :
 - **rl_clear_history()** efface toutes les commandes de l'historique
 
 ### `rl_on_new_line()`
+- TO DO AFTER MERGE
 
 ---
 
@@ -104,7 +105,7 @@ Dans l'ensemble, j'aimerais qu'on suive cette ligne directrice :
 - `< Makefile cat -e` *exemple de test*
 - `grep "something" < infile > outfile` *encore un test*
 - `>>>` `>>>>` `>>>><` `|` `|ls` `<|` *et encore*
-- **Redirection !!** `echo bonjour > a > b > c` *en bash bonjour je sera ecrit QUE dans c. Si un des fichiers dans la redirection n'existe pas il sera créé. De plus, si l'un des fichiers de la chaine ne possede pas les droits, rien ne ce passe.*
+- **Redirection !!** `echo bonjour > a > b > c` *en bash **bonjour** ne sera ecrit **QUE** dans **c**. Si un des fichiers dans la chaine de redirection n'existe pas il sera créé. De plus, si l'un des fichiers de la chaine ne possede pas les droits, rien ne ce passe.*
 - idée pour les heredoc :  `O_TEMP` option d'`open()`
 - `fork cree une copie des variables du programme parent. Donc il faut bien penser a free les variables qui ont ete malloc avant de fork a la fois dans le parent et dans les enfants.`
 
