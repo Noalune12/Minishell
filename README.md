@@ -6,19 +6,30 @@ You will learn a lot about processes and file descriptors.*
 
 ---
 
-### Table des matières
+# Table des Matières
+
 - [Minishell](#minishell)
-		- [Table des matières](#table-des-matières)
+- [Table des Matières](#table-des-matières)
 	- [Ressources pour travailler en groupe avec Git](#ressources-pour-travailler-en-groupe-avec-git)
-    	- [Git ressources](#git-ressources)
-    	- [Ligne directrice de nos commits/push/reviews](#ligne-directrice-de-nos-commitspushreviews)
+		- [Git ressources](#git-ressources)
+		- [Ligne directrice de nos commits/push/reviews](#ligne-directrice-de-nos-commitspushreviews)
 	- [Qu'est-ce que Minishell ?](#quest-ce-que-minishell-)
-	- [Autres ressources](#autres-ressources)
-		- [Garbage Collector](#garbage-collector)
-    	- [Valgrind and readline() leaks](#valgrind-and-readline-leaks)
 	- [Fonctions autorisées](#fonctions-autorisées)
-	- [Quelques rendus avec erreurs](#quelques-rendus-avec-erreurs-)
-	- [Random](#random)
+		- [`readline()`](#readline)
+		- [`rl_clear_history()`](#rl_clear_history)
+		- [`rl_on_new_line()`](#rl_on_new_line)
+	- [Quelques rendus avec erreurs :](#quelques-rendus-avec-erreurs-)
+			- [Résumé des erreurs trouvées :](#résumé-des-erreurs-trouvées-)
+		- [Random](#random)
+		- [Valgrind and `readline()` leaks](#valgrind-and-readline-leaks)
+		- [Random attributs et optimisations](#random-attributs-et-optimisations)
+		- [Autres ressources](#autres-ressources)
+		- [Garbage Collector](#garbage-collector)
+	- [Décomposition des concepts à la réalisation de Minishell](#décomposition-des-concepts-à-la-réalisation-de-minishell)
+		- [Analyse lexicale (Lexing) : Découper l'input utilisateur en tokens](#analyse-lexicale-lexing--découper-linput-utilisateur-en-tokens)
+		- [Analyse syntaxique (Parsing) : Organiser les tokens](#analyse-syntaxique-parsing--organiser-les-tokens)
+		- [Interprétation et exécution](#interprétation-et-exécution)
+		- [Expansions et gestion des variables](#expansions-et-gestion-des-variables)
 
 
 ## Ressources pour travailler en groupe avec Git
@@ -167,12 +178,76 @@ Pas sûr si c'est nécessaire pour le projet, mais voici quelques ressources :
 
 ---
 
-liens sur lesquels jetais en train de travailler avant de partir samedi soir:
+
+
+## Décomposition des concepts à la réalisation de Minishell
+
+### Analyse lexicale (Lexing) : Découper l'input utilisateur en tokens
+
+L'input utilisateur, une chaine de charactere doit etre "décomposée" en morceaux significatifs : **tokens**
+
+*Turning the input of characters into a stream of tokens*
+
+**Objectifs de l'analyse lexicale (qu'on appelera Lexer)**
+- **Identifier** et **extraire** les éléments syntaxiques (mots, opérateurs, séparateurs, variables d'environnements ?) qui constituent la commande.
+- **Types de tokens**
+  - Commandes: `ls`, `echo`, `cd` ... comprend les commandes **et** les built-in
+  - Arguments: Les chaines qui suivent la commande et précisent les parametres (options pour les fonctions, `-la`, `"Directory..."`, etc)
+  - Opérateurs spéciaux: Opérateurs logiques `||`, `&&` ; Redirections `>`, `<`, `>>`, `<<` ; pipes `|` ...
+  - Espaces et séparateurs: Les espaces peuvent séparer des tokens mais peuvent aussi faire partie des chaines de charactères `" "`
+  - Gestion des guillemets et échappements: Cas particuliers comme les chaines de charactères entre guillemets ou les charactères échappés `\` (par exemple) ne doivent pas couper un argument qui contient des esaces ou des charactères spéciaux.
+
+### Analyse syntaxique (Parsing) : Organiser les tokens
+
+Comprendre la relation des tokens entre eux.
+
+**Objectif du Parser**
+- Vérifier la syntaxe (s'assure que la commande est correctement formée) et créer une structure représentant la hiérarchie et les relations entre les tokens. *Référence aux **AST** [Arbre syntaxique abstrait](https://en.wikipedia.org/wiki/Abstract_syntax_tree)* (ou tout autre représentation similaire qui sépare par exemple la commande principale des redirections et des pipes).
+- **Structure d'un AST dans Minishell**
+  - **Noeud commande**: Représente la coomande principale et ses arguments
+  - **Noeud opérateur**: Représente les relations (`pipe`) qui connecte la sortie d'une commande à l'entrée d'une autre, ou les redirections qui indiquent ou lire/écrire les données.
+  - **Hiérarchie et priorité**: Le parser doit tenir compte des priorités.
+  - **Exemple**: `cat file.txt | grep "motif" > output.txt` -> le pipe relie `cat` et `grep`, la redirection s'applique à la sortie de `grep`
+- Validation de la syntaxe: Implique la vérification de la syntaxe (pas de redirections mal placé ou opérateurs isolés sans commandes associée)
+
+### Interprétation et exécution
+
+Une fois l'**AST** ou la structure des commandes construite, on passe a l'exécution
+
+**Exécution des commandes**
+
+Pour chaque commande dans l'AST, le shell doit :
+- Localiser l'exécutable: Rechercher le chemin complet en utilisant la variable d'environnement `PATH` (et/ou chercher dans le repertoire courant le binaire)
+- Créer des processus: `fork()` et `execve()`
+- Gérer la communication entre processus: Si il y a `pipe`, connecter la `stdout` d'un procesus a la `stdin` du suivant
+- Redirections: Modifier les descripteurs de fichiers pour rediriger les entrées/sorties vers/depuis des fichiers, en fonctions des opérateurs (`>`, `<`)
+
+> J'ai deja pas mal détaillé le fonctionnement et les outils nécessaire a l'exec de commande dans mon [pipex](https://github.com/AzehLM/pipex/blob/master/README.md)
+
+**Gestion des erreurs**
+- Notre Minishell doit gérer des erreurs à différents niveaux: erreurs de syntaxe (lexing/parsing), erreurs d'exécution (permission, binaire introuvable, etc) et erreurs dans les redirections
+
+### Expansions et gestion des variables
+
+Minishell doit gérer la gestion des variables et des expansions.
+
+**Variables d'environnement**
+- Remplacer les tokens `$HOME`, `$PATH` ... par leur valeur correspondante dans l'environnement
+
+**Expansions de commandes**
+- On pourrait vouloir exécuter une commande et utiliser sa sortie dans une autre commande (exemple: `echo 'date'` ou `$(date)`), ce qui demande d'évaluer une sous-commande et d'insérer son résultat dans le flux des tokens
+
+**Gestion des guillemets**
+- Guillemets simples ou doubles peuvent modifier la facon dont les expansions et les séparations se font.
+- **Exemple**: `"Hello $USER"`, `$USER` doit etre remplacé par sa valeur, alors que `'Hello $USER'` doit rester littéral
+
+---
+
+liens sur lesquels jetais en train de travailler avant de partir dimanche soir:
 
 [minishell tuto ??](https://github.com/achrafelkhnissi/minishell)
 
 [write your own shell](https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf)
-
 
 [personal chatgpt history](https://chatgpt.com/c/6797e03d-6c84-8004-a112-5acbcc432f34)
 
@@ -184,7 +259,6 @@ liens sur lesquels jetais en train de travailler avant de partir samedi soir:
 
 [shell options (built-in ??)](https://www.quennec.fr/trucs-astuces/syst%C3%A8mes/gnulinux/programmation-shell-sous-gnulinux/param%C3%A9trer-son-environnement-de-travail/les-options-du-shell)
 
-
 [Parsing #1](https://eli.thegreenplace.net/2012/08/02/parsing-expressions-by-precedence-climbing)
 
 [Parsing #2 - Shunting-Yard algo 1](https://brilliant.org/wiki/shunting-yard-algorithm/)
@@ -193,6 +267,6 @@ liens sur lesquels jetais en train de travailler avant de partir samedi soir:
 
 [Parsing #2 - Shunting-Yard algo 3](https://www.reddit.com/r/ProgrammingLanguages/comments/llc2i3/modifying_the_shuntingyard_algorithm_for_logical/?tl=fr&rdt=38434)
 
-[Abstract syntax tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree)
+[Parsing #3 - AST](https://github.com/fraqioui/minishell/blob/main/README.md)
 
 [Aller à une section spécifique d'un autre Markdown](XXX.md#nom-de-la-section)
