@@ -24,14 +24,13 @@ DIR_DUP		= mkdir -p $(BUILD_DIR)
 
 # en bloc ici pour l'instant, on ferra peut etre des modes de compilations plus tard je sais pas comment faire pour l'instant
 
-VALGRIND_SUPPRESS_FILE = .valgrind_suppress.txt
+VALGRIND_SUPPRESS_FILE := .valgrind_suppress.txt
 
 $(VALGRIND_SUPPRESS_FILE):
 	@echo "{\n    leak readline\n    Memcheck:Leak\n    ...\n    fun:readline\n}" > $@
 	@echo "{\n    leak add_history\n    Memcheck:Leak\n    ...\n    fun:add_history\n}" >> $@
-	@echo "$(GREEN_BOLD)✓ $(VALGRIND_SUPPRESS_FILE) is ready$(RESETC)"
 
-VALGRIND_FLAGS = valgrind \
+VALGRIND_FLAGS := valgrind \
 	--suppressions=$(VALGRIND_SUPPRESS_FILE) \
 	--leak-check=full \
 	--trace-children=yes \
