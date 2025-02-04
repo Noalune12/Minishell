@@ -62,6 +62,9 @@ libft.a
 minishell
 
 tmp.c
+test_g/*
+test_l/*
+test/
 test.c
 test2.c
 
