@@ -52,6 +52,7 @@ int	main(void)
 {
 	char	*input;
 	t_args	args;
+	t_args	*temp_test;
 
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
@@ -69,12 +70,20 @@ int	main(void)
 			printf("exit\n");
 			break;
 		}
-		// printf("%s", input);
-		parse_input(input, &args);
+		practice(input, &args);
+		temp_test = args.next;
+		for (int i = 0; temp_test != NULL; i++)
+		{
+			printf("Maillon ID: %d\nToken value: %d\nArg value: %s\n", i, temp_test->token, temp_test->arg ? temp_test->arg : "(null)");
+			temp_test = temp_test->next;
+			printf("\n\n");
+		}
+		// temp_test = args.next;
+		//parse_input(input, &args);
 		free(input);
 	}
 	rl_clear_history();
 	free_struct(&args);
-	printf("done");
+	printf("-> end of main\n");
 	return (0);
 }

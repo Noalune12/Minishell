@@ -11,7 +11,7 @@
 #include "get_next_line.h"
 #include "ft_printf.h"
 
-typedef struct s_arg;
+// typedef struct s_arg	t_arg;
 
 #define TRUE 1
 #define FALSE 0
@@ -32,62 +32,62 @@ typedef struct s_arg;
 # define PURPLE "\033[0;35m"
 
 
-// liste de define derreurs
+// // liste de define derreurs
 
-# define CMD_NOT_FOUND "bash: %s: command not found\n"
-# define FILE_NOT_FOUND "%s: %s: No such file or directory\n"
-# define QUOTES "'\""
-typedef enum e_token
-{
-	T_PIPE, // |
-	T_HEREDOC, // <<
-	T_APPEND, // >>
-	T_REDIREC, // "><"
-	T_CMD,
-	T_BUILTIN,
-	T_FD,
-	T_AND, // &&
-	T_OR, // ||
-}	t_token;
+// # define CMD_NOT_FOUND "bash: %s: command not found\n"
+// # define FILE_NOT_FOUND "%s: %s: No such file or directory\n"
+// # define QUOTES "'\""
+// typedef enum e_token
+// {
+// 	T_PIPE, // |
+// 	T_HEREDOC, // <<
+// 	T_APPEND, // >>
+// 	T_REDIREC, // "><"
+// 	T_CMD,
+// 	T_BUILTIN,
+// 	T_FD,
+// 	T_AND, // &&
+// 	T_OR, // ||
+// }	t_token;
 
-typedef struct s_node
-{
-	t_token			t_type;
-	void			*content;
-	struct s_node	*left;
-	struct s_node	*right;
-}	t_node;
+// typedef struct s_node
+// {
+// 	t_token			t_type;
+// 	void			*content;
+// 	struct s_node	*left;
+// 	struct s_node	*right;
+// }	t_node;
 
-typedef struct s_parse
-{
-	int				t_type;
-	void			*content;
-	struct s_parse	*next;
-}	t_parse;
+// typedef struct s_parse
+// {
+// 	int				t_type;
+// 	void			*content;
+// 	struct s_parse	*next;
+// }	t_parse;
 
-typedef struct s_minishell
-{
-	// dautres choses
-	t_node	*node;
-	t_list	*token;
-};
-
-
-
-t_args	*create_struct(t_args *args);
-void	add_node(t_args **args);
-void	free_struct(t_args *args);
-
-void	parse_quote(const char *input);
-bool	parse_input(const char *input, t_args *args);
-
+// typedef struct s_minishell
+// {
+// 	// dautres choses
+// 	t_node	*node;
+// 	t_list	*token;
+// };
 
 typedef struct s_args
 {
 	char	*arg;
 	int		token;
-	void	*next;
+	struct s_args	*next;
 }	t_args;
+
+void	create_struct(t_args *args);
+void	add_node(t_args *args);
+void	free_struct(t_args *args);
+void	practice(char *input, t_args *args);
+
+bool	parse_input(const char *input, t_args *args);
+
+
+
 
 
 #endif

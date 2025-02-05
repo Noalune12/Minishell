@@ -7,5 +7,6 @@ SRC	+= $(addprefix $(TEMPDIR), $(addsuffix .c, $(TEMPSRC)))
 
 override TEMPSRC	:= \
 	minishell \
-	parsing \
 	struct \
+	practice \
+	#parsing \
