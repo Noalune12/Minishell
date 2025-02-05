@@ -1,27 +1,27 @@
 #include "minishell.h"
 
-void create_struct(t_args *args)
+void	create_struct(t_args *args)
 {
 	args->arg = NULL;
 	args->token = 0;
 	args->next = NULL;
 }
 
-void add_node(t_args *args)
+void	add_node(t_args *args)
 {
-	t_args *temp;
-	t_args *new_node;
+	t_args	*temp;
+	t_args	*new_node;
 
 	if (!args)
-		return;
+		return ;
 	new_node = malloc(sizeof(t_args));
 	if (!new_node)
-		return;
+		return ;
 	create_struct(new_node);
 	if (!args->next)
 	{
 		args->next = new_node;
-		return;
+		return ;
 	}
 	temp = args->next;
 	while (temp->next)
@@ -29,10 +29,10 @@ void add_node(t_args *args)
 	temp->next = new_node;
 }
 
-void free_struct(t_args *args)
+void	free_struct(t_args *args)
 {
-	t_args *current;
-	t_args *next;
+	t_args	*current;
+	t_args	*next;
 
 	if (!args->next)
 		return ;
