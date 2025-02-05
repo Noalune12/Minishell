@@ -41,20 +41,25 @@ char* read_input(void)
 	return (input);
 }
 
+void	initialize_args(t_args *args)
+{
+	args->arg = NULL;
+	args->token = 0;
+	args->next = NULL;
+}
+
 int	main(void)
 {
 	char	*input;
-	t_args	*args;
-	t_args	*temp;
+	t_args	args;
 
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
-	args = NULL;
-	args = create_struct(args);
+
+	create_struct(&args);
 	add_node(&args);
-	temp = args->next;
-	printf("args = %s, %d, %p\n\n", args->arg, args->token, args->next);
-	printf("args = %s, %d, %p\n\n", temp->arg, temp->token, temp->next);
+
+	printf("args = %s, %d, %p\n\n", args.arg, args.token, args.next);
 
 	while (1)
 	{
@@ -65,10 +70,11 @@ int	main(void)
 			break;
 		}
 		// printf("%s", input);
-		parse_input(input, args);
+		parse_input(input, &args);
 		free(input);
 	}
 	rl_clear_history();
-	free_struct(args);
+	free_struct(&args);
+	printf("done");
 	return (0);
 }
