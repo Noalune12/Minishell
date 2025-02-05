@@ -9,7 +9,7 @@ DEPS		:= $(OBJS:.o=.d)
 # ********** FLAGS AND COMPILATION FLAGS ************************************* #
 
 CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror
+CFLAGS		:= -Wall -Wextra -Werror -g3 # ENLEVER G3
 CPPFLAGS	:= -MMD -MP -I incs/ -I libft/incs/
 RLFLAGS		:= -lreadline
 
