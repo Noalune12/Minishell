@@ -10,26 +10,27 @@ You will learn a lot about processes and file descriptors.*
 
 - [Minishell](#minishell)
 - [Table des Matières](#table-des-matières)
-	- [Ressources pour travailler en groupe avec Git](#ressources-pour-travailler-en-groupe-avec-git)
-		- [Git ressources](#git-ressources)
-		- [Ligne directrice de nos commits/push/reviews](#ligne-directrice-de-nos-commitspushreviews)
-	- [Qu'est-ce que Minishell ?](#quest-ce-que-minishell-)
-	- [Fonctions autorisées](#fonctions-autorisées)
-		- [`readline()`](#readline)
-		- [`rl_clear_history()`](#rl_clear_history)
-		- [`rl_on_new_line()`](#rl_on_new_line)
-	- [Quelques rendus avec erreurs :](#quelques-rendus-avec-erreurs-)
-			- [Résumé des erreurs trouvées :](#résumé-des-erreurs-trouvées-)
-		- [Random](#random)
-		- [Valgrind and `readline()` leaks](#valgrind-and-readline-leaks)
-		- [Random attributs et optimisations](#random-attributs-et-optimisations)
-		- [Autres ressources](#autres-ressources)
-		- [Garbage Collector](#garbage-collector)
-	- [Décomposition des concepts à la réalisation de Minishell](#décomposition-des-concepts-à-la-réalisation-de-minishell)
-		- [Analyse lexicale (Lexing) : Découper l'input utilisateur en tokens](#analyse-lexicale-lexing--découper-linput-utilisateur-en-tokens)
-		- [Analyse syntaxique (Parsing) : Organiser les tokens](#analyse-syntaxique-parsing--organiser-les-tokens)
-		- [Interprétation et exécution](#interprétation-et-exécution)
-		- [Expansions et gestion des variables](#expansions-et-gestion-des-variables)
+  - [Ressources pour travailler en groupe avec Git](#ressources-pour-travailler-en-groupe-avec-git)
+    - [Git ressources](#git-ressources)
+    - [Ligne directrice de nos commits/push/reviews](#ligne-directrice-de-nos-commitspushreviews)
+  - [Qu'est-ce que Minishell ?](#quest-ce-que-minishell-)
+  - [Fonctions autorisées](#fonctions-autorisées)
+    - [`readline()`](#readline)
+    - [`rl_clear_history()`](#rl_clear_history)
+    - [`rl_on_new_line()`](#rl_on_new_line)
+  - [Quelques rendus avec erreurs :](#quelques-rendus-avec-erreurs-)
+      - [Résumé des erreurs trouvées :](#résumé-des-erreurs-trouvées-)
+    - [Random](#random)
+    - [Valgrind and `readline()` leaks](#valgrind-and-readline-leaks)
+    - [Random attributs et optimisations](#random-attributs-et-optimisations)
+    - [Autres ressources](#autres-ressources)
+    - [Garbage Collector](#garbage-collector)
+  - [Décomposition des concepts à la réalisation de Minishell](#décomposition-des-concepts-à-la-réalisation-de-minishell)
+    - [Analyse lexicale (Lexing) : Découper l'input utilisateur en tokens](#analyse-lexicale-lexing--découper-linput-utilisateur-en-tokens)
+    - [Analyse syntaxique (Parsing) : Organiser les tokens](#analyse-syntaxique-parsing--organiser-les-tokens)
+    - [Interprétation et exécution](#interprétation-et-exécution)
+    - [Expansions et gestion des variables](#expansions-et-gestion-des-variables)
+    - [Arbre binaire premiere recherches](#arbre-binaire-premiere-recherches)
 
 
 ## Ressources pour travailler en groupe avec Git
@@ -270,3 +271,32 @@ liens sur lesquels jetais en train de travailler avant de partir dimanche soir:
 [Parsing #3 - AST](https://github.com/fraqioui/minishell/blob/main/README.md)
 
 [Aller à une section spécifique d'un autre Markdown](XXX.md#nom-de-la-section)
+
+
+[Arbre binaire](https://app.studysmarter.de/studyset/22404155/summary/71921711)
+
+[Youtube #1 video Shuting Yard](https://www.youtube.com/watch?v=Wz85Hiwi5MY)
+
+[Youtube #2 video Shuting Yard](https://www.youtube.com/watch?v=unh6aK8WMwM)
+
+[gdoc #1 de commandes a tester](https://docs.google.com/spreadsheets/d/1BPW7k81LJPhGv2fbi35NIIoOC_mGZXQQJDnV0SjulFs/edit?gid=0#gid=0)
+
+[gdoc #2 de commandes a tester](https://docs.google.com/spreadsheets/d/1uJHQu0VPsjjBkR4hxOeCMEt3AOM1Hp_SmUzPFhAH-nA/edit?pli=1&gid=0#gid=0)
+
+![alt text](image-1.png)
+
+
+### Arbre binaire premiere recherches
+
+Un arbre binaire est une structure de données arborescente dans laquelle chaque noeud a le plus possible deux enfantsm appelés enfant de gauche et enfant de droite.
+
+- **Principales propriétés d'un arbre binaire**
+  - Racine: le noeud le plus haut de l'arbre
+  - Enfant: Tout noeud, a l'exclusion de la racine, connecté vers le haut
+  - Parent: Pout tout noeuf "enfant", le noeud connecté au-dessus de lui, plus proche de la racine
+  - Feuille: Noeud sans enfant (au plus bas de l'arbre)
+  - Sous-arbre: Tout noeud peut etre considéré comme la racine d'un sous-arbre
+  - Visiter: Exécuter une certaine forme d'opérationm c'est a dire imprimer ou calculer une fonction au niveau d'un noeudv
+  - Traverser: Visiter les noeuds dans un certain ordre
+  - Niveaux: Chaque niveau est numérotés de la racine vers le bas. Racine etant le niveau 1
+  -
