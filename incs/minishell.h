@@ -11,6 +11,8 @@
 #include "get_next_line.h"
 #include "ft_printf.h"
 
+typedef struct s_arg;
+
 #define TRUE 1
 #define FALSE 0
 #define T_ERR 1
@@ -29,12 +31,48 @@
 # define RESET   "\033[0m"
 # define PURPLE "\033[0;35m"
 
-typedef struct s_args
+
+// liste de define derreurs
+
+# define CMD_NOT_FOUND "bash: %s: command not found\n"
+# define FILE_NOT_FOUND "%s: %s: No such file or directory\n"
+# define QUOTES "'\""
+typedef enum e_token
 {
-	char	*arg;
-	int		token;
-	void	*next;
-}	t_args;
+	T_PIPE, // |
+	T_HEREDOC, // <<
+	T_APPEND, // >>
+	T_REDIREC, // "><"
+	T_CMD,
+	T_BUILTIN,
+	T_FD,
+	T_AND, // &&
+	T_OR, // ||
+}	t_token;
+
+typedef struct s_node
+{
+	t_token			t_type;
+	void			*content;
+	struct s_node	*left;
+	struct s_node	*right;
+}	t_node;
+
+typedef struct s_parse
+{
+	int				t_type;
+	void			*content;
+	struct s_parse	*next;
+}	t_parse;
+
+typedef struct s_minishell
+{
+	// dautres choses
+	t_node	*node;
+	t_list	*token;
+};
+
+
 
 t_args	*create_struct(t_args *args);
 void	add_node(t_args **args);
@@ -42,6 +80,14 @@ void	free_struct(t_args *args);
 
 void	parse_quote(const char *input);
 bool	parse_input(const char *input, t_args *args);
+
+
+typedef struct s_args
+{
+	char	*arg;
+	int		token;
+	void	*next;
+}	t_args;
 
 
 #endif

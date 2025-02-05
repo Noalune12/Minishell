@@ -34,6 +34,8 @@ void	free_struct(t_args *args)
 	temp = args;
 	while (temp)
 	{
+		if (temp->arg)
+			free(temp->arg);
 		temp = args->next;
 		free(args);
 		args = temp;

@@ -11,7 +11,7 @@ DEPS		:= $(OBJS:.o=.d)
 CC			:= cc
 CFLAGS		:= -Wall -Wextra -Werror
 CPPFLAGS	:= -MMD -MP -I incs/ -I libft/incs/
-RLFLAGS		:= -lreadline -lcurses # pourquoi lreadline et lcurses ? lcurses c'est pas pour la librarie graphique ncurse ?
+RLFLAGS		:= -lreadline
 
 RM			:= rm -f
 RMDIR		+= -r
