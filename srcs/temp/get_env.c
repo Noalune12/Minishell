@@ -63,8 +63,15 @@ t_env	*ft_get_env(char **envp)
 
 	i = 0;
 	env = NULL;
-	// if (!envp[i])
-	// 	add_node(&env, NULL);
+	if (!envp[i])
+	{
+		env = malloc(sizeof(t_env));
+		if (!env)
+			return (NULL);
+		env->content = NULL;
+		env->next = NULL;
+		return (env);
+	}
 	while (envp[i])
 	{
 		add_node(&env, envp[i]);
@@ -72,6 +79,7 @@ t_env	*ft_get_env(char **envp)
 	}
 	return (env);
 }
+
 
 // int	main(int ac, char **av, char **envp)
 // {
