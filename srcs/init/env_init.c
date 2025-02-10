@@ -77,7 +77,7 @@ static t_list	*ft_get_env(char **envp)
 	}
 	while (envp[i])
 	{
-		add_node(&env, envp[i]);
+		add_node(&env, envp[i]); // protection
 		i++;
 	}
 	return (env);
@@ -90,8 +90,8 @@ static int	create_minimal_env(t_list **env)
 
 	shlvl = "SHLVL=1";
 	underscore = "_=/usr/bin/env";
-	add_node(env, shlvl);
-	add_node(env, underscore);
+	add_node(env, shlvl); // protection
+	add_node(env, underscore); // protection
 	return (1);
 }
 

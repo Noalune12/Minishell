@@ -23,7 +23,7 @@ void	update_shlvl(t_list *env)
 		if (next_lvl)
 		{
 			free(shlvl_node->content);
-			shlvl_node->content = ft_strjoin("SHLVL=", next_lvl);
+			shlvl_node->content = ft_strjoin("SHLVL=", next_lvl); // protection
 			free(next_lvl);
 		}
 	}

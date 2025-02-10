@@ -8,10 +8,10 @@ void	update_pwd(t_list **env)
 
 	if (!env || !*env)
 		return ;
-	cwd = getcwd(NULL, 0);
+	cwd = getcwd(NULL, 0); // check if function fails
 	if (!cwd)
 		return ;
-	actual_pwd = ft_strjoin("PWD=", cwd);
+	actual_pwd = ft_strjoin("PWD=", cwd); // protection
 	free(cwd);
 	if (!actual_pwd)
 		return ;
@@ -19,7 +19,7 @@ void	update_pwd(t_list **env)
 		(*env)->content = actual_pwd;
 	else
 	{
-		add_node(env, actual_pwd);
+		add_node(env, actual_pwd); // protection
 		free(actual_pwd);
 	}
 }
