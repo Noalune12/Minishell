@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+// OUTDATED FILE
+
 void	free_split(char **split)
 {
 	size_t	i;
@@ -33,7 +35,7 @@ void	practice(char *input, t_args *args)
 	i = 0;
 	while (split[i])
 	{
-		add_node(current);
+		add_node_test(current);
 		current = current->next;
 		current->token = i;
 		current->arg = ft_strdup(split[i]);

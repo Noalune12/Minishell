@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+ // OUTDATED FILE
+
 void	create_struct(t_args *args)
 {
 	args->arg = NULL;
