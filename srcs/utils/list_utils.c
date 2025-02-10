@@ -14,3 +14,12 @@ t_list	*find_env_node(t_list *env, const char *var_searched)
 	}
 	return (NULL);
 }
+
+void	tty_check(void)
+{
+	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))  // protection pour ./minishell | ./minishell par exemple
+	{
+		dprintf(STDERR_FILENO, "minishell: not a tty\n");
+		exit(EXIT_SUCCESS);
+	}
+}

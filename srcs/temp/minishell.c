@@ -88,7 +88,7 @@ void	create_struct(t_list *args)
 	args->next = NULL;
 }
 
-void	add_node(t_list *args)
+void	add_node_test(t_list *args)
 {
 	t_list	*temp;
 	t_list	*new_node;
@@ -178,7 +178,7 @@ void	practice(t_minishell *minishell)
 	i = 0;
 	while (split[i])
 	{
-		add_node(current);
+		add_node_test(current);
 		current = current->next;
 		if (current)
 			current->content = ft_strdup(split[i]);
@@ -192,11 +192,7 @@ int	main(int ac, char **av, char **envp)
 	t_minishell	minishell;
 	t_list	*tmp_test;
 
-	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))  // protection pour ./minishell | ./minishell par exemple
-	{
-		dprintf(STDERR_FILENO, "not a tty\n");
-		return (1); // 
-	}
+	tty_check(); // TO DO: check si env -i ./minishell -> comportement en fonction
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 	//ft_memset(&minishell, 0, sizeof(t_minishell));

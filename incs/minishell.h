@@ -96,8 +96,11 @@ typedef struct s_args
 t_list	*env_init(char **envp);
 t_list	*find_env_node(t_list *env, const char *var_searched);
 
+void	add_node(t_list **env, char *content);
 void	free_list(t_list *list);
 void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
+void	tty_check(void);
+void	update_pwd(t_list **env);
 void	update_shlvl(t_list *env);
 
 int		nested_shell(t_list *env_list);

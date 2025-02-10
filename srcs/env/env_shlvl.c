@@ -7,10 +7,12 @@ void	update_shlvl(t_list *env)
 	int		shlvl;
 
 	shlvl_node = find_env_node(env, "SHLVL");
+	if (!shlvl_node)
+		return ;
 	if (shlvl_node)
 	{
 		shlvl = ft_atoi(shlvl_node->content + 6);
-		if (shlvl > 999 || shlvl <= 0)
+		if (shlvl > 999 || shlvl <= 0) // handle export SHLVL="string" (atoi return value)
 		{
 			dprintf(STDERR_FILENO, "SHLVL too high, reset to 1"); // a modifier avec le vrai message derreur
 			shlvl = 1;

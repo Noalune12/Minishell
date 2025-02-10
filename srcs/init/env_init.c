@@ -1,23 +1,6 @@
 #include "minishell.h"
 
-// t_list	*split_env(char **envp)
-// {
-// 	t_list	*returned_env;
-// 	char	**split;
-// 	size_t	i;
-
-// 	if (envp == NULL)
-// 		return (NULL);
-// 	i = 0;
-// 	while (envp[i])
-// 	{
-// 		split = ft_split(envp, '='); // define '=' ? (maybe need '+=' define aswell)
-// 		if (!split)
-// 			return (NULL); // lstclear env ?
-// 	}
-// }
-
-static void add_node(t_list **env, char *content)
+void add_node(t_list **env, char *content)
 {
 	t_list	*temp;
 	t_list	*new_node;
@@ -78,12 +61,12 @@ static void	print_env(t_list *env)
 
 static t_list	*ft_get_env(char **envp)
 {
-	int		i;
 	t_list	*env;
+	int		i;
 
 	i = 0;
 	env = NULL;
-	if (!envp[i])
+	if (!envp || !envp[i])
 	{
 		env = malloc(sizeof(t_list));
 		if (!env)
@@ -100,18 +83,58 @@ static t_list	*ft_get_env(char **envp)
 	return (env);
 }
 
+static int	create_minimal_env(t_list **env)
+{
+	char	*shlvl;
+	char	*underscore;
+
+	shlvl = "SHLVL=1";
+	underscore = "_=/usr/bin/env";
+	add_node(env, shlvl);
+	add_node(env, underscore);
+	return (1);
+}
+
 t_list	*env_init(char **envp)
 {
 	t_list	*set_up_env;
 
-	set_up_env = ft_get_env(envp); // yours
+	set_up_env = ft_get_env(envp);
+	if (!set_up_env)
+		return (NULL);
+	if (!set_up_env->content)
+	{
+		update_pwd(&set_up_env);
+		if (!create_minimal_env(&set_up_env))
+		{
+			free_list(set_up_env);
+			return (NULL);
+		}
+	}
 	update_shlvl(set_up_env);
-	print_env(set_up_env);
 	if (nested_shell(set_up_env))
 		update_shlvl(set_up_env);
-	// set_up_env = split_env(envp); // mine
-	// if (!set_up_env)
-	// 	return (NULL);
 	print_env(set_up_env);
 	return (set_up_env);
 }
+
+
+
+// WILL PROBABLY DELETE THIS
+
+// t_list	*split_env(char **envp)
+// {
+// 	t_list	*returned_env;
+// 	char	**split;
+// 	size_t	i;
+
+// 	if (envp == NULL)
+// 		return (NULL);
+// 	i = 0;
+// 	while (envp[i])
+// 	{
+// 		split = ft_split(envp, '='); // define '=' ? (maybe need '+=' define aswell)
+// 		if (!split)
+// 			return (NULL); // lstclear env ?
+// 	}
+// }
