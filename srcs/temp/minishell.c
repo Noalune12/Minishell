@@ -1,5 +1,6 @@
-// #include "minishell.h"
+#include "minishell.h"
 
+int	global_variable;
 
 // void print_history()
 // {
@@ -81,8 +82,6 @@
 // 	return (0);
 // }
 
-#include "minishell.h"
-
 void	create_struct(t_list *args)
 {
 	args->content = NULL;
@@ -130,7 +129,7 @@ void	free_list(t_list *list)
 	list->next = NULL;
 }
 
-void	free_env(t_env *minishell)
+void	free_env(t_minishell *minishell)
 {
 	if (minishell->envp)
 		free_list(minishell->envp);
@@ -142,11 +141,14 @@ void	signal_handler(int signum) //ctrl c
 {
 	if (signum == SIGINT)
 	{
+		global_variable = SIGINT;
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
+	else if (signum == SIGQUIT)
+		global_variable = SIGQUIT;
 }
 
 char* read_input(void)
@@ -178,7 +180,7 @@ void	free_split(char **split)
 	}
 }
 
-void	practice(t_env *minishell)
+void	practice(t_minishell *minishell)
 {
 	t_list	*current;
 	char	**split;
@@ -204,14 +206,20 @@ void	practice(t_env *minishell)
 	free_split(split);
 }
 
-int	main(void)
+int	main(int ac, char **av, char **envp)
 {
-	t_env	minishell;
+	t_minishell	minishell;
 	t_list	*tmp_test;
 
+	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))  // protection pour ./minishell | ./minishell par exemple
+	{
+		dprintf(STDERR_FILENO, "not a tty\n");
+		return (1);
+	}
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
-	ft_memset(&minishell, 0, sizeof(t_env));
+	//ft_memset(&minishell, 0, sizeof(t_minishell));
+	minishell_init(&minishell, ac, av, envp);
 	minishell.token = malloc(sizeof(t_list));
 	if (!minishell.token)
 		return (1);

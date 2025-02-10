@@ -143,8 +143,8 @@
 # define RESET   "\033[0m"
 # define PURPLE "\033[0;35m"
 
-
-// // liste de define derreurs
+// memo error code 127 -> no path to command
+// liste de define derreurs
 
 # define CMD_NOT_FOUND "bash: %s: command not found\n"
 # define FILE_NOT_FOUND "%s: %s: No such file or directory\n"
@@ -191,19 +191,13 @@ typedef struct s_node
 	struct s_node	*right;
 }	t_node;
 
-// typedef struct s_list
-// {
-// 	void			*content;
-// 	struct s_list	*next;
-// }	t_list;
-
-typedef struct s_env
+typedef struct s_minishell
 {
 	char	*input;
 	t_list	*envp; // liste chainee de l'environnement (gentenv que t'as fais)
 	t_list	*token; // liste chainee des parametres
 	t_node	*ast_node;
-}	t_env;
+}	t_minishell;
 
 
 
@@ -213,5 +207,10 @@ typedef struct s_args
 	int		token;
 	struct s_args	*next;
 }	t_args;
+
+t_list	*env_init(char **envp);
+
+void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
+
 
 #endif

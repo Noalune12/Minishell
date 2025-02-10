@@ -45,7 +45,7 @@ VALGRIND_FLAGS := valgrind \
 all: $(NAME)
 
 $(NAME): libft/libft.a Makefile $(OBJS)
-	@$(CC) $(CFLAGS) $(CPPFLAGS) $(RLFLAGS) -o $(NAME) $(OBJS) -L libft -lft
+	@$(CC) $(CFLAGS) $(CPPFLAGS)  -o $(NAME) $(OBJS) -L libft -lft $(RLFLAGS)
 	@echo "\n$(GREEN_BOLD)✓ $(NAME) is ready$(RESETC)"
 
 # on peut rajouter tes petit emojis si tu veux 💫✨💫 🧹🧹🧹
