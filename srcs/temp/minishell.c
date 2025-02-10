@@ -187,15 +187,35 @@ void	practice(t_minishell *minishell)
 	free_split(split);
 }
 
+void clear_token_list(t_list *token)
+{
+    t_list *current;
+    t_list *next;
+
+    if (!token)
+        return;
+
+    current = token->next;
+    token->next = NULL;  // Réinitialise le pointeur next du premier nœud
+
+    while (current)
+    {
+        next = current->next;
+        if (current->content)
+            free(current->content);
+        free(current);
+        current = next;
+    }
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_minishell	minishell;
 	t_list	*tmp_test;
 
-	tty_check(); // TO DO: check si env -i ./minishell -> comportement en fonction
+	tty_check();
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
-	//ft_memset(&minishell, 0, sizeof(t_minishell));
 	minishell_init(&minishell, ac, av, envp);
 	minishell.token = malloc(sizeof(t_list));
 	if (!minishell.token)
@@ -203,8 +223,10 @@ int	main(int ac, char **av, char **envp)
 	create_struct(minishell.token);
 	while (1)
 	{
+		clear_token_list(minishell.token);
 		minishell.input = read_input();
-		if (minishell.input == NULL) {// ctrl+d
+		if (minishell.input == NULL) // ctrl + d
+		{
 			dprintf(STDERR_FILENO, "exit\n"); // changer pour notre propre printf sur sortie erreur
 			break ;
 		}

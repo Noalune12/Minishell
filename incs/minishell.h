@@ -31,7 +31,7 @@
 # define PURPLE "\033[0;35m"
 
 // memo error code 127 -> no path to command
-// liste de define derreurs
+// liste de define derreurs + dautres plus tard
 
 # define CMD_NOT_FOUND "bash: %s: command not found\n"
 # define FILE_NOT_FOUND "%s: %s: No such file or directory\n"
@@ -50,53 +50,39 @@
 // 	T_OR, // ||
 // }	t_token;
 
-// CHOIX ENTRE t_token et t_node_type a faire
+// CHOIX ENTRE t_token et t_node_type a faire ----> je pars plus sur t_node_type pas encore sur de moi
 
-// typedef enum e_node_type
-// {
-// 	NODE_COMMAND,
-// 	NODE_PIPE,
-// 	NODE_AND,
-// 	NODE_OR,
-// }	t_node_type;
-
-// t_parse reellement utile ?
-
-// typedef struct s_parse
-// {
-// 	int				t_type;
-// 	void			*content;
-// 	struct s_parse	*next;
-// }	t_parse;
-
-typedef struct s_node
+typedef enum e_node_type
 {
-	//t_node_type		type;
-	//t_token			type;
-	void			*content;
-	struct s_node	*left;
-	struct s_node	*right;
-}	t_node;
+	NODE_ROOT,		// noeud racine, le plus haut de l'arbre
+	NODE_COMMAND,	// commande simple
+	NODE_ARGUMENT,	// argument de commande
+	NODE_PIPE,		// |
+	NODE_REDIRECT,	// >, <, >>,
+	NODE_HEREDOC	// utile ? ou bien on le met dans redirect au dessus ?
+}	t_node_type;
+
+typedef struct s_ast
+{
+	t_node_type		type; // type noeud definis par lenum
+	char			*content; // ce qu'on recupere du parsing
+	struct s_ast	*left;
+	struct s_ast	*right;
+}	t_ast; // pas sur du nom, a discuté (t_node, t_ast_node, t_node_ast...)
 
 typedef struct s_minishell
 {
 	char	*input;
-	t_list	*envp; // liste chainee de l'environnement (gentenv que t'as fais)
+	t_list	*envp; // liste chainee de l'environnement
 	t_list	*token; // liste chainee des parametres
-	t_node	*ast_node;
+	t_ast	*ast_node; // Abstract Syntax Tree
 }	t_minishell;
-
-typedef struct s_args
-{
-	char	*arg; //
-	int		token;
-	struct s_args	*next;
-}	t_args;
 
 t_list	*env_init(char **envp);
 t_list	*find_env_node(t_list *env, const char *var_searched);
 
-void	add_node(t_list **env, char *content);
+void	add_node(t_list **env, char *content); // ????????
+void	add_node_test(t_list *args); // ??????? oui je sais
 void	free_list(t_list *list);
 void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
 void	tty_check(void);

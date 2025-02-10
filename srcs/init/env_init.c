@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void add_node(t_list **env, char *content)
+void add_node(t_list **env, char *content) // nom a changer probablement
 {
 	t_list	*temp;
 	t_list	*new_node;
@@ -88,11 +88,11 @@ static int	create_minimal_env(t_list **env)
 	char	*shlvl;
 	char	*underscore;
 
-	shlvl = "SHLVL=1";
-	underscore = "_=/usr/bin/env";
+	shlvl = "SHLVL=1"; // ignoble
+	underscore = "_=/usr/bin/env"; // ignoble++
 	add_node(env, shlvl); // protection
 	add_node(env, underscore); // protection
-	return (1);
+	return (1); // la fonction return jamais 0 cest un probleme -> probablement si add_node fail
 }
 
 t_list	*env_init(char **envp)
@@ -118,6 +118,8 @@ t_list	*env_init(char **envp)
 	return (set_up_env);
 }
 
+
+// FICHIER A REFACTO IL Y A TROP DE FONCTIONS
 
 
 // WILL PROBABLY DELETE THIS
