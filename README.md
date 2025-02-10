@@ -283,6 +283,8 @@ liens sur lesquels jetais en train de travailler avant de partir dimanche soir:
 
 [gdoc #2 de commandes a tester](https://docs.google.com/spreadsheets/d/1uJHQu0VPsjjBkR4hxOeCMEt3AOM1Hp_SmUzPFhAH-nA/edit?pli=1&gid=0#gid=0)
 
+[man bash -> CTRL+F : variables du shell (2/7)](http://manpagesfr.free.fr/man/man1/bash.1.html)
+
 ![alt text](image-1.png)
 
 
