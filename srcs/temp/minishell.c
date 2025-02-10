@@ -195,7 +195,7 @@ int	main(int ac, char **av, char **envp)
 	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))  // protection pour ./minishell | ./minishell par exemple
 	{
 		dprintf(STDERR_FILENO, "not a tty\n");
-		return (1);
+		return (1); // 
 	}
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);

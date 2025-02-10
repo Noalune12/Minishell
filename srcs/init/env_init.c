@@ -17,6 +17,47 @@
 // 	}
 // }
 
+void	update_shlvl(t_list *env)
+{
+	t_list	*shlvl_node;
+	char	*next_lvl;
+	int		shlvl;
+
+	shlvl_node = find_env_node(env, "SHLVL");
+	if (shlvl_node)
+	{
+		shlvl = ft_atoi(shlvl_node->content + 6);
+		if (shlvl > 999 || shlvl <= 0)
+		{
+			dprintf(STDERR_FILENO, "SHLVL too high, reset to 1"); // a modifier avec le vrai message derreur
+			shlvl = 1;
+		}
+		else
+			shlvl++;
+		next_lvl = ft_itoa(shlvl);
+		if (next_lvl)
+		{
+			free(shlvl_node->content);
+			shlvl_node->content = ft_strjoin("SHLVL=", next_lvl);
+			free(next_lvl);
+		}
+	}
+}
+
+int	nested_shell(t_list *env_list) // check if we launched shells inside shells
+{
+	t_list *shlvl_node;
+	int		shlvl;
+
+	shlvl_node = find_env_node(env_list, "SHLVL");
+	if (shlvl_node)
+	{
+		shlvl = ft_atoi(shlvl_node->content + 6);
+		return (shlvl > 1); // more than one level indicates nested shell
+	}
+	return (0);
+}
+
 static void add_node(t_list **env, char *content)
 {
 	t_list	*temp;
@@ -105,10 +146,13 @@ t_list	*env_init(char **envp)
 	t_list	*set_up_env;
 
 	set_up_env = ft_get_env(envp); // yours
+	update_shlvl(set_up_env);
 	print_env(set_up_env);
+	if (nested_shell(set_up_env))
+		update_shlvl(set_up_env);
 	// set_up_env = split_env(envp); // mine
 	// if (!set_up_env)
 	// 	return (NULL);
-	// set up SHLVL (not sure mandatory) ? pre set up cd built-in ?
+	print_env(set_up_env);
 	return (set_up_env);
 }

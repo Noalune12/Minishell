@@ -199,8 +199,6 @@ typedef struct s_minishell
 	t_node	*ast_node;
 }	t_minishell;
 
-
-
 typedef struct s_args
 {
 	char	*arg; //
@@ -209,6 +207,7 @@ typedef struct s_args
 }	t_args;
 
 t_list	*env_init(char **envp);
+t_list	*find_env_node(t_list *env, const char *var_searched);
 
 void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
 void	free_list(t_list *list);
