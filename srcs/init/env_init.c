@@ -27,6 +27,11 @@ static void add_node(t_list **env, char *content)
 	if (!new_node)
 		return;
 	new_node->content = ft_strdup(content); //protect
+	if (!new_node->content)
+	{
+		free(new_node);
+		return ;
+	}
 	new_node->next = NULL;
 	if (!*env)
 	{
@@ -38,20 +43,21 @@ static void add_node(t_list **env, char *content)
 	temp->next = new_node;
 }
 
-static void	free_env(t_list *env)
+void	free_list(t_list *list)
 {
-	t_list	*temp;
+	t_list	*current;
+	t_list	*next;
 
-	if (!env)
-		return;
-	temp = env;
-	while (temp)
+	if (!list)
+		return ;
+	current = list;
+	while (current)
 	{
-		temp = env->next;
-		if (env->content)
-			free(env->content);
-		free(env);
-		env = temp;
+		next = current->next;
+		if (current->content)
+			free(current->content);
+		free(current);
+		current = next;
 	}
 }
 
@@ -59,10 +65,13 @@ static void	print_env(t_list *env)
 {
 	t_list	*temp;
 
+	if (!env)
+		return ;
 	temp = env;
 	while (temp)
 	{
-		printf("%p", temp->content);
+		if (temp->content)
+			printf("%s\n", (char *)temp->content);
 		temp = temp->next;
 	}
 }
@@ -97,7 +106,6 @@ t_list	*env_init(char **envp)
 
 	set_up_env = ft_get_env(envp); // yours
 	print_env(set_up_env);
-	free_env(set_up_env);
 	// set_up_env = split_env(envp); // mine
 	// if (!set_up_env)
 	// 	return (NULL);

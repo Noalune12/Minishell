@@ -110,25 +110,6 @@ void	add_node(t_list *args)
 	temp->next = new_node;
 }
 
-void	free_list(t_list *list)
-{
-	t_list	*current;
-	t_list	*next;
-
-	if (!list->next)
-		return ;
-	current = list->next;
-	while (current)
-	{
-		next = current->next;
-		if (current->content)
-			free(current->content);
-		free(current);
-		current = next;
-	}
-	list->next = NULL;
-}
-
 void	free_env(t_minishell *minishell)
 {
 	if (minishell->envp)

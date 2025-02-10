@@ -211,6 +211,6 @@ typedef struct s_args
 t_list	*env_init(char **envp);
 
 void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
-
+void	free_list(t_list *list);
 
 #endif
