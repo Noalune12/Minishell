@@ -11,8 +11,6 @@ SRC	+= $(addprefix $(TEMPDIR), $(addsuffix .c, $(TEMPSRC)))
 override TEMPSRC	:= \
 	minishell \
 	#practice \
-	#struct \
-	#parsing \
 
 SRC +=  $(addprefix $(INITDIR), $(addsuffix .c, $(INITSRC)))
 
