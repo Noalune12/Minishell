@@ -37,6 +37,22 @@
 # define FILE_NOT_FOUND "%s: %s: No such file or directory\n"
 # define QUOTES "'\""
 
+// liste de define plutot que decrire en brut
+
+# define PWD "PWD"
+# define OLDPWD "OLDPWD"
+# define PATH "PATH"
+# define SHLVL "SHLVL"
+# define HOME "HOME"
+# define USER "USER"
+# define ENV_DEFAULT "_/usr/bin/env"
+
+// liste de define de message derreur
+
+# define ERR_CMD "Message derreur par defaut de la commande\n"
+# define SIGQUIT_MESSAGE "Quit (core dumped)\n"
+# define AND_SO_ON "...."
+
 // typedef enum e_token
 // {
 // 	T_PIPE, // |
@@ -54,12 +70,16 @@
 
 typedef enum e_node_type
 {
-	NODE_ROOT,		// noeud racine, le plus haut de l'arbre
+	NODE_ROOT,		// noeud racine, le plus haut de l'arbre -> a delete si on ajoute une struct root dans t_ast ?
+	NODE_OR,		// ||
+	NODE_AND,		// &&
 	NODE_COMMAND,	// commande simple
 	NODE_ARGUMENT,	// argument de commande
 	NODE_PIPE,		// |
-	NODE_REDIRECT,	// >, <, >>,
-	NODE_HEREDOC	// utile ? ou bien on le met dans redirect au dessus ?
+	NODE_REDIRECTL, // >
+	NODE_REDIRECTR, // <
+	NODE_DREDIRECTL,// >>
+	NODE_HERE_DOC,	// <<
 }	t_node_type;
 
 typedef struct s_ast
@@ -68,6 +88,7 @@ typedef struct s_ast
 	char			*content; // ce qu'on recupere du parsing
 	struct s_ast	*left;
 	struct s_ast	*right;
+	struct s_ast	*root; // top priority node
 }	t_ast; // pas sur du nom, a discuté (t_node, t_ast_node, t_node_ast...)
 
 typedef struct s_minishell
@@ -77,6 +98,12 @@ typedef struct s_minishell
 	t_list	*token; // liste chainee des parametres
 	t_ast	*ast_node; // Abstract Syntax Tree
 }	t_minishell;
+
+typedef struct s_cmd
+{
+	char	*path;
+	char	**cmd;
+}	t_cmd;
 
 t_list	*env_init(char **envp);
 t_list	*find_env_node(t_list *env, const char *var_searched);
