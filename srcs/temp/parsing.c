@@ -70,7 +70,7 @@ bool	precheck_input(const char *input, int *i)
 	return (TRUE);
 }
 
-bool	parse_input(const char *input, t_args *args)
+bool	parse_input(const char *input, t_list *args)
 {
 
 	(void) args; // erreur de compilation avec -Werror
@@ -82,36 +82,57 @@ bool	parse_input(const char *input, t_args *args)
 	return (TRUE);
 }
 
-
-void parse_quote(const char *input)
+char	*ft_reallocate(char *str, char c, int len)
 {
-	char	result[MAX_LENGTH];
-	int		j = 0;
-	int		i = 0;
-	bool	inside_single_quote = false;
-	bool	inside_double_quote = false;
+	char	*ret;
+	int		i;
 
-	while (input[i])
+	i = 0;
+	ret = malloc(sizeof(char) * (len + 2));
+	if (!ret)
 	{
-		if (input[i] == '\'' && !inside_double_quote)
-		{
-			if (inside_single_quote)
-				inside_single_quote = false; // out of single quotes
-			else
-				inside_single_quote = true;  // enter single quotes
-		}
-		else if (input[i] == '\"' && !inside_single_quote)
-		{
-			if (inside_double_quote)
-				inside_double_quote = false; // out of double quotes
-			else
-				inside_double_quote = true;  // enter doubel quotes
-		}
-		// if we are not in quotes, or in double quotes, or in single quotes
-		else if ((inside_single_quote && !inside_double_quote) || (inside_double_quote && !inside_single_quote) || (!inside_single_quote && !inside_double_quote))
-			result[j++] = input[i];
+		if (len > 1)
+			free(str);
+		printf("Malloc failed");
+		return (NULL);
+	}
+	while (len > 1 && str[i])
+	{
+		ret[i] = str[i];
 		i++;
 	}
-	result[j] = '\0';
-	printf("Résultat parsé : '%s'\n", result);
+	ret[i] = c;
+	ret[i + 1] = '\0';
+	if (len > 1)
+		free(str);
+	return (ret);
+}
+
+char	*handle_quotes(char *input)
+{
+	char	*result;
+	int		len;
+	bool	in_s_quote;
+	bool	in_d_quote;
+
+	result = NULL;
+	len = 0;
+	in_s_quote = false;
+	in_d_quote = false;
+	while ((*input))
+	{
+		if ((*input == '\'' && !in_d_quote) || (*input == '\"' && !in_s_quote))
+			check_quotes(*input, &in_s_quote, &in_d_quote);
+		// if we are not in quotes, or in double quotes, or in single quotes
+		else if ((in_s_quote && !in_d_quote) || (in_d_quote && !in_s_quote)
+			|| (!in_s_quote && !in_d_quote))
+		{
+			len++;
+			result = ft_reallocate(result, *input, len);
+			if (!result)
+				return (NULL);
+		}
+		input++;
+	}
+	return (result);
 }

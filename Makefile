@@ -9,9 +9,9 @@ DEPS		:= $(OBJS:.o=.d)
 # ********** FLAGS AND COMPILATION FLAGS ************************************* #
 
 CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror
+CFLAGS		:= -Wall -Wextra -Werror -g3 # ENLEVER G3
 CPPFLAGS	:= -MMD -MP -I incs/ -I libft/incs/
-RLFLAGS		:= -lreadline -lcurses # pourquoi lreadline et lcurses ? lcurses c'est pas pour la librarie graphique ncurse ?
+RLFLAGS		:= -lreadline
 
 RM			:= rm -f
 RMDIR		+= -r
@@ -24,14 +24,13 @@ DIR_DUP		= mkdir -p $(BUILD_DIR)
 
 # en bloc ici pour l'instant, on ferra peut etre des modes de compilations plus tard je sais pas comment faire pour l'instant
 
-VALGRIND_SUPPRESS_FILE = .valgrind_suppress.txt
+VALGRIND_SUPPRESS_FILE := .valgrind_suppress.txt
 
 $(VALGRIND_SUPPRESS_FILE):
 	@echo "{\n    leak readline\n    Memcheck:Leak\n    ...\n    fun:readline\n}" > $@
 	@echo "{\n    leak add_history\n    Memcheck:Leak\n    ...\n    fun:add_history\n}" >> $@
-	@echo "$(GREEN_BOLD)✓ $(VALGRIND_SUPPRESS_FILE) is ready$(RESETC)"
 
-VALGRIND_FLAGS = valgrind \
+VALGRIND_FLAGS := valgrind \
 	--suppressions=$(VALGRIND_SUPPRESS_FILE) \
 	--leak-check=full \
 	--trace-children=yes \
@@ -46,7 +45,7 @@ VALGRIND_FLAGS = valgrind \
 all: $(NAME)
 
 $(NAME): libft/libft.a Makefile $(OBJS)
-	@$(CC) $(CFLAGS) $(CPPFLAGS) $(RLFLAGS) -o $(NAME) $(OBJS) -L libft -lft
+	@$(CC) $(CFLAGS) $(CPPFLAGS) -o $(NAME) $(OBJS) -L libft -lft $(RLFLAGS)
 	@echo "\n$(GREEN_BOLD)✓ $(NAME) is ready$(RESETC)"
 
 # on peut rajouter tes petit emojis si tu veux 💫✨💫 🧹🧹🧹

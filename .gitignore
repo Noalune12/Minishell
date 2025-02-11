@@ -62,8 +62,12 @@ libft.a
 minishell
 
 tmp.c
+test_g/
+test_l/
+test/
 test.c
 test2.c
+test.mk
 
 .valgrind_suppress.txt
 
