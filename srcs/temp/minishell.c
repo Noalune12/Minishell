@@ -1,86 +1,6 @@
 #include "minishell.h"
 
-int	global_variable;
-
-// void print_history()
-// {
-// 	HIST_ENTRY **history;
-// 	int	i;
-
-// 	history = history_list(); // not allowed
-// 	i= 0;
-// 	if (history)
-// 	{
-// 		while( history[i] != NULL)
-// 		{
-// 			printf("%d: %s\n", i + 1, history[i]->line);
-// 			i++;
-// 		}
-// 	}
-// }
-
-// void	signal_handler(int signum) //ctrl c
-// {
-// 	if (signum == SIGINT)
-// 	{
-// 		printf("\n");
-// 		rl_on_new_line();
-// 		rl_replace_line("", 0);
-// 		rl_redisplay();
-// 	}
-// }
-
-// char* read_input(void)
-// {
-// 	char *input;
-
-// 	input = readline("minishell> "); //221 leak
-// 	// add input to history if not empty
-
-// 	if (input && *input)
-// 		add_history(input);
-// 	return (input);
-// }
-
-// int	main(void)
-// {
-// 	char	*input;
-// 	t_args	args;
-// 	t_args	*temp_test;
-
-// 	signal(SIGINT, signal_handler);
-// 	signal(SIGQUIT, SIG_IGN);
-
-// 	ft_memset(&args, 0, sizeof(t_args));
-// 	// create_struct(&args);
-
-// 	printf("args = %s, %d, %p\n\n", args.arg, args.token, args.next);
-
-// 	while (1)
-// 	{
-// 		input = read_input();
-// 		if (input == NULL) //ctrl d
-// 		{
-// 			printf("exit\n");
-// 			break;
-// 		}
-// 		practice(input, &args);
-// 		temp_test = args.next;
-// 		for (int i = 0; temp_test != NULL; i++)
-// 		{
-// 			printf("Maillon ID: %d\nToken value: %d\nArg value: %s\n", i, temp_test->token, temp_test->arg ? temp_test->arg : "(null)");
-// 			temp_test = temp_test->next;
-// 			printf("\n\n");
-// 		}
-// 		// temp_test = args.next;
-// 		//parse_input(input, &args);
-// 		free(input);
-// 	}
-// 	rl_clear_history();
-// 	free_struct(&args);
-// 	printf("-> end of main\n");
-// 	return (0);
-// }
+int	g_global_variable;
 
 void	create_struct(t_list *args)
 {
@@ -122,14 +42,14 @@ void	signal_handler(int signum) //ctrl c
 {
 	if (signum == SIGINT)
 	{
-		global_variable = SIGINT;
+		g_global_variable = SIGINT;
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 	else if (signum == SIGQUIT)
-		global_variable = SIGQUIT;
+		g_global_variable = SIGQUIT;
 }
 
 char* read_input(void)
@@ -193,11 +113,9 @@ void clear_token_list(t_list *token)
     t_list *next;
 
     if (!token)
-        return;
-
+        return ;
     current = token->next;
     token->next = NULL;  // Réinitialise le pointeur next du premier nœud
-
     while (current)
     {
         next = current->next;
@@ -221,6 +139,7 @@ int	main(int ac, char **av, char **envp)
 	if (!minishell.token)
 		return (1);
 	create_struct(minishell.token);
+	printf("--------------------\n");
 	while (1)
 	{
 		clear_token_list(minishell.token);
@@ -234,11 +153,11 @@ int	main(int ac, char **av, char **envp)
 		tmp_test = minishell.token->next;
 		for (int i = 0; tmp_test != NULL; i++)
 		{
-			printf("Maillon ID: %d\nArg value: %s\n", i, tmp_test->content ? (char *)tmp_test->content : "(null)");
+			printf("Maillon ID: %d\nMaillon addr: %p\nArg value: %s\n", i, &tmp_test->content,tmp_test->content ? (char *)tmp_test->content : "(null)");
 			tmp_test = tmp_test->next;
-			printf("\n");
 		}
-		printf("\n--------------------\n");
+		//print_tree(minishell.ast_node);
+		printf("--------------------\n");
 		free(minishell.input);
 	}
 	rl_clear_history();
