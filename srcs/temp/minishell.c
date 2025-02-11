@@ -1,5 +1,6 @@
-// #include "minishell.h"
+#include "minishell.h"
 
+int	global_variable;
 
 // void print_history()
 // {
@@ -81,15 +82,13 @@
 // 	return (0);
 // }
 
-#include "minishell.h"
-
 void	create_struct(t_list *args)
 {
 	args->content = NULL;
 	args->next = NULL;
 }
 
-void	add_node(t_list *args)
+void	add_node_test(t_list *args)
 {
 	t_list	*temp;
 	t_list	*new_node;
@@ -111,26 +110,7 @@ void	add_node(t_list *args)
 	temp->next = new_node;
 }
 
-void	free_list(t_list *list)
-{
-	t_list	*current;
-	t_list	*next;
-
-	if (!list->next)
-		return ;
-	current = list->next;
-	while (current)
-	{
-		next = current->next;
-		if (current->content)
-			free(current->content);
-		free(current);
-		current = next;
-	}
-	list->next = NULL;
-}
-
-void	free_env(t_env *minishell)
+void	free_env(t_minishell *minishell)
 {
 	if (minishell->envp)
 		free_list(minishell->envp);
@@ -142,11 +122,14 @@ void	signal_handler(int signum) //ctrl c
 {
 	if (signum == SIGINT)
 	{
+		global_variable = SIGINT;
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
+	else if (signum == SIGQUIT)
+		global_variable = SIGQUIT;
 }
 
 char* read_input(void)
@@ -178,7 +161,7 @@ void	free_split(char **split)
 	}
 }
 
-void	practice(t_env *minishell)
+void	practice(t_minishell *minishell)
 {
 	t_list	*current;
 	char	**split;
@@ -195,7 +178,7 @@ void	practice(t_env *minishell)
 	i = 0;
 	while (split[i])
 	{
-		add_node(current);
+		add_node_test(current);
 		current = current->next;
 		if (current)
 			current->content = ft_strdup(split[i]);
@@ -204,22 +187,46 @@ void	practice(t_env *minishell)
 	free_split(split);
 }
 
-int	main(void)
+void clear_token_list(t_list *token)
 {
-	t_env	minishell;
+    t_list *current;
+    t_list *next;
+
+    if (!token)
+        return;
+
+    current = token->next;
+    token->next = NULL;  // Réinitialise le pointeur next du premier nœud
+
+    while (current)
+    {
+        next = current->next;
+        if (current->content)
+            free(current->content);
+        free(current);
+        current = next;
+    }
+}
+
+int	main(int ac, char **av, char **envp)
+{
+	t_minishell	minishell;
 	t_list	*tmp_test;
 
+	tty_check();
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
-	ft_memset(&minishell, 0, sizeof(t_env));
+	minishell_init(&minishell, ac, av, envp);
 	minishell.token = malloc(sizeof(t_list));
 	if (!minishell.token)
 		return (1);
 	create_struct(minishell.token);
 	while (1)
 	{
+		clear_token_list(minishell.token);
 		minishell.input = read_input();
-		if (minishell.input == NULL) {// ctrl+d
+		if (minishell.input == NULL) // ctrl + d
+		{
 			dprintf(STDERR_FILENO, "exit\n"); // changer pour notre propre printf sur sortie erreur
 			break ;
 		}

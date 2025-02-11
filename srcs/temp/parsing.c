@@ -70,7 +70,7 @@ bool	precheck_input(const char *input, int *i)
 	return (TRUE);
 }
 
-bool	parse_input(const char *input, t_args *args)
+bool	parse_input(const char *input, t_list *args)
 {
 
 	(void) args; // erreur de compilation avec -Werror
