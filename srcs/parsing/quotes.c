@@ -38,7 +38,7 @@ void	copy_without_quotes(char *dest, char *src, size_t *len)
 
 	i = 0;
 	j = 0;
-	while (src[i] && src[i] != ' ')
+	while (src[i] && (src[i] != ' ' || src[i] != '\t'))
 	{
 		if (is_quote(src[i]))
 		{
@@ -65,7 +65,7 @@ char	*get_unquoted_content(char *input, size_t *i)
 	start = *i;
 	len = 0;
 	while (input[start + len] && !is_quote(input[start + len]) \
-		&& input[start + len] != ' ')
+		&& (input[start + len] != ' ' || input[start + len] != '\t'))
 		len++;
 	res = ft_substr(input, start, len);
 	if (!res)
@@ -80,7 +80,7 @@ size_t	get_word_length(char *input, size_t start)
 	char	quote;
 
 	i = 0;
-	while (input[start + i] && input[start + i] != ' ')
+	while (input[start + i] && (input[start + i] != ' ' || input[start + i] != '\t'))
 	{
 		if (is_quote(input[start + i]))
 		{
