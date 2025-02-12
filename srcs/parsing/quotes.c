@@ -80,7 +80,8 @@ size_t	get_word_length(char *input, size_t start)
 	char	quote;
 
 	i = 0;
-	while (input[start + i] && (input[start + i] != ' ' || input[start + i] != '\t'))
+	while (input[start + i] && (input[start + i] != ' ' \
+		|| input[start + i] != '\t'))
 	{
 		if (is_quote(input[start + i]))
 		{

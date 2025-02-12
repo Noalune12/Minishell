@@ -12,23 +12,12 @@
 # include "get_next_line.h"
 # include "ft_printf.h"
 
-# define TRUE 1
-# define FALSE 0
-# define T_ERR 1
-# define T_SEP 2 // < > |
-# define T_BUILTIN 3
-# define T_CMD 4
-# define T_ABS 5
-# define T_FILE 6
-# define T_WORD 7
-# define T_RET 8
-
-# define RED     "\033[1;31m"
-# define GREEN   "\033[1;32m"
-# define YELLOW  "\033[1;33m"
-# define BLUE    "\033[1;34m"
-# define RESET   "\033[0m"
-# define PURPLE "\033[0;35m"
+# define RED		"\033[1;31m"
+# define GREEN		"\033[1;32m"
+# define YELLOW		"\033[1;33m"
+# define BLUE		"\033[1;34m"
+# define RESET		"\033[0m"
+# define PURPLE		"\033[0;35m"
 
 // memo error code 127 -> no path to command
 // liste de define derreurs + dautres plus tard
@@ -36,17 +25,16 @@
 # define QUOTES_SYNTAX_ERROR "minishell: syntax error near unexpected token `%s'\n"
 # define CMD_NOT_FOUND "bash: %s: command not found\n"
 # define FILE_NOT_FOUND "%s: %s: No such file or directory\n"
-# define QUOTES "'\""
 
 // liste de define plutot que decrire en brut
 
-# define PWD "PWD"
-# define OLDPWD "OLDPWD"
-# define PATH "PATH"
-# define SHLVL "SHLVL"
-# define HOME "HOME"
-# define USER "USER"
-# define ENV_DEFAULT "_/usr/bin/env"
+# define PWD			"PWD"
+# define OLDPWD			"OLDPWD"
+# define PATH			"PATH"
+# define SHLVL			"SHLVL"
+# define HOME			"HOME"
+# define USER			"USER"
+# define ENV_DEFAULT	"_/usr/bin/env"
 
 // liste de define de message derreur
 
@@ -151,14 +139,11 @@ int		check_quote(char *input);
 /**
  * @brief Checks the input string for unclosed quotes.
  *
- * This function iterates through the input string and,
- * whenever it encounters a quote
- * (single or double, as determined by is_quote()), it scans forward
- * to find the matching closing quote.
- * If a matching quote is not found before the end of the string,
- * the function prints a syntax error
- * message indicating an unexpected token (the unclosed quote) to
- * STDERR and returns 0.
+ * This function scans the input string and uses the is_quote() helper to detect opening
+ * quote characters (either single or double quotes). For each opening quote found, it
+ * searches for a matching closing quote. If a closing quote is not found before the end
+ * of the string, the function prints a syntax error message to STDERR using the
+ * QUOTES_SYNTAX_ERROR format (with the unclosed quote character) and returns 0.
  *
  * @param input The input string to be checked for unclosed quotes.
  * @return 1 if all quotes are properly closed, 0 if an unclosed quote is detected.
