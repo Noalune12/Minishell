@@ -134,7 +134,7 @@ int	main(int ac, char **av, char **envp)
 		tmp_test = minishell.token->next;
 		for (int i = 0; tmp_test != NULL; i++)
 		{
-			printf("Maillon ID: %d\nArg value: '%s'\n", i,tmp_test->content /*? (char *)tmp_test->content : "(null)"*/);
+			printf("Maillon ID: %d\nArg value: '%s'\n", i, tmp_test->content);
 			tmp_test = tmp_test->next;
 		}
 		// t_ast *test_tree = create_test_tree();
