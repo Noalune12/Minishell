@@ -30,7 +30,7 @@ int	check_quote(char *input) // change for boolean later ?
 	return (1);
 }
 
-void	copy_without_quotes(char *dst, char *src, size_t *len)
+void	copy_without_quotes(char *dest, char *src, size_t *len)
 {
 	size_t	i;
 	size_t	j;
@@ -45,14 +45,14 @@ void	copy_without_quotes(char *dst, char *src, size_t *len)
 			quote = src[i];
 			i++;
 			while (src[i] && src[i] != quote)
-				dst[j++] = src[i++];
+				dest[j++] = src[i++];
 			if (src[i])
 				i++;
 		}
 		else
-			dst[j++] = src[i++];
+			dest[j++] = src[i++];
 	}
-	dst[j] = '\0';
+	dest[j] = '\0';
 	*len = i;
 }
 
@@ -65,7 +65,7 @@ char	*get_unquoted_content(char *input, size_t *i)
 	start = *i;
 	len = 0;
 	while (input[start + len] && !is_quote(input[start + len]) \
-	&& input[start + len] != ' ')
+		&& input[start + len] != ' ')
 		len++;
 	res = ft_substr(input, start, len);
 	if (!res)

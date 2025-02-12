@@ -42,6 +42,8 @@ t_list	*tokenize_input(char *input)
 	size_t	i;
 	char	*token;
 
+	if (!check_unclosed_quotes(input))
+		return (NULL);
 	tokens = NULL;
 	i = 0;
 	while (input[i])

@@ -19,23 +19,57 @@ void	clear_token_list(t_list *token)
 	}
 }
 
-int	add_token_to_list(t_list **tokens, char *content)
+int	check_syntax_error(char *token)
 {
-	t_list	*new;
+	size_t	i;
+	int		cmd_part;
 
-	new = malloc(sizeof(t_list));
-	if (!new)
-		return (0);
-	new->content = ft_strdup(content);
-	if (!new->content)
+	i = 0;
+	cmd_part = 1;
+	if ((token[0] == '\'' && token[1] == '\'')
+		|| (token[0] == '\"' && token[1] == '\"'))
+		return (1);
+	while (token[i] && token[i] != ' ')
 	{
-		free (new);
-		return (0);
+		if (is_quote(token[i]))
+		{
+			if (cmd_part)
+			{
+				dprintf(STDERR_FILENO, QUOTES_SYNTAX_ERROR, token); // a modifier
+				return (0);
+			}
+		}
+		else if (token[i] == ' ')
+			cmd_part = 0;
+		i++;
 	}
-	new->next = NULL;
-	if (!*tokens)
-		*tokens = new;
-	else
-		add_node(tokens, content);
+	return (1);
+}
+
+
+int	check_unclosed_quotes(char *input)
+{
+	size_t	i;
+	char	quote;
+
+	i = 0;
+	while (input[i])
+	{
+		if (is_quote(input[i]))
+		{
+			quote = input[i];
+			i++;
+			while (input[i] && input[i] != quote)
+				i++;
+			if (!input[i])
+			{
+				ft_putstr_fd("syntax error near unexpected token `", 2);
+				ft_putstr_fd(&quote, 2);
+				ft_putstr_fd("'\n", 2);
+				return (0);
+			}
+		}
+		i++;
+	}
 	return (1);
 }
