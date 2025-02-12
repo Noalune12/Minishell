@@ -63,9 +63,7 @@ int	check_unclosed_quotes(char *input)
 				i++;
 			if (!input[i])
 			{
-				ft_putstr_fd("syntax error near unexpected token `", 2);
-				ft_putstr_fd(&quote, 2);
-				ft_putstr_fd("'\n", 2);
+				dprintf(STDERR_FILENO, QUOTES_SYNTAX_ERROR, &quote); // a modifier -> marche pas pour "''""""'
 				return (0);
 			}
 		}
