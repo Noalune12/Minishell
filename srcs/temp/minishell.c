@@ -52,7 +52,7 @@ void	signal_handler(int signum) //ctrl c
 		g_global_variable = SIGQUIT;
 }
 
-char* read_input(void)
+char	*read_input(void)
 {
 	char *input;
 
@@ -84,46 +84,27 @@ void	free_split(char **split)
 void	practice(t_minishell *minishell)
 {
 	t_list	*current;
-	char	**split;
-	size_t	i;
+	t_list	*tokens;
+	t_list	*token_current;
 
-	if (!minishell || !minishell->token)
+	if (!minishell || !minishell->input)
 		return ;
-	split = ft_split(minishell->input, ' ');
-	if (!split)
+	tokens = tokenize_input(minishell->input);
+	if (!tokens)
 		return ;
 	current = minishell->token;
 	while (current->next)
 		current = current->next;
-	i = 0;
-	while (split[i])
+	token_current = tokens;
+	while (token_current)
 	{
 		add_node_test(current);
 		current = current->next;
 		if (current)
-			current->content = ft_strdup(split[i]);
-		i++;
+			current->content = ft_strdup(token_current->content);
+		token_current = token_current->next;
 	}
-	free_split(split);
-}
-
-void clear_token_list(t_list *token)
-{
-    t_list *current;
-    t_list *next;
-
-    if (!token)
-        return ;
-    current = token->next;
-    token->next = NULL;  // Réinitialise le pointeur next du premier nœud
-    while (current)
-    {
-        next = current->next;
-        if (current->content)
-            free(current->content);
-        free(current);
-        current = next;
-    }
+	free_list(tokens);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -153,10 +134,13 @@ int	main(int ac, char **av, char **envp)
 		tmp_test = minishell.token->next;
 		for (int i = 0; tmp_test != NULL; i++)
 		{
-			printf("Maillon ID: %d\nMaillon addr: %p\nArg value: %s\n", i, &tmp_test->content,tmp_test->content ? (char *)tmp_test->content : "(null)");
+			printf("Maillon ID: %d\nArg value: '%s'\n", i,tmp_test->content /*? (char *)tmp_test->content : "(null)"*/);
 			tmp_test = tmp_test->next;
 		}
-		//print_tree(minishell.ast_node);
+		// t_ast *test_tree = create_test_tree();
+		// printf("\nArbre de syntaxe abstraite :\n");
+		// print_ast(test_tree, 0);
+		// free_ast(test_tree);
 		printf("--------------------\n");
 		free(minishell.input);
 	}

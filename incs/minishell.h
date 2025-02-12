@@ -68,18 +68,25 @@
 
 // CHOIX ENTRE t_token et t_node_type a faire ----> je pars plus sur t_node_type pas encore sur de moi
 
+typedef enum e_quote
+{
+	NONE_QUOTE,
+	SINGLE_QUOTE,
+	DOUBLE_QUOTE,
+}	t_quote;
+
 typedef enum e_node_type
 {
-	NODE_ROOT,		// noeud racine, le plus haut de l'arbre -> a delete si on ajoute une struct root dans t_ast ?
+	// NODE_ROOT,		// noeud racine, le plus haut de l'arbre -> a delete si on ajoute une struct root dans t_ast ?
+	// NODE_ARGUMENT,	// argument de commande
 	NODE_OR,		// ||
 	NODE_AND,		// &&
 	NODE_COMMAND,	// commande simple
-	NODE_ARGUMENT,	// argument de commande
 	NODE_PIPE,		// |
-	NODE_REDIRECTL, // >
-	NODE_REDIRECTR, // <
-	NODE_DREDIRECTL,// >>
-	NODE_HERE_DOC,	// <<
+	NODE_REDIR_OUT, // >
+	NODE_REDIR_IN,	// <
+	NODE_APPEND,	// >>
+	NODE_HEREDOC,	// <<
 }	t_node_type;
 
 typedef struct s_ast
@@ -107,6 +114,11 @@ typedef struct s_cmd
 
 t_list	*env_init(char **envp);
 t_list	*find_env_node(t_list *env, const char *var_searched);
+
+t_ast	*create_ast_node(t_node_type type, char *content);
+t_ast	*create_test_tree(void);
+void	free_ast(t_ast *node);
+void 	print_ast(t_ast *node, int depth);
 
 void	add_node(t_list **env, char *content); // ????????
 void	add_node_test(t_list *args); // ??????? oui je sais
