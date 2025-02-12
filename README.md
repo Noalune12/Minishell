@@ -18,6 +18,10 @@ You will learn a lot about processes and file descriptors.*
     - [`readline()`](#readline)
     - [`rl_clear_history()`](#rl_clear_history)
     - [`rl_on_new_line()`](#rl_on_new_line)
+    - [`add_history()`](#add_history)
+    - [`getcwd()`](#getcwd)
+    - [`unlink()`](#unlink)
+    - [`isatty()`](#isatty)
   - [Quelques rendus avec erreurs :](#quelques-rendus-avec-erreurs-)
       - [Résumé des erreurs trouvées :](#résumé-des-erreurs-trouvées-)
     - [Random](#random)
@@ -25,6 +29,10 @@ You will learn a lot about processes and file descriptors.*
     - [Random attributs et optimisations](#random-attributs-et-optimisations)
     - [Autres ressources](#autres-ressources)
     - [Garbage Collector](#garbage-collector)
+  - [Terminal modes](#terminal-modes)
+    - [Mode interactif](#mode-interactif)
+    - [Mode non interactif](#mode-non-interactif)
+    - [Pourquoi faire des distinctions entre les modes](#pourquoi-faire-des-distinctions-entre-les-modes)
   - [Décomposition des concepts à la réalisation de Minishell](#décomposition-des-concepts-à-la-réalisation-de-minishell)
     - [Analyse lexicale (Lexing) : Découper l'input utilisateur en tokens](#analyse-lexicale-lexing--découper-linput-utilisateur-en-tokens)
     - [Analyse syntaxique (Parsing) : Organiser les tokens](#analyse-syntaxique-parsing--organiser-les-tokens)
@@ -83,16 +91,46 @@ Dans l'ensemble, j'aimerais qu'on suive cette ligne directrice :
     - Edition de ligne : flèches directionnelles pour se balader et modifier l'entrée.
 
 ###  `rl_clear_history()`
-- [manpage ???]()
-- Permet de supprimer l'historique des commandes stockées par `readline()`
+- Supprime toutes les commandes enregistrées dans l'historique de `readline()`
 - prototype : `void rl_clear_history(void);`
 - Supprime toutes les commandes enregistrées avec ``add_history()``
-- **add_history(input)** ajoute une commande a l'historique
-- **rl_clear_history()** efface toutes les commandes de l'historique
+- **add_history** ajoute une commande a l'historique
+- **rl_clear_history** efface toutes les commandes de l'historique
 
 ### `rl_on_new_line()`
-- TO DO AFTER MERGE
+- Utilité : Informe `readline()` que le curseur est désormais sur une nouvelle ligne
+- prototype : `int rl_on_new_line(void);`
+- Comportement :
+  - Utile lorsque minishell affiche des messages ou des sorties pendant que l'utilisateur est en train de saisir une commande. Permet d'eviter que la ligne en cours d'édition ne soit mélangée avec la sortie du programme.
+### `add_history()`
+- [manpage](https://linux.die.net/man/3/history)
+- prototype : `void add_history(const char *string)`
+- Place la `string` en parametre a la fin de l'historique
+- Comportement :
+  - Chaque fois qu'une commande est saisie, l'appel a `add_history` permet de la stockée. Penser a vérifié que l'input ne soit pas NULL, certaines versions de bash ne stockent pas un input NULL.
+- Utilité : Permettre a l'utilisateur de ce balader dans l'historique de ces commandes avec les fleches haut/bas.
 
+### `getcwd()`
+- [manpage](https://linux.die.net/man/3/getcwd)
+- prototype : `char *getcwd(char *buf, size_t size)`
+- Recupere le chemin absolu du répertoire courant
+- Utilité :
+  - Sauvegarder dans un buffer (check `PATH_MAX`) le chemin du repertoire courant
+  - Possibilité de passer `getcwd(NULL, 0)`, qui alloue dynamiquement le buffer
+
+### `unlink()`
+- [manpage](https://linux.die.net/man/2/unlink)
+- prototype : `int unlink(const char *pathname)`
+- Concretement, permet de supprimer un fichier comme rm le ferrai.
+- Utilité dans minishell :
+  - Potentiellement stocker l'historique dans un fichier externe, permettant de retrouver cet historique entre différentes instances de minishell
+  - Stocker dans des fichiers temporaires les inputs utilisateurs lors de commandes utilisant des heredoc, ces fichiers seraient detruit apres le traitement des commandes
+
+### `isatty()`
+- [manpage](https://linux.die.net/man/3/isatty)
+- prototype : `int isatty(int fd)`
+- Check si `fd` fait référence a un terminal (tty)
+- Utile pour déterminer si un programme s'exécute en [mode interactif](#terminal-modes)
 ---
 
 ## Quelques rendus avec erreurs :
@@ -180,6 +218,28 @@ Pas sûr si c'est nécessaire pour le projet, mais voici quelques ressources :
 ---
 
 
+## Terminal modes
+
+### Mode interactif
+- Définition: Un programme s'exécute en mode interactif lorsqu'il communique directement avec l'utilisateur via un terminal.
+  - **Un prompt est affiché** : invite l'utilisateur a saisir des commandes
+  - **Les entrées et sorties** sont directement reliées a un terminal (tty)
+  - **Les signaux** sont gérés de maniere a permettre a l'utilisateur d'intéragir avec le prompt
+- Identifier le mode interactif:
+  - [isatty](#isatty) sur la `STDIN` (et la `STDOUT`),
+
+### Mode non interactif
+- Définition: Un programme s'exécute en mode non interactif lorsqu'il n'est pas directement lié à un terminal pour l'entrée et/ou la sortie. Dans ce mode:
+  - **Pas de prompt interactif** : Le programme ne présente pas de prompt à l'utilisateur, car il lit ses commandes à partir d'un fichier, d'un pipe ou d'une redirection.
+  - **Traitement en lot** : Lorsqu'un script shell est exécuté, Bash lit le contenu du fichier de commandes et l'exécute séquentiellement sans intervention manuelle.
+  - **Différentes gestions de signaux** : `Ctrl+C` et les autres signaux n'ont pas le meme comportement.
+
+### Pourquoi faire des distinctions entre les modes
+
+- **Fonctionnalités interactives** : Dans le mode interactif, le shell peut activer des fonctionnalités avancées (édition en ligne, historique...) et gérer les interruptions de facon spécifique.
+- **Adaptation du comportement** : Si le programme détecte qu'il est en mode non interactif, il peut désactiver l'affichage du prompt ou adopter un comportement différent pour éviter d'afficher des messages qui ne seraient pas utiles.
+- **Gestion des erreurs et des signaux** : Comme spécifié dans le mode non interactif, les signaux peuvent avoir des comportements différents entre les modes.
+---
 
 ## Décomposition des concepts à la réalisation de Minishell
 
