@@ -130,4 +130,23 @@ void	update_shlvl(t_list *env);
 
 int		nested_shell(t_list *env_list);
 
+
+/* parsing */
+
+
+t_list	*tokenize_input(char *input);
+
+int		is_quote(char c);
+int		check_quote(char *input);
+int		add_token_to_list(t_list **tokens, char *content);
+
+char	*extract_token(char *input, size_t *pos);
+char	*get_token_content(char *input, size_t *i);
+char	*get_unquoted_content(char *input, size_t *i);
+
+void	clear_token_list(t_list *token);
+void	copy_without_quotes(char *dst, char *src, size_t *len);
+
+size_t	get_word_length(char *input, size_t start);
+
 #endif

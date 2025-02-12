@@ -6,6 +6,7 @@ override INITDIR	:= init/
 override UTILSDIR	:= utils/
 override ENVDIR		:= env/
 override ASTDIR		:= ast/
+override PARSINGDIR	:= parsing/
 
 SRC	+= $(addprefix $(TEMPDIR), $(addsuffix .c, $(TEMPSRC)))
 
@@ -35,3 +36,10 @@ SRC += $(addprefix $(ASTDIR), $(addsuffix .c, $(ASTSRC)))
 override ASTSRC		:= \
 	ast_print \
 	ast_utils \
+
+SRC	+= $(addprefix $(PARSINGDIR), $(addsuffix .c, $(PARSINGSRC)))
+
+override PARSINGSRC	:= \
+	quotes \
+	token_first_to_rename \
+	token_utils \
