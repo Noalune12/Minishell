@@ -29,7 +29,7 @@ char	*extract_token(char *input, size_t *pos)
 	token = malloc(sizeof(char) * (len + 1));
 	if (!token)
 		return (NULL);
-	copy_without_quotes(token, input + *pos, &len);
+	copy_with_quotes(token, input + *pos, &len);
 	*pos += len;
 	final_token = ft_strdup(token);
 	free(token);

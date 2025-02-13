@@ -35,7 +35,7 @@ int	check_syntax_error(char *token)
 		{
 			if (cmd_part)
 			{
-				dprintf(STDERR_FILENO, QUOTES_SYNTAX_ERROR, token); // a modifier
+				dprintf(STDERR_FILENO, QUOTES_SYNTAX, token); // a modifier
 				return (0);
 			}
 		}
@@ -62,7 +62,7 @@ int	check_unclosed_quotes(char *input)
 				i++;
 			if (!input[i])
 			{
-				dprintf(STDERR_FILENO, QUOTES_SYNTAX_ERROR, &quote); // a modifier -> marche pas pour "''""""' pareil pour '"'""'''"""''
+				dprintf(STDERR_FILENO, QUOTES_SYNTAX, &quote); // a modifier -> marche pas pour "''""""' pareil pour '"'""'''"""'' < ft_putendl_fd fonctionne...
 				return (0);
 			}
 		}
