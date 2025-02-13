@@ -22,7 +22,7 @@
 // memo error code 127 -> no path to command
 // liste de define derreurs + dautres plus tard
 
-# define QUOTES_SYNTAX_ERROR "minishell: syntax error near unexpected token `%s'\n"
+# define QUOTES_SYNTAX "minishell: syntax error near unexpected token `%s'\n"
 # define CMD_NOT_FOUND "bash: %s: command not found\n"
 # define FILE_NOT_FOUND "%s: %s: No such file or directory\n"
 
@@ -102,11 +102,14 @@ void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
 /**
  * @brief Checks if standard input and output are attached to a TTY.
  *
- * This function verifies that both STDIN and STDOUT are associated with a terminal device.
- * If either is not a TTY (for example, when the shell is executed in a non-interactive context like a pipeline),
+ * This function verifies that both STDIN and STDOUT are associated with a
+ * terminal device.
+ * If either is not a TTY (for example, when the shell is executed in a
+ * non-interactive context like a pipeline),
  * an error message is printed to STDERR and the program exits successfully.
  *
- * @note The function uses dprintf to output the error message; consider replacing it with your custom
+ * @note The function uses dprintf to output the error message; consider
+ * replacing it with your custom
  * stderr printing function if needed.
  */
 void	tty_check(void);
@@ -114,9 +117,12 @@ void	tty_check(void);
 /**
  * @brief Updates the PWD environment variable in the environment list.
  *
- * This function retrieves the current working directory using getcwd, constructs a new string in the
- * format "PWD=<current_working_directory>", and updates the environment list accordingly.
- * If the environment list is empty or if any memory allocation fails, no changes are made.
+ * This function retrieves the current working directory using getcwd,
+ * constructs a new string in the
+ * format "PWD=<current_working_directory>", and updates the environment
+ * list accordingly.
+ * If the environment list is empty or if any memory allocation fails,
+ * no changes are made.
  *
  * @param env Pointer to the environment list.
  */
@@ -125,8 +131,10 @@ void	update_pwd(t_list **env);
 /**
  * @brief Updates the SHLVL environment variable in the environment list.
  *
- * This function searches for the "SHLVL" node in the environment list, converts its current value,
- * increments it (unless it exceeds 999 or is non-positive, in which case it resets to 1), and updates the node.
+ * This function searches for the "SHLVL" node in the environment list,
+ * converts its current value,
+ * increments it (unless it exceeds 999 or is non-positive, in which case it
+ * resets to 1), and updates the node.
  * An error message is printed to STDERR if SHLVL is too high.
  *
  * @param env The environment list.
@@ -136,13 +144,21 @@ void	update_shlvl(t_list *env);
 /**
  * @brief Determines if the current shell is nested within another shell.
  *
- * This function checks the "SHLVL" environment variable in the environment list.
- * If the value of SHLVL is greater than 1, it indicates that a shell has been launched within another shell.
+ * This function checks the "SHLVL" environment variable in the environment
+ * list.
+ * If the value of SHLVL is greater than 1, it indicates that a shell has been
+ * launched within another shell.
  *
  * @param env_list The environment list.
  * @return 1 if the shell is nested (SHLVL > 1), 0 otherwise.
  */
 int		nested_shell(t_list *env_list);
+
+
+
+
+
+
 
 /*	----------- parsing ----------------------------------------------------- */
 
@@ -163,62 +179,34 @@ int		nested_shell(t_list *env_list);
 t_list	*tokenize_input(char *input);
 
 /**
- * @brief Verifies that all quotes in the input string are properly closed.
- *
- * This function iterates over the input string and, for every
- * opening quote encountered,
- * searches for the corresponding closing quote. If an opening quote
- * is not closed,
- * an error message is printed to STDERR and the function returns 0.
- *
- * @param input The input string to check.
- * @return 1 if all quotes are properly closed, 0 otherwise.
- */
-int		check_quote(char *input);
-
-/**
  * @brief Checks the input string for unclosed quotes.
  *
- * This function scans the input string and uses the is_quote() helper to detect opening
- * quote characters (either single or double quotes). For each opening quote found, it
- * searches for a matching closing quote. If a closing quote is not found before the end
+ * This function scans the input string and uses the is_quote() helper to
+ * detect opening
+ * quote characters (either single or double quotes). For each opening quote
+ * found, it
+ * searches for a matching closing quote. If a closing quote is not found before
+ * the end
  * of the string, the function prints a syntax error message to STDERR using the
- * QUOTES_SYNTAX_ERROR format (with the unclosed quote character) and returns 0.
+ * QUOTES_S format (with the unclosed quote character) and returns 0.
  *
  * @param input The input string to be checked for unclosed quotes.
- * @return 1 if all quotes are properly closed, 0 if an unclosed quote is detected.
+ * @return 1 if all quotes are properly closed, 0 if an unclosed quote is
+ * detected.
  */
-int	check_unclosed_quotes(char *input);
+int		check_unclosed_quotes(char *input);
 
 /**
  * @brief Checks if a character is a quote.
  *
- * This function tests whether the provided character is either a single
- * quote (') or a double quote (").
+ * This function returns a non-zero value if the given character is either a
+ * single quote (')
+ * or a double quote (").
  *
- * @param c The character to test.
- * @return A non-zero value if c is a quote, 0 otherwise.
+ * @param c The character to check.
+ * @return Non-zero if c is a quote, 0 otherwise.
  */
-int		is_quote(char c);
-
-/**
- * @brief Checks a token for quote-related syntax errors.
- *
- * This function iterates over the characters in the provided token
- * until a space is encountered.
- * It uses the helper function is_quote() to detect quote characters.
- * While processing the command
- * part (i.e., before the first space), if a quote character is found,
- * the function prints a syntax
- * error message (using the QUOTES_SYNTAX_ERROR format) to STDERR and
- * returns 0, indicating a syntax error.
- * If no such error is found, the function returns 1.
- *
- * @param token The token string to be checked for syntax errors.
- * @return 1 if no syntax error is found, 0 if a syntax error
- * (improper use of quotes) is detected.
- */
-int	check_syntax_error(char *token);
+int		is_quote(char c); //
 
 /**
  * @brief Extracts a token from the input string.
@@ -241,43 +229,6 @@ int	check_syntax_error(char *token);
 char	*extract_token(char *input, size_t *pos);
 
 /**
- * @brief Extracts the token content enclosed by quotes from the input string.
- *
- * This function assumes that the token starts with a quote character at the
- * current
- * position indicated by *i. It extracts all characters until it finds the
- * matching
- * closing quote and returns the resulting substring (excluding the quotes).
- * The index
- * pointer *i is updated to point to the character immediately after
- * the closing quote.
- *
- * @param input The input string containing the token.
- * @param i Pointer to the current index in the input string;
- * updated after extraction.
- * @return A newly allocated string with the token content (without the quotes),
- * or NULL on failure.
- */
-char	*get_token_content(char *input, size_t *i);
-
-/**
- * @brief Extracts unquoted content from the input string.
- *
- * Starting from the index pointed to by *i in the input string, this function
- * extracts a substring
- * until a quote or a space is encountered. The extracted substring (allocated
- * dynamically) is returned,
- * and *i is updated to point immediately after the extracted content.
- *
- * @param input The input string from which to extract content.
- * @param i Pointer to the current index in the input string;
- * updated after extraction.
- * @return A newly allocated string containing the unquoted content,
- * or NULL on failure.
- */
-char	*get_unquoted_content(char *input, size_t *i);
-
-/**
  * @brief Clears a linked list of tokens.
  *
  * This function iterates through the linked list of tokens,
@@ -291,37 +242,79 @@ char	*get_unquoted_content(char *input, size_t *i);
 void	clear_token_list(t_list *token);
 
 /**
- * @brief Copies the source string to the destination while removing quotes.
+ * @brief Computes the length of a word in the input string, accounting for
+ * quoted segments.
  *
- * This function iterates over the source string until it encounters a space.
- * If a quoted sequence
- * is detected, the content inside the quotes is copied (without the quotes)
- * into the destination.
- * The parameter pointed to by len is updated with the number of characters
- * processed in the source.
- *
- * @param dst The destination buffer where the unquoted string will be copied.
- * @param src The source string to copy.
- * @param len Pointer to a size_t variable that will be set to the number of
- * characters processed in src.
- */
-void	copy_without_quotes(char *dest, char *src, size_t *len);
-
-/**
- * @brief Calculates the length of a word in the input string, taking quotes
- * into account.
- *
- * This function starts at the given index in the input string and returns the
- * number of characters that
- * compose a "word". A word is defined as a sequence of characters terminated
- * by a space.
- * If quotes are encountered, the content between the quotes is considered part
- * of the same word.
+ * Starting from the given start index, this function calculates the length of
+ * a word.
+ * A word is defined as a sequence of characters terminated by a space or tab.
+ * Quoted segments
+ * are processed appropriately using count_quoted_length.
  *
  * @param input The input string.
- * @param start The starting index in the input string.
- * @return The length of the word starting at the given index.
+ * @param start The starting index for the word.
+ * @return The length of the word.
  */
 size_t	get_word_length(char *input, size_t start);
+
+/**
+ * @brief Copies characters from src to dest while preserving quotes.
+ *
+ * This function copies characters from the source string to the destination
+ * buffer until
+ * a space or a tab is encountered. When a quote is encountered, it copies the
+ * entire quoted
+ * segment (including the quotes) into dest. The variable pointed to by len is
+ * updated with
+ * the number of characters processed in src.
+ *
+ * @param dest The destination buffer.
+ * @param src The source string.
+ * @param len Pointer to a size_t variable that will receive the number of
+ * characters processed.
+ */
+void	copy_with_quotes(char *dest, char *src, size_t *len); //
+
+/**
+ * @brief Updates the length counter for a quoted segment in the input string.
+ *
+ * Starting at the specified start index in the input string, this function
+ * increments the length
+ * counter (pointed to by i) to skip over a quoted segment. If the quote is a
+ * single quote or a
+ * double quote containing an environment variable, the quotes are taken
+ * into account.
+ *
+ * @param input The input string.
+ * @param i Pointer to the length counter to be updated.
+ * @param start The starting index of the quoted segment.
+ */
+void	handle_quotes_len(char *input, size_t *i, size_t start);
+
+/**
+ * @brief Advances the index past a quoted segment in the input string.
+ *
+ * This static helper function increments the index (pointed to by i) so that
+ * it skips over
+ * a quoted segment, including the opening and closing quotes.
+ *
+ * @param input The input string.
+ * @param i Pointer to the index; updated to point past the quoted segment.
+ */
+void	count_quoted_length(char *input, size_t *i);
+
+/**
+ * @brief Checks if the substring of str starting at index i contains an
+ * environment variable.
+ *
+ * This function scans the string starting from index i until a quote is
+ * encountered. If a '$'
+ * character is found, it indicates the presence of an environment variable.
+ *
+ * @param str The input string.
+ * @param i The starting index.
+ * @return 1 if an environment variable is detected, 0 otherwise.
+ */
+int		has_env_variable(char *str, size_t i);
 
 #endif

@@ -5,49 +5,22 @@ int	is_quote(char c)
 	return (c == '\'' || c == '\"');
 }
 
-int	check_quote(char *input) // change for boolean later ?
-{
-	char	opened_quote;
-	size_t	i;
-
-	i = 0;
-	while (input[i])
-	{
-		if (is_quote(input[i]))
-		{
-			opened_quote = input[i];
-			i++;
-			while (input[i] && input[i] != opened_quote)
-				i++;
-			if (!input[i])
-			{
-				dprintf(STDERR_FILENO, "minishell: error: unclosed quotes\n"); // a modifier pour notre propre printf
-				return (0);
-			}
-		}
-		i++;
-	}
-	return (1);
-}
-
-void	copy_without_quotes(char *dest, char *src, size_t *len)
+void	copy_with_quotes(char *dest, char *src, size_t *len)
 {
 	size_t	i;
 	size_t	j;
-	char	quote;
 
 	i = 0;
 	j = 0;
-	while (src[i] && (src[i] != ' ' || src[i] != '\t'))
+	while (src[i] && src[i] != ' ' && src[i] != '\t')
 	{
 		if (is_quote(src[i]))
 		{
-			quote = src[i];
-			i++;
-			while (src[i] && src[i] != quote)
+			dest[j++] = src[i++];
+			while (src[i] && !is_quote(src[i]))
 				dest[j++] = src[i++];
 			if (src[i])
-				i++;
+				dest[j++] = src[i++];
 		}
 		else
 			dest[j++] = src[i++];
@@ -56,42 +29,58 @@ void	copy_without_quotes(char *dest, char *src, size_t *len)
 	*len = i;
 }
 
-char	*get_unquoted_content(char *input, size_t *i)
+void	count_quoted_length(char *input, size_t *i)
 {
-	char	*res;
-	size_t	start;
-	size_t	len;
+	char	quote;
 
-	start = *i;
-	len = 0;
-	while (input[start + len] && !is_quote(input[start + len]) \
-		&& (input[start + len] != ' ' || input[start + len] != '\t'))
-		len++;
-	res = ft_substr(input, start, len);
-	if (!res)
-		return (NULL);
-	*i = start + len;
-	return (res);
+	quote = input[*i];
+	(*i)++;
+	while (input[*i] && input[*i] != quote)
+		(*i)++;
+	if (input[*i])
+		(*i)++;
+}
+
+int	has_env_variable(char *str, size_t i) // booleen ?
+{
+	while (str[i] && !is_quote(str[i]))
+	{
+		if (str[i] == '$')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+void	handle_quotes_len(char *input, size_t *i, size_t start)
+{
+	char	quote;
+	int		has_env;
+
+	quote = input[start + *i];
+	has_env = has_env_variable(input, start + *i);
+	if (quote == '\'' || (quote == '\"' && has_env))
+		(*i)++;
+	(*i)++;
+	while (input[start + *i] && input[start + *i] != quote)
+		(*i)++;
+	if (input[start + *i])
+	{
+		if (quote == '\'' || (quote == '\"' && has_env))
+			(*i)++;
+		(*i)++;
+	}
 }
 
 size_t	get_word_length(char *input, size_t start)
 {
 	size_t	i;
-	char	quote;
 
 	i = 0;
-	while (input[start + i] && (input[start + i] != ' ' \
-		|| input[start + i] != '\t'))
+	while (input[start + i] && input[start + i] != ' ' && input[start + i] != '\t')
 	{
 		if (is_quote(input[start + i]))
-		{
-			quote = input[start + i];
-			i++;
-			while (input[start + i] && input[start + i] != quote)
-				i++;
-			if (input[start + i])
-				i++;
-		}
+			count_quoted_length(input + start, &i);
 		else
 			i++;
 	}

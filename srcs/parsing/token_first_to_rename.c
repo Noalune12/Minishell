@@ -1,24 +1,5 @@
 #include "minishell.h"
 
-char	*get_token_content(char *input, size_t *i)
-{
-	char	*res;
-	char	quote_type;
-	size_t	start;
-	size_t	len;
-
-	quote_type = input[*i];
-	start = *i + 1;
-	len = 0;
-	while (input[start + len] && input[start + len] != quote_type)
-		len++;
-	res = ft_substr(input, start, len);
-	if (!res)
-		return (NULL);
-	*i = start + len + 1;
-	return (res);
-}
-
 char	*extract_token(char *input, size_t *pos)
 {
 	size_t	len;
