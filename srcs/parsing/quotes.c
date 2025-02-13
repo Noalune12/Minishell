@@ -41,37 +41,6 @@ void	count_quoted_length(char *input, size_t *i)
 		(*i)++;
 }
 
-int	has_env_variable(char *str, size_t i) // booleen ?
-{
-	while (str[i] && !is_quote(str[i]))
-	{
-		if (str[i] == '$')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-void	handle_quotes_len(char *input, size_t *i, size_t start)
-{
-	char	quote;
-	int		has_env;
-
-	quote = input[start + *i];
-	has_env = has_env_variable(input, start + *i);
-	if (quote == '\'' || (quote == '\"' && has_env))
-		(*i)++;
-	(*i)++;
-	while (input[start + *i] && input[start + *i] != quote)
-		(*i)++;
-	if (input[start + *i])
-	{
-		if (quote == '\'' || (quote == '\"' && has_env))
-			(*i)++;
-		(*i)++;
-	}
-}
-
 size_t	get_word_length(char *input, size_t start)
 {
 	size_t	i;

@@ -276,22 +276,6 @@ size_t	get_word_length(char *input, size_t start);
 void	copy_with_quotes(char *dest, char *src, size_t *len); //
 
 /**
- * @brief Updates the length counter for a quoted segment in the input string.
- *
- * Starting at the specified start index in the input string, this function
- * increments the length
- * counter (pointed to by i) to skip over a quoted segment. If the quote is a
- * single quote or a
- * double quote containing an environment variable, the quotes are taken
- * into account.
- *
- * @param input The input string.
- * @param i Pointer to the length counter to be updated.
- * @param start The starting index of the quoted segment.
- */
-void	handle_quotes_len(char *input, size_t *i, size_t start);
-
-/**
  * @brief Advances the index past a quoted segment in the input string.
  *
  * This static helper function increments the index (pointed to by i) so that
@@ -302,19 +286,5 @@ void	handle_quotes_len(char *input, size_t *i, size_t start);
  * @param i Pointer to the index; updated to point past the quoted segment.
  */
 void	count_quoted_length(char *input, size_t *i);
-
-/**
- * @brief Checks if the substring of str starting at index i contains an
- * environment variable.
- *
- * This function scans the string starting from index i until a quote is
- * encountered. If a '$'
- * character is found, it indicates the presence of an environment variable.
- *
- * @param str The input string.
- * @param i The starting index.
- * @return 1 if an environment variable is detected, 0 otherwise.
- */
-int		has_env_variable(char *str, size_t i);
 
 #endif
