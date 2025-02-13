@@ -46,7 +46,6 @@ int	check_syntax_error(char *token)
 	return (1);
 }
 
-
 int	check_unclosed_quotes(char *input)
 {
 	size_t	i;
@@ -63,7 +62,7 @@ int	check_unclosed_quotes(char *input)
 				i++;
 			if (!input[i])
 			{
-				dprintf(STDERR_FILENO, QUOTES_SYNTAX_ERROR, &quote); // a modifier -> marche pas pour "''""""'
+				dprintf(STDERR_FILENO, QUOTES_SYNTAX_ERROR, &quote); // a modifier -> marche pas pour "''""""' pareil pour '"'""'''"""''
 				return (0);
 			}
 		}

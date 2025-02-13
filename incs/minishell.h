@@ -98,10 +98,50 @@ void	add_node(t_list **env, char *content); // ????????
 void	add_node_test(t_list *args); // ??????? oui je sais
 void	free_list(t_list *list);
 void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
+
+/**
+ * @brief Checks if standard input and output are attached to a TTY.
+ *
+ * This function verifies that both STDIN and STDOUT are associated with a terminal device.
+ * If either is not a TTY (for example, when the shell is executed in a non-interactive context like a pipeline),
+ * an error message is printed to STDERR and the program exits successfully.
+ *
+ * @note The function uses dprintf to output the error message; consider replacing it with your custom
+ * stderr printing function if needed.
+ */
 void	tty_check(void);
+
+/**
+ * @brief Updates the PWD environment variable in the environment list.
+ *
+ * This function retrieves the current working directory using getcwd, constructs a new string in the
+ * format "PWD=<current_working_directory>", and updates the environment list accordingly.
+ * If the environment list is empty or if any memory allocation fails, no changes are made.
+ *
+ * @param env Pointer to the environment list.
+ */
 void	update_pwd(t_list **env);
+
+/**
+ * @brief Updates the SHLVL environment variable in the environment list.
+ *
+ * This function searches for the "SHLVL" node in the environment list, converts its current value,
+ * increments it (unless it exceeds 999 or is non-positive, in which case it resets to 1), and updates the node.
+ * An error message is printed to STDERR if SHLVL is too high.
+ *
+ * @param env The environment list.
+ */
 void	update_shlvl(t_list *env);
 
+/**
+ * @brief Determines if the current shell is nested within another shell.
+ *
+ * This function checks the "SHLVL" environment variable in the environment list.
+ * If the value of SHLVL is greater than 1, it indicates that a shell has been launched within another shell.
+ *
+ * @param env_list The environment list.
+ * @return 1 if the shell is nested (SHLVL > 1), 0 otherwise.
+ */
 int		nested_shell(t_list *env_list);
 
 /*	----------- parsing ----------------------------------------------------- */
