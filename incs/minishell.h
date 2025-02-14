@@ -22,7 +22,7 @@
 // memo error code 127 -> no path to command
 // liste de define derreurs + dautres plus tard
 
-# define QUOTES_SYNTAX "minishell: syntax error near unexpected token `%s'\n"
+# define QUOTES_SYNTAX "minishell: syntax error near unexpected token `%c'\n"
 # define CMD_NOT_FOUND "bash: %s: command not found\n"
 # define FILE_NOT_FOUND "%s: %s: No such file or directory\n"
 
