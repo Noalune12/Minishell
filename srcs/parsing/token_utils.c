@@ -35,7 +35,7 @@ int	check_unclosed_quotes(char *input)
 				i++;
 			if (!input[i])
 			{
-				dprintf(STDERR_FILENO, QUOTES_SYNTAX, quote); // a changer 
+				dprintf(STDERR_FILENO, CHAR_SYNTAX, quote); // a changer
 				return (0);
 			}
 		}
