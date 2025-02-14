@@ -19,33 +19,6 @@ void	clear_token_list(t_list *token)
 	}
 }
 
-int	check_syntax_error(char *token)
-{
-	size_t	i;
-	int		cmd_part;
-
-	i = 0;
-	cmd_part = 1;
-	if ((token[0] == '\'' && token[1] == '\'')
-		|| (token[0] == '\"' && token[1] == '\"'))
-		return (1);
-	while (token[i] && token[i] != ' ')
-	{
-		if (is_quote(token[i]))
-		{
-			if (cmd_part)
-			{
-				dprintf(STDERR_FILENO, QUOTES_SYNTAX_ERROR, token); // a modifier
-				return (0);
-			}
-		}
-		else if (token[i] == ' ')
-			cmd_part = 0;
-		i++;
-	}
-	return (1);
-}
-
 int	check_unclosed_quotes(char *input)
 {
 	size_t	i;
@@ -62,7 +35,7 @@ int	check_unclosed_quotes(char *input)
 				i++;
 			if (!input[i])
 			{
-				dprintf(STDERR_FILENO, QUOTES_SYNTAX_ERROR, &quote); // a modifier -> marche pas pour "''""""' pareil pour '"'""'''"""''
+				dprintf(STDERR_FILENO, QUOTES_SYNTAX, &quote); // a modifier -> marche pas pour "''""""' pareil pour '"'""'''"""'' < ft_putendl_fd fonctionne...
 				return (0);
 			}
 		}
