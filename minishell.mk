@@ -40,6 +40,9 @@ override ASTSRC		:= \
 SRC	+= $(addprefix $(PARSINGDIR), $(addsuffix .c, $(PARSINGSRC)))
 
 override PARSINGSRC	:= \
+	error_handling \
+	operator_identifying \
+	parsing_utils \
 	quotes \
 	token_first_to_rename \
 	token_utils \

@@ -42,12 +42,23 @@
 # define SIGQUIT_MESSAGE "Quit (core dumped)\n"
 # define AND_SO_ON "...."
 
-typedef enum e_quote
+typedef enum e_quote // delete ? peut etre besoin pour le parsing
 {
 	NONE_QUOTE,
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE,
 }	t_quote;
+
+typedef enum e_redirect_error
+{
+	REDIR_SUCCESS,
+	REDIR_UNEXPECTED_NEWLINE,
+	REDIR_UNEXPECTED_TOKEN,
+	REDIR_MISSING_FILENAME,
+	REDIR_FILE_ERROR,
+	REDIR_HEREDOC_EOF,
+	REDIR_SYNTAX_ERROR,
+}	t_redirect_error;
 
 typedef enum e_node_type
 {
@@ -61,12 +72,14 @@ typedef enum e_node_type
 	NODE_REDIR_IN,	// <
 	NODE_APPEND,	// >>
 	NODE_HEREDOC,	// <<
+	// NODE_OPEN_PAR,	// (
+	// NODE_CLOSE_PAR,	// )
 }	t_node_type;
 
 typedef struct s_ast
 {
-	t_node_type		type; // type noeud definis par lenum
-	char			*content; // ce qu'on recupere du parsing
+	t_node_type		type; // type de noeud definis par lenum
+	char			*content; // ce qu'on recupere du parsing -> remplacer par t_cmd ?
 	struct s_ast	*left;
 	struct s_ast	*right;
 	struct s_ast	*root; // top priority node
@@ -286,5 +299,25 @@ void	copy_with_quotes(char *dest, char *src, size_t *len); //
  * @param i Pointer to the index; updated to point past the quoted segment.
  */
 void	count_quoted_length(char *input, size_t *i);
+
+
+
+
+
+
+t_list	*split_operators(const char *str);
+
+bool	add_token_to_list(t_list **tokens, char *content);
+bool	is_operator_char(char c);
+
+char	*create_token(const char *str, size_t start, size_t len);
+
+size_t	get_operator_len(const char *str, size_t pos);
+
+t_list	*handle_operator_error(t_list *tokens, const char *op);
+
+t_redirect_error	check_operator_syntax(const char *str, size_t pos);
+
+void	print_redirect_error(t_redirect_error error, const char *token);
 
 #endif

@@ -19,27 +19,61 @@ void	clear_token_list(t_list *token)
 	}
 }
 
-int	check_unclosed_quotes(char *input)
+bool	add_token_to_list(t_list **tokens, char *content)
 {
-	size_t	i;
-	char	quote;
+	t_list	*new;
 
-	i = 0;
-	while (input[i])
+	new = ft_lstnew(content);
+	if (!new)
 	{
-		if (is_quote(input[i]))
-		{
-			quote = input[i];
-			i++;
-			while (input[i] && input[i] != quote)
-				i++;
-			if (!input[i])
-			{
-				dprintf(STDERR_FILENO, CHAR_SYNTAX, quote); // a changer
-				return (0);
-			}
-		}
-		i++;
+		free(content);
+		return (false);
 	}
-	return (1);
+	ft_lstadd_back(tokens, new);
+	return (true);
+}
+
+
+t_list	*handle_redirect_error(t_list *tokens, t_redirect_error error,
+	const char *token)
+{
+	clear_token_list(tokens);
+	print_redirect_error(error, token);
+	return (NULL);
+}
+
+t_list	*split_operators(const char *str)
+{
+	t_list			*tokens;
+	size_t			i;
+	size_t			start;
+	size_t			op_len;
+	t_redirect_error	error;
+
+	tokens = NULL;
+	i = 0;
+	start = 0;
+	while (str[i])
+	{
+		if (is_operator_char(str[i]))
+		{
+			error = check_operator_syntax(str, i);
+			if (error != REDIR_SUCCESS)
+				return (handle_redirect_error(tokens, error, str + i));
+			if (i > start && !add_token_to_list(&tokens,
+				create_token(str, start, i - start)))
+				return (NULL);
+			op_len = get_operator_len(str, i);
+			if (!add_token_to_list(&tokens, create_token(str, i, op_len)))
+				return (NULL);
+			i += op_len;
+			start = i;
+		}
+		else
+			i++;
+	}
+	if (i > start && !add_token_to_list(&tokens,
+		create_token(str, start, i - start)))
+		return (NULL);
+	return (tokens);
 }

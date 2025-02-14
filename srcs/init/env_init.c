@@ -8,7 +8,7 @@ void add_node(t_list **env, char *content) // nom a changer probablement
 	temp = *env;
 	new_node = malloc(sizeof(t_list));
 	if (!new_node)
-		return;
+		return ;
 	new_node->content = ft_strdup(content);
 	if (!new_node->content)
 	{
@@ -19,7 +19,7 @@ void add_node(t_list **env, char *content) // nom a changer probablement
 	if (!*env)
 	{
 		*env = new_node;
-		return;
+		return ;
 	}
 	while (temp->next)
 			temp = temp->next;

@@ -81,30 +81,52 @@ void	free_split(char **split)
 	}
 }
 
+bool	replace_token(t_list *current, t_list *new_tokens)
+{
+	t_list	*next;
+	t_list	*new_next;
+
+	if (!new_tokens)
+		return (true);
+	next = current->next;
+	free(current->content);
+	current->content = ft_strdup(new_tokens->content);
+	if (!current->content)
+		return (false);
+	current->next = new_tokens->next;
+	free(new_tokens);
+	if (!current->next)
+	{
+		current->next = next;
+		return (true);
+	}
+	new_next = ft_lstlast(current->next);
+	new_next->next = next;
+	return (true);
+}
+
 void	practice(t_minishell *minishell)
 {
 	t_list	*current;
-	t_list	*tokens;
-	t_list	*token_current;
+	t_list	*split_tokens;
+	t_list	*next;
 
-	if (!minishell || !minishell->input)
-		return ;
-	tokens = tokenize_input(minishell->input);
-	if (!tokens)
+	minishell->token = tokenize_input(minishell->input);
+	if (!minishell->token)
 		return ;
 	current = minishell->token;
-	while (current->next)
-		current = current->next;
-	token_current = tokens;
-	while (token_current)
+	while (current)
 	{
-		add_node_test(current);
-		current = current->next;
-		if (current)
-			current->content = ft_strdup(token_current->content);
-		token_current = token_current->next;
+		next = current->next;
+		split_tokens = split_operators(current->content);
+		if (!replace_token(current, split_tokens))
+		{
+			clear_token_list(minishell->token);
+			minishell->token = NULL;
+			return ;
+		}
+		current = next;
 	}
-	free_list(tokens);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -116,10 +138,6 @@ int	main(int ac, char **av, char **envp)
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 	minishell_init(&minishell, ac, av, envp);
-	minishell.token = malloc(sizeof(t_list));
-	if (!minishell.token)
-		return (1);
-	create_struct(minishell.token);
 	printf("--------------------\n");
 	while (1)
 	{
@@ -131,10 +149,10 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		}
 		practice(&minishell);
-		tmp_test = minishell.token->next;
+		tmp_test = minishell.token;
 		for (int i = 0; tmp_test != NULL; i++)
 		{
-			printf("Maillon ID: %d\nArg value: '%s'\n", i, tmp_test->content);
+			printf("Maillon ID: %d\nToken: '%s'\n", i, tmp_test->content);
 			tmp_test = tmp_test->next;
 		}
 		// t_ast *test_tree = create_test_tree();
