@@ -345,6 +345,8 @@ liens sur lesquels jetais en train de travailler avant de partir dimanche soir:
 
 [man bash -> CTRL+F : variables du shell (2/7)](http://manpagesfr.free.fr/man/man1/bash.1.html)
 
+[MANY MANY RESSOURCES](https://github.com/ggjulio/minishell?tab=readme-ov-file)
+
 ![alt text](image-1.png)
 
 
