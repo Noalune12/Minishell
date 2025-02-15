@@ -112,6 +112,13 @@ void	add_node_test(t_list *args); // ??????? oui je sais
 void	free_list(t_list *list);
 void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
 
+void	signal_handler(int signum);
+
+bool	replace_token(t_list *current, t_list *new_tokens);
+void	free_env(t_minishell *minishell);
+
+
+
 /**
  * @brief Checks if standard input and output are attached to a TTY.
  *
@@ -288,19 +295,6 @@ size_t	get_word_length(char *input, size_t start);
  */
 void	copy_with_quotes(char *dest, char *src, size_t *len); //
 
-/**
- * @brief Advances the index past a quoted segment in the input string.
- *
- * This static helper function increments the index (pointed to by i) so that
- * it skips over
- * a quoted segment, including the opening and closing quotes.
- *
- * @param input The input string.
- * @param i Pointer to the index; updated to point past the quoted segment.
- */
-void	count_quoted_length(char *input, size_t *i);
-
-
 
 
 
@@ -317,6 +311,9 @@ size_t	get_operator_len(const char *str, size_t pos);
 t_list	*handle_operator_error(t_list *tokens, const char *op);
 
 t_redirect_error	check_operator_syntax(const char *str, size_t pos);
+
+t_list	*handle_redirect_error(t_list *tokens, t_redirect_error error, \
+	const char *token);
 
 void	print_redirect_error(t_redirect_error error, const char *token);
 

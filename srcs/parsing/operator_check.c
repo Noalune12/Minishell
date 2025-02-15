@@ -19,3 +19,11 @@ t_redirect_error	check_operator_syntax(const char *str, size_t pos)
 		return (REDIR_UNEXPECTED_TOKEN);
 	return (REDIR_SUCCESS);
 }
+
+t_list	*handle_operator_error(t_list *tokens, const char *op)
+{
+	clear_token_list(tokens);
+	ft_printf(STRING_SYNTAX, op);
+	return (NULL);
+}
+

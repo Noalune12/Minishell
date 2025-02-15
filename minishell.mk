@@ -1,35 +1,36 @@
 override SRCSDIR	:= srcs/
 override SRCS		= $(addprefix $(SRCSDIR), $(SRC))
 
-override TEMPDIR	:= temp/
+override MAINDIR	:= main/
 override INITDIR	:= init/
 override UTILSDIR	:= utils/
 override ENVDIR		:= env/
 override ASTDIR		:= ast/
 override PARSINGDIR	:= parsing/
 
-SRC	+= $(addprefix $(TEMPDIR), $(addsuffix .c, $(TEMPSRC)))
+SRC	+= $(addprefix $(MAINDIR), $(addsuffix .c, $(MAINSRC)))
 
-override TEMPSRC	:= \
+override MAINSRC	:= \
 	minishell \
-	#practice \
 
 SRC +=  $(addprefix $(INITDIR), $(addsuffix .c, $(INITSRC)))
 
 override INITSRC	:= \
-	minishell_init \
 	env_init \
+	minishell_init \
+	signal_init \
 
 SRC += $(addprefix $(UTILSDIR), $(addsuffix .c, $(UTILSSRC)))
 
 override UTILSSRC	:= \
+	free_utils \
 	list_utils \
 
 SRC += $(addprefix $(ENVDIR), $(addsuffix .c, $(ENVSRC)))
 
 override ENVSRC		:= \
-	env_shlvl \
-	env_pwd \
+	env_update \
+	env_utils \
 
 SRC += $(addprefix $(ASTDIR), $(addsuffix .c, $(ASTSRC)))
 
@@ -40,9 +41,10 @@ override ASTSRC		:= \
 SRC	+= $(addprefix $(PARSINGDIR), $(addsuffix .c, $(PARSINGSRC)))
 
 override PARSINGSRC	:= \
-	error_handling \
-	operator_identifying \
-	parsing_utils \
+	errors \
+	operator_check \
+	operators \
 	quotes \
-	token_first_to_rename \
 	token_utils \
+	tokenizer \
+	word_utils \

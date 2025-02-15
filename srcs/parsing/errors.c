@@ -16,3 +16,11 @@ void	print_redirect_error(t_redirect_error error, const char *token)
 	else if (error == REDIR_SYNTAX_ERROR)
 		ft_printf("syntax error\n");
 }
+
+t_list	*handle_redirect_error(t_list *tokens, t_redirect_error error,
+	const char *token)
+{
+	clear_token_list(tokens);
+	print_redirect_error(error, token);
+	return (NULL);
+}

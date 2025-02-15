@@ -45,21 +45,3 @@ t_list	*tokenize_input(char *input)
 	}
 	return (tokens);
 }
-
-char	*create_token(const char *str, size_t start, size_t len)
-{
-	char	*token;
-	size_t	i;
-
-	token = malloc(sizeof(char) * (len + 1));
-	if (!token)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		token[i] = str[start + i];
-		i++;
-	}
-	token[i] = '\0';
-	return (token);
-}
