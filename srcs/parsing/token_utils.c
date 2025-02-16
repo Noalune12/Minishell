@@ -25,8 +25,7 @@ void	clear_token_list(t_list *token)
 
 	if (!token)
 		return ;
-	current = token->next;
-	token->next = NULL; // Réinitialise le pointeur next du premier nœud
+	current = token;
 	while (current)
 	{
 		next = current->next;

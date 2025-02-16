@@ -1,6 +1,27 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+typedef struct s_list			t_list;
+
+typedef struct s_minishell
+{
+	char	*input;
+	t_list	*envp; // liste chainee de l'environnement
+	t_list	*token; // liste chainee des parametres
+	// t_ast	*ast_node; // Abstract Syntax Tree
+}	t_minishell;
+
+// int	g_signal_received;
+
+// void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
+// void	free_env(t_minishell *minishell);
+// void	tty_check(void);
+
+// #endif
+
+// #ifndef MINISHELL_H
+// # define MINISHELL_H
+
 # include <stdio.h>
 # include <stdlib.h>
 # include <readline/readline.h>
@@ -85,13 +106,7 @@ typedef struct s_ast
 	struct s_ast	*root; // top priority node
 }	t_ast; // pas sur du nom, a discuté (t_node, t_ast_node, t_node_ast...)
 
-typedef struct s_minishell
-{
-	char	*input;
-	t_list	*envp; // liste chainee de l'environnement
-	t_list	*token; // liste chainee des parametres
-	t_ast	*ast_node; // Abstract Syntax Tree
-}	t_minishell;
+
 
 typedef struct s_cmd
 {
@@ -293,16 +308,13 @@ size_t	get_word_length(char *input, size_t start);
  * @param len Pointer to a size_t variable that will receive the number of
  * characters processed.
  */
-void	copy_with_quotes(char *dest, char *src, size_t *len); //
-
-
-
-
+void	copy_with_quotes(char *dest, char *src, size_t *len);
 
 t_list	*split_operators(const char *str);
 
 bool	add_token_to_list(t_list **tokens, char *content);
-bool	is_operator_char(char c);
+bool	is_operator_char(char c, bool in_quotes);
+
 
 char	*create_token(const char *str, size_t start, size_t len);
 

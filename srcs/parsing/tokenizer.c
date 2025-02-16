@@ -13,6 +13,11 @@ char	*extract_token(char *input, size_t *pos)
 	copy_with_quotes(token, input + *pos, &len);
 	*pos += len;
 	final_token = ft_strdup(token);
+	if (!final_token)
+	{
+		free(token);
+		return (NULL);
+	}
 	free(token);
 	return (final_token);
 }

@@ -67,10 +67,10 @@ t_list	*env_init(char **envp)
 			return (NULL);
 		}
 	}
-	update_shlvl(set_up_env);
-	if (nested_shell(set_up_env))
-		update_shlvl(set_up_env);
-//	print_env(set_up_env);
+	// update_shlvl(set_up_env);
+	// if (nested_shell(set_up_env))
+	// 	update_shlvl(set_up_env);
+	// print_env(set_up_env);
 	return (set_up_env);
 }
 
