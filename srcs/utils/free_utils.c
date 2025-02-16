@@ -22,8 +22,8 @@ void	free_env(t_minishell *minishell)
 {
 	if (minishell->envp)
 		free_list(minishell->envp);
-	if (minishell->token)
-		free_list(minishell->token);
+	minishell->envp = NULL;
+	minishell->token = NULL;
 }
 
 // void	free_split(char **split)

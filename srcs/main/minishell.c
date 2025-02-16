@@ -11,25 +11,31 @@ char	*read_input(void)
 	return (input);
 }
 
-void	tokenize_and_split(t_minishell *minishell)
+void    tokenize_and_split(t_minishell *minishell)
 {
-	t_list	*current;
-	t_list	*split_tokens;
-	t_list	*next;
+	t_list  *current;
+	t_list  *split_tokens;
+	t_list  *next;
 
 	minishell->token = tokenize_input(minishell->input);
 	if (!minishell->token)
-		return ;
+		return;
 	current = minishell->token;
 	while (current)
 	{
 		next = current->next;
 		split_tokens = split_operators(current->content);
+		if (!split_tokens)  // Handle this case
+		{
+			clear_token_list(minishell->token);
+			minishell->token = NULL;
+			return;
+		}
 		if (!replace_token(current, split_tokens))
 		{
 			clear_token_list(minishell->token);
 			minishell->token = NULL;
-			return ;
+			return;
 		}
 		current = next;
 	}
@@ -58,7 +64,7 @@ int	main(int ac, char **av, char **envp)
 		tmp_test = minishell.token;
 		for (int i = 0; tmp_test != NULL; i++)
 		{
-			printf("Maillon ID: %d\nToken: '%s'\n", i, tmp_test->content);
+			printf("Maillon ID: %d\nToken: [%s]\n", i, tmp_test->content);
 			tmp_test = tmp_test->next;
 		}
 		// t_ast *test_tree = create_test_tree();
@@ -72,19 +78,3 @@ int	main(int ac, char **av, char **envp)
 	free_env(&minishell);
 	return (0);
 }
-
-// int	main(int ac, char **av, char **envp)
-// {
-// 	t_minishell	minishell;
-// 	t_list		*tmp;
-
-// 	tty_check();
-// 	signal(SIGINT, signal_handler);
-// 	signal(SIGQUIT, SIG_IGN);
-// 	minishell_init(&minishell, ac, av, envp);
-// 	while (true)
-// 	{
-// 		clear_token_list(minishell.token);
-
-// 	}
-// }
