@@ -1,5 +1,23 @@
 #include "minishell.h"
 
+char	*create_token(const char *str, size_t start, size_t len)
+{
+	char	*token;
+	size_t	i;
+
+	token = malloc(sizeof(char) * (len + 1));
+	if (!token)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		token[i] = str[start + i];
+		i++;
+	}
+	token[i] = '\0';
+	return (token);
+}
+
 void	clear_token_list(t_list *token)
 {
 	t_list	*current;
@@ -7,8 +25,7 @@ void	clear_token_list(t_list *token)
 
 	if (!token)
 		return ;
-	current = token->next;
-	token->next = NULL; // Réinitialise le pointeur next du premier nœud
+	current = token;
 	while (current)
 	{
 		next = current->next;
@@ -19,27 +36,16 @@ void	clear_token_list(t_list *token)
 	}
 }
 
-int	check_unclosed_quotes(char *input)
+bool	add_token_to_list(t_list **tokens, char *content)
 {
-	size_t	i;
-	char	quote;
+	t_list	*new;
 
-	i = 0;
-	while (input[i])
+	new = ft_lstnew(content);
+	if (!new)
 	{
-		if (is_quote(input[i]))
-		{
-			quote = input[i];
-			i++;
-			while (input[i] && input[i] != quote)
-				i++;
-			if (!input[i])
-			{
-				dprintf(STDERR_FILENO, QUOTES_SYNTAX, &quote); // a modifier -> marche pas pour "''""""' pareil pour '"'""'''"""'' < ft_putendl_fd fonctionne...
-				return (0);
-			}
-		}
-		i++;
+		free(content);
+		return (false);
 	}
-	return (1);
+	ft_lstadd_back(tokens, new);
+	return (true);
 }

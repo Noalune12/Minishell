@@ -1,6 +1,27 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+typedef struct s_list			t_list;
+
+typedef struct s_minishell
+{
+	char	*input;
+	t_list	*envp; // liste chainee de l'environnement
+	t_list	*token; // liste chainee des parametres
+	// t_ast	*ast_node; // Abstract Syntax Tree
+}	t_minishell;
+
+// int	g_signal_received;
+
+// void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
+// void	free_env(t_minishell *minishell);
+// void	tty_check(void);
+
+// #endif
+
+// #ifndef MINISHELL_H
+// # define MINISHELL_H
+
 # include <stdio.h>
 # include <stdlib.h>
 # include <readline/readline.h>
@@ -21,8 +42,8 @@
 
 // memo error code 127 -> no path to command
 // liste de define derreurs + dautres plus tard
-
-# define QUOTES_SYNTAX "minishell: syntax error near unexpected token `%s'\n"
+# define STRING_SYNTAX "minishell: syntax error near unexpected token `%s'\n"
+# define CHAR_SYNTAX "minishell: syntax error near unexpected token `%c'\n"
 # define CMD_NOT_FOUND "bash: %s: command not found\n"
 # define FILE_NOT_FOUND "%s: %s: No such file or directory\n"
 
@@ -42,12 +63,23 @@
 # define SIGQUIT_MESSAGE "Quit (core dumped)\n"
 # define AND_SO_ON "...."
 
-typedef enum e_quote
+typedef enum e_quote // delete ? peut etre besoin pour le parsing
 {
 	NONE_QUOTE,
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE,
 }	t_quote;
+
+typedef enum e_redirect_error
+{
+	REDIR_SUCCESS,
+	REDIR_UNEXPECTED_NEWLINE,
+	REDIR_UNEXPECTED_TOKEN,
+	REDIR_MISSING_FILENAME,
+	REDIR_FILE_ERROR,
+	REDIR_HEREDOC_EOF,
+	REDIR_SYNTAX_ERROR,
+}	t_redirect_error;
 
 typedef enum e_node_type
 {
@@ -61,24 +93,20 @@ typedef enum e_node_type
 	NODE_REDIR_IN,	// <
 	NODE_APPEND,	// >>
 	NODE_HEREDOC,	// <<
+	// NODE_OPEN_PAR,	// (
+	// NODE_CLOSE_PAR,	// )
 }	t_node_type;
 
 typedef struct s_ast
 {
-	t_node_type		type; // type noeud definis par lenum
-	char			*content; // ce qu'on recupere du parsing
+	t_node_type		type; // type de noeud definis par lenum
+	char			*content; // ce qu'on recupere du parsing -> remplacer par t_cmd ?
 	struct s_ast	*left;
 	struct s_ast	*right;
 	struct s_ast	*root; // top priority node
 }	t_ast; // pas sur du nom, a discuté (t_node, t_ast_node, t_node_ast...)
 
-typedef struct s_minishell
-{
-	char	*input;
-	t_list	*envp; // liste chainee de l'environnement
-	t_list	*token; // liste chainee des parametres
-	t_ast	*ast_node; // Abstract Syntax Tree
-}	t_minishell;
+
 
 typedef struct s_cmd
 {
@@ -98,6 +126,13 @@ void	add_node(t_list **env, char *content); // ????????
 void	add_node_test(t_list *args); // ??????? oui je sais
 void	free_list(t_list *list);
 void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
+
+void	signal_handler(int signum);
+
+bool	replace_token(t_list *current, t_list *new_tokens);
+void	free_env(t_minishell *minishell);
+
+
 
 /**
  * @brief Checks if standard input and output are attached to a TTY.
@@ -273,18 +308,25 @@ size_t	get_word_length(char *input, size_t start);
  * @param len Pointer to a size_t variable that will receive the number of
  * characters processed.
  */
-void	copy_with_quotes(char *dest, char *src, size_t *len); //
+void	copy_with_quotes(char *dest, char *src, size_t *len);
 
-/**
- * @brief Advances the index past a quoted segment in the input string.
- *
- * This static helper function increments the index (pointed to by i) so that
- * it skips over
- * a quoted segment, including the opening and closing quotes.
- *
- * @param input The input string.
- * @param i Pointer to the index; updated to point past the quoted segment.
- */
-void	count_quoted_length(char *input, size_t *i);
+t_list	*split_operators(const char *str);
+
+bool	add_token_to_list(t_list **tokens, char *content);
+bool	is_operator_char(char c, bool in_quotes);
+
+
+char	*create_token(const char *str, size_t start, size_t len);
+
+size_t	get_operator_len(const char *str, size_t pos);
+
+t_list	*handle_operator_error(t_list *tokens, const char *op);
+
+t_redirect_error	check_operator_syntax(const char *str, size_t pos);
+
+t_list	*handle_redirect_error(t_list *tokens, t_redirect_error error, \
+	const char *token);
+
+void	print_redirect_error(t_redirect_error error, const char *token);
 
 #endif

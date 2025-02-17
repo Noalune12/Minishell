@@ -5,53 +5,60 @@ int	is_quote(char c)
 	return (c == '\'' || c == '\"');
 }
 
+
+int check_unclosed_quotes(char *input)
+{
+	size_t	i;
+	char	current_quote;
+
+	i = 0;
+	current_quote = 0;
+	while (input[i])
+	{
+		if (is_quote(input[i]))
+		{
+			if (!current_quote)
+				current_quote = input[i];
+			else if (input[i] == current_quote)
+				current_quote = 0;
+		}
+		i++;
+	}
+	if (current_quote)
+	{
+		dprintf(STDERR_FILENO, CHAR_SYNTAX, current_quote);
+		return (0);
+	}
+	return (1);
+}
+
 void	copy_with_quotes(char *dest, char *src, size_t *len)
 {
 	size_t	i;
 	size_t	j;
+	bool	in_quotes;
+	char	quote_type;
 
 	i = 0;
 	j = 0;
-	while (src[i] && src[i] != ' ' && src[i] != '\t')
+	in_quotes = false;
+	quote_type = 0;
+	while (src[i])
 	{
 		if (is_quote(src[i]))
 		{
-			dest[j++] = src[i++];
-			while (src[i] && !is_quote(src[i]))
-				dest[j++] = src[i++];
-			if (src[i])
-				dest[j++] = src[i++];
+			if (!in_quotes)
+			{
+				in_quotes = true;
+				quote_type = src[i];
+			}
+			else if (src[i] == quote_type)
+				in_quotes = false;
 		}
-		else
-			dest[j++] = src[i++];
+		else if (!in_quotes && (src[i] == ' ' || src[i] == '\t'))
+			break ;
+		dest[j++] = src[i++];
 	}
 	dest[j] = '\0';
 	*len = i;
-}
-
-void	count_quoted_length(char *input, size_t *i)
-{
-	char	quote;
-
-	quote = input[*i];
-	(*i)++;
-	while (input[*i] && input[*i] != quote)
-		(*i)++;
-	if (input[*i])
-		(*i)++;
-}
-
-size_t	get_word_length(char *input, size_t start)
-{
-	size_t	i;
-
-	i = 0;
-	while (input[start + i] && input[start + i] != ' ' && input[start + i] != '\t')
-	{
-		if (is_quote(input[start + i]))
-			count_quoted_length(input + start, &i);
-		else
-			i++;
-	}
-	return (i);
 }

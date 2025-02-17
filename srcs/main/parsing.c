@@ -19,16 +19,16 @@ void	check_quotes(const char *input, bool *in_s_quote, bool *in_d_quote)
 	if (input[i] == '\'' && !(*in_d_quote))
 	{
 		if (*in_s_quote)
-			*in_s_quote = FALSE; // out of single quotes
+			*in_s_quote = false; // out of single quotes
 		else
-			*in_s_quote = TRUE;  // enter single quotes
+			*in_s_quote = true;  // enter single quotes
 	}
 	else if (input[i] == '\"' && !(*in_s_quote))
 	{
 		if (*in_d_quote)
-			*in_d_quote = FALSE; // out of double quotes
+			*in_d_quote = false; // out of double quotes
 		else
-			*in_d_quote = TRUE;  // enter doubel quotes
+			*in_d_quote = true;  // enter doubel quotes
 	}
 }
 
@@ -38,8 +38,8 @@ bool	check_quotes_closed(const char *input)
 	bool	in_s_quote;
 	bool	in_d_quote;
 
-	in_s_quote = FALSE;
-	in_d_quote = FALSE;
+	in_s_quote = false;
+	in_d_quote = false;
 	i = 0;
 	while (input[i])
 	{
@@ -48,8 +48,8 @@ bool	check_quotes_closed(const char *input)
 		i++;
 	}
 	if (in_s_quote || in_d_quote)
-		return (FALSE);
-	return (TRUE);
+		return (false);
+	return (true);
 }
 
 bool	precheck_input(const char *input, int *i)
@@ -57,7 +57,7 @@ bool	precheck_input(const char *input, int *i)
 	if (!check_quotes_closed(input))
 	{
 		printf("bash: error: one quote is left opened\n"); // how to handle echo $?
-		return (FALSE);
+		return (false);
 	}
 	printf(YELLOW"quotes are closed\n"RESET);
 	while (input[*i] && (input[*i] == ' ' || input[*i] == '\v'))
@@ -65,9 +65,9 @@ bool	precheck_input(const char *input, int *i)
 	if (!input[*i])
 	{
 		printf(YELLOW"only space or tab\n"RESET); // echo $? return value of previous cmd
-		return (FALSE);
+		return (false);
 	}
-	return (TRUE);
+	return (true);
 }
 
 bool	parse_input(const char *input, t_list *args)
@@ -78,8 +78,8 @@ bool	parse_input(const char *input, t_list *args)
 
 	i = 0;
 	if (!precheck_input(input, &i))
-		return (FALSE);
-	return (TRUE);
+		return (false);
+	return (true);
 }
 
 char	*ft_reallocate(char *str, char c, int len)

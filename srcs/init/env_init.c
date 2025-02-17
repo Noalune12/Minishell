@@ -1,49 +1,5 @@
 #include "minishell.h"
 
-void add_node(t_list **env, char *content) // nom a changer probablement
-{
-	t_list	*temp;
-	t_list	*new_node;
-
-	temp = *env;
-	new_node = malloc(sizeof(t_list));
-	if (!new_node)
-		return;
-	new_node->content = ft_strdup(content);
-	if (!new_node->content)
-	{
-		free(new_node);
-		return ;
-	}
-	new_node->next = NULL;
-	if (!*env)
-	{
-		*env = new_node;
-		return;
-	}
-	while (temp->next)
-			temp = temp->next;
-	temp->next = new_node;
-}
-
-void	free_list(t_list *list)
-{
-	t_list	*current;
-	t_list	*next;
-
-	if (!list)
-		return ;
-	current = list;
-	while (current)
-	{
-		next = current->next;
-		if (current->content)
-			free(current->content);
-		free(current);
-		current = next;
-	}
-}
-
 // static void	print_env(t_list *env)
 // {
 // 	t_list	*temp;
@@ -111,10 +67,10 @@ t_list	*env_init(char **envp)
 			return (NULL);
 		}
 	}
-	update_shlvl(set_up_env);
-	if (nested_shell(set_up_env))
-		update_shlvl(set_up_env);
-//	print_env(set_up_env);
+	// update_shlvl(set_up_env);
+	// if (nested_shell(set_up_env))
+	// 	update_shlvl(set_up_env);
+	// print_env(set_up_env);
 	return (set_up_env);
 }
 

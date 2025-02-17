@@ -1,25 +1,28 @@
 #include "minishell.h"
 
-t_list	*find_env_node(t_list *env, const char *var_searched)
+bool    replace_token(t_list *current, t_list *new_tokens)
 {
-	size_t	len;
+	t_list  *next;
+	t_list  *new_next;
+	char    *new_content;
 
-	len = ft_strlen(var_searched);
-	while (env)
+	if (!new_tokens)
+		return (true);
+	next = current->next;
+	new_content = ft_strdup(new_tokens->content);
+	if (!new_content)
+		return (false);
+	free(current->content);
+	current->content = new_content;
+	current->next = new_tokens->next;
+	free(new_tokens->content);
+	free(new_tokens);
+	if (!current->next)
 	{
-		if (ft_strncmp(env->content, var_searched, \
-		len) == 0 && env->content[len]  == '=')
-			return (env);
-		env = env->next;
+		current->next = next;
+		return (true);
 	}
-	return (NULL);
-}
-
-void	tty_check(void) // a degager d'ici (misc directory ?)
-{
-	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))  // protection pour ./minishell | ./minishell par exemple
-	{
-		dprintf(STDERR_FILENO, "minishell: not a tty\n"); // change dprintf to personal printf on stderr
-		exit(EXIT_SUCCESS);
-	}
+	new_next = ft_lstlast(current->next);
+	new_next->next = next;
+	return (true);
 }
