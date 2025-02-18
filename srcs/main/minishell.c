@@ -45,6 +45,7 @@ int	main(int ac, char **av, char **envp)
 {
 	t_minishell	minishell;
 	t_list	*tmp_test;
+	t_exec	exec;
 
 	tty_check();
 	signal(SIGINT, signal_handler);
@@ -67,12 +68,15 @@ int	main(int ac, char **av, char **envp)
 			printf("Maillon ID: %d\nToken: [%s]\n", i, tmp_test->content);
 			tmp_test = tmp_test->next;
 		}
+		create_ast(&minishell);
 		// t_ast *test_tree = create_test_tree();
 		// printf("\nArbre de syntaxe abstraite :\n");
-		// print_ast(test_tree, 0);
+		print_ast(minishell.ast_node, 0);
+		exec_minishell(minishell.ast_node, &exec, &minishell);
 		// free_ast(test_tree);
 		printf("--------------------\n");
 		free(minishell.input);
+		free_ast(minishell.ast_node);
 	}
 	rl_clear_history();
 	free_env(&minishell);

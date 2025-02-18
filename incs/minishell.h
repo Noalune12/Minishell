@@ -2,13 +2,14 @@
 # define MINISHELL_H
 
 typedef struct s_list			t_list;
+typedef struct s_ast			t_ast;
 
 typedef struct s_minishell
 {
 	char	*input;
 	t_list	*envp; // liste chainee de l'environnement
 	t_list	*token; // liste chainee des parametres
-	// t_ast	*ast_node; // Abstract Syntax Tree
+	t_ast	*ast_node; // Abstract Syntax Tree
 }	t_minishell;
 
 // int	g_signal_received;
@@ -32,6 +33,9 @@ typedef struct s_minishell
 # include "libft.h"
 # include "get_next_line.h"
 # include "ft_printf.h"
+# include <sys/wait.h>
+# include <fcntl.h>
+
 
 # define RED		"\033[1;31m"
 # define GREEN		"\033[1;32m"
@@ -93,26 +97,31 @@ typedef enum e_node_type
 	NODE_REDIR_IN,	// <
 	NODE_APPEND,	// >>
 	NODE_HEREDOC,	// <<
+	NODE_BUILTIN,
 	// NODE_OPEN_PAR,	// (
 	// NODE_CLOSE_PAR,	// )
 }	t_node_type;
 
+typedef struct s_cmd
+{
+	char	*path;
+	char	**cmds;
+}	t_cmd;
+
 typedef struct s_ast
 {
 	t_node_type		type; // type de noeud definis par lenum
-	char			*content; // ce qu'on recupere du parsing -> remplacer par t_cmd ?
+	t_cmd			*cmd; // ce qu'on recupere du parsing -> remplacer par t_cmd ?
 	struct s_ast	*left;
 	struct s_ast	*right;
 	struct s_ast	*root; // top priority node
 }	t_ast; // pas sur du nom, a discuté (t_node, t_ast_node, t_node_ast...)
 
-
-
-typedef struct s_cmd
+typedef struct s_exec
 {
-	char	*path;
-	char	**cmd;
-}	t_cmd;
+	pid_t	pipe_fd[2];
+}	t_exec;
+
 
 t_list	*env_init(char **envp);
 t_list	*find_env_node(t_list *env, const char *var_searched);
@@ -328,5 +337,12 @@ t_list	*handle_redirect_error(t_list *tokens, t_redirect_error error, \
 	const char *token);
 
 void	print_redirect_error(t_redirect_error error, const char *token);
+
+// delete
+void	create_ast(t_minishell *minishell);
+int	exec_minishell(t_ast *node, t_exec *exec, t_minishell *minishell);
+void	free_ast(t_ast *node);
+void	ft_free(char **split);
+void	ft_builtin(t_ast *node, t_minishell *minishell);
 
 #endif
