@@ -188,7 +188,7 @@ Décomposition **"./program_name"**
 
 Options a utiliser avec valgrind pour masquer les leaks de `readline()` : **make valgrind**
 
-`valgrind --supressions=.valgrind_suppress.txt --leak-check=full --trace-children=yes --track-fds=yes -- show-leak-kinds=all`
+`valgrind --supressions=.valgrind_suppress.txt --leak-check=full --trace-children=yes --track-fds=yes --show-leak-kinds=all`
 
 ---
 
