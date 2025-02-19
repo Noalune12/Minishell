@@ -59,3 +59,6 @@ override EXECSRC	:= \
 SRC	+= $(addprefix $(BUILTINDIR), $(addsuffix .c, $(BUILTINSRC)))
 override BUILTINSRC	:= \
 	built_in \
+	pwd \
+	cd \
+	unset \

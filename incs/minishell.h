@@ -338,11 +338,15 @@ t_list	*handle_redirect_error(t_list *tokens, t_redirect_error error, \
 
 void	print_redirect_error(t_redirect_error error, const char *token);
 
-// delete
 void	create_ast(t_minishell *minishell);
-int	exec_minishell(t_ast *node, t_exec *exec, t_minishell *minishell);
 void	free_ast(t_ast *node);
 void	ft_free(char **split);
+
+int		exec_minishell(t_ast *node, t_exec *exec, t_minishell *minishell);
+
 void	ft_builtin(t_ast *node, t_minishell *minishell);
+int		ft_pwd(char **cmds);
+int		ft_cd(char **cmds, t_list *envp);
+void	ft_unset(char **cmds, t_list **env);
 
 #endif
