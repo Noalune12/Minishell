@@ -45,9 +45,9 @@ void	test_case(const char *test_name, char *input, char *expected)
 int main(void)
 {
 	t_test_case tests[] = {
-		{"1 - Simple expansion", "$USER", "'"},
+		{"1 - Simple expansion", "$USER", "gueberso"},
 		{"2 - Undefined variable", "$UNDEFINED", ""},
-		{"3 - Double dollar", "$$USER", "12345gueberso"},
+		{"3 - Double dollar", "$$USER", "???"},
 		{"4 - Simple single quotes", "'$USER'", "$USER"},
 		{"5 - Expansion then single quotes", "$USER'$HOME'", "gueberso$HOME"},
 		{"6 - Single quotes then expansion", "'$USER'$HOME", "$USER/home/gueberso"},
@@ -59,7 +59,9 @@ int main(void)
 		{"12 - Mixed quotes with multiple expansions", "\"$USER'$HOME'$PATH\"", "gueberso'/home/gueberso'/home/gueberso/bin:/home/gueberso/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/gueberso/.dotnet/tools"},
 		{"13 - Trailing dollar sign", "$USER$", "gueberso$"},
 		{"14 - Interrupted variable name", "$U'SE'R", "SER"},
-		{"15 - Consecutive single quotes", "'$USE''R'", "$USER"}
+		{"15 - Consecutive single quotes", "'$USE''R'", "$USER"},
+		{"16 - Expansion of a single quote", "$USER", "'"}
+
 	};
 
 	size_t num_tests = sizeof(tests) / sizeof(t_test_case);

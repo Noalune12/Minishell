@@ -1,31 +1,32 @@
 #include "expand.h"
 
-char	*remove_dquotes(char *str)
-{
-	char	*result;
-	size_t	i;
-	size_t	j;
+// char	*remove_dquotes(char *str)
+// {
+// 	char	*result;
+// 	size_t	i;
+// 	size_t	j;
 
-	if (!str)
-		return (NULL);
-	result = malloc(sizeof(char) * (get_result_len(str) + 1));
-	if (!result)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (str[i])
-	{
-		if (str[i] != '"')
-			result[j++] = str[i];
-		i++;
+// 	if (!str)
+// 		return (NULL);
+// 	result = malloc(sizeof(char) * (get_result_len(str) + 1));
+// 	if (!result)
+// 		return (NULL);
+// 	i = 0;
+// 	j = 0;
+// 	while (str[i])
+// 	{
+// 		if (str[i] != '"')
+// 			result[j++] = str[i];
+// 		i++;
 
-	}
-	result[j] = '\0';
-	return (result);
-}
+// 	}
+// 	result[j] = '\0';
+// 	return (result);
+// }
 
 static bool	is_quote_to_remove(char c, bool in_squotes, bool in_dquotes)
 {
+	// printf("in_squotes: %d\nin_dquotes: %d\n", in_squotes, in_dquotes);
 	if (c == '\'' && !in_dquotes)
 		return (true);
 	if (c == '"' && !in_squotes)
