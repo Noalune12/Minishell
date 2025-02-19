@@ -43,6 +43,7 @@ SRC	+= $(addprefix $(PARSINGDIR), $(addsuffix .c, $(PARSINGSRC)))
 override PARSINGSRC	:= \
 	errors \
 	operator_check \
+	operator_utils \
 	operators \
 	quotes \
 	token_utils \

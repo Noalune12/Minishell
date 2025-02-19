@@ -322,11 +322,20 @@ size_t	get_operator_len(const char *str, size_t pos);
 
 t_list	*handle_operator_error(t_list *tokens, const char *op);
 
-t_redirect_error	check_operator_syntax(const char *str, size_t pos);
+t_redirect_error	check_operator_syntax(const char *str);
 
 t_list	*handle_redirect_error(t_list *tokens, t_redirect_error error, \
 	const char *token);
 
 void	print_redirect_error(t_redirect_error error, const char *token);
+
+
+/* ---- operator_utils */
+
+size_t	get_operator_len(const char *str, size_t pos);
+
+bool	is_redirection(char c);
+bool	is_operator(char c, bool in_quotes);
+
 
 #endif
