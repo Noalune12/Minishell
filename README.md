@@ -360,7 +360,7 @@ Un arbre binaire est une structure de données arborescente dans laquelle chaque
   - Parent: Pout tout noeuf "enfant", le noeud connecté au-dessus de lui, plus proche de la racine
   - Feuille: Noeud sans enfant (au plus bas de l'arbre)
   - Sous-arbre: Tout noeud peut etre considéré comme la racine d'un sous-arbre
-  - Visiter: Exécuter une certaine forme d'opérationm c'est a dire imprimer ou calculer une fonction au niveau d'un noeudv
+  - Visiter: Exécuter une certaine forme d'opérationm c'est a dire imprimer ou calculer une fonction au niveau d'un noeud
   - Traverser: Visiter les noeuds dans un certain ordre
   - Niveaux: Chaque niveau est numérotés de la racine vers le bas. Racine etant le niveau 1
   -
