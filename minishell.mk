@@ -55,6 +55,7 @@ override PARSINGSRC	:= \
 SRC	+= $(addprefix $(EXECDIR), $(addsuffix .c, $(EXECSRC)))
 override EXECSRC	:= \
 	exec \
+	cmds_path \
 
 SRC	+= $(addprefix $(BUILTINDIR), $(addsuffix .c, $(BUILTINSRC)))
 override BUILTINSRC	:= \
@@ -62,3 +63,4 @@ override BUILTINSRC	:= \
 	pwd \
 	cd \
 	unset \
+	# export \

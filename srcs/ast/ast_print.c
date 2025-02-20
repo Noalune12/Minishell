@@ -71,6 +71,7 @@ void print_ast(t_ast *node, int depth) {
         case NODE_COMMAND:
         {
             int i = -1;
+            printf("c: ");
             while(node->cmd->cmds[++i])
                 printf("%s +", node->cmd->cmds[i] ? node->cmd->cmds[i] : "null");
             printf("\n");
@@ -79,6 +80,7 @@ void print_ast(t_ast *node, int depth) {
         case NODE_BUILTIN:
         {
             int i = -1;
+            printf("b: ");
             while(node->cmd->cmds[++i])
                 printf("%s +", node->cmd->cmds[i] ? node->cmd->cmds[i] : "null");
             printf("\n");

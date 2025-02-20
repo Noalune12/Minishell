@@ -33,7 +33,7 @@ void remove_node(t_list **head, const char *var)
 	}
 }
 
-void	ft_unset(char **cmds, t_list **env)
+void	ft_unset(char **cmds, t_minishell *minishell)
 {
 	size_t		i;
 	char	*var;
@@ -44,7 +44,7 @@ void	ft_unset(char **cmds, t_list **env)
 	while (cmds[i])
 	{
 		var = ft_strdup(cmds[i]);
-		remove_node(env, var);
+		remove_node(&minishell->envp, var);
 		free(var);
 		i++;
 	}

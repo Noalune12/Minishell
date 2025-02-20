@@ -8,14 +8,14 @@ void	update_env(t_list **envp, char *path)
 	env_oldpwd = *envp;
 	while (env_oldpwd)
 	{
-		if (strncmp(env_oldpwd->content, "OLDPWD=", 7) == 0)
+		if (strcmp(env_oldpwd->content, "OLDPWD=\0") == 0)
 			break ;
 		env_oldpwd = env_oldpwd->next;
 	}
 	env_pwd = *envp;
 	while (env_pwd)
 	{
-		if (strncmp(env_pwd->content, "PWD=", 4) == 0)
+		if (strcmp(env_pwd->content, "PWD=\0") == 0)
 			break ;
 		env_pwd = env_pwd->next;
 	}

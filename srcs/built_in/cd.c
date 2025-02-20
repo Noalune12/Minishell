@@ -37,23 +37,31 @@ t_list	*find_info_env(t_list **envp, char *content)
 	return (searched);
 }
 
-void	update_env(t_list **envp, char *path)
+void	update_env(t_list **envp, char *path, int to_home) // if PWD is unset what to do ???
 {
 	t_list	*env_oldpwd;
 	t_list	*env_pwd;
 
 	env_oldpwd = find_info_env(envp, "OLDPWD=");
 	env_pwd = find_info_env(envp, "PWD=");
-	if (env_oldpwd)
+	if (env_oldpwd && env_pwd)
 	{
 		free(env_oldpwd->content);
 		env_oldpwd->content = ft_strjoin("OLDPWD=", env_pwd->content + 4);
 	}
-	else
+	else if (!env_oldpwd && env_pwd)
 		add_node(envp, ft_strjoin("OLDPWD=", env_pwd->content + 4)); //find right place ? + protect
-	free(env_pwd->content);
-	env_pwd->content = ft_strjoin("PWD=", path); //protect
-	free(path);
+	else
+		remove_node(envp, "OLDPWD");
+	if (env_pwd)
+	{
+		free(env_pwd->content);
+		env_pwd->content = ft_strjoin("PWD=", path); //protect
+	}
+	else
+		add_node(envp, ft_strjoin("PWD=", path));
+	if (!to_home)
+		free(path);
 }
 
 int	ft_cd_home(t_list *envp)
@@ -68,7 +76,7 @@ int	ft_cd_home(t_list *envp)
 	}
 	printf(YELLOW"Changing directory to HOME: %s\n"RESET, path);
 	chdir(path); //protect ?
-	update_env(&envp, path);
+	update_env(&envp, path, 1);
 	return (0);
 }
 
@@ -92,7 +100,7 @@ int	ft_cd(char **cmds, t_list *envp)
 			printf(YELLOW"bash: cd: %s: No such file or directory\n"RESET, cmds[1]);
 			return (1);
 		}
-		update_env(&envp, getcwd(NULL, 0)); //protect getcwd ??
+		update_env(&envp, getcwd(NULL, 0), 0); //protect getcwd ??
 	}
 	return (0);
 }

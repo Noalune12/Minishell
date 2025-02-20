@@ -78,7 +78,7 @@ void create_ast(t_minishell *minishell)
 
 	while (temp)
 	{
-		if (ft_strncmp(temp->content, "|\0", ft_strlen(temp->content)) == 0)
+		if (strcmp(temp->content, "|\0") == 0)
 		{
 			current = create_ast_tree_node(NODE_PIPE, temp->content);
 			if (head)
@@ -86,16 +86,16 @@ void create_ast(t_minishell *minishell)
 			head = current;
 			prev_cmd = NULL;
 		}
-		else if (ft_strncmp(temp->content, ">\0", ft_strlen(temp->content)) == 0
-		|| ft_strncmp(temp->content, "<\0", ft_strlen(temp->content)) == 0
-		|| ft_strncmp(temp->content, ">>\0", ft_strlen(temp->content)) == 0)
+		else if (strcmp(temp->content, ">\0") == 0
+		|| strcmp(temp->content, "<\0") == 0
+		|| strcmp(temp->content, ">>\0") == 0)
 		{
-			if (ft_strncmp(temp->content, ">\0", ft_strlen(temp->content)) == 0)
+			if (strcmp(temp->content, ">\0") == 0)
 			{
 				temp = temp->next;
 				current = create_ast_tree_node(NODE_REDIR_OUT, temp->content);
 			}
-			else if (ft_strncmp(temp->content, "<\0", ft_strlen(temp->content)) == 0)
+			else if (strcmp(temp->content, "<\0") == 0)
 			{
 				temp = temp->next;
 				current = create_ast_tree_node(NODE_REDIR_IN, temp->content);
@@ -120,13 +120,13 @@ void create_ast(t_minishell *minishell)
 		{
 			if (!prev_cmd)
 			{
-				if (ft_strncmp(temp->content, "echo\0", ft_strlen(temp->content)) == 0
-				|| ft_strncmp(temp->content, "cd\0", ft_strlen(temp->content)) == 0
-				|| ft_strncmp(temp->content, "pwd\0", ft_strlen(temp->content)) == 0
-				|| ft_strncmp(temp->content, "export\0", ft_strlen(temp->content)) == 0
-				|| ft_strncmp(temp->content, "unset\0", ft_strlen(temp->content)) == 0
-				|| ft_strncmp(temp->content, "env\0", ft_strlen(temp->content)) == 0
-				|| ft_strncmp(temp->content, "exit\0", ft_strlen(temp->content)) == 0)
+				if (strcmp(temp->content, "echo\0") == 0
+				|| strcmp(temp->content, "cd\0") == 0
+				|| strcmp(temp->content, "pwd\0") == 0
+				|| strcmp(temp->content, "export\0") == 0
+				|| strcmp(temp->content, "unset\0") == 0
+				|| strcmp(temp->content, "env\0") == 0
+				|| strcmp(temp->content, "exit\0") == 0)
 					command_node = create_ast_tree_node(NODE_BUILTIN, temp->content);
 				else
 					command_node = create_ast_tree_node(NODE_COMMAND, temp->content);
