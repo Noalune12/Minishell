@@ -7,6 +7,8 @@ override UTILSDIR	:= utils/
 override ENVDIR		:= env/
 override ASTDIR		:= ast/
 override PARSINGDIR	:= parsing/
+override EXECDIR	:= exec/
+override BUILTINDIR	:= built_in/
 
 SRC	+= $(addprefix $(MAINDIR), $(addsuffix .c, $(MAINSRC)))
 
@@ -37,14 +39,29 @@ SRC += $(addprefix $(ASTDIR), $(addsuffix .c, $(ASTSRC)))
 override ASTSRC		:= \
 	ast_print \
 	ast_utils \
+	ast_built \
 
 SRC	+= $(addprefix $(PARSINGDIR), $(addsuffix .c, $(PARSINGSRC)))
 
 override PARSINGSRC	:= \
 	errors \
 	operator_check \
+	operator_utils \
 	operators \
 	quotes \
 	token_utils \
 	tokenizer \
 	word_utils \
+
+SRC	+= $(addprefix $(EXECDIR), $(addsuffix .c, $(EXECSRC)))
+override EXECSRC	:= \
+	exec \
+	cmds_path \
+
+SRC	+= $(addprefix $(BUILTINDIR), $(addsuffix .c, $(BUILTINSRC)))
+override BUILTINSRC	:= \
+	built_in \
+	pwd \
+	cd \
+	unset \
+	# export \

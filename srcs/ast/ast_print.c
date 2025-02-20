@@ -61,7 +61,7 @@ void print_ast(t_ast *node, int depth) {
 
     // On commence par le sous-arbre droit
     if (node->right)
-        print_ast(node->right, depth + 3);
+        print_ast(node->right, depth + 10);
 
     // Affichage du nœud actuel
     for (int i = 0; i < depth; i++)
@@ -69,16 +69,36 @@ void print_ast(t_ast *node, int depth) {
 
     switch (node->type) {
         case NODE_COMMAND:
-            printf("%s\n", node->content ? node->content : "null");
+        {
+            int i = -1;
+            printf("c: ");
+            while(node->cmd->cmds[++i])
+                printf("%s +", node->cmd->cmds[i] ? node->cmd->cmds[i] : "null");
+            printf("\n");
+        }
+            break;
+        case NODE_BUILTIN:
+        {
+            int i = -1;
+            printf("b: ");
+            while(node->cmd->cmds[++i])
+                printf("%s +", node->cmd->cmds[i] ? node->cmd->cmds[i] : "null");
+            printf("\n");
+        }
             break;
         case NODE_PIPE:
             printf("|\n");
             break;
         case NODE_REDIR_OUT:
-            printf(">:%s\n", node->content ? node->content : "null");
+        {
+             int i = -1;
+            while(node->cmd->cmds[++i])
+                printf(">:%s ", node->cmd->cmds[i] ? node->cmd->cmds[i] : "null");
+            printf("\n");
+        }
             break;
         case NODE_REDIR_IN:
-            printf("<:%s\n", node->content ? node->content : "null");
+            printf("<:%s\n", node->cmd->cmds[0] ? node->cmd->cmds[0] : "null");
             break;
         case NODE_AND:
             printf("&&\n");
@@ -87,42 +107,42 @@ void print_ast(t_ast *node, int depth) {
             printf("||\n");
             break;
         case NODE_APPEND:
-            printf(">>:%s\n", node->content ? node->content : "null");
+            printf(">>:%s\n", node->cmd->cmds[0] ? node->cmd->cmds[0] : "null");
             break;
         case NODE_HEREDOC:
-            printf("<<:%s\n", node->content ? node->content : "null");
+            printf("<<:%s\n", node->cmd->cmds[0] ? node->cmd->cmds[0] : "null");
             break;
     }
 
     // Puis le sous-arbre gauche
     if (node->left)
-        print_ast(node->left, depth + 3);
+        print_ast(node->left, depth + 10);
 }
 
 // Fonction de test mise à jour
-t_ast *create_test_tree(void) {
-    // Exemple : echo bonjour > a > b && cat a && cat b
-    t_ast *root = create_ast_node(NODE_AND, NULL);
-    t_ast *and2 = create_ast_node(NODE_AND, NULL);
+// t_ast *create_test_tree(void) {
+//     // Exemple : echo bonjour > a > b && cat a && cat b
+//     t_ast *root = create_ast_node(NODE_AND, NULL);
+//     t_ast *and2 = create_ast_node(NODE_AND, NULL);
 
-    // Commandes cat
-    t_ast *cat1 = create_ast_node(NODE_COMMAND, "cat b");
-    t_ast *cat2 = create_ast_node(NODE_COMMAND, "cat a");
+//     // Commandes cat
+//     t_ast *cat1 = create_ast_node(NODE_COMMAND, "cat b");
+//     t_ast *cat2 = create_ast_node(NODE_COMMAND, "cat a");
 
-    // Redirections
-    t_ast *redir1 = create_ast_node(NODE_REDIR_OUT, "a");
-    t_ast *redir2 = create_ast_node(NODE_REDIR_OUT, "b");
-    t_ast *echo = create_ast_node(NODE_COMMAND, "echo bonjour");
+//     // Redirections
+//     t_ast *redir1 = create_ast_node(NODE_REDIR_OUT, "a");
+//     t_ast *redir2 = create_ast_node(NODE_REDIR_OUT, "b");
+//     t_ast *echo = create_ast_node(NODE_COMMAND, "echo bonjour");
 
-    // Construction de l'arbre
-    root->right = cat1;
-    root->left = and2;
+//     // Construction de l'arbre
+//     root->right = cat1;
+//     root->left = and2;
 
-    and2->right = cat2;
-    and2->left = redir1;
+//     and2->right = cat2;
+//     and2->left = redir1;
 
-    redir1->left = redir2;
-    redir2->left = echo;
+//     redir1->left = redir2;
+//     redir2->left = echo;
 
-    return root;
-}
+//     return root;
+// }

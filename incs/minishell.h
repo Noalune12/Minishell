@@ -2,13 +2,14 @@
 # define MINISHELL_H
 
 typedef struct s_list			t_list;
+typedef struct s_ast			t_ast;
 
 typedef struct s_minishell
 {
 	char	*input;
 	t_list	*envp; // liste chainee de l'environnement
 	t_list	*token; // liste chainee des parametres
-	// t_ast	*ast_node; // Abstract Syntax Tree
+	t_ast	*ast_node; // Abstract Syntax Tree
 }	t_minishell;
 
 // int	g_signal_received;
@@ -32,6 +33,9 @@ typedef struct s_minishell
 # include "libft.h"
 # include "get_next_line.h"
 # include "ft_printf.h"
+# include <sys/wait.h>
+# include <fcntl.h>
+
 
 # define RED		"\033[1;31m"
 # define GREEN		"\033[1;32m"
@@ -93,26 +97,31 @@ typedef enum e_node_type
 	NODE_REDIR_IN,	// <
 	NODE_APPEND,	// >>
 	NODE_HEREDOC,	// <<
+	NODE_BUILTIN,
 	// NODE_OPEN_PAR,	// (
 	// NODE_CLOSE_PAR,	// )
 }	t_node_type;
 
+typedef struct s_cmd
+{
+	char	*path;
+	char	**cmds;
+}	t_cmd;
+
 typedef struct s_ast
 {
 	t_node_type		type; // type de noeud definis par lenum
-	char			*content; // ce qu'on recupere du parsing -> remplacer par t_cmd ?
+	t_cmd			*cmd; // ce qu'on recupere du parsing -> remplacer par t_cmd ?
 	struct s_ast	*left;
 	struct s_ast	*right;
 	struct s_ast	*root; // top priority node
 }	t_ast; // pas sur du nom, a discuté (t_node, t_ast_node, t_node_ast...)
 
-
-
-typedef struct s_cmd
+typedef struct s_exec
 {
-	char	*path;
-	char	**cmd;
-}	t_cmd;
+	pid_t	pipe_fd[2];
+}	t_exec;
+
 
 t_list	*env_init(char **envp);
 t_list	*find_env_node(t_list *env, const char *var_searched);
@@ -322,11 +331,34 @@ size_t	get_operator_len(const char *str, size_t pos);
 
 t_list	*handle_operator_error(t_list *tokens, const char *op);
 
-t_redirect_error	check_operator_syntax(const char *str, size_t pos);
+t_redirect_error	check_operator_syntax(const char *str);
 
 t_list	*handle_redirect_error(t_list *tokens, t_redirect_error error, \
 	const char *token);
 
 void	print_redirect_error(t_redirect_error error, const char *token);
+
+
+/* ---- operator_utils */
+
+size_t	get_operator_len(const char *str, size_t pos);
+
+bool	is_redirection(char c);
+bool	is_operator(char c, bool in_quotes);
+
+
+void	create_ast(t_minishell *minishell);
+void	free_ast(t_ast *node);
+void	ft_free(char **split);
+
+int		exec_minishell(t_ast *node, t_exec *exec, t_minishell *minishell);
+char	*find_exec_cmd(char **cmds, t_list *envp);
+
+void	ft_builtin(t_ast *node, t_minishell *minishell);
+int		ft_pwd(char **cmds);
+int		ft_cd(char **cmds, t_list *envp);
+void	ft_export(char **cmds, t_list **env);
+void	ft_unset(char **cmds, t_minishell *minishell);
+void	remove_node(t_list **head, const char *var);
 
 #endif
