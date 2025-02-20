@@ -188,7 +188,7 @@ Décomposition **"./program_name"**
 
 Options a utiliser avec valgrind pour masquer les leaks de `readline()` : **make valgrind**
 
-`valgrind --supressions=.valgrind_suppress.txt --leak-check=full --trace-children=yes --track-fds=yes -- show-leak-kinds=all`
+`valgrind --supressions=.valgrind_suppress.txt --leak-check=full --trace-children=yes --track-fds=yes --show-leak-kinds=all`
 
 ---
 
@@ -345,7 +345,7 @@ liens sur lesquels jetais en train de travailler avant de partir dimanche soir:
 
 [man bash -> CTRL+F : variables du shell (2/7)](http://manpagesfr.free.fr/man/man1/bash.1.html)
 
-[swapping two nodes of a chaines list](https://www.geeksforgeeks.org/swap-nodes-in-a-linked-list-without-swapping-data/)
+[MANY MANY RESSOURCES](https://github.com/ggjulio/minishell?tab=readme-ov-file)
 
 ![alt text](image-1.png)
 
