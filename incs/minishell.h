@@ -352,7 +352,7 @@ void	free_ast(t_ast *node);
 void	ft_free(char **split);
 
 int		exec_minishell(t_ast *node, t_exec *exec, t_minishell *minishell);
-char	*find_exec_cmd(char **cmds, t_list *envp);
+char	*find_exec_cmd(char **cmds, t_minishell *minishell, t_ast *node);
 
 void	ft_builtin(t_ast *node, t_minishell *minishell);
 int		ft_pwd(char **cmds);

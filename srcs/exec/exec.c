@@ -2,14 +2,14 @@
 
 //list to tab
 
-int	exec_cmd(t_ast *node, t_list *envp)
+int	exec_cmd(t_ast *node, t_minishell *minishell)
 {
 	// char *path;
 	// path = ft_strjoin("/usr/bin/", node->cmd->cmds[0]);
 	if (access(node->cmd->cmds[0], X_OK) == 0)
 		node->cmd->path = ft_strdup(node->cmd->cmds[0]);
 	else
-		node->cmd->path = find_exec_cmd(node->cmd->cmds, envp);
+		node->cmd->path = find_exec_cmd(node->cmd->cmds, minishell, node);
 	execve(node->cmd->path, node->cmd->cmds, NULL); // protect
 	// execve(path, node->cmd->cmds, NULL); // protect
 	return (1);
@@ -31,7 +31,7 @@ int	exec_minishell(t_ast *node, t_exec *exec, t_minishell *minishell)
 		pid = fork(); // protect
 		if (pid == 0)
 		{
-			exec_cmd(node, minishell->envp);
+			exec_cmd(node, minishell);
 			exit(0);
 		}
 		// else
