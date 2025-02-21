@@ -34,6 +34,8 @@ int	exec_minishell(t_ast *node, t_exec *exec, t_minishell *minishell)
 	int		fd_in;
 	int		fd_out;
 	// int		status;
+	// int exit_code_left = 0;
+	// int exit_code_right = 0;
 
 	if (!node)
 		return (0);
@@ -58,8 +60,9 @@ int	exec_minishell(t_ast *node, t_exec *exec, t_minishell *minishell)
 			close(exec->pipe_fd[0]);
 			dup2(exec->pipe_fd[1], STDOUT_FILENO); //protect
 			close(exec->pipe_fd[1]);
-			exec_minishell(node->left, exec, minishell);
-			exit(0);
+			minishell->exit_status = exec_minishell(node->left, exec, minishell);
+			printf("exit = %d\n", minishell->exit_status);
+			exit(minishell->exit_status);
 		}
 		else
 		{
@@ -69,8 +72,8 @@ int	exec_minishell(t_ast *node, t_exec *exec, t_minishell *minishell)
 				close(exec->pipe_fd[1]);
 				dup2(exec->pipe_fd[0], STDIN_FILENO); // protect
 				close(exec->pipe_fd[0]);
-				exec_minishell(node->right, exec, minishell);
-				exit(0);
+				minishell->exit_status = exec_minishell(node->right, exec, minishell);
+				exit(minishell->exit_status);
 			}
 		}
 		close(exec->pipe_fd[1]);
@@ -154,12 +157,23 @@ int	exec_minishell(t_ast *node, t_exec *exec, t_minishell *minishell)
 	// }
 
 	// int exit_code;
-	waitpid(minishell->pid, &minishell->status, 0);
+	// waitpid(minishell->pid, &minishell->status, 0);
+	// if (node->last_branch == 1)
+	// 	minishell->exit_code = WEXITSTATUS(minishell->status);
+	// printf("Le code de sortie de %s est : %d\n", node->cmd->cmds[0], minishell->exit_code);
+	// if (node->last_branch == 1)
+	// 	return (update_exit_code(minishell->exit_code, minishell, node));
+	// else
+	// 	return (0);
 	if (node->last_branch == 1)
-		minishell->exit_code = WEXITSTATUS(minishell->status);
-	printf("Le code de sortie de %s est : %d\n", node->cmd->cmds[0], minishell->exit_code);
-	if (node->last_branch == 1)
-		return (update_exit_code(minishell->exit_code, minishell, node));
+	{
+		waitpid(minishell->pid, &minishell->status, 0);
+		minishell->exit_status = WEXITSTATUS(minishell->status);
+		// minishell->exit_code = minishell->exit_status;
+		// return update_exit_code(minishell->exit_code, minishell, node);
+	}
 	else
-		return (0);
+		waitpid(minishell->pid, NULL, 0);
+	printf("Le code de sortie de %s est : %d\n", node->cmd->cmds[0], minishell->exit_status);
+	return (minishell->exit_status);
 }
