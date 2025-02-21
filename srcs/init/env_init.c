@@ -18,7 +18,7 @@
 static t_list	*ft_get_env(char **envp)
 {
 	t_list	*env;
-	int		i;
+	size_t	i;
 
 	i = 0;
 	env = NULL;

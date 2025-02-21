@@ -8,10 +8,10 @@ void	update_pwd(t_list **env)
 
 	if (!env || !*env)
 		return ;
-	cwd = getcwd(NULL, 0); // check if function fails
+	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		return ;
-	actual_pwd = ft_strjoin("PWD=", cwd); // protection
+	actual_pwd = ft_strjoin("PWD=", cwd);
 	free(cwd);
 	if (!actual_pwd)
 		return ;
@@ -55,7 +55,7 @@ void	update_shlvl(t_list *env)
 
 int	nested_shell(t_list *env_list) // check if we launched shells inside shells
 {
-	t_list *shlvl_node;
+	t_list	*shlvl_node;
 	int		shlvl;
 
 	shlvl_node = find_env_node(env_list, "SHLVL");
