@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 22:04:14 by gueberso          #+#    #+#             */
-/*   Updated: 2025/02/20 22:04:15 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/02/21 09:06:35 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 int	convert_char(t_dprintf *data, int c)
 {
-	if (!add_to_buffer(&data->buffer, (char)c))
-		return (0);
+	if (add_to_buffer(&data->buffer, (char)c) == -1)
+		return (-1);
 	return (1);
 }
 
@@ -31,8 +31,8 @@ int	convert_str(t_dprintf *data, char *str)
 	{
 		while (null[i])
 		{
-			if (!add_to_buffer(&data->buffer, null[i]))
-				return (0);
+			if (add_to_buffer(&data->buffer, null[i]) == -1)
+				return (-1);
 			i++;
 		}
 		return ((int)i);
@@ -40,8 +40,8 @@ int	convert_str(t_dprintf *data, char *str)
 	len = ft_strlen(str);
 	while (str[i])
 	{
-		if (!add_to_buffer(&data->buffer, str[i]))
-			return (0);
+		if (add_to_buffer(&data->buffer, str[i]) == -1)
+			return (-1);
 		i++;
 	}
 	return ((int)len);
@@ -55,15 +55,15 @@ int	convert_int(t_dprintf *data, int n)
 
 	number = ft_itoa(n);
 	if (!number)
-		return (0);
+		return (-1);
 	len = ft_strlen(number);
 	i = 0;
 	while (number[i])
 	{
-		if (!add_to_buffer(&data->buffer, number[i]))
+		if (add_to_buffer(&data->buffer, number[i]) == -1)
 		{
 			free(number);
-			return (0);
+			return (-1);
 		}
 		i++;
 	}
@@ -80,7 +80,7 @@ int	add_to_buffer(char **buffer, char c)
 	{
 		*buffer = malloc(sizeof(char) * 2);
 		if (!*buffer)
-			return (0);
+			return (-1);
 		(*buffer)[0] = c;
 		(*buffer)[1] = '\0';
 		return (1);
@@ -88,7 +88,7 @@ int	add_to_buffer(char **buffer, char c)
 	len = ft_strlen(*buffer);
 	new_buffer = malloc(sizeof(char) * (len + 2));
 	if (!new_buffer)
-		return (0);
+		return (-1);
 	ft_strcpy(new_buffer, *buffer);
 	new_buffer[len] = c;
 	new_buffer[len + 1] = '\0';

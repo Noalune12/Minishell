@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 22:04:17 by gueberso          #+#    #+#             */
-/*   Updated: 2025/02/20 22:09:52 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/02/21 09:08:55 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	handle_conversion(t_dprintf *data, const char *format, \
 
 static int	regular_char(t_dprintf *data, const char *format, int *total_len)
 {
-	if (!add_to_buffer(&data->buffer, format[data->index]))
+	if (add_to_buffer(&data->buffer, format[data->index]) == -1)
 		return (-1);
 	(*total_len)++;
 	return (0);
