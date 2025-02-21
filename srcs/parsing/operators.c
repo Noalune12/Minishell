@@ -4,7 +4,7 @@ static bool	handle_operator(t_list **tokens, const char *str, \
 	size_t *i, size_t *start)
 {
 	t_redirect_error	error;
-	size_t			op_len;
+	size_t				op_len;
 
 	if (*i > *start && !add_token_to_list(tokens, \
 		create_token(str, *start, *i - *start)))
@@ -37,25 +37,20 @@ static void	handle_quotes(char c, bool *in_quotes, char *quote_type)
 	}
 }
 
-static void	init_split_vars(size_t *i, size_t *start, \
-	bool *in_quotes, char *quote_type)
+static void	init_split_vars(bool *in_quotes, char *quote_type)
 {
-	*i = 0;
-	*start = 0;
 	*in_quotes = false;
 	*quote_type = 0;
 }
 
-t_list	*split_operators(const char *str)
+t_list	*split_operators(const char *str, size_t i, size_t start)
 {
 	t_list	*tokens;
-	size_t	i;
-	size_t	start;
 	bool	in_quotes;
 	char	quote_type;
 
 	tokens = NULL;
-	init_split_vars(&i, &start, &in_quotes, &quote_type);
+	init_split_vars(&in_quotes, &quote_type);
 	while (str[i])
 	{
 		if (is_quote(str[i]))

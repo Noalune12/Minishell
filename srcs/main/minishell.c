@@ -19,23 +19,23 @@ void    tokenize_and_split(t_minishell *minishell)
 
 	minishell->token = tokenize_input(minishell->input);
 	if (!minishell->token)
-		return;
+		return ;
 	current = minishell->token;
 	while (current)
 	{
 		next = current->next;
-		split_tokens = split_operators(current->content);
+		split_tokens = split_operators(current->content, 0, 0);
 		if (!split_tokens)  // Handle this case
 		{
 			clear_token_list(minishell->token);
 			minishell->token = NULL;
-			return;
+			return ;
 		}
 		if (!replace_token(current, split_tokens))
 		{
 			clear_token_list(minishell->token);
 			minishell->token = NULL;
-			return;
+			return ;
 		}
 		current = next;
 	}
@@ -63,6 +63,7 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		}
 		tokenize_and_split(&minishell);
+		//handle_expand_idk(&minishell); // -> working on it
 		tmp_test = minishell.token;
 		for (int i = 0; tmp_test != NULL; i++)
 		{

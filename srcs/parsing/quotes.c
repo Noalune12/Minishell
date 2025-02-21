@@ -5,8 +5,7 @@ int	is_quote(char c)
 	return (c == '\'' || c == '\"');
 }
 
-
-int check_unclosed_quotes(char *input)
+int	check_unclosed_quotes(char *input)
 {
 	size_t	i;
 	char	current_quote;
@@ -45,16 +44,13 @@ void	copy_with_quotes(char *dest, char *src, size_t *len)
 	quote_type = 0;
 	while (src[i])
 	{
-		if (is_quote(src[i]))
+		if (is_quote(src[i]) && !in_quotes)
 		{
-			if (!in_quotes)
-			{
-				in_quotes = true;
-				quote_type = src[i];
-			}
-			else if (src[i] == quote_type)
-				in_quotes = false;
+			in_quotes = true;
+			quote_type = src[i];
 		}
+		else if (is_quote(src[i]) && src[i] == quote_type)
+			in_quotes = false;
 		else if (!in_quotes && (src[i] == ' ' || src[i] == '\t'))
 			break ;
 		dest[j++] = src[i++];
