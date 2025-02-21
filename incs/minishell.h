@@ -323,7 +323,8 @@ size_t	get_word_length(char *input, size_t start);
  */
 void	copy_with_quotes(char *dest, char *src, size_t *len);
 
-t_list	*split_operators(const char *str);
+t_list	*split_operators(const char *str, size_t i, size_t start);
+
 
 bool	add_token_to_list(t_list **tokens, char *content);
 bool	is_operator_char(char c, bool in_quotes);

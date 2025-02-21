@@ -24,7 +24,7 @@ void    tokenize_and_split(t_minishell *minishell)
 	while (current)
 	{
 		next = current->next;
-		split_tokens = split_operators(current->content);
+		split_tokens = split_operators(current->content, 0, 0);
 		if (!split_tokens)  // Handle this case
 		{
 			clear_token_list(minishell->token);
