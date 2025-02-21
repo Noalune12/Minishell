@@ -58,7 +58,7 @@ int	main(int ac, char **av, char **envp)
 		minishell.input = read_input();
 		if (minishell.input == NULL) // ctrl + d
 		{
-			dprintf(STDERR_FILENO, "exit\n"); // changer pour notre propre printf sur sortie erreur
+			ft_dprintf(STDERR_FILENO, "exit\n");
 			break ;
 		}
 		tokenize_and_split(&minishell);
