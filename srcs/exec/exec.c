@@ -17,25 +17,26 @@ int	exec_cmd(t_ast *node, t_minishell *minishell)
 
 int	exec_minishell(t_ast *node, t_exec *exec, t_minishell *minishell)
 {
-	pid_t	pid = 0;
-	pid_t	pid_left = 0;
-	pid_t	pid_right = 0;
+	// pid_t	minishell->pid = 0;
+	// pid_t	pid_left = 0;
+	// pid_t	pid_right = 0;
+	// static int	test = 0;
 	int		fd_in;
 	int		fd_out;
+	int		status;
 
 	if (!node)
 		return (-1);
-
 	if (node->type == NODE_COMMAND)
 	{
-		pid = fork(); // protect
-		if (pid == 0)
+		minishell->pid = fork(); // protect
+		if (minishell->pid == 0)
 		{
 			exec_cmd(node, minishell);
 			exit(0);
 		}
 		// else
-		// 	waitpid(pid, 0, 0);
+		// 	waitpid(minishell->pid, 0, 0);
 	}
 	else if (node->type == NODE_PIPE)
 	{
@@ -44,8 +45,8 @@ int	exec_minishell(t_ast *node, t_exec *exec, t_minishell *minishell)
 			printf("Pipe error");
 			return (1);
 		}
-		pid_left = fork();
-		if (pid_left == 0)
+		minishell->pid = fork();
+		if (minishell->pid == 0)
 		{
 			close(exec->pipe_fd[0]);
 			dup2(exec->pipe_fd[1], STDOUT_FILENO); //protect
@@ -55,8 +56,8 @@ int	exec_minishell(t_ast *node, t_exec *exec, t_minishell *minishell)
 		}
 		else
 		{
-			pid_right = fork();
-			if (pid_right == 0)
+			minishell->pid = fork();
+			if (minishell->pid == 0)
 			{
 				close(exec->pipe_fd[1]);
 				dup2(exec->pipe_fd[0], STDIN_FILENO); // protect
@@ -72,10 +73,15 @@ int	exec_minishell(t_ast *node, t_exec *exec, t_minishell *minishell)
 	}
 	else if (node->type == NODE_REDIR_IN)
 	{
-		pid = fork();
-		if (pid == 0)
+		minishell->pid = fork();
+		if (minishell->pid == 0)
 		{
 			fd_in = open(node->cmd->cmds[0], O_RDONLY); //protect
+			if (fd_in == -1)
+			{
+				printf("bash: %s: No such file or directory\n", node->cmd->cmds[0]);
+				exit(1);
+			}
 			dup2(fd_in, STDIN_FILENO); //protect
 			close(fd_in);
 			exec_minishell(node->left, exec, minishell);
@@ -83,14 +89,19 @@ int	exec_minishell(t_ast *node, t_exec *exec, t_minishell *minishell)
 			exit(0); //needed if <Makefile cat for instance to not display the prompt in cat
 		}
 		// else
-		// 	waitpid(pid, 0, 0);
+		// 	waitpid(minishell->pid, 0, 0);
 	}
 	else if (node->type == NODE_REDIR_OUT)
 	{
-		pid = fork();
-		if (pid == 0)
+		minishell->pid = fork();
+		if (minishell->pid == 0)
 		{
 			fd_out = open(node->cmd->cmds[0], O_WRONLY | O_CREAT | O_TRUNC, 0644); //protect
+			if (fd_out == -1)
+			{
+				printf("bash: %s: Permission denied\n", node->cmd->cmds[0]);
+				exit(1);
+			}
 			dup2(fd_out, STDOUT_FILENO); //protect
 			close(fd_out);
 			exec_minishell(node->left, exec, minishell);
@@ -98,14 +109,19 @@ int	exec_minishell(t_ast *node, t_exec *exec, t_minishell *minishell)
 			exit(0); //needed if ls >out for instance to mark the end and redisplay prompt
 		}
 		// else
-		// 	waitpid(pid, 0, 0);
+		// 	waitpid(minishell->pid, 0, 0);
 	}
 	else if (node->type == NODE_APPEND)
 	{
-		pid = fork();
-		if (pid == 0)
+		minishell->pid = fork();
+		if (minishell->pid == 0)
 		{
 			fd_out = open(node->cmd->cmds[0], O_WRONLY | O_CREAT | O_APPEND, 0644); //protect
+			if (fd_out == -1)
+			{
+				printf("bash: %s: Permission denied\n", node->cmd->cmds[0]);
+				exit(1);
+			}
 			dup2(fd_out, STDOUT_FILENO); //protect
 			close(fd_out);
 			exec_minishell(node->left, exec, minishell);
@@ -113,7 +129,7 @@ int	exec_minishell(t_ast *node, t_exec *exec, t_minishell *minishell)
 			exit(0);
 		}
 		// else
-		// 	waitpid(pid, 0, 0);
+		// 	waitpid(minishell->pid, 0, 0);
 	}
 	else if (node->type == NODE_BUILTIN)
 	{
@@ -128,16 +144,23 @@ int	exec_minishell(t_ast *node, t_exec *exec, t_minishell *minishell)
 	// 		printf("Pipe error");
 	// 		return (1);
 	// 	}
-	// 	exec_minishell(node->left, exec);
-	// 	exec_minishell(node->right, exec);
+	// 	exec_minishell(node->left, exec, minishell);
+	// 	exec_minishell(node->right, exec, minishell);
 	// }
 
 	// heredoc
 	// &&
 	// ||
-	waitpid(pid_left, 0, 0);
-	waitpid(pid_right, 0, 0);
-	waitpid(pid, 0, 0);
+	waitpid(minishell->pid, &status, 0);
+	// waitpid(pid_left, &status, 0);
+	// waitpid(pid_right, &status, 0);
+	if (WIFEXITED(status) && node->last_branch == 1)
+	{
+		// int exit_code = WEXITSTATUS(status);
+		minishell->exit_status = WEXITSTATUS(status);
+		printf("Le code de sortie du dernier enfant est : %d\n", minishell->exit_status);
+	}
+	printf("Le code de sortie du dernier enfant est : %d\n", minishell->exit_status);
 	// close(exec->pipe_fd[1]);
 	// close(exec->pipe_fd[0]);
 	return (0);

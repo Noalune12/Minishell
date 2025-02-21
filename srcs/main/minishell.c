@@ -73,6 +73,7 @@ int	main(int ac, char **av, char **envp)
 		// printf("\nArbre de syntaxe abstraite :\n");
 		print_ast(minishell.ast_node, 0);
 		exec_minishell(minishell.ast_node, &exec, &minishell);
+		printf("exit status = %d\n", minishell.exit_status);
 		// free_ast(test_tree);
 		printf("--------------------\n");
 		free(minishell.input);

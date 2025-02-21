@@ -3,10 +3,13 @@
 
 typedef struct s_list			t_list;
 typedef struct s_ast			t_ast;
+# include <unistd.h>
 
 typedef struct s_minishell
 {
 	char	*input;
+	int		exit_status;
+	pid_t	pid;
 	t_list	*envp; // liste chainee de l'environnement
 	t_list	*token; // liste chainee des parametres
 	t_ast	*ast_node; // Abstract Syntax Tree
@@ -29,7 +32,6 @@ typedef struct s_minishell
 # include <readline/history.h>
 # include <stdbool.h>
 # include <signal.h>
-# include <unistd.h>
 # include "libft.h"
 # include "get_next_line.h"
 # include "ft_printf.h"
@@ -112,6 +114,7 @@ typedef struct s_ast
 {
 	t_node_type		type; // type de noeud definis par lenum
 	t_cmd			*cmd; // ce qu'on recupere du parsing -> remplacer par t_cmd ?
+	int				last_branch;
 	struct s_ast	*left;
 	struct s_ast	*right;
 	struct s_ast	*root; // top priority node
@@ -281,7 +284,7 @@ char	*extract_token(char *input, size_t *pos);
  * The next pointer of the
  * first node is reset to NULL before processing the rest of the list.
  *
- * @param token Pointer to the head of the token list.
+ * @param token Pointer to the head of the token lipidst.
  */
 void	clear_token_list(t_list *token);
 
@@ -350,6 +353,7 @@ bool	is_operator(char c, bool in_quotes);
 void	create_ast(t_minishell *minishell);
 void	free_ast(t_ast *node);
 void	ft_free(char **split);
+void	find_last_branch(t_minishell *minishell);
 
 int		exec_minishell(t_ast *node, t_exec *exec, t_minishell *minishell);
 char	*find_exec_cmd(char **cmds, t_minishell *minishell, t_ast *node);

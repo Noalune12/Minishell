@@ -23,6 +23,7 @@ t_ast *create_ast_tree_node(t_node_type type, char *content)
 		return (NULL);
 	node->type = type;
 	node->cmd = add_cmd(content);
+	node->last_branch = 0;
 	node->left = NULL;
 	node->right = NULL;
 	return (node);
@@ -142,4 +143,5 @@ void create_ast(t_minishell *minishell)
 		temp = temp->next;
 	}
 	minishell->ast_node = head;
+	find_last_branch(minishell);
 }
