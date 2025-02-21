@@ -152,7 +152,7 @@ void	free_env(t_minishell *minishell);
  * non-interactive context like a pipeline),
  * an error message is printed to STDERR and the program exits successfully.
  *
- * @note The function uses dprintf to output the error message; consider
+ * @note The function uses ft_dprintf to output the error message; consider
  * replacing it with your custom
  * stderr printing function if needed.
  */
