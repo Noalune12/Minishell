@@ -26,7 +26,7 @@ int check_unclosed_quotes(char *input)
 	}
 	if (current_quote)
 	{
-		dprintf(STDERR_FILENO, CHAR_SYNTAX, current_quote);
+		ft_dprintf(STDERR_FILENO, CHAR_SYNTAX, current_quote);
 		return (0);
 	}
 	return (1);

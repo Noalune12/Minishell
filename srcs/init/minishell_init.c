@@ -4,7 +4,7 @@ void	tty_check(void)
 {
 	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))  // protection pour ./minishell | ./minishell par exemple
 	{
-		dprintf(STDERR_FILENO, "minishell: not a tty\n"); // change dprintf to personal printf on stderr
+		ft_dprintf(STDERR_FILENO, "minishell: not a tty\n");
 		exit(EXIT_SUCCESS);
 	}
 }

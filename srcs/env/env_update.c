@@ -38,7 +38,7 @@ void	update_shlvl(t_list *env)
 		shlvl = ft_atoi(shlvl_node->content + 6);
 		if (shlvl > 999 || shlvl <= 0) // handle export SHLVL="string" (atoi return value)
 		{
-			dprintf(STDERR_FILENO, "SHLVL too high, reset to 1"); // a modifier avec le vrai message derreur
+			ft_dprintf(STDERR_FILENO, "SHLVL too high, reset to 1");
 			shlvl = 1;
 		}
 		else

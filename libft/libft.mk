@@ -6,7 +6,7 @@
 #    By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/14 10:09:03 by gueberso          #+#    #+#              #
-#    Updated: 2025/02/12 23:47:59 by gueberso         ###   ########.fr        #
+#    Updated: 2025/02/20 21:59:06 by gueberso         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ override SRCS		= $(addprefix $(SRCSDIR),$(SRC))
 override CHARDIR	:= charset/
 override FDDIR		:= fd/
 override PRINTFDIR	:= ft_printf/
+override DPRINTFDIR	:= ft_dprintf/
 override GNLDIR		:= gnl/
 override INTDIR		:= int/
 override LISTDIR	:= list/
@@ -77,6 +78,7 @@ SRC += $(addprefix $(STRINGDIR), $(addsuffix .c, $(STRINGSRC)))
 override STRINGSRC := \
 	ft_split \
 	ft_strchr \
+	ft_strcpy \
 	ft_strdup \
 	ft_striteri \
 	ft_strjoin \
@@ -102,3 +104,9 @@ override PRINTFSRC := \
 	ft_printf_convert \
 	ft_printf_utils \
 	ft_printf \
+
+SRC += $(addprefix $(DPRINTFDIR), $(addsuffix .c, $(DPRINTFSRC)))
+
+override DPRINTFSRC := \
+	ft_dprintf_utils \
+	ft_dprintf \

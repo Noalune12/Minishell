@@ -34,7 +34,7 @@ typedef struct s_minishell
 # include <signal.h>
 # include "libft.h"
 # include "get_next_line.h"
-# include "ft_printf.h"
+# include "ft_dprintf.h"
 # include <sys/wait.h>
 # include <fcntl.h>
 
@@ -118,7 +118,7 @@ typedef struct s_ast
 	struct s_ast	*left;
 	struct s_ast	*right;
 	struct s_ast	*root; // top priority node
-}	t_ast; // pas sur du nom, a discuté (t_node, t_ast_node, t_node_ast...)
+}	t_ast; // pas sur du nom, a discuter (t_node, t_ast_node, t_node_ast...)
 
 typedef struct s_exec
 {
@@ -349,6 +349,7 @@ size_t	get_operator_len(const char *str, size_t pos);
 bool	is_redirection(char c);
 bool	is_operator(char c, bool in_quotes);
 
+/* ---- exec */
 
 void	create_ast(t_minishell *minishell);
 void	free_ast(t_ast *node);
