@@ -46,10 +46,14 @@ typedef struct s_minishell
 
 // memo error code 127 -> no path to command
 // liste de define derreurs + dautres plus tard
+# define FILENAME_SYNTAX "syntax error: missing filename after redirection\n"
+# define NEWLINE_SYNTAX "syntax error near unexpected token `newline'\n"
 # define STRING_SYNTAX "minishell: syntax error near unexpected token `%s'\n"
 # define CHAR_SYNTAX "minishell: syntax error near unexpected token `%c'\n"
 # define CMD_NOT_FOUND "bash: %s: command not found\n"
 # define FILE_NOT_FOUND "%s: %s: No such file or directory\n"
+# define FIRST_HEREDOC_ERROR_MESSAGE "warning: here-document delimited by end-of-file (wanted `%s')\n"
+# define ERROR_SYNTAX_TO_MODIFY "syntax error\n" // a modifier
 
 // liste de define plutot que decrire en brut
 
@@ -326,8 +330,6 @@ bool	is_operator_char(char c, bool in_quotes);
 
 
 char	*create_token(const char *str, size_t start, size_t len);
-
-size_t	get_operator_len(const char *str, size_t pos);
 
 t_list	*handle_operator_error(t_list *tokens, const char *op);
 

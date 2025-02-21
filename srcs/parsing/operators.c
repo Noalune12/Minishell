@@ -4,7 +4,7 @@ static bool	handle_operator(t_list **tokens, const char *str, \
 	size_t *i, size_t *start)
 {
 	t_redirect_error	error;
-	size_t			op_len;
+	size_t				op_len;
 
 	if (*i > *start && !add_token_to_list(tokens, \
 		create_token(str, *start, *i - *start)))
@@ -63,16 +63,14 @@ t_list	*split_operators(const char *str)
 			handle_quotes(str[i], &in_quotes, &quote_type);
 			i++;
 		}
-		else if (is_operator(str[i], in_quotes))
-		{
-			if (!handle_operator(&tokens, str, &i, &start))
-				return (NULL);
-		}
+		else if (is_operator(str[i], in_quotes) && \
+				!handle_operator(&tokens, str, &i, &start))
+			return (NULL);
 		else
 			i++;
 	}
-	if (i > start && !add_token_to_list(&tokens, \
-		create_token(str, start, i - start)))
+	if (i > start && \
+			!add_token_to_list(&tokens, create_token(str, start, i - start)))
 		return (NULL);
 	return (tokens);
 }

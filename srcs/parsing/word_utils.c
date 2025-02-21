@@ -21,7 +21,8 @@ size_t	get_word_length(char *input, size_t start)
 			else if (input[start + i] == quote_type)
 				in_quotes = false;
 		}
-		else if (!in_quotes && (input[start + i] == ' ' || input[start + i] == '\t'))
+		else if (!in_quotes && (input[start + i] == ' ' || \
+			input[start + i] == '\t'))
 			break ;
 		i++;
 	}
