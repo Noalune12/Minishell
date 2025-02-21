@@ -15,6 +15,6 @@ t_redirect_error	check_operator_syntax(const char *str)
 t_list	*handle_operator_error(t_list *tokens, const char *op)
 {
 	clear_token_list(tokens);
-	ft_printf(STRING_SYNTAX, op);
+	ft_dprintf(STDERR_FILENO, STRING_SYNTAX, op);
 	return (NULL);
 }
