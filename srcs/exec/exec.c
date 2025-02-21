@@ -15,26 +15,33 @@ int	exec_cmd(t_ast *node, t_minishell *minishell)
 	return (1);
 }
 
+int	update_exit_code(int exit_code, t_minishell *minishell, t_ast *node)
+{
+	static int result;
+
+	if (node->last_branch == 1)
+	{
+		result = exit_code;
+	}
+	printf("result = %d\n", result);
+	minishell->exit_status = result;
+	printf("exit status = %d\n", minishell->exit_status);
+	return (0);
+}
+
 int	exec_minishell(t_ast *node, t_exec *exec, t_minishell *minishell)
 {
-	// pid_t	minishell->pid = 0;
-	// pid_t	pid_left = 0;
-	// pid_t	pid_right = 0;
-	// static int	test = 0;
 	int		fd_in;
 	int		fd_out;
-	int		status;
+	// int		status;
 
 	if (!node)
-		return (-1);
+		return (0);
 	if (node->type == NODE_COMMAND)
 	{
 		minishell->pid = fork(); // protect
 		if (minishell->pid == 0)
-		{
 			exec_cmd(node, minishell);
-			exit(0);
-		}
 		// else
 		// 	waitpid(minishell->pid, 0, 0);
 	}
@@ -66,8 +73,6 @@ int	exec_minishell(t_ast *node, t_exec *exec, t_minishell *minishell)
 				exit(0);
 			}
 		}
-		// waitpid(pid_left, 0, 0);
-		// waitpid(pid_right, 0, 0);
 		close(exec->pipe_fd[1]);
 		close(exec->pipe_fd[0]);
 	}
@@ -148,20 +153,13 @@ int	exec_minishell(t_ast *node, t_exec *exec, t_minishell *minishell)
 	// 	exec_minishell(node->right, exec, minishell);
 	// }
 
-	// heredoc
-	// &&
-	// ||
-	waitpid(minishell->pid, &status, 0);
-	// waitpid(pid_left, &status, 0);
-	// waitpid(pid_right, &status, 0);
-	if (WIFEXITED(status) && node->last_branch == 1)
-	{
-		// int exit_code = WEXITSTATUS(status);
-		minishell->exit_status = WEXITSTATUS(status);
-		printf("Le code de sortie du dernier enfant est : %d\n", minishell->exit_status);
-	}
-	printf("Le code de sortie du dernier enfant est : %d\n", minishell->exit_status);
-	// close(exec->pipe_fd[1]);
-	// close(exec->pipe_fd[0]);
-	return (0);
+	// int exit_code;
+	waitpid(minishell->pid, &minishell->status, 0);
+	if (node->last_branch == 1)
+		minishell->exit_code = WEXITSTATUS(minishell->status);
+	printf("Le code de sortie de %s est : %d\n", node->cmd->cmds[0], minishell->exit_code);
+	if (node->last_branch == 1)
+		return (update_exit_code(minishell->exit_code, minishell, node));
+	else
+		return (0);
 }

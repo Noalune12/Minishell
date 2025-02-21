@@ -9,6 +9,8 @@ typedef struct s_minishell
 {
 	char	*input;
 	int		exit_status;
+	int		status;
+	int		exit_code;
 	pid_t	pid;
 	t_list	*envp; // liste chainee de l'environnement
 	t_list	*token; // liste chainee des parametres

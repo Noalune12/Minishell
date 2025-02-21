@@ -55,6 +55,7 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		clear_token_list(minishell.token);
+		minishell.exit_code = 0;
 		minishell.input = read_input();
 		if (minishell.input == NULL) // ctrl + d
 		{
