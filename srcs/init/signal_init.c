@@ -13,5 +13,5 @@ void	signal_handler(int signum) //ctrl c
 		rl_redisplay();
 	}
 	else if (signum == SIGQUIT)
-	g_signal_received = SIGQUIT;
+		g_signal_received = SIGQUIT;
 }
