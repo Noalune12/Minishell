@@ -40,12 +40,42 @@ t_list	*copy_env(t_list *env)
 {
 	t_list	*new_list;
 	t_list	*temp;
+	char	*content_dquotes;
+	size_t	len;
+	size_t	i;
+	size_t	j;
+	bool	equal = false;
 
 	new_list = NULL;
 	temp = env;
 	while (temp)
 	{
 		add_node(&new_list, temp->content);
+		temp = temp->next;
+	}
+	temp = new_list;
+	while (temp)
+	{
+		equal = false;
+		len = ft_strlen(temp->content) + 2;
+		content_dquotes = malloc((len + 1) * sizeof(char));
+		i = 0;
+		j = 0;
+		while (temp->content[i])
+		{
+			content_dquotes[j] = temp->content[i];
+			if (temp->content[i] == '=' && equal == false)
+			{
+				content_dquotes[++j] = '\"';
+				equal = true;
+			}
+			j++;
+			i++;
+		}
+		content_dquotes[j] = '\"';
+		content_dquotes[j + 1] = '\0';
+		free(temp->content);
+		temp->content = content_dquotes;
 		temp = temp->next;
 	}
 	return (new_list);
@@ -93,7 +123,7 @@ void	ft_export(char **cmds, t_list **env)
 	int		i;
 	int		len;
 	int		equal;
-	char	*content;
+	// char	*content;
 
 	i = 0;
 	len = 0;

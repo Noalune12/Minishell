@@ -69,4 +69,4 @@ override BUILTINSRC	:= \
 	pwd \
 	cd \
 	unset \
-	# export \
+	export \

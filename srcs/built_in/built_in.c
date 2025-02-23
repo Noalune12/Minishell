@@ -22,8 +22,8 @@ static void	ft_builtin(t_ast *node, t_minishell *minishell)
 		print_env(minishell->envp);
 	if(strcmp(node->cmd->cmds[0], "unset\0") == 0)
 		ft_unset(node->cmd->cmds, minishell);
-	// if(strncmp(node->cmd->cmds[0], "export\0", ft_strlen(node->cmd->cmds[0])) == 0)
-	// 	ft_export(node->cmd->cmds, &minishell->envp);
+	if(strncmp(node->cmd->cmds[0], "export\0", ft_strlen(node->cmd->cmds[0])) == 0)
+		ft_export(node->cmd->cmds, &minishell->envp);
 }
 
 int	handle_builtin(t_ast *node, t_minishell *minishell)
