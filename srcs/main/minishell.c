@@ -45,7 +45,6 @@ int	main(int ac, char **av, char **envp)
 {
 	t_minishell	minishell;
 	t_list	*tmp_test;
-	t_exec	exec;
 
 	tty_check();
 	signal(SIGINT, signal_handler);
@@ -74,7 +73,7 @@ int	main(int ac, char **av, char **envp)
 		// t_ast *test_tree = create_test_tree();
 		// printf("\nArbre de syntaxe abstraite :\n");
 		print_ast(minishell.ast_node, 0);
-		exec_minishell(minishell.ast_node, &exec, &minishell);
+		exec_minishell(minishell.ast_node, &minishell);
 		printf("exit status = %d\n", minishell.exit_status);
 		// free_ast(test_tree);
 		printf("--------------------\n");

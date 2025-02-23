@@ -3,6 +3,7 @@
 
 typedef struct s_list			t_list;
 typedef struct s_ast			t_ast;
+
 # include <unistd.h>
 
 typedef struct s_minishell
@@ -12,7 +13,9 @@ typedef struct s_minishell
 	int		status;
 	int		exit_code;
 	pid_t	pid;
-	t_list	*envp; // liste chainee de l'environnement
+	pid_t	pipe_fd[2];
+	int		fd_in;
+	int		fd_out;	t_list	*envp; // liste chainee de l'environnement
 	t_list	*token; // liste chainee des parametres
 	t_ast	*ast_node; // Abstract Syntax Tree
 }	t_minishell;
@@ -361,7 +364,7 @@ void	free_ast(t_ast *node);
 void	ft_free(char **split);
 void	find_last_branch(t_minishell *minishell);
 
-int		exec_minishell(t_ast *node, t_exec *exec, t_minishell *minishell);
+int		exec_minishell(t_ast *node, t_minishell *minishell);
 char	*find_exec_cmd(char **cmds, t_minishell *minishell, t_ast *node);
 
 void	ft_builtin(t_ast *node, t_minishell *minishell);
