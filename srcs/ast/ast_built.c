@@ -94,6 +94,7 @@ void create_ast(t_minishell *minishell)
 			prev_and_or = current;
 			head = current;
 			prev_cmd = NULL;
+			prev_pipe = NULL;
 			left = false;
 		}
 		else if (strcmp(temp->content, "|\0") == 0)
