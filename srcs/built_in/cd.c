@@ -2,11 +2,9 @@
 
 char	*find_home(t_list *env)
 {
-	int		i;
 	t_list	*temp;
 	char	*home;
 
-	i = 0;
 	temp = env;
 	home = NULL;
 	if (!(temp->content))

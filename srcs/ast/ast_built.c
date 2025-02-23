@@ -77,6 +77,8 @@ void create_ast(t_minishell *minishell)
 	t_ast *current = NULL;
 	t_ast *head = NULL;
 	t_ast *prev_and_or = NULL;
+	bool	left = true;
+	t_ast *prev_pipe = NULL;
 
 	while (temp)
 	{
@@ -92,16 +94,27 @@ void create_ast(t_minishell *minishell)
 			prev_and_or = current;
 			head = current;
 			prev_cmd = NULL;
+			left = false;
 		}
 		else if (strcmp(temp->content, "|\0") == 0)
 		{
 			current = create_ast_tree_node(NODE_PIPE, temp->content);
+			if (prev_cmd && left == true)
+				current->right = prev_cmd;
+			else if (prev_cmd && left == false && !prev_pipe)
+				current->left = prev_cmd;
+			if (prev_pipe)
+			{
+				current->left = prev_pipe;
+				prev_and_or->right = current;
+			}
 			if (prev_and_or)
+			{
 				add_child(prev_and_or, current);
+				prev_pipe = current;
+			}
 			else if (head)
 				add_child(current, head);
-			if (prev_cmd)
-				current->left = prev_cmd;
 			if (!prev_and_or)
 				head = current;
 			prev_cmd = NULL;

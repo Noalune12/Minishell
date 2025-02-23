@@ -138,13 +138,13 @@ void	ft_print_export(t_list *env)
 void	ft_export(char **cmds, t_list **env)
 {
 	int		i;
-	int		len;
-	int		equal;
+	// int		len;
+	// int		equal;
 	// char	*content;
 
 	i = 0;
-	len = 0;
-	equal = 0;
+	// len = 0;
+	// equal = 0;
 	if (!cmds[++i])
 	{
 		ft_print_export(*env);
