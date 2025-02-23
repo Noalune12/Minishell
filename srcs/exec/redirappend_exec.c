@@ -2,13 +2,15 @@
 
 int	handle_redirappend(t_ast *node, t_minishell *minishell)
 {
+	int	ret;
+
 	minishell->pid = fork();
 	if (minishell->pid == 0)
 	{
 		minishell->fd_out = open(node->cmd->cmds[0], O_WRONLY | O_CREAT | O_APPEND, 0644); //protect
 		if (minishell->fd_out == -1)
 		{
-			printf("bash: %s: Permission denied\n", node->cmd->cmds[0]);
+			ft_dprintf(STDERR_FILENO, "bash: %s: Permission denied\n", node->cmd->cmds[0]);
 			exit(1);
 		}
 		dup2(minishell->fd_out, STDOUT_FILENO); //protect
@@ -20,7 +22,8 @@ int	handle_redirappend(t_ast *node, t_minishell *minishell)
 		free_ast(minishell->ast_node);
 		exit(0);
 	}
-	else
-		waitpid(minishell->pid, 0, 0);
-	return (0);
+	waitpid(minishell->pid, &ret, 0);
+	if (WIFEXITED(ret))
+		return (WEXITSTATUS(ret));
+	return (1);
 }
