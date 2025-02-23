@@ -2,18 +2,7 @@
 
 //list to tab
 
-int	exec_cmd(t_ast *node, t_minishell *minishell)
-{
-	// char *path;
-	// path = ft_strjoin("/usr/bin/", node->cmd->cmds[0]);
-	if (access(node->cmd->cmds[0], X_OK) == 0)
-		node->cmd->path = ft_strdup(node->cmd->cmds[0]);
-	else
-		node->cmd->path = find_exec_cmd(node->cmd->cmds, minishell, node);
-	execve(node->cmd->path, node->cmd->cmds, NULL); // protect
-	// execve(path, node->cmd->cmds, NULL); // protect
-	return (1);
-}
+typedef int (* t_handler)(t_ast *node, t_minishell *minishell);
 
 int	update_exit_code(int exit_code, t_minishell *minishell, t_ast *node)
 {
@@ -31,135 +20,42 @@ int	update_exit_code(int exit_code, t_minishell *minishell, t_ast *node)
 
 int	exec_minishell(t_ast *node, t_minishell *minishell)
 {
+	int	ret;
+	t_handler	tab[] = {0, 0, &handle_cmd, &handle_pipe, &handle_redirout, &handle_redirin, &handle_redirappend, 0, &handle_builtin};
+
 	if (!node)
 		return (0);
-	if (node->type == NODE_COMMAND)
-	{
-		minishell->pid = fork(); // protect
-		if (minishell->pid == 0)
-			exec_cmd(node, minishell);
-	}
-	else if (node->type == NODE_PIPE)
-	{
-		if (pipe(minishell->pipe_fd) == -1)
-		{
-			printf("Pipe error");
-			return (1);
-		}
-		minishell->pid = fork();
-		if (minishell->pid == 0)
-		{
-			close(minishell->pipe_fd[0]);
-			dup2(minishell->pipe_fd[1], STDOUT_FILENO); //protect
-			close(minishell->pipe_fd[1]);
-			minishell->exit_status = exec_minishell(node->left, minishell);
-			printf("exit = %d\n", minishell->exit_status);
-			exit(minishell->exit_status);
-		}
-		else
-		{
-			minishell->pid = fork();
-			if (minishell->pid == 0)
-			{
-				close(minishell->pipe_fd[1]);
-				dup2(minishell->pipe_fd[0], STDIN_FILENO); // protect
-				close(minishell->pipe_fd[0]);
-				minishell->exit_status = exec_minishell(node->right, minishell);
-				exit(minishell->exit_status);
-			}
-		}
-		close(minishell->pipe_fd[1]);
-		close(minishell->pipe_fd[0]);
-	}
-	else if (node->type == NODE_REDIR_IN)
-	{
-		minishell->pid = fork();
-		if (minishell->pid == 0)
-		{
-			minishell->fd_in = open(node->cmd->cmds[0], O_RDONLY); //protect
-			if (minishell->fd_in == -1)
-			{
-				printf("bash: %s: No such file or directory\n", node->cmd->cmds[0]);
-				exit(1);
-			}
-			dup2(minishell->fd_in, STDIN_FILENO); //protect
-			close(minishell->fd_in);
-			exec_minishell(node->left, minishell);
-			exec_minishell(node->right, minishell);
-			exit(0); //needed if <Makefile cat for instance to not display the prompt in cat
-		}
-	}
-	else if (node->type == NODE_REDIR_OUT)
-	{
-		minishell->pid = fork();
-		if (minishell->pid == 0)
-		{
-			minishell->fd_out = open(node->cmd->cmds[0], O_WRONLY | O_CREAT | O_TRUNC, 0644); //protect
-			if (minishell->fd_out == -1)
-			{
-				printf("bash: %s: Permission denied\n", node->cmd->cmds[0]);
-				exit(1);
-			}
-			dup2(minishell->fd_out, STDOUT_FILENO); //protect
-			close(minishell->fd_out);
-			exec_minishell(node->left, minishell);
-			exec_minishell(node->right, minishell);
-			exit(0); //needed if ls >out for instance to mark the end and redisplay prompt
-		}
-	}
-	else if (node->type == NODE_APPEND)
-	{
-		minishell->pid = fork();
-		if (minishell->pid == 0)
-		{
-			minishell->fd_out = open(node->cmd->cmds[0], O_WRONLY | O_CREAT | O_APPEND, 0644); //protect
-			if (minishell->fd_out == -1)
-			{
-				printf("bash: %s: Permission denied\n", node->cmd->cmds[0]);
-				exit(1);
-			}
-			dup2(minishell->fd_out, STDOUT_FILENO); //protect
-			close(minishell->fd_out);
-			exec_minishell(node->left, minishell);
-			exec_minishell(node->right, minishell);
-			exit(0);
-		}
-	}
-	else if (node->type == NODE_BUILTIN)
-	{
-		ft_builtin(node, minishell);
-		exec_minishell(node->left, minishell);
-		exec_minishell(node->right, minishell);
-	}
-	// else if (node->type == NODE_AND)
-	// {
-	// 	if (pipe(minishell->pipe_fd) == -1)
-	// 	{
-	// 		printf("Pipe error");
-	// 		return (1);
-	// 	}
-	// 	exec_minishell(node->left, exec, minishell);
-	// 	exec_minishell(node->right, exec, minishell);
-	// }
+	ret = tab[node->type](node, minishell);
+	printf("ret = %d\n", ret);
+	// // else if (node->type == NODE_AND)
+	// // {
+	// // 	if (pipe(minishell->pipe_fd) == -1)
+	// // 	{
+	// // 		printf("Pipe error");
+	// // 		return (1);
+	// // 	}
+	// // 	exec_minishell(node->left, exec, minishell);
+	// // 	exec_minishell(node->right, exec, minishell);
+	// // }
 
-	// int exit_code;
-	// waitpid(minishell->pid, &minishell->status, 0);
+	// // int exit_code;
+	// // waitpid(minishell->pid, &minishell->status, 0);
+	// // if (node->last_branch == 1)
+	// // 	minishell->exit_code = WEXITSTATUS(minishell->status);
+	// // printf("Le code de sortie de %s est : %d\n", node->cmd->cmds[0], minishell->exit_code);
+	// // if (node->last_branch == 1)
+	// // 	return (update_exit_code(minishell->exit_code, minishell, node));
+	// // else
+	// // 	return (0);
 	// if (node->last_branch == 1)
-	// 	minishell->exit_code = WEXITSTATUS(minishell->status);
-	// printf("Le code de sortie de %s est : %d\n", node->cmd->cmds[0], minishell->exit_code);
-	// if (node->last_branch == 1)
-	// 	return (update_exit_code(minishell->exit_code, minishell, node));
+	// {
+	// 	waitpid(minishell->pid, &minishell->status, 0);
+	// 	minishell->exit_status = WEXITSTATUS(minishell->status);
+	// 	// minishell->exit_code = minishell->exit_status;
+	// 	// return update_exit_code(minishell->exit_code, minishell, node);
+	// }
 	// else
-	// 	return (0);
-	if (node->last_branch == 1)
-	{
-		waitpid(minishell->pid, &minishell->status, 0);
-		minishell->exit_status = WEXITSTATUS(minishell->status);
-		// minishell->exit_code = minishell->exit_status;
-		// return update_exit_code(minishell->exit_code, minishell, node);
-	}
-	else
-		waitpid(minishell->pid, NULL, 0);
-	printf("Le code de sortie de %s est : %d\n", node->cmd->cmds[0], minishell->exit_status);
-	return (minishell->exit_status);
+	// 	waitpid(minishell->pid, NULL, 0);
+	// printf("Le code de sortie de %s est : %d\n", node->cmd->cmds[0], minishell->exit_status);
+	return (ret);
 }

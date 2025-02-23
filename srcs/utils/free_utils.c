@@ -26,20 +26,21 @@ void	free_env(t_minishell *minishell)
 	minishell->token = NULL;
 }
 
-// void	free_split(char **split)
-// {
-// 	size_t	i;
+char	**ft_free_double(char **strs)
+{
+	size_t	i;
 
-// 	i = 0;
-// 	if (split)
-// 	{
-// 		while (split[i])
-// 		{
-// 			free(split[i]);
-// 			split[i] = NULL;
-// 			i++;
-// 		}
-// 		free(split);
-// 		split = NULL;
-// 	}
-// }
+	i = 0;
+	if (strs)
+	{
+		while (strs[i])
+		{
+			free(strs[i]);
+			strs[i] = NULL;
+			i++;
+		}
+		free (strs);
+		strs = NULL;
+	}
+	return (NULL);
+}

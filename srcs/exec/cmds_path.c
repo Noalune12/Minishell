@@ -1,24 +1,5 @@
 #include "minishell.h"
 
-char	**ft_free_double(char **strs)
-{
-	size_t	i;
-
-	i = 0;
-	if (strs)
-	{
-		while (strs[i])
-		{
-			free(strs[i]);
-			strs[i] = NULL;
-			i++;
-		}
-		free (strs);
-		strs = NULL;
-	}
-	return (NULL);
-}
-
 char	*find_env_path(t_list *envp)
 {
 	char	*path_env;

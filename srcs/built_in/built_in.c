@@ -12,7 +12,7 @@ static void	print_env(t_list *env)
 	}
 }
 
-void	ft_builtin(t_ast *node, t_minishell *minishell)
+static void	ft_builtin(t_ast *node, t_minishell *minishell)
 {
 	if(strcmp(node->cmd->cmds[0], "pwd\0") == 0)
 		ft_pwd(node->cmd->cmds);
@@ -24,4 +24,12 @@ void	ft_builtin(t_ast *node, t_minishell *minishell)
 		ft_unset(node->cmd->cmds, minishell);
 	// if(strncmp(node->cmd->cmds[0], "export\0", ft_strlen(node->cmd->cmds[0])) == 0)
 	// 	ft_export(node->cmd->cmds, &minishell->envp);
+}
+
+int	handle_builtin(t_ast *node, t_minishell *minishell)
+{
+	ft_builtin(node, minishell);
+	exec_minishell(node->left, minishell);
+	exec_minishell(node->right, minishell);
+	return (0);
 }

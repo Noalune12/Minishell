@@ -58,6 +58,11 @@ SRC	+= $(addprefix $(EXECDIR), $(addsuffix .c, $(EXECSRC)))
 override EXECSRC	:= \
 	exec \
 	cmds_path \
+	cmd_exec \
+	pipe_exec \
+	redirappend_exec \
+	redirin_exec \
+	redirout_exec \
 
 SRC	+= $(addprefix $(BUILTINDIR), $(addsuffix .c, $(BUILTINSRC)))
 override BUILTINSRC	:= \

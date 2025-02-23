@@ -365,13 +365,25 @@ void	ft_free(char **split);
 void	find_last_branch(t_minishell *minishell);
 
 int		exec_minishell(t_ast *node, t_minishell *minishell);
+
+int		handle_cmd(t_ast *node, t_minishell *minishell);
 char	*find_exec_cmd(char **cmds, t_minishell *minishell, t_ast *node);
 
-void	ft_builtin(t_ast *node, t_minishell *minishell);
+int		handle_pipe(t_ast *node, t_minishell *minishell);
+
+int		handle_redirin(t_ast *node, t_minishell *minishell);
+
+int		handle_redirout(t_ast *node, t_minishell *minishell);
+
+int	handle_redirappend(t_ast *node, t_minishell *minishell);
+
+int		handle_builtin(t_ast *node, t_minishell *minishell);
 int		ft_pwd(char **cmds);
 int		ft_cd(char **cmds, t_list *envp);
 void	ft_export(char **cmds, t_list **env);
 void	ft_unset(char **cmds, t_minishell *minishell);
 void	remove_node(t_list **head, const char *var);
+
+char	**ft_free_double(char **strs);
 
 #endif
