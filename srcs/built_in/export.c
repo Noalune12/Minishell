@@ -36,15 +36,39 @@ void ft_list_sort(t_list **begin_list, int (*cmp)(const char *, const char *))
 	}
 }
 
+char	*copy_dquotes(char *content)
+{
+	char	*content_dquotes;
+	size_t	i;
+	size_t	j;
+	bool	equal;
+
+	equal = false;
+	content_dquotes = ft_calloc((ft_strlen(content) + 3), sizeof(char));
+	if (!content_dquotes)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (content[i])
+	{
+		content_dquotes[j] = content[i];
+		if (content[i] == '=' && equal == false)
+		{
+			content_dquotes[++j] = '\"';
+			equal = true;
+		}
+		j++;
+		i++;
+	}
+	content_dquotes[j] = '\"';
+	return (content_dquotes);
+}
+
 t_list	*copy_env(t_list *env)
 {
 	t_list	*new_list;
 	t_list	*temp;
 	char	*content_dquotes;
-	size_t	len;
-	size_t	i;
-	size_t	j;
-	bool	equal = false;
 
 	new_list = NULL;
 	temp = env;
@@ -56,24 +80,12 @@ t_list	*copy_env(t_list *env)
 	temp = new_list;
 	while (temp)
 	{
-		equal = false;
-		len = ft_strlen(temp->content) + 2;
-		content_dquotes = malloc((len + 1) * sizeof(char));
-		i = 0;
-		j = 0;
-		while (temp->content[i])
+		content_dquotes = copy_dquotes(temp->content);
+		if (!content_dquotes)
 		{
-			content_dquotes[j] = temp->content[i];
-			if (temp->content[i] == '=' && equal == false)
-			{
-				content_dquotes[++j] = '\"';
-				equal = true;
-			}
-			j++;
-			i++;
+			free_list(new_list);
+			return (NULL);
 		}
-		content_dquotes[j] = '\"';
-		content_dquotes[j + 1] = '\0';
 		free(temp->content);
 		temp->content = content_dquotes;
 		temp = temp->next;
@@ -104,6 +116,11 @@ void	ft_print_export(t_list *env)
 	t_list	*temp;
 
 	sorted = copy_env(env);
+	if (!sorted)
+	{
+		ft_dprintf(STDERR_FILENO, "Malloc failed\n");
+		return ;
+	}
 	ft_list_sort(&sorted, &ascii_cmp);
 	temp = sorted;
 	while (temp)
