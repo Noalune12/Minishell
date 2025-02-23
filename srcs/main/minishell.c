@@ -54,7 +54,6 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		clear_token_list(minishell.token);
-		minishell.exit_code = 0;
 		minishell.input = read_input();
 		if (minishell.input == NULL) // ctrl + d
 		{
@@ -73,7 +72,7 @@ int	main(int ac, char **av, char **envp)
 		// t_ast *test_tree = create_test_tree();
 		// printf("\nArbre de syntaxe abstraite :\n");
 		print_ast(minishell.ast_node, 0);
-		// minishell.exit_status = exec_minishell(minishell.ast_node, &minishell);
+		minishell.exit_status = exec_minishell(minishell.ast_node, &minishell);
 		printf("exit status = %d\n", minishell.exit_status);
 		// free_ast(test_tree);
 		printf("--------------------\n");

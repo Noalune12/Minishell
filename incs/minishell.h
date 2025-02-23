@@ -10,8 +10,6 @@ typedef struct s_minishell
 {
 	char	*input;
 	int		exit_status;
-	int		status;
-	int		exit_code;
 	pid_t	pid;
 	pid_t	pipe_fd[2];
 	int		fd_in;

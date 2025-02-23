@@ -63,13 +63,13 @@ static int	exec_cmd(t_ast *node, t_minishell *minishell)
 
 int	handle_cmd(t_ast *node, t_minishell *minishell)
 {
+	int	ret;
+
 	minishell->pid = fork(); // protect
 	if (minishell->pid == 0)
 		exec_cmd(node, minishell);
-	else
-	{
-		waitpid(minishell->pid, &minishell->status, 0);
-		minishell->exit_code = WEXITSTATUS(minishell->status);
-	}
-	return (minishell->exit_code);
+	waitpid(minishell->pid, &ret, 0);
+	if (WIFEXITED(ret))
+		return (WEXITSTATUS(ret));
+	return (1);
 }
