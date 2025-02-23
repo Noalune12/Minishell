@@ -40,7 +40,6 @@ override ASTSRC		:= \
 	ast_print \
 	ast_utils \
 	ast_built \
-	ast_last_branch \
 
 SRC	+= $(addprefix $(PARSINGDIR), $(addsuffix .c, $(PARSINGSRC)))
 

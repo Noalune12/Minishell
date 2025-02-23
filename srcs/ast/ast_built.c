@@ -76,15 +76,34 @@ void create_ast(t_minishell *minishell)
 	t_ast *prev_cmd = NULL;
 	t_ast *current = NULL;
 	t_ast *head = NULL;
+	t_ast *prev_and_or = NULL;
 
 	while (temp)
 	{
-		if (strcmp(temp->content, "|\0") == 0)
+		if (strcmp(temp->content, "&&\0") == 0
+			|| strcmp(temp->content, "||\0") == 0)
 		{
-			current = create_ast_tree_node(NODE_PIPE, temp->content);
+			if (strcmp(temp->content, "&&\0") == 0)
+				current = create_ast_tree_node(NODE_AND, temp->content);
+			else
+				current = create_ast_tree_node(NODE_OR, temp->content);
 			if (head)
 				add_child(current, head);
+			prev_and_or = current;
 			head = current;
+			prev_cmd = NULL;
+		}
+		else if (strcmp(temp->content, "|\0") == 0)
+		{
+			current = create_ast_tree_node(NODE_PIPE, temp->content);
+			if (prev_and_or)
+				add_child(prev_and_or, current);
+			else if (head)
+				add_child(current, head);
+			if (prev_cmd)
+				current->left = prev_cmd;
+			if (!prev_and_or)
+				head = current;
 			prev_cmd = NULL;
 		}
 		else if (strcmp(temp->content, ">\0") == 0
@@ -143,5 +162,81 @@ void create_ast(t_minishell *minishell)
 		temp = temp->next;
 	}
 	minishell->ast_node = head;
-	find_last_branch(minishell);
 }
+
+// ast no bonus
+// void create_ast(t_minishell *minishell)
+// {
+// 	t_list *temp = minishell->token;
+// 	t_ast *command_node = NULL;
+// 	t_ast *prev_cmd = NULL;
+// 	t_ast *current = NULL;
+// 	t_ast *head = NULL;
+
+// 	while (temp)
+// 	{
+// 		if (strcmp(temp->content, "|\0") == 0)
+// 		{
+// 			current = create_ast_tree_node(NODE_PIPE, temp->content);
+// 			if (head)
+// 				add_child(current, head);
+// 			head = current;
+// 			prev_cmd = NULL;
+// 		}
+// 		else if (strcmp(temp->content, ">\0") == 0
+// 		|| strcmp(temp->content, "<\0") == 0
+// 		|| strcmp(temp->content, ">>\0") == 0)
+// 		{
+// 			if (strcmp(temp->content, ">\0") == 0)
+// 			{
+// 				temp = temp->next;
+// 				current = create_ast_tree_node(NODE_REDIR_OUT, temp->content);
+// 			}
+// 			else if (strcmp(temp->content, "<\0") == 0)
+// 			{
+// 				temp = temp->next;
+// 				current = create_ast_tree_node(NODE_REDIR_IN, temp->content);
+// 			}
+// 			else
+// 			{
+// 				temp = temp->next;
+// 				current = create_ast_tree_node(NODE_APPEND, temp->content);
+// 			}
+// 			if (head && prev_cmd)
+// 			{
+// 				add_child(prev_cmd, current);
+// 				ft_swap(prev_cmd, current);
+// 				prev_cmd = prev_cmd->left;
+// 			}
+// 			else if (!head)
+// 				head = current;
+// 			else if (!prev_cmd)
+// 				add_child(head, current);
+// 		}
+// 		else
+// 		{
+// 			if (!prev_cmd)
+// 			{
+// 				if (strcmp(temp->content, "echo\0") == 0
+// 				|| strcmp(temp->content, "cd\0") == 0
+// 				|| strcmp(temp->content, "pwd\0") == 0
+// 				|| strcmp(temp->content, "export\0") == 0
+// 				|| strcmp(temp->content, "unset\0") == 0
+// 				|| strcmp(temp->content, "env\0") == 0
+// 				|| strcmp(temp->content, "exit\0") == 0)
+// 					command_node = create_ast_tree_node(NODE_BUILTIN, temp->content);
+// 				else
+// 					command_node = create_ast_tree_node(NODE_COMMAND, temp->content);
+// 				if (!head)
+// 					head = command_node;
+// 				else
+// 					add_child(current, command_node);
+// 				prev_cmd = command_node;
+// 			}
+// 			else
+// 				prev_cmd->cmd->cmds = update_cmd(prev_cmd->cmd->cmds, temp->content);
+// 		}
+// 		temp = temp->next;
+// 	}
+// 	minishell->ast_node = head;
+// }
