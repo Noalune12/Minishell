@@ -107,10 +107,7 @@ void create_ast(t_minishell *minishell)
 			else if (prev_cmd && left == false && !prev_pipe && !prev_file)
 				current->left = prev_cmd;
 			else if (left == false && !prev_pipe && prev_file)
-			{
-				printf(RED"%s\n"RESET, prev_file->cmd->cmds[0]);
 				current->left = prev_file;
-			}
 			if (prev_pipe)
 			{
 				current->left = prev_pipe;
@@ -164,7 +161,6 @@ void create_ast(t_minishell *minishell)
 			}
 			else if (!prev_cmd)
 			{
-				printf(GREEN"%s\n"RESET, current->cmd->cmds[0]);
 				add_child(head, current);
 				prev_file = current;
 			}
