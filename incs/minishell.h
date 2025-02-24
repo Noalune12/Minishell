@@ -373,12 +373,14 @@ int		handle_redirin(t_ast *node, t_minishell *minishell);
 
 int		handle_redirout(t_ast *node, t_minishell *minishell);
 
-int	handle_redirappend(t_ast *node, t_minishell *minishell);
+int		handle_redirappend(t_ast *node, t_minishell *minishell);
 
 int		handle_builtin(t_ast *node, t_minishell *minishell);
 int		ft_pwd(char **cmds);
 int		ft_cd(char **cmds, t_list *envp);
-void	ft_export(char **cmds, t_list **env);
+int		ft_export(char **cmds, t_list **env);
+int		check_export(char **cmds);
+int		add_export_to_env(char *cmds, t_list **env);
 void	ft_unset(char **cmds, t_minishell *minishell);
 void	remove_node(t_list **head, const char *var);
 

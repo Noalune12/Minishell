@@ -60,7 +60,8 @@ char	*copy_dquotes(char *content)
 		j++;
 		i++;
 	}
-	content_dquotes[j] = '\"';
+	if (equal == true)
+		content_dquotes[j] = '\"';
 	return (content_dquotes);
 }
 
@@ -135,32 +136,24 @@ void	ft_print_export(t_list *env)
 //should begin with _ or letter -> check what it takes
 //if between quote can take space
 
-void	ft_export(char **cmds, t_list **env)
+int	ft_export(char **cmds, t_list **env)
 {
 	int		i;
-	// int		len;
-	// int		equal;
-	// char	*content;
+	int		ret = 0;
 
 	i = 0;
-	// len = 0;
-	// equal = 0;
+
 	if (!cmds[++i])
 	{
 		ft_print_export(*env);
-		return ;
+		return (ret);
 	}
-	// while(input[i] && input[i] != ' ')
-	// {
-	// 	if (input[i] == '=')
-	// 		equal = 1;
-	// 	i++;
-	// 	len++;
-	// }
-	// if (equal == 1)
-	// {
-	// 	content = ft_strndup(input + i - len, len);
-	// 	add_node(env, content);
-	// 	free(content);
-	// }
+	else
+		ret = check_export(cmds);
+	while (cmds[i])
+	{
+		add_export_to_env(cmds[i], env);
+		i++;
+	}
+	return (ret);
 }

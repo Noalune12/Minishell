@@ -70,3 +70,5 @@ override BUILTINSRC	:= \
 	cd \
 	unset \
 	export \
+	export_args \
+	export_add_env \
