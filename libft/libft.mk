@@ -6,7 +6,7 @@
 #    By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/14 10:09:03 by gueberso          #+#    #+#              #
-#    Updated: 2025/02/20 21:59:06 by gueberso         ###   ########.fr        #
+#    Updated: 2025/02/24 22:18:36 by gueberso         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,6 +78,7 @@ SRC += $(addprefix $(STRINGDIR), $(addsuffix .c, $(STRINGSRC)))
 override STRINGSRC := \
 	ft_split \
 	ft_strchr \
+	ft_strcmp \
 	ft_strcpy \
 	ft_strdup \
 	ft_striteri \
