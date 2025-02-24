@@ -349,6 +349,7 @@ liens sur lesquels jetais en train de travailler avant de partir dimanche soir:
 
 ![alt text](image-1.png)
 
+[expand je crois, je sais plus ya trop de trucs (mais il y a vraiment plein de chose bien la dedans)](https://effective-shell.com/part-6-advanced-techniques/understanding-shell-expansion/)
 
 ### Arbre binaire premiere recherches
 
