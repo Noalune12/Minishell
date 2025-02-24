@@ -79,6 +79,7 @@ void create_ast(t_minishell *minishell)
 	t_ast *prev_and_or = NULL;
 	bool	left = true;
 	t_ast *prev_pipe = NULL;
+	t_ast *prev_file = NULL;
 
 	while (temp)
 	{
@@ -94,6 +95,7 @@ void create_ast(t_minishell *minishell)
 			prev_and_or = current;
 			head = current;
 			prev_cmd = NULL;
+			prev_file = NULL;
 			prev_pipe = NULL;
 			left = false;
 		}
@@ -102,8 +104,13 @@ void create_ast(t_minishell *minishell)
 			current = create_ast_tree_node(NODE_PIPE, temp->content);
 			if (prev_cmd && left == true)
 				current->right = prev_cmd;
-			else if (prev_cmd && left == false && !prev_pipe)
+			else if (prev_cmd && left == false && !prev_pipe && !prev_file)
 				current->left = prev_cmd;
+			else if (left == false && !prev_pipe && prev_file)
+			{
+				printf(RED"%s\n"RESET, prev_file->cmd->cmds[0]);
+				current->left = prev_file;
+			}
 			if (prev_pipe)
 			{
 				current->left = prev_pipe;
@@ -119,6 +126,7 @@ void create_ast(t_minishell *minishell)
 			if (!prev_and_or)
 				head = current;
 			prev_cmd = NULL;
+			prev_file = NULL;
 		}
 		else if (strcmp(temp->content, ">\0") == 0
 		|| strcmp(temp->content, "<\0") == 0
@@ -143,12 +151,23 @@ void create_ast(t_minishell *minishell)
 			{
 				add_child(prev_cmd, current);
 				ft_swap(prev_cmd, current);
+				if (!prev_file)
+					prev_file = prev_cmd;
 				prev_cmd = prev_cmd->left;
 			}
 			else if (!head)
 				head = current;
+			else if (prev_pipe && !prev_cmd)
+			{
+				add_child(prev_pipe, current);
+				prev_file = current;
+			}
 			else if (!prev_cmd)
+			{
+				printf(GREEN"%s\n"RESET, current->cmd->cmds[0]);
 				add_child(head, current);
+				prev_file = current;
+			}
 		}
 		else
 		{

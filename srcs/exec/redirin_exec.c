@@ -11,7 +11,7 @@ int	handle_redirin(t_ast *node, t_minishell *minishell)
 		if (minishell->fd_in == -1)
 		{
 			ft_dprintf(STDERR_FILENO, "bash: %s: No such file or directory\n", node->cmd->cmds[0]);
-			exit (0);
+			exit (1);
 		}
 		dup2(minishell->fd_in, STDIN_FILENO); //protect
 		close(minishell->fd_in);
