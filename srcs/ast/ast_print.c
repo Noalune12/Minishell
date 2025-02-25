@@ -74,7 +74,6 @@ void print_ast(t_ast *node, int depth) {
             printf("c: ");
             while(node->cmd->cmds[++i])
                 printf("%s +", node->cmd->cmds[i] ? node->cmd->cmds[i] : "null");
-            printf("%d", node->last_branch);
             printf("\n");
         }
             break;
@@ -89,7 +88,6 @@ void print_ast(t_ast *node, int depth) {
             break;
         case NODE_PIPE:
         {
-            printf("%d", node->last_branch);
             printf("|\n");
         }
             break;
