@@ -21,16 +21,28 @@ char	*find_home(t_list *env)
 	return (home);
 }
 
-t_list	*find_info_env(t_list **envp, char *content)
+t_list	*find_info_env(t_list **envp, char *content, int equal)
 {
 	t_list	*searched;
 
 	searched = *envp;
-	while (searched)
+	if (equal == 1)
 	{
-		if (ft_strncmp(searched->content, content, ft_strlen(content)) == 0)
-			break ;
-		searched = searched->next;
+		while (searched)
+		{
+			if (ft_strncmp(searched->content, content, ft_strlen(content)) == 0)
+				break ;
+			searched = searched->next;
+		}
+	}
+	else
+	{
+		while (searched)
+		{
+			if (strcmp(searched->content, content) == 0)
+				break ;
+			searched = searched->next;
+		}
 	}
 	return (searched);
 }
@@ -40,8 +52,12 @@ void	update_env(t_list **envp, char *path, int to_home) // if PWD is unset what 
 	t_list	*env_oldpwd;
 	t_list	*env_pwd;
 
-	env_oldpwd = find_info_env(envp, "OLDPWD=");
-	env_pwd = find_info_env(envp, "PWD=");
+	env_oldpwd = find_info_env(envp, "OLDPWD=", 1);
+	if (!env_oldpwd)
+		env_oldpwd = find_info_env(envp, "OLDPWD", 0);
+	env_pwd = find_info_env(envp, "PWD=", 1);
+	if (!env_pwd)
+		env_pwd = find_info_env(envp, "PWD", 0);
 	if (env_oldpwd && env_pwd)
 	{
 		free(env_oldpwd->content);

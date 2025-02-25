@@ -6,17 +6,7 @@ typedef struct s_ast			t_ast;
 
 # include <unistd.h>
 
-typedef struct s_minishell
-{
-	char	*input;
-	int		exit_status;
-	pid_t	pid;
-	pid_t	pipe_fd[2];
-	int		fd_in;
-	int		fd_out;	t_list	*envp; // liste chainee de l'environnement
-	t_list	*token; // liste chainee des parametres
-	t_ast	*ast_node; // Abstract Syntax Tree
-}	t_minishell;
+
 
 // int	g_signal_received;
 
@@ -121,7 +111,6 @@ typedef struct s_ast
 {
 	t_node_type		type; // type de noeud definis par lenum
 	t_cmd			*cmd; // ce qu'on recupere du parsing -> remplacer par t_cmd ?
-	int				last_branch;
 	struct s_ast	*left;
 	struct s_ast	*right;
 	struct s_ast	*root; // top priority node
@@ -132,6 +121,25 @@ typedef struct s_exec
 	pid_t	pipe_fd[2];
 }	t_exec;
 
+typedef struct	s_token
+{
+	char		*content;
+	bool		to_expand;
+	struct s_token	*next;
+}	t_token;
+
+typedef struct s_minishell
+{
+	char	*input;
+	int		exit_status;
+	pid_t	pid;
+	pid_t	pipe_fd[2];
+	int		fd_in;
+	int		fd_out;
+	t_list	*envp; // liste chainee de l'environnement
+	t_list	*token; // liste chainee des parametres
+	t_ast	*ast_node; // Abstract Syntax Tree
+}	t_minishell;
 
 t_list	*env_init(char **envp);
 t_list	*find_env_node(t_list *env, const char *var_searched);
@@ -141,7 +149,7 @@ t_ast	*create_test_tree(void);
 void	free_ast(t_ast *node);
 void	print_ast(t_ast *node, int depth);
 
-void	add_node(t_list **env, char *content); // ????????
+t_list	*add_node(t_list **env, char *content); // ????????
 void	add_node_test(t_list *args); // ??????? oui je sais
 void	free_list(t_list *list);
 void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
@@ -373,15 +381,27 @@ int		handle_redirin(t_ast *node, t_minishell *minishell);
 
 int		handle_redirout(t_ast *node, t_minishell *minishell);
 
-int	handle_redirappend(t_ast *node, t_minishell *minishell);
+int		handle_redirappend(t_ast *node, t_minishell *minishell);
 
 int		handle_builtin(t_ast *node, t_minishell *minishell);
 int		ft_pwd(char **cmds);
 int		ft_cd(char **cmds, t_list *envp);
-void	ft_export(char **cmds, t_list **env);
+
+int		ft_export(char **cmds, t_list **env);
+t_list	*copy_env(t_list *env);
+int		check_export(char **cmds);
+int		add_export_to_env(char *cmds, t_list **env);
+int		add_or_append_env(char *content, t_list **env, int len);
+int		find_env_var_node(char *var, t_list **env);
+
 void	ft_unset(char **cmds, t_minishell *minishell);
 void	remove_node(t_list **head, const char *var);
 
 char	**ft_free_double(char **strs);
+char	*ft_strndup(const char *s, size_t len);
+int		ft_strnlen(char *str, char c);
+int ascii_cmp(const char *a, const char *b);
+void swap_data(t_list *a, t_list *b);
+void ft_list_sort(t_list **begin_list, int (*cmp)(const char *, const char *));
 
 #endif

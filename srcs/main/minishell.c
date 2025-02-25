@@ -78,8 +78,12 @@ int	main(int ac, char **av, char **envp)
 		create_ast(&minishell);
 		// t_ast *test_tree = create_test_tree();
 		// printf("\nArbre de syntaxe abstraite :\n");
+		printf(BLUE"\nAST\n"RESET);
 		print_ast(minishell.ast_node, 0);
+		printf(PURPLE"\nEXEC"RESET);
+		printf("\n");
 		minishell.exit_status = exec_minishell(minishell.ast_node, &minishell);
+		printf(YELLOW"\nEXIT STATUS\n"RESET);
 		printf("exit status = %d\n", minishell.exit_status);
 		// free_ast(test_tree);
 		printf("--------------------\n");
