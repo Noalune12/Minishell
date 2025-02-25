@@ -1,17 +1,21 @@
 #include "minishell.h"
 
-char	*read_input(t_minishell *minishell)
+char	*read_input(t_minishell *minishell) // CA LEAK PAS CA (je suis plus davis de faire un ft_strjoin_free ou un truc comme ca parce que c'est pas beau la)
 {
-	char 	*input;
-	char	*pre_prompt;
+	char	*input;
+	char	*prompt;
+	char	*tmp;
 	char	*exit_code;
 
 	exit_code = ft_itoa(minishell->exit_status);
-	exit_code = ft_strjoin("[", exit_code);
-	exit_code = ft_strjoin(exit_code, "]> ");
-	pre_prompt = ft_strjoin("minishell ", exit_code);
-	input = readline(pre_prompt); // add input to history if not empty
-
+	tmp = ft_strjoin("[", exit_code);
+	free(exit_code);
+	exit_code = ft_strjoin(tmp, "]> ");
+	free(tmp);
+	prompt = ft_strjoin("minishell ", exit_code);
+	free(exit_code);
+	input = readline(prompt);
+	free(prompt);
 	if (input && *input)
 		add_history(input);
 	return (input);
@@ -67,8 +71,7 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		}
 		tokenize_and_split(&minishell);
-		//parcours_token(&minishell); //-> je parcours jusqu'a je tombe sur un "<< EOF "-> remplace par "< filename" dans token
-		//handle_expand_idk(&minishell); // -> working on it
+		check_heredoc(&minishell); //-> je parcours jusqu'a je tombe sur un "<< EOF "-> remplace par "< filename" dans token
 		tmp_test = minishell.token;
 		for (int i = 0; tmp_test != NULL; i++)
 		{

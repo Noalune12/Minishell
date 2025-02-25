@@ -9,6 +9,8 @@ override ASTDIR		:= ast/
 override PARSINGDIR	:= parsing/
 override EXECDIR	:= exec/
 override BUILTINDIR	:= built_in/
+override HEREDOCDIR	:= heredoc/
+
 
 SRC	+= $(addprefix $(MAINDIR), $(addsuffix .c, $(MAINSRC)))
 
@@ -64,6 +66,7 @@ override EXECSRC	:= \
 	redirout_exec \
 
 SRC	+= $(addprefix $(BUILTINDIR), $(addsuffix .c, $(BUILTINSRC)))
+
 override BUILTINSRC	:= \
 	built_in \
 	pwd \
@@ -75,3 +78,10 @@ override BUILTINSRC	:= \
 	export_add_env \
 	export_append \
 	utils_builtin \
+
+SRC += $(addprefix $(HEREDOCDIR), $(addsuffix .c, $(HEREDOCSRC)))
+
+override HEREDOCSRC	:= \
+	heredoc_check \
+	heredoc_expand_handling \
+	heredoc_file_handling \

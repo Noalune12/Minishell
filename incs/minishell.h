@@ -66,6 +66,11 @@ typedef struct s_ast			t_ast;
 # define SIGQUIT_MESSAGE "Quit (core dumped)\n"
 # define AND_SO_ON "...."
 
+// heredoc defines
+
+#define HEREDOC_PATH_BASE_NAME "/tmp/.heredoc_"
+#define RANDOM_NAME_LENGHT 10
+
 typedef enum e_quote // delete ? peut etre besoin pour le parsing
 {
 	NONE_QUOTE,
@@ -403,5 +408,14 @@ int		ft_strnlen(char *str, char c);
 int ascii_cmp(const char *a, const char *b);
 void swap_data(t_list *a, t_list *b);
 void ft_list_sort(t_list **begin_list, int (*cmp)(const char *, const char *));
+
+
+/* --- heredoc --- */
+
+char	*create_temp_file(void);
+char	*handle_heredoc(char *delimiter);
+bool	check_expand(char *delimiter);
+int		check_heredoc(t_minishell *minishell);
+
 
 #endif
