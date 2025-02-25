@@ -1,17 +1,23 @@
 #include "minishell.h"
 
-char	*read_input(void)
+char	*read_input(t_minishell *minishell)
 {
-	char *input;
+	char 	*input;
+	char	*pre_prompt;
+	char	*exit_code;
 
-	input = readline("minishell> "); // add input to history if not empty
+	exit_code = ft_itoa(minishell->exit_status);
+	exit_code = ft_strjoin("[", exit_code);
+	exit_code = ft_strjoin(exit_code, "]> ");
+	pre_prompt = ft_strjoin("minishell ", exit_code);
+	input = readline(pre_prompt); // add input to history if not empty
 
 	if (input && *input)
 		add_history(input);
 	return (input);
 }
 
-void    tokenize_and_split(t_minishell *minishell)
+void	tokenize_and_split(t_minishell *minishell)
 {
 	t_list  *current;
 	t_list  *split_tokens;
@@ -44,7 +50,7 @@ void    tokenize_and_split(t_minishell *minishell)
 int	main(int ac, char **av, char **envp)
 {
 	t_minishell	minishell;
-	t_list	*tmp_test;
+	t_list		*tmp_test;
 
 	tty_check();
 	signal(SIGINT, signal_handler);
@@ -54,13 +60,14 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		clear_token_list(minishell.token);
-		minishell.input = read_input();
+		minishell.input = read_input(&minishell);
 		if (minishell.input == NULL) // ctrl + d
 		{
 			ft_dprintf(STDERR_FILENO, "exit\n");
 			break ;
 		}
 		tokenize_and_split(&minishell);
+		//parcours_token(&minishell); //-> je parcours jusqu'a je tombe sur un "<< EOF "-> remplace par "< filename" dans token
 		//handle_expand_idk(&minishell); // -> working on it
 		tmp_test = minishell.token;
 		for (int i = 0; tmp_test != NULL; i++)
