@@ -85,3 +85,5 @@ override HEREDOCSRC	:= \
 	heredoc_check \
 	heredoc_expand_handling \
 	heredoc_file_handling \
+	heredoc_utils \
+	multiple_heredoc_utils \

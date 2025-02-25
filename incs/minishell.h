@@ -6,8 +6,6 @@ typedef struct s_ast			t_ast;
 
 # include <unistd.h>
 
-
-
 // int	g_signal_received;
 
 // void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
@@ -416,6 +414,17 @@ char	*create_temp_file(void);
 char	*handle_heredoc(char *delimiter);
 bool	check_expand(char *delimiter);
 int		check_heredoc(t_minishell *minishell);
+
+int	is_last_heredoc(t_list *current, t_list *last_heredoc);
+int	handle_last_heredoc(t_list *current, int *error);
+int	is_op(char *token);
+int	write_to_heredoc(char *file_name, char *delimiter);
+
+
+t_list	*find_last_heredoc(t_list *start, t_list **last_heredoc);
+
+
+void	handle_regular_heredoc(t_list *current);
 
 
 #endif
