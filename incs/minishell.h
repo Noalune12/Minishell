@@ -111,7 +111,6 @@ typedef struct s_ast
 {
 	t_node_type		type; // type de noeud definis par lenum
 	t_cmd			*cmd; // ce qu'on recupere du parsing -> remplacer par t_cmd ?
-	bool			to_expand;
 	struct s_ast	*left;
 	struct s_ast	*right;
 	struct s_ast	*root; // top priority node
