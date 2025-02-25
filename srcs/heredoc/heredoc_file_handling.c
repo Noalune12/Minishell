@@ -55,18 +55,22 @@ char	*create_temp_file(void)
 /**
  * @brief Main function to handle heredocs
  *
- * This functions forks once for each heredoc the user has written in his prompt.
- * Creates inside the forks a temporary specific file in /tmp/ depending on the pid value.
+ * This functions forks once for each heredoc the user has written in
+ * his prompt.
+ * Creates inside the forks a temporary specific file in /tmp/ depending
+ * on the pid value.
  * Has a main loop that uses readline and instead of a classic gnl.
- * Checks with strcmp if the readline returned string matches the delimiter of the current heredoc.
- * Checks if there is environnement variable to expand inside the heredoc line, if there is calls a function that replace the initial value to the expanded value.
+ * Checks with strcmp if the readline returned string matches the delimiter
+ * of the current heredoc.
+ * Checks if there is environnement variable to expand inside the heredoc line,
+ * if there is calls a function that replace the initial value to the expanded value.
  * Writes in the previously created file the line with or without expands.
  * Exit.....
  *
  * A FINIR
  *
  */
-// int	temp_main_loop_here_doc_creation(void) // recupere t_minishell en parametre, a besoin de l'env actuel
+// int	temp_main_loop_here_doc_creation(void) 
 // {
 // 	pid_t pid = fork();
 // 	if (pid == 0)

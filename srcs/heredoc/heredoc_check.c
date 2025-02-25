@@ -1,61 +1,5 @@
 #include "minishell.h"
 
-int	g_signal_received2; // CA DEGAAAAAAAAGE CA
-
-static void	heredoc_signal_handler(int sig) // comportement pas vraiment gerer je comprend pas trop comment faore
-{
-	if (sig == SIGINT)
-	{
-		write(STDOUT_FILENO, "\n", 1);
-		close(0);
-		g_signal_received2 = 130;
-	}
-}
-
-static int	write_heredoc_line(int fd, char *line)
-{
-	if (!line)
-		return (0);
-	ft_dprintf(fd, "%s\n", line);
-	free(line);
-	return (1);
-}
-
-static int	write_to_heredoc(char *file_name, char *delimiter)
-{
-	int		fd;
-	char	*line;
-	int		original_stdin;
-	char	*prompt;
-	char	*default_prompt;
-
-	fd = open(file_name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (fd == -1)
-		return (-1);
-	original_stdin = dup(STDIN_FILENO);
-	signal(SIGINT, heredoc_signal_handler);
-	prompt = ft_strjoin(delimiter, "> ");
-	default_prompt = "> ";
-	while (1)
-	{
-		if (prompt)
-			line = readline(prompt);
-		else
-			line = readline(default_prompt);
-		if (!line || (ft_strcmp(line, delimiter) == 0))
-			break ;
-		if (!write_heredoc_line(fd, line))
-			break ;
-	}
-	signal(SIGINT, signal_handler);
-	free(prompt);
-	free(line);
-	close(fd);
-	dup2(original_stdin, STDIN_FILENO);
-	close(original_stdin);
-	return (0);
-}
-
 static char	*process_delimiter(char *delimiter)
 {
 	char	*processed;
@@ -104,74 +48,6 @@ char	*handle_heredoc(char *delimiter)
 	return (file_name);
 }
 
-static int	is_op(char *token)
-{
-	if (!token)
-		return (0);
-	if (ft_strcmp(token, "|") == 0)
-		return (1);
-	if (ft_strcmp(token, "&&") == 0)
-		return (1);
-	if (ft_strcmp(token, "||") == 0)
-		return (1);
-	if (ft_strcmp(token, "(") == 0)
-		return (1);
-	if (ft_strcmp(token, ")") == 0)
-		return (1);
-	return (0);
-}
-
-t_list	*find_last_heredoc(t_list *start, t_list **last_heredoc)
-{
-	t_list	*current;
-	t_list	*next;
-
-	current = start;
-	*last_heredoc = NULL;
-	while (current)
-	{
-		next = current->next;
-		if (ft_strcmp(current->content, "<<") == 0 && next)
-		{
-			*last_heredoc = current;
-		}
-		else if (is_op(current->content))
-			return (current);
-		current = next;
-	}
-	return (NULL);
-}
-
-static int	is_last_heredoc(t_list *current, t_list *last_heredoc)
-{
-	return (last_heredoc && current == last_heredoc->next);
-}
-
-static void	handle_regular_heredoc(t_list *current)
-{
-	char	*tmp_filename;
-
-	tmp_filename = handle_heredoc(current->content);
-	if (tmp_filename)
-		unlink(tmp_filename); // marche PAAAASSSS
-	free(tmp_filename);
-}
-
-static int	handle_last_heredoc(t_list *current, int *error)
-{
-	char	*filename;
-
-	filename = handle_heredoc(current->content);
-	if (!filename)
-	{
-		*error = -1;
-		return (0);
-	}
-	free(current->content);
-	current->content = filename;
-	return (1);
-}
-
 static void	process_heredocs(t_list *start, t_list *last_heredoc, int *error)
 {
 	t_list	*current;
@@ -188,7 +64,7 @@ static void	process_heredocs(t_list *start, t_list *last_heredoc, int *error)
 			if (is_last_heredoc(current, last_heredoc))
 			{
 				if (!handle_last_heredoc(current, error))
-					return;
+					return ;
 			}
 			else
 				handle_regular_heredoc(current);
@@ -206,22 +82,18 @@ int	check_heredoc(t_minishell *minishell)
 
 	current = minishell->token;
 	error = 0;
-
 	while (current)
 	{
 		pipe_token = find_last_heredoc(current, &last_heredoc);
-
 		if (last_heredoc)
 		{
 			process_heredocs(current, last_heredoc, &error);
 			if (error == -1)
 				return (-1);
 		}
-
 		if (!pipe_token)
 			break;
 		current = pipe_token->next;
 	}
-
 	return (0);
 }
