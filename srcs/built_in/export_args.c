@@ -2,7 +2,7 @@
 
 void	remove_export(char **cmds, int i)
 {
-	int j;
+	int	j;
 
 	if (cmds == NULL || cmds[i] == NULL)
 		return ;
@@ -16,16 +16,17 @@ void	remove_export(char **cmds, int i)
 	cmds[j] = NULL;
 }
 
-void	print_double(char **strs)
-{
-	int i = 0;
+// void	print_double(char **strs)
+// {
+// 	int	i;
 
-	while (strs[i])
-	{
-		printf(BLUE"%s\n"RESET, strs[i]);
-		i++;
-	}
-}
+// 	i = 0;
+// 	while (strs[i])
+// 	{
+// 		printf(BLUE"%s\n"RESET, strs[i]);
+// 		i++;
+// 	}
+// }
 
 void	check_if_space(char **cmds, int *ret)
 {
@@ -38,16 +39,16 @@ void	check_if_space(char **cmds, int *ret)
 		j = 0;
 		while (cmds[i][j] && cmds[i][j] != '=')
 		{
-			if ((!ft_isalnum(cmds[i][j]) && cmds[i][j] != '_' && cmds[i][j] != '+')
-				|| (cmds[i][j] && cmds[i][j] == '+'
+			if ((!ft_isalnum(cmds[i][j]) && cmds[i][j] != '_'
+				&& cmds[i][j] != '+') || (cmds[i][j] && cmds[i][j] == '+'
 				&& ((cmds[i][j + 1] && cmds[i][j + 1] != '=')
 				|| !cmds[i][j + 1])))
 			{
-				ft_dprintf(STDERR_FILENO, "bash: export: `%s': not a valid identifier\n", cmds[i]);
+				ft_dprintf(STDERR_FILENO,
+					"bash: export: `%s': not a valid identifier\n", cmds[i]);
 				*ret = 1;
 				remove_export(cmds, i);
 				i--;
-				// print_double(cmds);
 				break ;
 			}
 			j++;
@@ -66,10 +67,10 @@ int	check_export(char **cmds)
 	{
 		if (cmds[i][0] != '_' && !ft_isalpha(cmds[i][0]))
 		{
-			ft_dprintf(STDERR_FILENO, "bash: export: `%s': not a valid identifier\n", cmds[i]);
+			ft_dprintf(STDERR_FILENO,
+				"bash: export: `%s': not a valid identifier\n", cmds[i]);
 			ret = 1;
 			remove_export(cmds, i);
-			// print_double(cmds); //only to check
 		}
 		else
 			i++;

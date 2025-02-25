@@ -1,115 +1,87 @@
 #include "minishell.h"
+// malloc checked
+
+	// static int k = 0;
+	// 	k++;
+
+	// 	if (k == 2)
+	// 	{
+	// 					free(var);
+	// 		ft_dprintf(STDERR_FILENO, "Malloc failed\n");
+	// 		return (NULL);
+	// 	}
+
+int	find_env_var_node(char *var, t_list **env)
+{
+	char	*env_var;
+	t_list	*temp;
+
+	temp = *env;
+	while (temp)
+	{
+		env_var = ft_strndup(temp->content, ft_strnlen(temp->content, '='));
+		if (!env_var)
+		{
+			free(var);
+			ft_dprintf(STDERR_FILENO, "Malloc failed\n");
+			return (0);
+		}
+		if (strcmp(var, env_var) == 0)
+		{
+			free(env_var);
+			break ;
+		}
+		free(env_var);
+		temp = temp->next;
+	}
+	*env = temp;
+	free(var);
+	return (0);
+}
+
+static int	add_or_replace_condition(char *content, t_list **env,
+	int add, t_list *temp)
+{
+	char	*temp_content;
+
+	if (temp && add)
+	{
+		temp_content = temp->content;
+		temp->content = ft_strdup(content);
+		if (!temp->content)
+		{
+			ft_dprintf(STDERR_FILENO, "Malloc failed\n");
+			return (1);
+		}
+		free(temp_content);
+	}
+	else if (!temp)
+	{
+		if (!add_node(env, content))
+		{
+			ft_dprintf(STDERR_FILENO, "Malloc failed\n");
+			return (1);
+		}
+	}
+	return (0);
+}
 
 static int	add_or_replace_env(char *content, t_list **env, int len, int add)
 {
 	t_list	*temp;
 	char	*var;
-	char	*env_var;
 
 	var = ft_strndup(content, len);
 	temp = *env;
-	while (temp)
+	if (!var)
 	{
-		env_var = ft_strndup(temp->content, ft_strnlen(temp->content, '='));
-		if (strcmp(var, env_var) == 0)
-		{
-			free(env_var);
-			break ;
-		}
-		free(env_var);
-		temp = temp->next;
+		ft_dprintf(STDERR_FILENO, "Malloc failed\n");
+		return (1);
 	}
-	if (temp && add)
-	{
-		free(temp->content);
-		temp->content = ft_strdup(content);
-	}
-	else if (!temp)
-		add_node(env, content);
-	free(var);
-	return (0);
-}
-
-static char	*remove_plus(char *content)
-{
-	char	*str;
-	int		i;
-	int		j;
-	bool	plus;
-
-	str = ft_calloc(ft_strlen(content), sizeof(char));
-	i = 0;
-	j = 0;
-	plus = false;
-	while (content[i])
-	{
-		if ((content[i] != '+') || (content[i] == '+' && plus == true))
-		{
-			str[j] = content[i];
-			j++;
-		}
-		if (content[i] == '+')
-			plus = true;
-		i++;
-	}
-	free(content);
-	return (str);
-}
-
-static int	add_or_append_env(char *content, t_list **env, int len)
-{
-	t_list	*temp;
-	char	*var;
-	char	*env_var;
-	char	*append;
-	char	*temp_str;
-	int		equal;
-
-	equal = 0;
-	var = ft_strndup(content, len - 2);
-	temp = *env;
-	while (temp)
-	{
-		env_var = ft_strndup(temp->content, ft_strnlen(temp->content, '='));
-		if (strcmp(var, env_var) == 0)
-		{
-			free(env_var);
-			break ;
-		}
-		free(env_var);
-		temp = temp->next;
-	}
-	if (temp && ft_strchr(temp->content, '='))
-		equal = 1;
-	if (temp)
-	{
-		append = ft_strdup(content + len);
-		temp_str = temp->content;
-		if (equal == 1)
-		{
-			temp->content = ft_strjoin(temp->content, append);
-			free(temp_str);
-			free(append);
-		}
-		else
-		{
-			temp->content = ft_strjoin(temp->content, "=");
-			free(temp_str);
-			temp_str = temp->content;
-			temp->content = ft_strjoin(temp->content, append);
-			free(temp_str);
-			free(append);
-		}
-	}
-	else if (!temp)
-	{
-		add_node(env, content);
-		temp = *env;
-		while (temp->next)
-			temp = temp->next;
-		temp->content = remove_plus(temp->content);
-	}
-	free(var);
+	if (find_env_var_node(var, &temp) == 1)
+		return (1);
+	if (add_or_replace_condition(content, env, add, temp) == 1)
+		return (1);
 	return (0);
 }
 
@@ -121,10 +93,19 @@ int	add_export_to_env(char *cmds, t_list **env)
 	while (cmds[i] && cmds[i] != '=' && cmds[i] != '+')
 		i++;
 	if (cmds[i] == '=')
-		add_or_replace_env(cmds, env, i, 1);
+	{
+		if (add_or_replace_env(cmds, env, i, 1) == 1)
+			return (1);
+	}
 	else if (!cmds[i])
-		add_or_replace_env(cmds, env, i, 0);
-	else if (cmds[i] == '+' && cmds[i + 1] == '=' && cmds[i + 2])
-		add_or_append_env(cmds, env, i + 2);
+	{
+		if (add_or_replace_env(cmds, env, i, 0) == 1)
+			return (1);
+	}
+	else if (cmds[i] == '+' && cmds[i + 1] == '=')
+	{
+		if (add_or_append_env(cmds, env, i + 2) == 1)
+			return (1);
+	}
 	return (0);
 }

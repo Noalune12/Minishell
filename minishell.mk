@@ -71,5 +71,7 @@ override BUILTINSRC	:= \
 	unset \
 	export \
 	export_args \
+	export_copy_env \
 	export_add_env \
+	export_append \
 	utils_builtin \
