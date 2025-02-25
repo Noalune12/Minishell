@@ -1,37 +1,5 @@
 #include "minishell.h"
 
-char	*ft_strndup(const char *s, size_t len) // utils
-{
-	char		*str;
-	size_t		i;
-
-	str = (char *)malloc((len + 1) * sizeof(char));
-	if (!str)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		str[i] = s[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
-}
-
-int	ft_strnlen(char *str, char c)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == c)
-			break ;
-		i++;
-	}
-	return (i);
-}
-
 static int	add_or_replace_env(char *content, t_list **env, int len, int add)
 {
 	t_list	*temp;
@@ -67,21 +35,21 @@ static char	*remove_plus(char *content)
 	char	*str;
 	int		i;
 	int		j;
-	int		plus;
+	bool	plus;
 
 	str = ft_calloc(ft_strlen(content), sizeof(char));
 	i = 0;
 	j = 0;
-	plus = 0;
+	plus = false;
 	while (content[i])
 	{
-		if ((content[i] != '+') || (content[i] == '+' && plus == 1))
+		if ((content[i] != '+') || (content[i] == '+' && plus == true))
 		{
 			str[j] = content[i];
 			j++;
 		}
 		if (content[i] == '+')
-			plus = 1;
+			plus = true;
 		i++;
 	}
 	free(content);
@@ -148,7 +116,6 @@ static int	add_or_append_env(char *content, t_list **env, int len)
 int	add_export_to_env(char *cmds, t_list **env)
 {
 	int	i;
-	(void)env;
 
 	i = 0;
 	while (cmds[i] && cmds[i] != '=' && cmds[i] != '+')

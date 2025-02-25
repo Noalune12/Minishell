@@ -1,42 +1,6 @@
 #include  "minishell.h"
 
-int ascii_cmp(const char *a, const char *b)
-{
-	return (strcmp(a, b));
-}
-
-void swap_data(t_list *a, t_list *b)
-{
-	char *temp = a->content;
-	a->content = b->content;
-	b->content = temp;
-}
-
-void ft_list_sort(t_list **begin_list, int (*cmp)(const char *, const char *))
-{
-	t_list *list;
-	t_list *next;
-	int swap;
-
-	if (!begin_list || !cmp)
-		return ;
-	swap = 1;
-	while (swap) {
-		swap = 0;
-		list = *begin_list;
-		while (list->next) {
-			next = list->next;
-			if (cmp(list->content, next->content) > 0)
-			{
-				swap_data(list, next);
-				swap = 1;
-			}
-			list = list->next;
-		}
-	}
-}
-
-char	*copy_dquotes(char *content)
+char	*copy_dquotes(char *content) //malloc checked
 {
 	char	*content_dquotes;
 	size_t	i;
@@ -65,7 +29,7 @@ char	*copy_dquotes(char *content)
 	return (content_dquotes);
 }
 
-t_list	*copy_env(t_list *env)
+t_list	*copy_env(t_list *env) //malloc checked
 {
 	t_list	*new_list;
 	t_list	*temp;
@@ -75,7 +39,11 @@ t_list	*copy_env(t_list *env)
 	temp = env;
 	while (temp)
 	{
-		add_node(&new_list, temp->content);
+		if (!add_node(&new_list, temp->content))
+		{
+			free_list(new_list);
+			return (NULL);
+		}
 		temp = temp->next;
 	}
 	temp = new_list;
@@ -111,7 +79,7 @@ void	free_env_export(t_list *env)
 	}
 }
 
-void	ft_print_export(t_list *env)
+int	ft_print_export(t_list *env)
 {
 	t_list	*sorted;
 	t_list	*temp;
@@ -120,7 +88,7 @@ void	ft_print_export(t_list *env)
 	if (!sorted)
 	{
 		ft_dprintf(STDERR_FILENO, "Malloc failed\n");
-		return ;
+		return (1);
 	}
 	ft_list_sort(&sorted, &ascii_cmp);
 	temp = sorted;
@@ -131,6 +99,7 @@ void	ft_print_export(t_list *env)
 		temp = temp->next;
 	}
 	free_env_export(sorted);
+	return (0);
 }
 
 //should begin with _ or letter -> check what it takes
@@ -139,13 +108,13 @@ void	ft_print_export(t_list *env)
 int	ft_export(char **cmds, t_list **env)
 {
 	int		i;
-	int		ret = 0;
+	int		ret;
 
 	i = 0;
-
+	ret = 0;
 	if (!cmds[++i])
 	{
-		ft_print_export(*env);
+		ret = ft_print_export(*env);
 		return (ret);
 	}
 	else

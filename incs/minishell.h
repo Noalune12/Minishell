@@ -141,7 +141,7 @@ t_ast	*create_test_tree(void);
 void	free_ast(t_ast *node);
 void	print_ast(t_ast *node, int depth);
 
-void	add_node(t_list **env, char *content); // ????????
+t_list	*add_node(t_list **env, char *content); // ????????
 void	add_node_test(t_list *args); // ??????? oui je sais
 void	free_list(t_list *list);
 void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
@@ -385,5 +385,10 @@ void	ft_unset(char **cmds, t_minishell *minishell);
 void	remove_node(t_list **head, const char *var);
 
 char	**ft_free_double(char **strs);
+char	*ft_strndup(const char *s, size_t len);
+int		ft_strnlen(char *str, char c);
+int ascii_cmp(const char *a, const char *b);
+void swap_data(t_list *a, t_list *b);
+void ft_list_sort(t_list **begin_list, int (*cmp)(const char *, const char *));
 
 #endif

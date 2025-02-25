@@ -72,3 +72,4 @@ override BUILTINSRC	:= \
 	export \
 	export_args \
 	export_add_env \
+	utils_builtin \
