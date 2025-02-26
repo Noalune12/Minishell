@@ -1,20 +1,20 @@
 #include "minishell.h"
 
-int	g_signal_received2; // CA DEGAAAAAAAAGE CA
+// int	g_signal_received2; // CA DEGAAAAAAAAGE CA
 
-/**
- * @brief comportement pas vraiment gerer je comprend pas trop comment faore
- *
- */
-static void	heredoc_signal_handler(int sig)
-{
-	if (sig == SIGINT)
-	{
-		write(STDOUT_FILENO, "\n", 1);
-		close(0);
-		g_signal_received2 = 130;
-	}
-}
+// /**
+//  * @brief comportement pas vraiment gerer je comprend pas trop comment faore
+//  *
+//  */
+// static void	heredoc_signal_handler(int sig)
+// {
+// 	if (sig == SIGINT)
+// 	{
+// 		write(STDOUT_FILENO, "\n", 1);
+// 		close(0);
+// 		g_signal_received = sig;
+// 	}
+// }
 
 static int	write_heredoc_line(int fd, char *line)
 {

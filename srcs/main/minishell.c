@@ -63,6 +63,9 @@ int	main(int ac, char **av, char **envp)
 	printf("--------------------\n");
 	while (1)
 	{
+		init_global();
+		printf("signal = %d\n", return_global());
+		printf("exit status = %d\n", minishell.exit_status);
 		clear_token_list(minishell.token);
 		minishell.input = read_input(&minishell);
 		if (minishell.input == NULL) // ctrl + d
@@ -83,9 +86,14 @@ int	main(int ac, char **av, char **envp)
 		// printf("\nArbre de syntaxe abstraite :\n");
 		printf(BLUE"\nAST\n"RESET);
 		print_ast(minishell.ast_node, 0);
-		printf(PURPLE"\nEXEC"RESET);
-		printf("\n");
-		minishell.exit_status = exec_minishell(minishell.ast_node, &minishell);
+		if (return_global() == 2)
+			minishell.exit_status = 130;
+		else
+		{
+			printf(PURPLE"\nEXEC"RESET);
+			printf("\n");
+			minishell.exit_status = exec_minishell(minishell.ast_node, &minishell);
+		}
 		printf(YELLOW"\nEXIT STATUS\n"RESET);
 		printf("exit status = %d\n", minishell.exit_status);
 		// free_ast(test_tree);

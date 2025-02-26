@@ -382,7 +382,7 @@ int		handle_pipe(t_ast *node, t_minishell *minishell);
 
 int		handle_redirin(t_ast *node, t_minishell *minishell);
 
-int		handle_heredoc(t_ast *node, t_minishell *minishell);
+int		handle_heredocin(t_ast *node, t_minishell *minishell);
 
 int		handle_redirout(t_ast *node, t_minishell *minishell);
 
@@ -428,5 +428,10 @@ t_list	*find_last_heredoc(t_list *start, t_list **last_heredoc);
 
 void	handle_regular_heredoc(t_list *current);
 
+
+/* test signal */
+int	return_global(void);
+void	heredoc_signal_handler(int sig);
+void	init_global(void);
 
 #endif

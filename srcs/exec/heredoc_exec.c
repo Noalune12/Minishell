@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	handle_heredoc(t_ast *node, t_minishell *minishell)
+int	handle_heredocin(t_ast *node, t_minishell *minishell)
 {
 	int	ret;
 
