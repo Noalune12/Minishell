@@ -4,13 +4,7 @@
 typedef struct s_list			t_list;
 typedef struct s_ast			t_ast;
 
-typedef struct s_minishell
-{
-	char	*input;
-	t_list	*envp; // liste chainee de l'environnement
-	t_list	*token; // liste chainee des parametres
-	t_ast	*ast_node; // Abstract Syntax Tree
-}	t_minishell;
+# include <unistd.h>
 
 // int	g_signal_received;
 
@@ -29,7 +23,6 @@ typedef struct s_minishell
 # include <readline/history.h>
 # include <stdbool.h>
 # include <signal.h>
-# include <unistd.h>
 # include "libft.h"
 # include "get_next_line.h"
 # include "ft_dprintf.h"
@@ -70,6 +63,11 @@ typedef struct s_minishell
 # define ERR_CMD "Message derreur par defaut de la commande\n"
 # define SIGQUIT_MESSAGE "Quit (core dumped)\n"
 # define AND_SO_ON "...."
+
+// heredoc defines
+
+#define HEREDOC_PATH_BASE_NAME "/tmp/.heredoc_"
+#define RANDOM_NAME_LENGHT 10
 
 typedef enum e_quote // delete ? peut etre besoin pour le parsing
 {
@@ -126,6 +124,25 @@ typedef struct s_exec
 	pid_t	pipe_fd[2];
 }	t_exec;
 
+typedef struct	s_token
+{
+	char		*content;
+	bool		to_expand;
+	struct s_token	*next;
+}	t_token;
+
+typedef struct s_minishell
+{
+	char	*input;
+	int		exit_status;
+	pid_t	pid;
+	pid_t	pipe_fd[2];
+	int		fd_in;
+	int		fd_out;
+	t_list	*envp; // liste chainee de l'environnement
+	t_list	*token; // liste chainee des parametres
+	t_ast	*ast_node; // Abstract Syntax Tree
+}	t_minishell;
 
 t_list	*env_init(char **envp);
 t_list	*find_env_node(t_list *env, const char *var_searched);
@@ -135,7 +152,7 @@ t_ast	*create_test_tree(void);
 void	free_ast(t_ast *node);
 void	print_ast(t_ast *node, int depth);
 
-void	add_node(t_list **env, char *content); // ????????
+t_list	*add_node(t_list **env, char *content); // ????????
 void	add_node_test(t_list *args); // ??????? oui je sais
 void	free_list(t_list *list);
 void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
@@ -285,7 +302,7 @@ char	*extract_token(char *input, size_t *pos);
  * The next pointer of the
  * first node is reset to NULL before processing the rest of the list.
  *
- * @param token Pointer to the head of the token list.
+ * @param token Pointer to the head of the token lipidst.
  */
 void	clear_token_list(t_list *token);
 
@@ -354,15 +371,68 @@ bool	is_operator(char c, bool in_quotes);
 void	create_ast(t_minishell *minishell);
 void	free_ast(t_ast *node);
 void	ft_free(char **split);
+void	find_last_branch(t_minishell *minishell);
 
-int		exec_minishell(t_ast *node, t_exec *exec, t_minishell *minishell);
-char	*find_exec_cmd(char **cmds, t_list *envp);
+int		exec_minishell(t_ast *node, t_minishell *minishell);
 
-void	ft_builtin(t_ast *node, t_minishell *minishell);
+int		handle_cmd(t_ast *node, t_minishell *minishell);
+char	*find_exec_cmd(char **cmds, t_minishell *minishell, t_ast *node);
+
+int		handle_pipe(t_ast *node, t_minishell *minishell);
+
+int		handle_redirin(t_ast *node, t_minishell *minishell);
+
+int		handle_heredocin(t_ast *node, t_minishell *minishell);
+
+int		handle_redirout(t_ast *node, t_minishell *minishell);
+
+int		handle_redirappend(t_ast *node, t_minishell *minishell);
+
+int		handle_builtin(t_ast *node, t_minishell *minishell);
 int		ft_pwd(char **cmds);
 int		ft_cd(char **cmds, t_list *envp);
-void	ft_export(char **cmds, t_list **env);
+
+int		ft_export(char **cmds, t_list **env);
+t_list	*copy_env(t_list *env);
+int		check_export(char **cmds);
+int		add_export_to_env(char *cmds, t_list **env);
+int		add_or_append_env(char *content, t_list **env, int len);
+int		find_env_var_node(char *var, t_list **env);
+
 void	ft_unset(char **cmds, t_minishell *minishell);
 void	remove_node(t_list **head, const char *var);
+
+char	**ft_free_double(char **strs);
+char	*ft_strndup(const char *s, size_t len);
+int		ft_strnlen(char *str, char c);
+int ascii_cmp(const char *a, const char *b);
+void swap_data(t_list *a, t_list *b);
+void ft_list_sort(t_list **begin_list, int (*cmp)(const char *, const char *));
+
+
+/* --- heredoc --- */
+
+char	*create_temp_file(void);
+char	*handle_heredoc(char *delimiter);
+bool	check_expand(char *delimiter);
+int		check_heredoc(t_minishell *minishell);
+
+int	is_last_heredoc(t_list *current, t_list *last_heredoc);
+int	handle_last_heredoc(t_list *current, int *error);
+int	is_op(char *token);
+int	write_to_heredoc(char *file_name, char *delimiter);
+
+
+t_list	*find_last_heredoc(t_list *start, t_list **last_heredoc);
+
+
+void	handle_regular_heredoc(t_list *current);
+
+
+/* test signal */
+int	return_global(void);
+void	heredoc_signal_handler(int sig);
+void	init_global(void);
+char	*read_input(t_minishell *minishell);
 
 #endif

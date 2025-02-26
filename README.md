@@ -39,6 +39,7 @@ You will learn a lot about processes and file descriptors.*
     - [Interprétation et exécution](#interprétation-et-exécution)
     - [Expansions et gestion des variables](#expansions-et-gestion-des-variables)
     - [Arbre binaire premiere recherches](#arbre-binaire-premiere-recherches)
+    - [Heredoc](#heredoc)
 
 
 ## Ressources pour travailler en groupe avec Git
@@ -349,6 +350,7 @@ liens sur lesquels jetais en train de travailler avant de partir dimanche soir:
 
 ![alt text](image-1.png)
 
+[expand je crois, je sais plus ya trop de trucs (mais il y a vraiment plein de chose bien la dedans)](https://effective-shell.com/part-6-advanced-techniques/understanding-shell-expansion/)
 
 ### Arbre binaire premiere recherches
 
@@ -364,3 +366,12 @@ Un arbre binaire est une structure de données arborescente dans laquelle chaque
   - Traverser: Visiter les noeuds dans un certain ordre
   - Niveaux: Chaque niveau est numérotés de la racine vers le bas. Racine etant le niveau 1
   -
+
+
+### Heredoc
+
+Dans l'idée on doit gérer les heredoc de la meme facon que bash mais on est libre a interpretation pour certains points.
+
+- Deja, premiere chose ca va etre de rediriger les données entrées dans le heredoc dans un ficher temporaire (creer a la detection d'un heredoc)
+  - deux solution: faire un nom aleatoire ou bien un nom fix avec une incrementation du nom de ce fichier
+  - exemple pour le nom aleatoire: /tmp/.random_name_generated_taking_X_characters_read_from_/dev/urandom

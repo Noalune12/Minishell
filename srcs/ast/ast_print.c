@@ -87,7 +87,9 @@ void print_ast(t_ast *node, int depth) {
         }
             break;
         case NODE_PIPE:
+        {
             printf("|\n");
+        }
             break;
         case NODE_REDIR_OUT:
         {

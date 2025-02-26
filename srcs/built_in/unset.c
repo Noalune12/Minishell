@@ -31,6 +31,7 @@ void remove_node(t_list **head, const char *var)
 		prev = current;
 		current = current->next;
 	}
+	free(content);
 }
 
 void	ft_unset(char **cmds, t_minishell *minishell)

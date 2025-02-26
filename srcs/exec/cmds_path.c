@@ -1,24 +1,5 @@
 #include "minishell.h"
 
-char	**ft_free_double(char **strs)
-{
-	size_t	i;
-
-	i = 0;
-	if (strs)
-	{
-		while (strs[i])
-		{
-			free(strs[i]);
-			strs[i] = NULL;
-			i++;
-		}
-		free (strs);
-		strs = NULL;
-	}
-	return (NULL);
-}
-
 char	*find_env_path(t_list *envp)
 {
 	char	*path_env;
@@ -97,17 +78,21 @@ char	*find_full_path(char **cmds, char *path_env)
 	return (NULL);
 }
 
-char	*find_exec_cmd(char **cmds, t_list *envp)
+char	*find_exec_cmd(char **cmds, t_minishell *minishell, t_ast *node)
 {
 	char	*full_path;
 	char	*path_env;
 
-	path_env = find_env_path(envp);
+	path_env = find_env_path(minishell->envp);
 	full_path = find_full_path(cmds, path_env);
 	free(path_env);
 	if (!full_path)
 	{
 		ft_free_double(cmds);
+		free_list(minishell->envp);
+		free(node->cmd);
+		free(node);
+		free_list(minishell->token);
 		exit(127);
 	}
 	return (full_path);
