@@ -32,7 +32,7 @@ static int	ft_builtin(t_ast *node, t_minishell *minishell)
 		ft_unset(node->cmd->cmds, minishell);
 	if(strncmp(node->cmd->cmds[0], "export\0", ft_strlen(node->cmd->cmds[0])) == 0)
 		ret = ft_export(node->cmd->cmds, &minishell->envp);
-	if(strncmp(node->cmd->cmds[0], "echp\0", ft_strlen(node->cmd->cmds[0])) == 0)
+	if(strncmp(node->cmd->cmds[0], "echo\0", ft_strlen(node->cmd->cmds[0])) == 0)
 		ft_echo(minishell);
 	return (ret);
 }
