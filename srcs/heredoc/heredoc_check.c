@@ -54,7 +54,7 @@ static void	process_heredocs(t_list *start, t_list *last_heredoc, int *error)
 	t_list	*next;
 
 	current = start;
-	while (current && ft_strcmp(current->content, "|") != 0)
+	while (current && !is_op(current->content))
 	{
 		next = current->next;
 		if (ft_strcmp(current->content, "<<") == 0 && next)
