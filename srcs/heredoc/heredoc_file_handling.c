@@ -3,10 +3,11 @@
 #include <string.h>
 #include <stdlib.h>
 
+#define AUTORIZED_CHAR "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
 static void	format_file_name(char *file_name)
 {
-	const char		autorized_char[] = \
-		"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	const char		autorized_char[] = AUTORIZED_CHAR;
 	unsigned char	index;
 	size_t			i;
 
@@ -43,11 +44,14 @@ char	*create_temp_file(void)
 	}
 	close(fd);
 	format_file_name(get_random_name);
-	file_name = ft_strjoin(HEREDOC_PATH_BASE_NAME, get_random_name);
+	file_name = ft_strjoin_free(HEREDOC_PATH_BASE_NAME, &get_random_name, false, true);
+	// file_name = ft_strjoin(HEREDOC_PATH_BASE_NAME, get_random_name);
 	free(get_random_name);
 	if (!file_name)
 		return (NULL);
-	printf("%sTEMPORARY PRINTF filename:%s %s\n", RED, RESET, file_name);
+	if (access(file_name, F_OK) == 0)
+		return (create_temp_file());
+	ft_dprintf(STDERR_FILENO, "%sTEMPORARY PRINTF filename:%s %s\n", RED, RESET, file_name);
 	return (file_name);
 }
 
@@ -70,7 +74,7 @@ char	*create_temp_file(void)
  * A FINIR
  *
  */
-// int	temp_main_loop_here_doc_creation(void) 
+// int	temp_main_loop_here_doc_creation(void)
 // {
 // 	pid_t pid = fork();
 // 	if (pid == 0)
