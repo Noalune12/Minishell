@@ -3,15 +3,21 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define AUTORIZED_CHAR "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+#define AUTORIZED_CHAR \
+	"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
-static void	format_file_name(char *file_name)
+static void	format_file_name(char *file_name, int fd)
 {
 	const char		autorized_char[] = AUTORIZED_CHAR;
 	unsigned char	index;
 	size_t			i;
 
 	i = 0;
+	if (read(fd, file_name, RANDOM_NAME_LENGHT - 1) == -1)
+	{
+		free(file_name);
+		return ;
+	}
 	while (i < RANDOM_NAME_LENGHT - 1)
 	{
 		index = (unsigned char)file_name[i] % (sizeof(autorized_char) - 1);
@@ -36,16 +42,11 @@ char	*create_temp_file(void)
 		close(fd);
 		return (NULL);
 	}
-	if (read(fd, get_random_name, RANDOM_NAME_LENGHT - 1) == -1)
-	{
-		free(get_random_name);
-		close(fd);
+	format_file_name(get_random_name, fd);
+	if (!get_random_name)
 		return (NULL);
-	}
 	close(fd);
-	format_file_name(get_random_name);
-	file_name = ft_strjoin_free(HEREDOC_PATH_BASE_NAME, &get_random_name, false, true);
-	// file_name = ft_strjoin(HEREDOC_PATH_BASE_NAME, get_random_name);
+	file_name = ft_strjoin(HEREDOC_PATH_BASE_NAME, get_random_name);
 	free(get_random_name);
 	if (!file_name)
 		return (NULL);
@@ -54,7 +55,6 @@ char	*create_temp_file(void)
 	ft_dprintf(STDERR_FILENO, "%sTEMPORARY PRINTF filename:%s %s\n", RED, RESET, file_name);
 	return (file_name);
 }
-
 
 /**
  * @brief Main function to handle heredocs
