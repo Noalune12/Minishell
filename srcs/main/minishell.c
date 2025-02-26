@@ -1,17 +1,27 @@
 #include "minishell.h"
 
-char	*read_input(void)
+char	*read_input(t_minishell *minishell) // CA LEAK PAS CA (je suis plus davis de faire un ft_strjoin_free ou un truc comme ca parce que c'est pas beau la)
 {
-	char *input;
+	char	*input;
+	char	*prompt;
+	char	*tmp;
+	char	*exit_code;
 
-	input = readline("minishell> "); // add input to history if not empty
-
+	exit_code = ft_itoa(minishell->exit_status);
+	tmp = ft_strjoin("[", exit_code);
+	free(exit_code);
+	exit_code = ft_strjoin(tmp, "]> ");
+	free(tmp);
+	prompt = ft_strjoin("minishell ", exit_code);
+	free(exit_code);
+	input = readline(prompt);
+	free(prompt);
 	if (input && *input)
 		add_history(input);
 	return (input);
 }
 
-void    tokenize_and_split(t_minishell *minishell)
+void	tokenize_and_split(t_minishell *minishell)
 {
 	t_list  *current;
 	t_list  *split_tokens;
@@ -44,7 +54,7 @@ void    tokenize_and_split(t_minishell *minishell)
 int	main(int ac, char **av, char **envp)
 {
 	t_minishell	minishell;
-	t_list	*tmp_test;
+	t_list		*tmp_test;
 
 	tty_check();
 	signal(SIGINT, signal_handler);
@@ -54,14 +64,14 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		clear_token_list(minishell.token);
-		minishell.input = read_input();
+		minishell.input = read_input(&minishell);
 		if (minishell.input == NULL) // ctrl + d
 		{
 			ft_dprintf(STDERR_FILENO, "exit\n");
 			break ;
 		}
 		tokenize_and_split(&minishell);
-		//handle_expand_idk(&minishell); // -> working on it
+		check_heredoc(&minishell); //-> je parcours jusqu'a je tombe sur un "<< EOF "-> remplace par "< filename" dans token
 		tmp_test = minishell.token;
 		for (int i = 0; tmp_test != NULL; i++)
 		{

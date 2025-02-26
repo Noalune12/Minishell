@@ -6,8 +6,6 @@ typedef struct s_ast			t_ast;
 
 # include <unistd.h>
 
-
-
 // int	g_signal_received;
 
 // void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
@@ -65,6 +63,11 @@ typedef struct s_ast			t_ast;
 # define ERR_CMD "Message derreur par defaut de la commande\n"
 # define SIGQUIT_MESSAGE "Quit (core dumped)\n"
 # define AND_SO_ON "...."
+
+// heredoc defines
+
+#define HEREDOC_PATH_BASE_NAME "/tmp/.heredoc_"
+#define RANDOM_NAME_LENGHT 10
 
 typedef enum e_quote // delete ? peut etre besoin pour le parsing
 {
@@ -405,5 +408,25 @@ int		ft_strnlen(char *str, char c);
 int ascii_cmp(const char *a, const char *b);
 void swap_data(t_list *a, t_list *b);
 void ft_list_sort(t_list **begin_list, int (*cmp)(const char *, const char *));
+
+
+/* --- heredoc --- */
+
+char	*create_temp_file(void);
+char	*handle_heredoc(char *delimiter);
+bool	check_expand(char *delimiter);
+int		check_heredoc(t_minishell *minishell);
+
+int	is_last_heredoc(t_list *current, t_list *last_heredoc);
+int	handle_last_heredoc(t_list *current, int *error);
+int	is_op(char *token);
+int	write_to_heredoc(char *file_name, char *delimiter);
+
+
+t_list	*find_last_heredoc(t_list *start, t_list **last_heredoc);
+
+
+void	handle_regular_heredoc(t_list *current);
+
 
 #endif
