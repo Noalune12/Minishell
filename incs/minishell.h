@@ -433,5 +433,6 @@ void	handle_regular_heredoc(t_list *current);
 int	return_global(void);
 void	heredoc_signal_handler(int sig);
 void	init_global(void);
+char	*read_input(t_minishell *minishell);
 
 #endif

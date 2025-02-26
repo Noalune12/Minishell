@@ -146,6 +146,8 @@ void create_ast(t_minishell *minishell)
 			}
 			else
 			{
+				while (temp->next->next && strcmp(temp->next->next->content, "<<\0") == 0)
+					temp = temp->next->next;
 				temp = temp->next;
 				current = create_ast_tree_node(NODE_HEREDOC, temp->content);
 			}

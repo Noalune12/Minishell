@@ -63,7 +63,6 @@ int	main(int ac, char **av, char **envp)
 	printf("--------------------\n");
 	while (1)
 	{
-		init_global();
 		printf("signal = %d\n", return_global());
 		printf("exit status = %d\n", minishell.exit_status);
 		clear_token_list(minishell.token);
@@ -73,6 +72,9 @@ int	main(int ac, char **av, char **envp)
 			ft_dprintf(STDERR_FILENO, "exit\n");
 			break ;
 		}
+		if (return_global() == SIGINT) // Check if Ctrl+C was pressed
+			minishell.exit_status = 130;
+		init_global();
 		tokenize_and_split(&minishell);
 		check_heredoc(&minishell); //-> je parcours jusqu'a je tombe sur un "<< EOF "-> remplace par "< filename" dans token
 		tmp_test = minishell.token;
@@ -88,12 +90,14 @@ int	main(int ac, char **av, char **envp)
 		print_ast(minishell.ast_node, 0);
 		if (return_global() == 2)
 			minishell.exit_status = 130;
-		else
+		else if (minishell.ast_node)
 		{
 			printf(PURPLE"\nEXEC"RESET);
 			printf("\n");
 			minishell.exit_status = exec_minishell(minishell.ast_node, &minishell);
 		}
+		if (return_global() == 2)
+			minishell.exit_status = 130;
 		printf(YELLOW"\nEXIT STATUS\n"RESET);
 		printf("exit status = %d\n", minishell.exit_status);
 		// free_ast(test_tree);
