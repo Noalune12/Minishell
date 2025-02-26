@@ -76,7 +76,7 @@ int	is_op(char *token) // temporary name
 		return (0);
 	if (ft_strcmp(token, "|") == 0 || ft_strcmp(token, "||") == 0)
 		return (1);
-	if (ft_strcmp(token, "<") == 0 || ft_strcmp(token, ">") == 0) // pas sur
+	if (ft_strcmp(token, "<") == 0 || ft_strcmp(token, ">") == 0) // pas sur, avec et sans ca fait la meme chose mais je fais peut etre pas les bons tests
 		return (1);
 	if (ft_strcmp(token, "(") == 0 || ft_strcmp(token, ")") == 0)
 		return (1);
