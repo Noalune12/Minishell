@@ -379,6 +379,8 @@ int		handle_pipe(t_ast *node, t_minishell *minishell);
 
 int		handle_redirin(t_ast *node, t_minishell *minishell);
 
+int		handle_heredoc(t_ast *node, t_minishell *minishell);
+
 int		handle_redirout(t_ast *node, t_minishell *minishell);
 
 int		handle_redirappend(t_ast *node, t_minishell *minishell);

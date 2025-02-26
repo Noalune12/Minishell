@@ -25,7 +25,7 @@ int	handle_or(t_ast *node, t_minishell *minishell)
 int	exec_minishell(t_ast *node, t_minishell *minishell)
 {
 	int	ret;
-	t_handler	exec[] = {&handle_or, &handle_and, &handle_cmd, &handle_pipe, &handle_redirout, &handle_redirin, &handle_redirappend, 0, &handle_builtin};
+	t_handler	exec[] = {&handle_or, &handle_and, &handle_cmd, &handle_pipe, &handle_redirout, &handle_redirin, &handle_redirappend, &handle_heredoc, &handle_builtin};
 
 	if (!node)
 		return (0);

@@ -126,7 +126,8 @@ void create_ast(t_minishell *minishell)
 		}
 		else if (strcmp(temp->content, ">\0") == 0
 		|| strcmp(temp->content, "<\0") == 0
-		|| strcmp(temp->content, ">>\0") == 0)
+		|| strcmp(temp->content, ">>\0") == 0
+		|| strcmp(temp->content, "<<\0") == 0)
 		{
 			if (strcmp(temp->content, ">\0") == 0)
 			{
@@ -138,10 +139,15 @@ void create_ast(t_minishell *minishell)
 				temp = temp->next;
 				current = create_ast_tree_node(NODE_REDIR_IN, temp->content);
 			}
-			else
+			else if (strcmp(temp->content, ">>\0") == 0)
 			{
 				temp = temp->next;
 				current = create_ast_tree_node(NODE_APPEND, temp->content);
+			}
+			else
+			{
+				temp = temp->next;
+				current = create_ast_tree_node(NODE_HEREDOC, temp->content);
 			}
 			if (head && prev_cmd)
 			{
