@@ -76,7 +76,11 @@ int	main(int ac, char **av, char **envp)
 			minishell.exit_status = 130;
 		init_global();
 		tokenize_and_split(&minishell);
-		check_heredoc(&minishell); //-> je parcours jusqu'a je tombe sur un "<< EOF "-> remplace par "< filename" dans token
+		if (syntax_check(&minishell)) // a voir comment formater cette verification
+		{
+			check_heredoc(&minishell); //-> je parcours jusqu'a je tombe sur un "<< EOF "-> remplace par "< filename" dans token
+			create_ast(&minishell);
+		}
 		tmp_test = minishell.token;
 		for (int i = 0; tmp_test != NULL; i++)
 		{

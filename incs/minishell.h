@@ -90,7 +90,7 @@ typedef enum e_redirect_error
 typedef enum e_node_type
 {
 	// NODE_ROOT,		// noeud racine, -> ajout une struct root dans t_ast ?
-	// NODE_ARGUMENT,	// argument de commande
+	// NODE_ARGUMENT,	// not an operator
 	NODE_OR,		// ||
 	NODE_AND,		// &&
 	NODE_COMMAND,	// commande simple
