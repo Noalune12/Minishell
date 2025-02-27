@@ -183,13 +183,13 @@ void create_ast(t_minishell *minishell)
 			}
 			prev_file = current;
 		}
-		else if (strcmp(temp->content, "(\0") == 0)
-		{
-			temp = temp->next;
-			parenthesis = create_parenthesis(temp);
-			print_ast(parenthesis, 0);
-			break ;
-		}
+		// else if (strcmp(temp->content, "(\0") == 0)
+		// {
+		// 	temp = temp->next;
+		// 	parenthesis = create_parenthesis(temp);
+		// 	print_ast(parenthesis, 0);
+		// 	break ;
+		// }
 		else
 		{
 			if (!prev_cmd)
