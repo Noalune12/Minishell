@@ -81,10 +81,50 @@ void create_ast(t_minishell *minishell)
 	t_ast *first_file = NULL;
 	t_ast *prev_file = NULL;
 	t_ast *parenthesis = NULL;
+	t_ast *last_pipe = NULL;
+	// t_ast *last_or_and = NULL;
 
 	while (temp)
 	{
-		if (strcmp(temp->content, "&&\0") == 0
+		if (strcmp(temp->content, "(\0") == 0)
+		{
+			// check if is still in parenthesis to recall function
+			temp = temp->next;
+			parenthesis = create_parenthesis(temp);
+			// print_ast(parenthesis, 0);
+			while (strcmp(temp->content, ")\0") != 0)
+				temp = temp ->next;
+			// printf("now temp = %s\n", temp->content);
+			// printf("current = %s\n", current->cmd->cmds[0]);
+			// printf("\n------current----------\n");
+			// print_ast(current, 0);
+			// printf("\n------last pipe----------\n");
+			// print_ast(last_pipe, 0);
+			if (last_pipe && !prev_and_or)
+			{
+				current->left = last_pipe->right;
+				last_pipe->right = current;
+				current->right = parenthesis;
+				head = last_pipe;
+			}
+			else if (last_pipe && prev_and_or)
+			{
+				current->left = last_pipe->right;
+				last_pipe->right = current;
+				current->right = parenthesis;
+			}
+			else if (!last_pipe && prev_and_or)
+			{
+				prev_and_or->right = parenthesis;
+				last_pipe = parenthesis;
+				prev_pipe = parenthesis;
+			}
+			else
+				head = parenthesis;
+			// printf("\n------ast----------\n");
+			// print_ast(head, 0);
+		}
+		else if (strcmp(temp->content, "&&\0") == 0
 			|| strcmp(temp->content, "||\0") == 0)
 		{
 			if (strcmp(temp->content, "&&\0") == 0)
@@ -100,6 +140,7 @@ void create_ast(t_minishell *minishell)
 			prev_pipe = NULL;
 			left = false;
 			prev_file = NULL;
+			last_pipe = NULL;
 		}
 		else if (strcmp(temp->content, "|\0") == 0)
 		{
@@ -125,6 +166,8 @@ void create_ast(t_minishell *minishell)
 			prev_cmd = NULL;
 			first_file = NULL;
 			prev_file = NULL;
+			if (strcmp(temp->next->content, "(\0") != 0)
+				last_pipe = current;
 		}
 		else if (strcmp(temp->content, ">\0") == 0
 		|| strcmp(temp->content, "<\0") == 0
@@ -183,13 +226,6 @@ void create_ast(t_minishell *minishell)
 			}
 			prev_file = current;
 		}
-		// else if (strcmp(temp->content, "(\0") == 0)
-		// {
-		// 	temp = temp->next;
-		// 	parenthesis = create_parenthesis(temp);
-		// 	print_ast(parenthesis, 0);
-		// 	break ;
-		// }
 		else
 		{
 			if (!prev_cmd)
