@@ -44,7 +44,7 @@ t_list	*tokenize_input(char *input)
 				free_list(tokens);
 				return (NULL);
 			}
-			add_node(&tokens, token);
+			add_node(&tokens, token); // protect ?
 			free(token);
 		}
 	}
