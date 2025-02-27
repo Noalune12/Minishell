@@ -6,7 +6,7 @@
 #    By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/14 10:09:03 by gueberso          #+#    #+#              #
-#    Updated: 2025/02/24 22:18:36 by gueberso         ###   ########.fr        #
+#    Updated: 2025/02/26 19:18:00 by gueberso         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,6 +82,7 @@ override STRINGSRC := \
 	ft_strcpy \
 	ft_strdup \
 	ft_striteri \
+	ft_strjoin_free \
 	ft_strjoin \
 	ft_strlcat \
 	ft_strlcpy \
