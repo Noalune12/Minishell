@@ -44,7 +44,6 @@ t_token	*tokenize_input(char *input)
 				free_token_list(tokens);
 				return (NULL);
 			}
-			// Initial type is COMMAND - will be refined later
 			if (!add_token(&tokens, content, NODE_COMMAND))
 			{
 				free(content);

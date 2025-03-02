@@ -29,6 +29,7 @@ SRC += $(addprefix $(UTILSDIR), $(addsuffix .c, $(UTILSSRC)))
 override UTILSSRC	:= \
 	free_utils \
 	list_utils \
+	t_token_utils
 
 SRC += $(addprefix $(ENVDIR), $(addsuffix .c, $(ENVSRC)))
 

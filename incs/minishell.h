@@ -89,19 +89,17 @@ typedef enum e_redirect_error
 
 typedef enum e_node_type
 {
-	// NODE_ROOT,		// noeud racine, -> ajout une struct root dans t_ast ?
-	// NODE_ARGUMENT,	// argument de commande
-	NODE_OR,		// ||
-	NODE_AND,		// &&
-	NODE_COMMAND,	// commande simple
-	NODE_PIPE,		// |
-	NODE_REDIR_OUT, // >
-	NODE_REDIR_IN,	// <
-	NODE_APPEND,	// >>
-	NODE_HEREDOC,	// <<
-	NODE_BUILTIN,
-	// NODE_OPEN_PAR,	// (
-	// NODE_CLOSE_PAR,	// )
+	NODE_COMMAND,  // commande simple
+	NODE_BUILTIN,  // commande builtin
+	NODE_PIPE,     // |
+	NODE_OR,       // ||
+	NODE_AND,      // &&
+	NODE_REDIR_IN, // <
+	NODE_REDIR_OUT,// >
+	NODE_HEREDOC,  // <<
+	NODE_APPEND,   // >>
+	// NODE_OPEN_PAR, // (
+	// NODE_CLOSE_PAR // )
 }	t_node_type;
 
 typedef struct s_cmd
@@ -141,7 +139,7 @@ typedef struct s_minishell
 	int		fd_in;
 	int		fd_out;
 	t_list	*envp; // liste chainee de l'environnement
-	t_list	*token; // liste chainee des parametres
+	t_token	*token; // liste chainee des parametres -> replaced by t_token
 	t_ast	*ast_node; // Abstract Syntax Tree
 }	t_minishell;
 
@@ -242,7 +240,7 @@ int		nested_shell(t_list *env_list);
  * @return A pointer to the head of a linked list containing the tokens, or NULL
  * on failure.
  */
-t_list	*tokenize_input(char *input);
+// t_list	*tokenize_input(char *input);
 
 /**
  * @brief Checks the input string for unclosed quotes.
@@ -341,7 +339,7 @@ size_t	get_word_length(char *input, size_t start);
  */
 void	copy_with_quotes(char *dest, char *src, size_t *len);
 
-t_list	*split_operators(const char *str, size_t i, size_t start);
+// t_list	*split_operators(const char *str, size_t i, size_t start);
 
 
 bool	add_token_to_list(t_list **tokens, char *content);
@@ -418,16 +416,16 @@ char	*handle_heredoc(char *delimiter);
 bool	check_expand(char *delimiter);
 int		check_heredoc(t_minishell *minishell);
 
-int	is_last_heredoc(t_list *current, t_list *last_heredoc);
-int	handle_last_heredoc(t_list *current, int *error);
+int	is_last_heredoc(t_token *current, t_token *last_heredoc);
+int	handle_last_heredoc(t_token *current, int *error);
 int	is_op(char *token);
 int	write_to_heredoc(char *file_name, char *delimiter);
 
 
-t_list	*find_last_heredoc(t_list *start, t_list **last_heredoc);
+t_token	*find_last_heredoc(t_token *start, t_token **last_heredoc);
 
 
-void	handle_regular_heredoc(t_list *current);
+void	handle_regular_heredoc(t_token *current);
 
 
 /* test signal */
@@ -442,7 +440,10 @@ char	*read_input(t_minishell *minishell);
 
 void	free_token_list(t_token *tokens);
 bool	add_token(t_token **tokens, char *content, t_node_type type);
+
 t_token	*init_token_node(char *content, t_node_type type);
+t_token *split_operators(t_token *tokens);
+t_token	*tokenize_input(char *input);
 
 
 

@@ -1,9 +1,9 @@
 #include "minishell.h"
 
-t_list	*find_last_heredoc(t_list *start, t_list **last_heredoc)
+t_token	*find_last_heredoc(t_token *start, t_token **last_heredoc)
 {
-	t_list	*current;
-	t_list	*next;
+	t_token	*current;
+	t_token	*next;
 
 	current = start;
 	*last_heredoc = NULL;
@@ -21,7 +21,7 @@ t_list	*find_last_heredoc(t_list *start, t_list **last_heredoc)
 	return (NULL);
 }
 
-int	is_last_heredoc(t_list *current, t_list *last_heredoc)
+int	is_last_heredoc(t_token *current, t_token *last_heredoc)
 {
 	return (last_heredoc && current == last_heredoc->next);
 }
@@ -29,9 +29,9 @@ int	is_last_heredoc(t_list *current, t_list *last_heredoc)
 /**
  * @brief CA MARCHE PAAAASSSS POUR LE DERNIER FICHIER TEMP
  *
- * 
+ *
  */
-void	handle_regular_heredoc(t_list *current)
+void	handle_regular_heredoc(t_token *current)
 {
 	char	*tmp_filename;
 
@@ -41,7 +41,7 @@ void	handle_regular_heredoc(t_list *current)
 	free(tmp_filename);
 }
 
-int	handle_last_heredoc(t_list *current, int *error)
+int	handle_last_heredoc(t_token *current, int *error)
 {
 	char	*filename;
 

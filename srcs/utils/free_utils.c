@@ -9,7 +9,8 @@ void	free_token_list(t_token *tokens)
 	while (current)
 	{
 		next = current->next;
-		free(current->content);
+		if (current->content)
+			free(current->content);
 		free(current);
 		current = next;
 	}

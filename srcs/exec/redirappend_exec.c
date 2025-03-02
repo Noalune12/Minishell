@@ -17,7 +17,7 @@ int	handle_redirappend(t_ast *node, t_minishell *minishell)
 		close(minishell->fd_out);
 		exec_minishell(node->left, minishell);
 		exec_minishell(node->right, minishell);
-		clear_token_list(minishell->token);
+		free_token_list(minishell->token);
 		free_env(minishell);
 		free_ast(minishell->ast_node);
 		exit(0);

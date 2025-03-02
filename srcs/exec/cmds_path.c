@@ -92,7 +92,7 @@ char	*find_exec_cmd(char **cmds, t_minishell *minishell, t_ast *node)
 		free_list(minishell->envp);
 		free(node->cmd);
 		free(node);
-		free_list(minishell->token);
+		free_token_list(minishell->token);
 		exit(127);
 	}
 	return (full_path);

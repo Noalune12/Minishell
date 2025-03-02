@@ -6,7 +6,7 @@ static int	exec_left(t_ast *node, t_minishell *minishell)
 	dup2(minishell->pipe_fd[1], STDOUT_FILENO); //protect
 	close(minishell->pipe_fd[1]);
 	exec_minishell(node->left, minishell);
-	clear_token_list(minishell->token);
+	free_token_list(minishell->token);
 	free_env(minishell);
 	free_ast(minishell->ast_node);
 	exit(0);
@@ -24,7 +24,7 @@ static int	exec_right(t_ast *node, t_minishell *minishell)
 		dup2(minishell->pipe_fd[0], STDIN_FILENO); // protect
 		close(minishell->pipe_fd[0]);
 		ret = exec_minishell(node->right, minishell);
-		clear_token_list(minishell->token);
+		free_token_list(minishell->token);
 		free_env(minishell);
 		free_ast(minishell->ast_node);
 		exit(ret);

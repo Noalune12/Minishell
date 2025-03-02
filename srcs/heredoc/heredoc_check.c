@@ -48,10 +48,10 @@ char	*handle_heredoc(char *delimiter)
 	return (file_name);
 }
 
-static void	process_heredocs(t_list *start, t_list *last_heredoc, int *error)
+static void	process_heredocs(t_token *start, t_token *last_heredoc, int *error)
 {
-	t_list	*current;
-	t_list	*next;
+	t_token	*current;
+	t_token	*next;
 
 	current = start;
 	while (current && !is_op(current->content))
@@ -75,9 +75,9 @@ static void	process_heredocs(t_list *start, t_list *last_heredoc, int *error)
 
 int	check_heredoc(t_minishell *minishell)
 {
-	t_list	*current;
-	t_list	*last_heredoc;
-	t_list	*pipe_token;
+	t_token	*current;
+	t_token	*last_heredoc;
+	t_token	*pipe_token;
 	int		error;
 
 	current = minishell->token;
