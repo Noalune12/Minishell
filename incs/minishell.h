@@ -126,8 +126,9 @@ typedef struct s_exec
 
 typedef struct	s_token
 {
-	char		*content;
-	bool		to_expand;
+	char			*content;
+	bool			to_expand;
+	t_node_type		type;
 	struct s_token	*next;
 }	t_token;
 
@@ -434,5 +435,15 @@ int	return_global(void);
 void	heredoc_signal_handler(int sig);
 void	init_global(void);
 char	*read_input(t_minishell *minishell);
+
+
+
+/* ---- REFACTOR T_TOKEN TESTS ---- */
+
+void	free_token_list(t_token *tokens);
+bool	add_token(t_token **tokens, char *content, t_node_type type);
+t_token	*init_token_node(char *content, t_node_type type);
+
+
 
 #endif
