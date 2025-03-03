@@ -78,7 +78,7 @@ void	update_env(t_list **envp, char *path, int to_home) // if PWD is unset what 
 		free(path);
 }
 
-int	ft_cd_home(t_list *envp)
+static int	ft_cd_home(t_list *envp)
 {
 	char	*path;
 
@@ -88,9 +88,32 @@ int	ft_cd_home(t_list *envp)
 		printf("bash: cd: HOME not set\n");
 		return (1);
 	}
-	printf(YELLOW"Changing directory to HOME: %s\n"RESET, path);
-	chdir(path); //protect ?
+	if (chdir(path) != 0)
+	{
+		ft_dprintf(STDERR_FILENO, "chdir failed\n");
+		free(path);
+		return (1);
+	}
 	update_env(&envp, path, 1);
+	return (0);
+}
+
+static int	ft_cd_path(char **cmds, t_list **envp)
+{
+	char	*cwd;
+
+	if (chdir(cmds[1]) != 0)
+	{
+		ft_dprintf(STDERR_FILENO, "bash: cd: %s: No such file or directory\n", cmds[1]);
+		return (1);
+	}
+	cwd = getcwd(NULL, 4094);
+	if (!cwd)
+	{
+		ft_dprintf(STDERR_FILENO, "getcwd failed\n");
+		return (1);
+	}
+	update_env(envp, cwd, 0);
 	return (0);
 }
 
@@ -103,18 +126,13 @@ int	ft_cd(char **cmds, t_list *envp)
 	}
 	else if (cmds[2])
 	{
-		printf("bash: cd: too many arguments\n");
+		ft_dprintf(STDERR_FILENO, "bash: cd: too many arguments\n");
 		return (1);
 	}
 	else
 	{
-		printf(YELLOW"Changing directory to: %s\n"RESET, cmds[1]);
-		if (chdir(cmds[1]) != 0)
-		{
-			printf(YELLOW"bash: cd: %s: No such file or directory\n"RESET, cmds[1]);
+		if (ft_cd_path(cmds, &envp) == 1)
 			return (1);
-		}
-		update_env(&envp, getcwd(NULL, 0), 0); //protect getcwd ??
 	}
 	return (0);
 }

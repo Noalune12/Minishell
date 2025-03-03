@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static void	free_node(t_list *node) //utils ?
+static void	free_node(t_list *node) //TODO utils ?
 {
 	if (node)
 	{

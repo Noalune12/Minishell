@@ -47,6 +47,8 @@ typedef struct s_ast			t_ast;
 # define FILE_NOT_FOUND "%s: %s: No such file or directory\n"
 # define FIRST_HEREDOC_ERROR_MESSAGE "warning: here-document delimited by end-of-file (wanted `%s')\n"
 # define ERROR_SYNTAX_TO_MODIFY "syntax error\n" // a modifier
+# define EXIT_ERROR "bash: exit: %s: numeric argument required\n"
+# define EXIT_TOO_MANY_ARGS "bash: exit: too many arguments\n"
 
 // liste de define plutot que decrire en brut
 
@@ -408,6 +410,8 @@ int	ft_unset(char **cmds, t_minishell *minishell);
 int remove_node(t_list **head, char *var);
 
 int	ft_echo(char **cmds, t_minishell *minishell);
+
+int	ft_exit(char **cmds, t_minishell *minishell);
 
 char	**ft_free_double(char **strs);
 char	*ft_strndup(const char *s, size_t len);
