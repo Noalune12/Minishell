@@ -37,7 +37,7 @@ static int	ft_builtin(t_ast *node, t_minishell *minishell)
 	if(ft_strcmp(node->cmd->cmds[0], "env\0") == 0)
 		print_env(minishell->envp);
 	if(ft_strcmp(node->cmd->cmds[0], "unset\0") == 0)
-		ft_unset(node->cmd->cmds, minishell);
+		ret = ft_unset(node->cmd->cmds, minishell);
 	if(ft_strcmp(node->cmd->cmds[0], "export\0") == 0)
 		ret = ft_export(node->cmd->cmds, &minishell->envp);
 	if(ft_strcmp(node->cmd->cmds[0], "echo\0") == 0)
