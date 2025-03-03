@@ -39,7 +39,7 @@ t_list	*find_info_env(t_list **envp, char *content, int equal)
 	{
 		while (searched)
 		{
-			if (strcmp(searched->content, content) == 0)
+			if (ft_strcmp(searched->content, content) == 0)
 				break ;
 			searched = searched->next;
 		}

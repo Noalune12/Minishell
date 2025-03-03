@@ -34,7 +34,7 @@ int	ft_strnlen(char *str, char c)
 
 int	ascii_cmp(const char *a, const char *b)
 {
-	return (strcmp(a, b));
+	return (ft_strcmp(a, b));
 }
 
 void	swap_data(t_list *a, t_list *b)

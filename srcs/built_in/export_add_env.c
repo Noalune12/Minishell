@@ -26,7 +26,7 @@ int	find_env_var_node(char *var, t_list **env)
 			ft_dprintf(STDERR_FILENO, "Malloc failed\n");
 			return (0);
 		}
-		if (strcmp(var, env_var) == 0)
+		if (ft_strcmp(var, env_var) == 0)
 		{
 			free(env_var);
 			break ;
