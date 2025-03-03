@@ -407,6 +407,8 @@ int		find_env_var_node(char *var, t_list **env);
 void	ft_unset(char **cmds, t_minishell *minishell);
 void	remove_node(t_list **head, const char *var);
 
+int	ft_echo(char **cmds, t_minishell *minishell);
+
 char	**ft_free_double(char **strs);
 char	*ft_strndup(const char *s, size_t len);
 int		ft_strnlen(char *str, char c);

@@ -13,11 +13,6 @@ static void	print_env(t_list *env)
 	}
 }
 
-static void	ft_echo(t_minishell *minishell)
-{
-	printf("%d\n", minishell->exit_status);
-}
-
 static int	ft_builtin(t_ast *node, t_minishell *minishell)
 {
 	int	ret = 0;
@@ -33,7 +28,7 @@ static int	ft_builtin(t_ast *node, t_minishell *minishell)
 	if(strncmp(node->cmd->cmds[0], "export\0", ft_strlen(node->cmd->cmds[0])) == 0)
 		ret = ft_export(node->cmd->cmds, &minishell->envp);
 	if(strncmp(node->cmd->cmds[0], "echo\0", ft_strlen(node->cmd->cmds[0])) == 0)
-		ft_echo(minishell);
+		ret = ft_echo(node->cmd->cmds, minishell);
 	return (ret);
 }
 

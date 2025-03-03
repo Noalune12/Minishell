@@ -80,6 +80,7 @@ override BUILTINSRC	:= \
 	export_add_env \
 	export_append \
 	utils_builtin \
+	echo \
 
 SRC += $(addprefix $(HEREDOCDIR), $(addsuffix .c, $(HEREDOCSRC)))
 
