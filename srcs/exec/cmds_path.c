@@ -78,7 +78,7 @@ char	*find_full_path(char **cmds, char *path_env)
 	return (NULL);
 }
 
-char	*find_exec_cmd(char **cmds, t_minishell *minishell, t_ast *node)
+char	*find_exec_cmd(char **cmds, t_minishell *minishell)
 {
 	char	*full_path;
 	char	*path_env;
@@ -88,10 +88,8 @@ char	*find_exec_cmd(char **cmds, t_minishell *minishell, t_ast *node)
 	free(path_env);
 	if (!full_path)
 	{
-		ft_free_double(cmds);
 		free_list(minishell->envp);
-		free(node->cmd);
-		free(node);
+		free_ast(minishell->ast_node);
 		free_list(minishell->token);
 		exit(127);
 	}

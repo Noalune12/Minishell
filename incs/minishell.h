@@ -381,7 +381,7 @@ void	ft_free(char **split);
 int		exec_minishell(t_ast *node, t_minishell *minishell);
 
 int		handle_cmd(t_ast *node, t_minishell *minishell);
-char	*find_exec_cmd(char **cmds, t_minishell *minishell, t_ast *node);
+char	*find_exec_cmd(char **cmds, t_minishell *minishell);
 
 int		handle_pipe(t_ast *node, t_minishell *minishell);
 
