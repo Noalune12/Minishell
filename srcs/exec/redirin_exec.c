@@ -1,5 +1,22 @@
 #include "minishell.h"
 
+static void	open_dup_infile(t_ast *node, t_minishell *minishell)
+{
+	minishell->fd_in = open(node->cmd->cmds[0], O_RDONLY);
+	if (minishell->fd_in == -1)
+	{
+		ft_dprintf(STDERR_FILENO, ERROR_INFILE, node->cmd->cmds[0]);
+		error_handling_exec(minishell, NULL);
+		exit (1);
+	}
+	if (dup2(minishell->fd_in, STDIN_FILENO) == -1)
+	{
+		close(minishell->fd_in); //TODO protect
+		error_handling_exec(minishell, "dup2 failed");
+		exit(1);
+	}
+}
+
 int	handle_redirin(t_ast *node, t_minishell *minishell)
 {
 	int	ret;
@@ -7,19 +24,11 @@ int	handle_redirin(t_ast *node, t_minishell *minishell)
 	minishell->pid = fork();
 	if (minishell->pid == 0)
 	{
-		minishell->fd_in = open(node->cmd->cmds[0], O_RDONLY); //protect
-		if (minishell->fd_in == -1)
-		{
-			ft_dprintf(STDERR_FILENO, "bash: %s: No such file or directory\n", node->cmd->cmds[0]);
-			exit (1);
-		}
-		dup2(minishell->fd_in, STDIN_FILENO); //protect
-		close(minishell->fd_in);
+		open_dup_infile(node, minishell);
+		close(minishell->fd_in); //TODO protect
 		exec_minishell(node->left, minishell);
 		exec_minishell(node->right, minishell);
-		clear_token_list(minishell->token);
-		free_env(minishell);
-		free_ast(minishell->ast_node);
+		error_handling_exec(minishell, NULL); // TODO function free all minishell ?
 		exit(0); //needed if <Makefile cat for instance to not display the prompt in cat
 	}
 	waitpid(minishell->pid, &ret, 0);

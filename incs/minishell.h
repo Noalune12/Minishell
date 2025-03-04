@@ -43,10 +43,12 @@ typedef struct s_ast			t_ast;
 # define NEWLINE_SYNTAX "syntax error near unexpected token `newline'\n"
 # define STRING_SYNTAX "minishell: syntax error near unexpected token `%s'\n"
 # define CHAR_SYNTAX "minishell: syntax error near unexpected token `%c'\n"
-# define CMD_NOT_FOUND "bash: %s: command not found\n"
+# define CMD_NOT_FOUND "minishell: %s: command not found\n"
 # define FILE_NOT_FOUND "minishell: %s: %s: No such file or directory\n"
 # define FIRST_HEREDOC_ERROR_MESSAGE "warning: here-document delimited by end-of-file (wanted `%s')\n"
 # define ERROR_SYNTAX_TO_MODIFY "syntax error\n" // a modifier
+# define ERROR_OUTFILE "minishell: %s: Permission denied\n"
+# define ERROR_INFILE "minishell: %s: No such file or directory\n"
 
 // Error builtin
 # define EXIT_ERROR "minishell: exit: %s: numeric argument required\n"
@@ -136,6 +138,13 @@ typedef struct	s_token
 	bool		to_expand;
 	struct s_token	*next;
 }	t_token;
+
+typedef struct s_path_cmds
+{
+	char	*path;
+	char	**paths;
+	char	*path_env;
+}	t_path_cmds;
 
 typedef struct s_minishell
 {
@@ -383,6 +392,7 @@ char	**update_cmd(char **cmds, char *content);
 void ft_swap(t_ast *a, t_ast *b);
 void	free_ast(t_ast *node);
 void	ft_free(char **split);
+int		error_handling_exec(t_minishell *minishell, char *message);
 
 int		exec_minishell(t_ast *node, t_minishell *minishell);
 
