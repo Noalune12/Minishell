@@ -85,7 +85,7 @@ static int	ft_cd_home(t_list *envp)
 	path = find_home(envp);
 	if (!path)
 	{
-		printf("bash: cd: HOME not set\n");
+		ft_dprintf(STDERR_FILENO, CD_HOME);
 		return (1);
 	}
 	if (chdir(path) != 0)
@@ -104,7 +104,7 @@ static int	ft_cd_path(char **cmds, t_list **envp)
 
 	if (chdir(cmds[1]) != 0)
 	{
-		ft_dprintf(STDERR_FILENO, "bash: cd: %s: No such file or directory\n", cmds[1]);
+		ft_dprintf(STDERR_FILENO, FILE_NOT_FOUND, "cd", cmds[1]);
 		return (1);
 	}
 	cwd = getcwd(NULL, 4094);
@@ -126,7 +126,7 @@ int	ft_cd(char **cmds, t_list *envp)
 	}
 	else if (cmds[2])
 	{
-		ft_dprintf(STDERR_FILENO, "bash: cd: too many arguments\n");
+		ft_dprintf(STDERR_FILENO, TOO_MANY_ARGS, "cd");
 		return (1);
 	}
 	else

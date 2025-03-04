@@ -44,12 +44,16 @@ typedef struct s_ast			t_ast;
 # define STRING_SYNTAX "minishell: syntax error near unexpected token `%s'\n"
 # define CHAR_SYNTAX "minishell: syntax error near unexpected token `%c'\n"
 # define CMD_NOT_FOUND "bash: %s: command not found\n"
-# define FILE_NOT_FOUND "%s: %s: No such file or directory\n"
+# define FILE_NOT_FOUND "minishell: %s: %s: No such file or directory\n"
 # define FIRST_HEREDOC_ERROR_MESSAGE "warning: here-document delimited by end-of-file (wanted `%s')\n"
 # define ERROR_SYNTAX_TO_MODIFY "syntax error\n" // a modifier
-# define EXIT_ERROR "bash: exit: %s: numeric argument required\n"
-# define EXIT_TOO_MANY_ARGS "bash: exit: too many arguments\n"
 
+// Error builtin
+# define EXIT_ERROR "minishell: exit: %s: numeric argument required\n"
+# define TOO_MANY_ARGS "minishell: %s: too many arguments\n"
+# define EXPORT_ERROR "minishell: export: `%s': not a valid identifier\n"
+# define CD_HOME "minishell: cd: HOME not set\n"
+# define PWD_ERROR "minishell: pwd: %s: invalid option\npwd: usage: pwd\n"
 // liste de define plutot que decrire en brut
 
 # define PWD			"PWD"

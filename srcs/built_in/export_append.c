@@ -1,5 +1,4 @@
 #include "minishell.h"
-// malloc not checked
 
 static char	*remove_plus(char *content)
 {
@@ -44,7 +43,7 @@ static int	create_var_export(t_list **env, char *content)
 	temp->content = remove_plus(temp->content);
 	if (!temp->content)
 	{
-		free(temp_content); //remove node ??????
+		free(temp_content); //TODO remove node ??????
 		return (1);
 	}
 	free(temp_content);

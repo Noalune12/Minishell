@@ -6,7 +6,7 @@ int	check_arg_exit(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i] == ' ') // TODO is whitespace
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
 		i++;
 	if (str[i] == '+' || str[i] == '-')
 		i++;
@@ -27,7 +27,7 @@ int	check_arg_exit(char *str)
 
 static void	skip_whitespace_sign(char *str, int *sign, int *i)
 {
-	while (str[*i] == ' ') // TODO is whitespace
+	while ((str[*i] >= 9 && str[*i] <= 13) || str[*i] == 32)
 		(*i)++;
 	if (str[*i] == '+' || str[*i] == '-')
 	{
@@ -82,7 +82,7 @@ int	ft_exit(char **cmds, t_minishell *minishell)
 	}
 	else if (cmds[2])
 	{
-		ft_dprintf(STDOUT_FILENO, EXIT_TOO_MANY_ARGS);
+		ft_dprintf(STDOUT_FILENO, TOO_MANY_ARGS, "exit");
 		return (1);
 	}
 	else

@@ -1,15 +1,4 @@
 #include "minishell.h"
-// malloc checked
-
-	// static int k = 0;
-	// 	k++;
-
-	// 	if (k == 2)
-	// 	{
-	// 					free(var);
-	// 		ft_dprintf(STDERR_FILENO, "Malloc failed\n");
-	// 		return (NULL);
-	// 	}
 
 int	find_env_var_node(char *var, t_list **env)
 {
