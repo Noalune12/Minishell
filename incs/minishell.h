@@ -401,7 +401,9 @@ int		handle_redirappend(t_ast *node, t_minishell *minishell);
 
 int		handle_builtin(t_ast *node, t_minishell *minishell);
 int		ft_pwd(char **cmds);
+
 int		ft_cd(char **cmds, t_list *envp);
+int		update_cd_env(t_list **envp, char *path, int to_home);
 
 int		ft_export(char **cmds, t_list **env);
 t_list	*copy_env(t_list *env);
@@ -423,6 +425,7 @@ int		ft_strnlen(char *str, char c);
 void swap_data(t_list *a, t_list *b);
 int	ascii_cmp(char *a, char *b);
 void	ft_list_sort(t_list **begin_list, int (*cmp)(char *, char *));
+void	swap_strs(char **s1, char **s2);
 
 /* --- heredoc --- */
 

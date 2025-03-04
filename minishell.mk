@@ -73,6 +73,7 @@ override BUILTINSRC	:= \
 	built_in \
 	pwd \
 	cd \
+	cd_update_env \
 	unset \
 	export \
 	export_args \

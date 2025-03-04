@@ -47,15 +47,6 @@ static int	create_var_export(t_list **env, char *content)
 	return (0);
 }
 
-static void	replace_content(char **s1, char **s2)
-{
-	char	*temp;
-
-	temp = *s1;
-	*s1 = *s2;
-	free(temp);
-}
-
 static int	append_export(char *content, int len, int equal, t_list *temp)
 {
 	char	*append;
@@ -69,12 +60,12 @@ static int	append_export(char *content, int len, int equal, t_list *temp)
 		temp_str = ft_strjoin(temp->content, "=");
 		if (!temp_str)
 			return (error_handling(append));
-		replace_content(&temp->content, &temp_str);
+		swap_strs(&temp->content, &temp_str);
 	}
 	temp_str = ft_strjoin(temp->content, append);
 	if (!temp_str)
 		return (error_handling(append));
-	replace_content(&temp->content, &temp_str);
+	swap_strs(&temp->content, &temp_str);
 	free(append);
 	return (0);
 }

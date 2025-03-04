@@ -1,5 +1,14 @@
 #include "minishell.h"
 
+void	swap_strs(char **s1, char **s2)
+{
+	char	*temp;
+
+	temp = *s1;
+	*s1 = *s2;
+	free(temp);
+}
+
 char	*ft_strndup(const char *s, size_t len)
 {
 	char		*str;

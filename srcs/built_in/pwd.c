@@ -9,12 +9,12 @@ int	ft_pwd(char **cmds)
 		ft_dprintf(STDERR_FILENO, PWD_ERROR, cmds[1]);
 		return (1);
 	}
-	cwd = getcwd(NULL, 0); //automatic allocation of memory needed to copy path /!\ if path is NULL because folder was deleted how to handle the difference
+	cwd = getcwd(NULL, 4094);
 	if (cwd)
-		printf("%s\n", cwd);
+		ft_dprintf(STDOUT_FILENO, "%s\n", cwd);
 	else
 	{
-		perror("getcwd() error");
+		ft_dprintf(STDERR_FILENO, "getcwd failed\n");
 		return (1);
 	}
 	free(cwd);
