@@ -39,6 +39,7 @@ static int	add_or_replace_condition(char *content, t_list **env,
 		temp->content = ft_strdup(content);
 		if (!temp->content)
 		{
+			temp->content = temp_content;
 			ft_dprintf(STDERR_FILENO, "Malloc failed\n");
 			return (1);
 		}

@@ -61,19 +61,19 @@ void	update_env(t_list **envp, char *path, int to_home) // if PWD is unset what 
 	if (env_oldpwd && env_pwd)
 	{
 		free(env_oldpwd->content);
-		env_oldpwd->content = ft_strjoin("OLDPWD=", env_pwd->content + 4);
+		env_oldpwd->content = ft_strjoin("OLDPWD=", env_pwd->content + 4); //protect
 	}
 	else if (!env_oldpwd && env_pwd)
 		add_node(envp, ft_strjoin("OLDPWD=", env_pwd->content + 4)); //find right place ? + protect
 	else
-		remove_node(envp, "OLDPWD");
+		remove_node(envp, "OLDPWD"); //protect
 	if (env_pwd)
 	{
 		free(env_pwd->content);
 		env_pwd->content = ft_strjoin("PWD=", path); //protect
 	}
 	else
-		add_node(envp, ft_strjoin("PWD=", path));
+		add_node(envp, ft_strjoin("PWD=", path)); //protect
 	if (!to_home)
 		free(path);
 }
