@@ -76,28 +76,28 @@ int	main(int ac, char **av, char **envp)
 		tokenize_and_split(&minishell);
 		check_heredoc(&minishell); //-> je parcours jusqu'a je tombe sur un "<< EOF "-> remplace par "< filename" dans token
 		tmp_test = minishell.token;
-		for (int i = 0; tmp_test != NULL; i++)
-		{
-			printf("Maillon ID: %d\nToken: [%s]\n", i, tmp_test->content);
-			tmp_test = tmp_test->next;
-		}
+		// for (int i = 0; tmp_test != NULL; i++)
+		// {
+		// 	printf("Maillon ID: %d\nToken: [%s]\n", i, tmp_test->content);
+		// 	tmp_test = tmp_test->next;
+		// }
 		create_ast(&minishell);
-		printf("\nArbre de syntaxe abstraite :\n");
-		printf(BLUE"\nAST\n"RESET);
-		print_ast(minishell.ast_node, 0);
+		// printf("\nArbre de syntaxe abstraite :\n");
+		// printf(BLUE"\nAST\n"RESET);
+		// print_ast(minishell.ast_node, 0);
 		if (return_global() == 2)
 			minishell.exit_status = 130;
 		else if (minishell.ast_node)
 		{
-			printf(PURPLE"\nEXEC"RESET);
-			printf("\n");
+			// printf(PURPLE"\nEXEC"RESET);
+			// printf("\n");
 			minishell.exit_status = exec_minishell(minishell.ast_node, &minishell);
 		}
 		if (return_global() == 2)
 			minishell.exit_status = 130;
-		printf(YELLOW"\nEXIT STATUS\n"RESET);
-		printf("exit status = %d\n", minishell.exit_status);
-		printf("--------------------\n");
+		// printf(YELLOW"\nEXIT STATUS\n"RESET);
+		// printf("exit status = %d\n", minishell.exit_status);
+		// printf("--------------------\n");
 		free(minishell.input);
 		free_ast(minishell.ast_node);
 	}

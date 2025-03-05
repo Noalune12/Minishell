@@ -1,6 +1,6 @@
 #include "expand.h"
 
-bool	handle_quotes(char c, bool *in_squotes, bool *in_dquotes)
+bool	handle_quotes_expand(char c, bool *in_squotes, bool *in_dquotes)
 {
 	if (c == '\'' && !*in_squotes && !*in_dquotes)
 	{

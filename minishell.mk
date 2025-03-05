@@ -10,7 +10,17 @@ override PARSINGDIR	:= parsing/
 override EXECDIR	:= exec/
 override BUILTINDIR	:= built_in/
 override HEREDOCDIR	:= heredoc/
+override EXPANDDIR	:= ../expander/
 
+SRC	+= $(addprefix $(EXPANDDIR), $(addsuffix .c, $(EXPANDSRC)))
+
+override EXPANDSRC	:= \
+	expand \
+	expand_utils \
+	expand_utils_libft \
+	expand_quote_removal \
+	expand_quote_handling \
+	expand_len_utils \
 
 SRC	+= $(addprefix $(MAINDIR), $(addsuffix .c, $(MAINSRC)))
 

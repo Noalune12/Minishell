@@ -64,7 +64,7 @@ char	*find_full_path(t_minishell *minishell, t_path_cmds *path_cmds,
 	if (!path_cmds->paths)
 	{
 		free(path_cmds->path_env);
-		error_handling_exec(minishell, "Malloc failed");
+		error_handling_exec(minishell, "yoyoMalloc failed");
 		exit (1);
 	}
 	i = 0;
@@ -90,8 +90,13 @@ char	*find_exec_cmd(char **cmds, t_minishell *minishell)
 
 	ft_memset(&path_cmds, 0, sizeof(t_path_cmds));
 	path_cmds.path_env = find_env_path(minishell->envp, minishell);
-	full_path = find_full_path(minishell, &path_cmds, cmds);
-	free(path_cmds.path_env);
+	if (path_cmds.path_env)
+	{
+		full_path = find_full_path(minishell, &path_cmds, cmds);
+		free(path_cmds.path_env);
+	}
+	else
+		full_path = NULL;
 	if (!full_path)
 	{
 		ft_dprintf(STDERR_FILENO, CMD_NOT_FOUND, cmds[0]);

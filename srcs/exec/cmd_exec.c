@@ -81,6 +81,7 @@ int	handle_cmd(t_ast *node, t_minishell *minishell)
 {
 	int	ret;
 
+	// signal(SIGINT, signal_handler_exec);
 	minishell->pid = fork();
 	if (minishell->pid == -1)
 	{

@@ -30,6 +30,17 @@ void	signal_handler(int signum) //ctrl c
 		g_signal_received = SIGQUIT;
 }
 
+// void	signal_handler_exec(int signum)
+// {
+// 	if (signum == SIGINT)
+// 	{
+// 		write(STDOUT_FILENO, "\n", 1);
+// 		g_signal_received = SIGINT;
+// 	}
+// 	else if (signum == SIGQUIT)
+// 		g_signal_received = SIGQUIT;
+// }
+
 int	return_global(void)
 {
 	return (g_signal_received);

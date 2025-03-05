@@ -5,6 +5,7 @@ typedef struct s_list			t_list;
 typedef struct s_ast			t_ast;
 
 # include <unistd.h>
+# include "../expander/expand.h"
 
 // int	g_signal_received;
 
@@ -173,6 +174,7 @@ void	free_list(t_list *list);
 void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
 
 void	signal_handler(int signum);
+// void	signal_handler_exec(int signum);
 
 bool	replace_token(t_list *current, t_list *new_tokens);
 void	free_env(t_minishell *minishell);
