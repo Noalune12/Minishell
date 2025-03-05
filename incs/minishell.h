@@ -41,7 +41,7 @@ typedef struct s_ast			t_ast;
 // liste de define derreurs + dautres plus tard
 # define FILENAME_SYNTAX "syntax error: missing filename after redirection\n"
 # define NEWLINE_SYNTAX "minishell: syntax error near unexpected token `newline'\n"
-# define STRING_SYNTAX "minishell: syntax error near unexpected token `%s'\n"
+# define STR_SYNTAX "minishell: syntax error near unexpected token `%s'\n"
 # define CHAR_SYNTAX "minishell: syntax error near unexpected token `%c'\n"
 # define CMD_NOT_FOUND "bash: %s: command not found\n"
 # define FILE_NOT_FOUND "%s: %s: No such file or directory\n"
@@ -100,14 +100,6 @@ typedef enum e_node_type
 	NODE_CLOSE_PAR,	// )
 	NODE_BUILTIN	// commande builtin > delete ?
 }	t_node_type;
-
-typedef struct s_heredoc
-{
-	char	*line;
-	char	*prompt;
-	int		fd;
-	int		original_stdin;
-}	t_heredoc_utils;
 
 typedef struct s_cmd
 {
@@ -418,26 +410,26 @@ void ft_list_sort(t_list **begin_list, int (*cmp)(const char *, const char *));
 
 /* --- heredoc --- */
 
-char	*create_temp_file(void);
-char	*handle_heredoc(char *delimiter);
-bool	check_expand(char *delimiter);
-int		check_heredoc(t_minishell *minishell);
+// char	*create_temp_file(void);
+// char	*handle_heredoc(char *delimiter);
+// bool	check_expand(char *delimiter);
+// int		check_heredoc(t_minishell *minishell);
 
 
 
-int	is_last_heredoc(t_token *current, t_token *last_heredoc);
-int	handle_last_heredoc(t_token *current, int *error);
-int	is_op(char *token);
-int	is_valid_heredoc_delimiter(char *token);
+// int	is_last_heredoc(t_token *current, t_token *last_heredoc);
+// int	handle_last_heredoc(t_token *current, int *error);
+// int	is_op(char *token);
+// int	is_valid_heredoc_delimiter(char *token);
 
-int	write_to_heredoc(char *file_name, char *delimiter);
-
-
-t_token	*find_last_heredoc(t_token *start, t_token **last_heredoc, int *error);
+// int	write_to_heredoc(char *file_name, char *delimiter);
 
 
+// t_token	*find_last_heredoc(t_token *start, t_token **last_heredoc, int *error);
 
-void	handle_regular_heredoc(t_token *current);
+
+
+// void	handle_regular_heredoc(t_token *current);
 
 
 /* test signal */

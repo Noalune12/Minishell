@@ -1,7 +1,5 @@
 #include "minishell.h"
-
-bool	add_token(t_token **tokens, char *content, t_node_type type);
-
+#include "heredoc.h"
 
 char	*read_input(t_minishell *minishell)
 {

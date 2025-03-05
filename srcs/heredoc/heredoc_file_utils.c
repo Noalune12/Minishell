@@ -1,7 +1,4 @@
-#include "minishell.h"
-
-#include <string.h>
-#include <stdlib.h>
+#include "heredoc.h"
 
 static void	format_file_name(char *file_name, int fd)
 {
@@ -40,8 +37,6 @@ char	*create_temp_file(void)
 		return (NULL);
 	}
 	format_file_name(get_random_name, fd);
-	if (!get_random_name)
-		return (NULL);
 	close(fd);
 	file_name = ft_strjoin(HEREDOC_PATH_BASE_NAME, get_random_name);
 	free(get_random_name);
