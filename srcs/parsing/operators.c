@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-// static bool	handle_operator(t_list **tokens, const char *str, 
+// static bool	handle_operator(t_list **tokens, const char *str,
 // 	size_t *i, size_t *start)
 // {
 // 	t_redirect_error	error;
@@ -87,7 +87,6 @@ t_token *split_operators(t_token *tokens)
             // If we find an operator outside quotes
             if (!in_quotes && is_operator(content[i], false))
             {
-                // Add the text before the operator if any
                 if (i > start)
                 {
                     if (!add_token(&result, ft_strndup(content + start, i - start), NODE_COMMAND))
@@ -116,7 +115,7 @@ t_token *split_operators(t_token *tokens)
                     op_type = NODE_APPEND;
                 else if (ft_strncmp(content + i, "<<", op_len) == 0)
                     op_type = NODE_HEREDOC;
-                else
+                else 
                     op_type = NODE_COMMAND; // Default
 
                 // Add the operator token

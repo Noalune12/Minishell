@@ -53,7 +53,7 @@ int	write_to_heredoc(char *file_name, char *delimiter)
 {
 	t_heredoc_utils	data;
 
-	data.fd = open(file_name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	data.fd = open(file_name, O_WRONLY | O_TRUNC, 0644);
 	if (data.fd == -1)
 		return (-1);
 	data.original_stdin = dup(STDIN_FILENO); // protect
@@ -80,6 +80,8 @@ int	is_op(char *token) // temporary name
 		return (1);
 	if (ft_strcmp(token, "(") == 0 || ft_strcmp(token, ")") == 0)
 		return (1);
+	// if (ft_strcmp(token, ">>") == 0)
+	// 	return (1);
 	if (ft_strcmp(token, "&&") == 0)
 		return (1);
 	return (0);

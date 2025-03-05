@@ -85,6 +85,8 @@ int	check_heredoc(t_minishell *minishell)
 	while (current)
 	{
 		pipe_token = find_last_heredoc(current, &last_heredoc);
+		// if (!pipe_token)
+		// 	return (-1);
 		if (last_heredoc)
 		{
 			process_heredocs(current, last_heredoc, &error);
