@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-t_token	*print_error_return_null(void)
+t_token	*print_error_return_null(char *content)
 {
-	ft_dprintf(STDERR_FILENO, "%sError ?%s\n", GREEN, RESET);
+	ft_dprintf(STDERR_FILENO, STRING_SYNTAX, content);
 	return (NULL);
 }
 
@@ -19,7 +19,7 @@ t_token	*find_last_heredoc(t_token *start, t_token **last_heredoc)
 		if (ft_strcmp(current->content, "<<") == 0 && next) // rajouter check next n'est pas un operateur
 		{
 			if (is_op(next->content))
-				return (print_error_return_null());
+				return (print_error_return_null(next->content));
 			*last_heredoc = current;
 		}
 		else if (is_op(current->content))
