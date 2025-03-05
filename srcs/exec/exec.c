@@ -81,6 +81,11 @@ char	*handle_quotes_exec(char *input)
 	len = 0;
 	in_s_quote = false;
 	in_d_quote = false;
+	if (ft_strcmp(input, "\"\"") == 0 || ft_strcmp(input, "''") == 0)
+	{
+		result = ft_calloc(1, sizeof(char)); // TODO protect
+		return (result);
+	}
 	while ((*input))
 	{
 		if ((*input == '\'' && !in_d_quote) || (*input == '\"' && !in_s_quote))
@@ -115,17 +120,29 @@ int	exec_minishell(t_ast *node, t_minishell *minishell)
 		char *temp;
 		char *final;
 		expanded = expand_env_vars(node->cmd->cmds[i], minishell->envp); //TODO protect
-		if (expanded)
-			ft_dprintf(STDERR_FILENO, GREEN"expanded = %s\n"RESET, expanded);
+		ft_dprintf(STDERR_FILENO, GREEN"expanded = '%s'\n"RESET, expanded);
 		temp = node->cmd->cmds[i];
-		node->cmd->cmds[i] = expanded;
-		free(temp);
+		if ((node->type == NODE_COMMAND || node->type == NODE_BUILTIN) || expanded[0])
+		{
+			node->cmd->cmds[i] = expanded;
+			free(temp);
+		}
 		final = handle_quotes_exec(node->cmd->cmds[i]);
-		if (final)
-			ft_dprintf(STDERR_FILENO, PURPLE"final = %s\n"RESET, final);
+		ft_dprintf(STDERR_FILENO, PURPLE"final = %s\n"RESET, final);
 		temp = node->cmd->cmds[i];
 		node->cmd->cmds[i] = final;
 		free(temp);
+		if (i == 0)
+		{
+			if (ft_strcmp(node->cmd->cmds[i], "echo\0") == 0
+				|| ft_strcmp(node->cmd->cmds[i], "cd\0") == 0
+				|| ft_strcmp(node->cmd->cmds[i], "pwd\0") == 0
+				|| ft_strcmp(node->cmd->cmds[i], "export\0") == 0
+				|| ft_strcmp(node->cmd->cmds[i], "unset\0") == 0
+				|| ft_strcmp(node->cmd->cmds[i], "env\0") == 0
+				|| ft_strcmp(node->cmd->cmds[i], "exit\0") == 0)
+				node->type = NODE_BUILTIN;
+		}
 		i++;
 	}
 	ret = exec[node->type](node, minishell);
