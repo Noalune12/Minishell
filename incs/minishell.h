@@ -89,17 +89,17 @@ typedef enum e_redirect_error
 
 typedef enum e_node_type
 {
-	NODE_COMMAND,  // commande simple
-	NODE_BUILTIN,  // commande builtin
-	NODE_PIPE,     // |
-	NODE_OR,       // ||
-	NODE_AND,      // &&
-	NODE_REDIR_IN, // <
-	NODE_REDIR_OUT,// >
-	NODE_HEREDOC,  // <<
-	NODE_APPEND,   // >>
-	// NODE_OPEN_PAR, // (
-	// NODE_CLOSE_PAR // )
+	NODE_COMMAND,	// commande simple
+	NODE_PIPE,		// |
+	NODE_OR,		// ||
+	NODE_AND,		// &&
+	NODE_REDIR_IN,	// <
+	NODE_REDIR_OUT,	// >
+	NODE_HEREDOC,	// <<
+	NODE_APPEND,	// >>
+	NODE_OPEN_PAR,	// (
+	NODE_CLOSE_PAR,	// )
+	NODE_BUILTIN	// commande builtin > delete ?
 }	t_node_type;
 
 typedef struct s_cmd
