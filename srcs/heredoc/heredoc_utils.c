@@ -16,15 +16,6 @@
 // 	}
 // }
 
-typedef struct s_heredoc // nom horrible a modifier
-{
-	char	*default_prompt;
-	char	*line;
-	char	*prompt;
-	int		fd;
-	int		original_stdin;
-}	t_heredoc_utils;
-
 static int	write_heredoc_line(int fd, char *line)
 {
 	if (!line)
@@ -34,14 +25,12 @@ static int	write_heredoc_line(int fd, char *line)
 	return (1);
 }
 
-static void write_to_heredoc_main_loot(t_heredoc_utils *data, char *delimiter)
+static void	write_to_heredoc_main_loot(t_heredoc_utils *data, char *delimiter)
 {
 	while (1)
 	{
 		if (data->prompt)
 			data->line = readline(data->prompt);
-		else
-			data->line = readline(data->default_prompt);
 		if (!data->line)
 		{
 			print_redirect_error(REDIR_HEREDOC_EOF, delimiter);
@@ -79,8 +68,7 @@ int	write_to_heredoc(char *file_name, char *delimiter)
 		close(data.original_stdin);
 		return (-1);
 	}
-	data.default_prompt = "> ";
-	data.line = NULL; // Initialiser à NULL
+	data.line = NULL;
 	write_to_heredoc_main_loot(&data, delimiter);
 	signal(SIGINT, signal_handler);
 	free(data.prompt);
@@ -100,10 +88,10 @@ int	is_valid_heredoc_delimiter(char *token)
 {
 	if (!token)
 		return (0);
-	if (ft_strcmp(token, "|") == 0 || ft_strcmp(token, "||") == 0 ||
-		ft_strcmp(token, "<") == 0 || ft_strcmp(token, ">") == 0 ||
-		ft_strcmp(token, "<<") == 0 || ft_strcmp(token, ">>") == 0 ||
-		ft_strcmp(token, "(") == 0 || ft_strcmp(token, ")") == 0 ||
+	if (ft_strcmp(token, "|") == 0 || ft_strcmp(token, "||") == 0 || \
+		ft_strcmp(token, "<") == 0 || ft_strcmp(token, ">") == 0 || \
+		ft_strcmp(token, "<<") == 0 || ft_strcmp(token, ">>") == 0 || \
+		ft_strcmp(token, "(") == 0 || ft_strcmp(token, ")") == 0 || \
 		ft_strcmp(token, "&&") == 0)
 		return (0);
 	return (1);

@@ -28,7 +28,6 @@ char	*handle_heredoc(char *delimiter)
 	char	*file_name;
 	char	*processed_delimiter;
 
-	// expand = check_expand(delimiter); -> si jamais on veut check les expands
 	processed_delimiter = process_delimiter(delimiter);
 	if (!processed_delimiter)
 		return (NULL);
@@ -78,15 +77,26 @@ int	check_heredoc(t_minishell *minishell)
 	t_token	*current;
 	t_token	*last_heredoc;
 	t_token	*pipe_token;
+	t_token	*temp;
 	int		error;
 
 	current = minishell->token;
 	error = 0;
+	temp = current;
+	while (temp)
+	{
+		if (ft_strcmp(temp->content, "<<") == 0 && !temp->next)
+		{
+			ft_dprintf(STDERR_FILENO, NEWLINE_SYNTAX);
+			return (-1);
+		}
+		temp = temp->next;
+	}
 	while (current)
 	{
-		pipe_token = find_last_heredoc(current, &last_heredoc);
-		// if (!pipe_token)
-		// 	return (-1);
+		pipe_token = find_last_heredoc(current, &last_heredoc, &error);
+		if (error == -1)
+			return (-1);
 		if (last_heredoc)
 		{
 			process_heredocs(current, last_heredoc, &error);
@@ -94,7 +104,7 @@ int	check_heredoc(t_minishell *minishell)
 				return (-1);
 		}
 		if (!pipe_token)
-			break;
+			break ;
 		current = pipe_token->next;
 	}
 	return (0);

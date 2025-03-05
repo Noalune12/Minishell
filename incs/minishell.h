@@ -40,7 +40,7 @@ typedef struct s_ast			t_ast;
 // memo error code 127 -> no path to command
 // liste de define derreurs + dautres plus tard
 # define FILENAME_SYNTAX "syntax error: missing filename after redirection\n"
-# define NEWLINE_SYNTAX "syntax error near unexpected token `newline'\n"
+# define NEWLINE_SYNTAX "minishell: syntax error near unexpected token `newline'\n"
 # define STRING_SYNTAX "minishell: syntax error near unexpected token `%s'\n"
 # define CHAR_SYNTAX "minishell: syntax error near unexpected token `%c'\n"
 # define CMD_NOT_FOUND "bash: %s: command not found\n"
@@ -66,8 +66,7 @@ typedef struct s_ast			t_ast;
 
 // heredoc defines
 
-#define HEREDOC_PATH_BASE_NAME "/tmp/.heredoc_"
-#define RANDOM_NAME_LENGHT 10
+
 
 typedef enum e_quote // delete ? peut etre besoin pour le parsing
 {
@@ -101,6 +100,14 @@ typedef enum e_node_type
 	NODE_CLOSE_PAR,	// )
 	NODE_BUILTIN	// commande builtin > delete ?
 }	t_node_type;
+
+typedef struct s_heredoc
+{
+	char	*line;
+	char	*prompt;
+	int		fd;
+	int		original_stdin;
+}	t_heredoc_utils;
 
 typedef struct s_cmd
 {
@@ -426,7 +433,8 @@ int	is_valid_heredoc_delimiter(char *token);
 int	write_to_heredoc(char *file_name, char *delimiter);
 
 
-t_token	*find_last_heredoc(t_token *start, t_token **last_heredoc);
+t_token	*find_last_heredoc(t_token *start, t_token **last_heredoc, int *error);
+
 
 
 void	handle_regular_heredoc(t_token *current);

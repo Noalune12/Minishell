@@ -6,7 +6,7 @@ t_token	*print_error_return_null(char *content)
 	return (NULL);
 }
 
-t_token	*find_last_heredoc(t_token *start, t_token **last_heredoc)
+t_token	*find_last_heredoc(t_token *start, t_token **last_heredoc, int *error)
 {
 	t_token	*current;
 	t_token	*next;
@@ -21,6 +21,7 @@ t_token	*find_last_heredoc(t_token *start, t_token **last_heredoc)
 			if (!is_valid_heredoc_delimiter(next->content))
 			{
 				ft_dprintf(STDERR_FILENO, STRING_SYNTAX, next->content);
+				*error = -1;
 				return (NULL);
 			}
 			*last_heredoc = current;
@@ -37,11 +38,6 @@ int	is_last_heredoc(t_token *current, t_token *last_heredoc)
 	return (last_heredoc && current == last_heredoc->next);
 }
 
-/**
- * @brief CA MARCHE PAAAASSSS POUR LE DERNIER FICHIER TEMP
- *
- *
- */
 void	handle_regular_heredoc(t_token *current)
 {
 	char	*tmp_filename;
