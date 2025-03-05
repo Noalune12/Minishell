@@ -89,7 +89,7 @@ int	main(int ac, char **av, char **envp)
 		tmp_test = minishell.token;
 		for (int i = 0; tmp_test != NULL; i++)
 		{
-			printf("%sMaillon ID: %d\nToken: [%s], Type: %d%s\n",RED,
+			printf("%sMaillon ID: %d : Token: [%s], Type: %d%s\n",RED,
 				   i, tmp_test->content, tmp_test->type, RESET);
 			tmp_test = tmp_test->next;
 		}
