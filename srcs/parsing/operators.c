@@ -38,24 +38,46 @@ static t_node_type	get_operator_type(const char *content, \
 	return (NODE_COMMAND);
 }
 
+static bool	handle_first_part(t_token **result, const char *content,
+							size_t *i, size_t *start)
+{
+	char	*str;
+
+	if (*i <= *start)
+		return (true);
+	str = ft_strndup(content + *start, *i - *start);
+	if (!str)
+		return (false);
+	if (!add_token(result, str, NODE_COMMAND))
+	{
+		free(str);
+		return (false);
+	}
+	return (true);
+}
+
 static bool	process_operator(t_token **result, const char *content,
 							size_t *i, size_t *start)
 {
 	size_t		op_len;
 	t_node_type	op_type;
+	char		*str;
 
-	if (*i > *start)
-	{
-		if (!add_token(result, ft_strndup(content + *start, *i - *start),
-				NODE_COMMAND))
-			return (false);
-	}
+	if (!handle_first_part(result, content, i, start))
+		return (false);
 	op_len = get_operator_len(content, *i);
 	op_type = get_operator_type(content, *i, op_len);
-	if (!add_token(result, ft_strndup(content + *i, op_len), op_type))
+	str = ft_strndup(content + *i, op_len);
+	if (!str)
 		return (false);
+	if (!add_token(result, str, op_type))
+	{
+		free(str);
+		return (false);
+	}
 	*i += op_len;
 	*start = *i;
+	free(str);
 	return (true);
 }
 
@@ -65,6 +87,7 @@ static bool	process_token_content(t_token **result, const char *content)
 	size_t	start;
 	bool	in_quotes;
 	char	quote_type;
+	char	*str;
 
 	i = 0;
 	start = 0;
@@ -84,8 +107,16 @@ static bool	process_token_content(t_token **result, const char *content)
 	}
 	if (i <= start)
 		return (true);
-	return (add_token(result, ft_strndup(content + start, i - start),
-			NODE_COMMAND));
+	str = ft_strndup(content + start, i - start);
+	if (!str)
+		return (false);
+	if (!add_token(result, str, NODE_COMMAND))
+	{
+		free(str);
+		return (false);
+	}
+	free(str);
+	return (true);
 }
 
 t_token	*split_operators(t_token *tokens)

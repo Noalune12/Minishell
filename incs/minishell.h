@@ -45,7 +45,7 @@ typedef struct s_ast			t_ast;
 # define CHAR_SYNTAX "minishell: syntax error near unexpected token `%c'\n"
 # define CMD_NOT_FOUND "bash: %s: command not found\n"
 # define FILE_NOT_FOUND "%s: %s: No such file or directory\n"
-# define FIRST_HEREDOC_ERROR_MESSAGE "warning: here-document delimited by end-of-file (wanted `%s')\n"
+# define HEREDOC_ERROR_MESSAGE "minishell: warning: here-document delimited by end-of-file (wanted `%s')\n"
 # define ERROR_SYNTAX_TO_MODIFY "syntax error\n" // a modifier
 
 // liste de define plutot que decrire en brut
@@ -416,9 +416,13 @@ char	*handle_heredoc(char *delimiter);
 bool	check_expand(char *delimiter);
 int		check_heredoc(t_minishell *minishell);
 
+
+
 int	is_last_heredoc(t_token *current, t_token *last_heredoc);
 int	handle_last_heredoc(t_token *current, int *error);
 int	is_op(char *token);
+int	is_valid_heredoc_delimiter(char *token);
+
 int	write_to_heredoc(char *file_name, char *delimiter);
 
 

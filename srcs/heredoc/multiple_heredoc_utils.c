@@ -16,10 +16,13 @@ t_token	*find_last_heredoc(t_token *start, t_token **last_heredoc)
 	while (current)
 	{
 		next = current->next;
-		if (ft_strcmp(current->content, "<<") == 0 && next) // rajouter check next n'est pas un operateur
+		if (ft_strcmp(current->content, "<<") == 0 && next)
 		{
-			if (is_op(next->content))
-				return (print_error_return_null(next->content));
+			if (!is_valid_heredoc_delimiter(next->content))
+			{
+				ft_dprintf(STDERR_FILENO, STRING_SYNTAX, next->content);
+				return (NULL);
+			}
 			*last_heredoc = current;
 		}
 		else if (is_op(current->content))

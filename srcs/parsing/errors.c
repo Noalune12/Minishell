@@ -11,7 +11,7 @@ void	print_redirect_error(t_redirect_error error, const char *token)
 	else if (error == REDIR_FILE_ERROR && token)
 		ft_dprintf(STDERR_FILENO, FILE_NOT_FOUND, "COMMANDE ICI !!!", token);
 	else if (error == REDIR_HEREDOC_EOF && token)
-		ft_dprintf(STDERR_FILENO, FIRST_HEREDOC_ERROR_MESSAGE, token);
+		ft_dprintf(STDERR_FILENO, HEREDOC_ERROR_MESSAGE, token);
 	else if (error == REDIR_SYNTAX_ERROR)
 		ft_dprintf(STDERR_FILENO, ERROR_SYNTAX_TO_MODIFY);
 }

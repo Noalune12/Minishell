@@ -34,7 +34,7 @@ static int	write_heredoc_line(int fd, char *line)
 	return (1);
 }
 
-static void	write_to_heredoc_main_loot(t_heredoc_utils *data, char *delimiter)
+static void write_to_heredoc_main_loot(t_heredoc_utils *data, char *delimiter)
 {
 	while (1)
 	{
@@ -42,8 +42,17 @@ static void	write_to_heredoc_main_loot(t_heredoc_utils *data, char *delimiter)
 			data->line = readline(data->prompt);
 		else
 			data->line = readline(data->default_prompt);
-		if (!data->line || (ft_strcmp(data->line, delimiter) == 0))
+		if (!data->line)
+		{
+			print_redirect_error(REDIR_HEREDOC_EOF, delimiter);
 			break ;
+		}
+		if (ft_strcmp(data->line, delimiter) == 0)
+		{
+			free(data->line);
+			data->line = NULL;
+			break ;
+		}
 		if (!write_heredoc_line(data->fd, data->line))
 			break ;
 	}
@@ -53,34 +62,66 @@ int	write_to_heredoc(char *file_name, char *delimiter)
 {
 	t_heredoc_utils	data;
 
-	data.fd = open(file_name, O_WRONLY | O_TRUNC, 0644);
+	data.fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (data.fd == -1)
 		return (-1);
-	data.original_stdin = dup(STDIN_FILENO); // protect
+	data.original_stdin = dup(STDIN_FILENO);
+	if (data.original_stdin == -1)
+	{
+		close(data.fd);
+		return (-1);
+	}
 	signal(SIGINT, heredoc_signal_handler);
-	data.prompt = ft_strjoin(delimiter, "> "); // protect
+	data.prompt = ft_strjoin(delimiter, "> ");
+	if (!data.prompt)
+	{
+		close(data.fd);
+		close(data.original_stdin);
+		return (-1);
+	}
 	data.default_prompt = "> ";
+	data.line = NULL; // Initialiser à NULL
 	write_to_heredoc_main_loot(&data, delimiter);
 	signal(SIGINT, signal_handler);
 	free(data.prompt);
-	free(data.line);
+	if (data.line)
+		free(data.line);
 	close(data.fd);
-	dup2(data.original_stdin, STDIN_FILENO); // protect
+	if (dup2(data.original_stdin, STDIN_FILENO) == -1)
+	{
+		close(data.original_stdin);
+		return (-1);
+	}
 	close(data.original_stdin);
 	return (0);
 }
 
-int	is_op(char *token) // temporary name
+int	is_valid_heredoc_delimiter(char *token)
 {
 	if (!token)
 		return (0);
+	if (ft_strcmp(token, "|") == 0 || ft_strcmp(token, "||") == 0 ||
+		ft_strcmp(token, "<") == 0 || ft_strcmp(token, ">") == 0 ||
+		ft_strcmp(token, "<<") == 0 || ft_strcmp(token, ">>") == 0 ||
+		ft_strcmp(token, "(") == 0 || ft_strcmp(token, ")") == 0 ||
+		ft_strcmp(token, "&&") == 0)
+		return (0);
+	return (1);
+}
+
+int	is_op(char *token)
+{
+	if (!token)
+		return (0);
+	if (ft_strcmp(token, "<<") == 0)
+		return (0);
 	if (ft_strcmp(token, "|") == 0 || ft_strcmp(token, "||") == 0)
 		return (1);
-	if (ft_strcmp(token, "<") == 0 || ft_strcmp(token, ">") == 0) // pas sur, avec et sans ca fait la meme chose mais je fais peut etre pas les bons tests
+	if (ft_strcmp(token, "<") == 0 || ft_strcmp(token, ">") == 0)
 		return (1);
 	if (ft_strcmp(token, "(") == 0 || ft_strcmp(token, ")") == 0)
 		return (1);
-	if (ft_strcmp(token, ">>") == 0 || ft_strcmp(token, "<<") == 0)
+	if (ft_strcmp(token, ">>") == 0)
 		return (1);
 	if (ft_strcmp(token, "&&") == 0)
 		return (1);
