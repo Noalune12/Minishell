@@ -24,7 +24,7 @@ DIR_DUP		= mkdir -p $(BUILD_DIR)
 
 # en bloc ici pour l'instant, on ferra peut etre des modes de compilations plus tard je sais pas comment faire pour l'instant
 
-VALGRIND_SUPPRESS_FILE := .valgrind_suppress.txt
+VALGRIND_SUPPRESS_FILE := $(abspath .valgrind_suppress.txt)
 
 $(VALGRIND_SUPPRESS_FILE):
 	@echo "{\n    leak readline\n    Memcheck:Leak\n    ...\n    fun:readline\n}" > $@

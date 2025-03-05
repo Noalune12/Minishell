@@ -21,13 +21,25 @@ static int	is_no_nl(char *str, int *no_nl)
 
 static int	ft_print_echo(char **cmds, int index, int no_nl, t_minishell *minishell)
 {
+	int	i;
+
+	i = 0;
 	while (cmds[index])
 	{
-		if (ft_strcmp(cmds[index], "$?") == 0)
-			ft_dprintf(STDOUT_FILENO, "%d ", minishell->exit_status);
-		else
-			ft_dprintf(STDOUT_FILENO, "%s ", cmds[index]);
+		while (cmds[index][i])
+		{
+			if (cmds[index][i] == '$' && cmds[index][i + 1] && cmds[index][i + 1] == '?')
+			{
+				ft_dprintf(STDOUT_FILENO, "%d", minishell->exit_status);
+				i++;
+			}
+			else
+				ft_dprintf(STDOUT_FILENO, "%c", cmds[index][i]);
+			i++;
+		}
 		index++;
+		if (cmds[index])
+			ft_dprintf(STDOUT_FILENO, " ");
 	}
 	if (!no_nl)
 		printf("\n");

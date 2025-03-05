@@ -1,5 +1,8 @@
 #include "minishell.h"
 
+
+//TODO handle builtin if infile or outfile don't do in a fork
+
 static void	print_env(t_list *env)
 {
 	t_list	*temp;

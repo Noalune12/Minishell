@@ -57,7 +57,7 @@ char	*expand_env_vars(char *str, t_list *env)
 	{
 		if (!handle_quotes_expand(str[i], &in_squotes, &in_dquotes))
 			expanded[j++] = str[i];
-		else if (str[i] == '$' && str[i + 1])
+		else if (str[i] == '$' && str[i + 1] && str[i + 1] != '?')
 		{
 			if (!handle_dollar_sign(str, expanded, &i, &j, env))
 			{
