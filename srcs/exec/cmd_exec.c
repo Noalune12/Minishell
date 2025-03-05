@@ -81,16 +81,32 @@ int	handle_cmd(t_ast *node, t_minishell *minishell)
 {
 	int	ret;
 
-	// signal(SIGINT, signal_handler_exec);
 	minishell->pid = fork();
 	if (minishell->pid == -1)
 	{
-		error_handling_exec(minishell, "fork failed");
+		error_handling_exec(minishell, "fork failed"); //TODO close fds
 		exit (1); // TODO add variable to know if we are in parent or child before and exit if in a child
 	}
 	if (minishell->pid == 0)
+	{
+		if (minishell->fd_in)
+		{
+			dup2(minishell->fd_in, STDIN_FILENO);
+			close(minishell->fd_in); //TODO protect
+		}
+		if (minishell->fd_out)
+		{
+			dup2(minishell->fd_out, STDOUT_FILENO); //TODO protect
+			close(minishell->fd_out); //TODO protect
+		}
+
 		exec_cmd(node, minishell);
+	}
 	waitpid(minishell->pid, &ret, 0);
+	if (minishell->fd_in)
+			close(minishell->fd_in); //TODO protect
+	if (minishell->fd_out)
+			close(minishell->fd_out); //TODO protect
 	if (WIFEXITED(ret))
 		return (WEXITSTATUS(ret));
 	return (1);

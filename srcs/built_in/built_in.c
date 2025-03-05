@@ -35,6 +35,10 @@ static int	ft_builtin(t_ast *node, t_minishell *minishell)
 		ret = ft_echo(node->cmd->cmds, minishell);
 	if (ft_strcmp(node->cmd->cmds[0], "exit\0") == 0)
 		ret = ft_exit(node->cmd->cmds, minishell);
+	if (minishell->fd_in)
+			close(minishell->fd_in); //TODO protect
+	if (minishell->fd_out)
+			close(minishell->fd_out); //TODO protect
 	return (ret);
 }
 

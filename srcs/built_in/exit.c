@@ -87,9 +87,6 @@ int	ft_exit(char **cmds, t_minishell *minishell)
 	}
 	else
 		ret = exit_return(cmds[1]);
-	free(minishell->input);
-	free_ast(minishell->ast_node);
-	free_list(minishell->token);
-	free_env(minishell);
+	error_handling_exec(minishell, NULL); // TODO free function
 	exit(ret);
 }
