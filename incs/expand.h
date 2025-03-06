@@ -7,23 +7,14 @@
 # include <stdlib.h>
 # include "minishell.h"
 
-// typedef struct s_expand
-// {
-// 	char	*result;
-// 	size_t	i;
-// 	size_t	j;
-// 	bool	*in_squotes;
-// 	bool	*in_dquotes;
-// }	t_expand;
-
-// typedef struct s_quotes
-// {
-// 	char	*result;
-// 	size_t	i;
-// 	size_t	j;
-// 	bool	in_squotes;
-// 	bool	in_dquotes;
-// }	t_quotes;
+typedef struct s_quotes
+{
+	char	*result;
+	char	*original;
+	int		len;
+	bool	in_squotes;
+	bool	in_dquotes;
+}	t_quotes;
 
 bool	handle_quotes_expand(char c, bool *in_squotes, bool *in_dquotes);
 

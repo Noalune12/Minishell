@@ -33,6 +33,7 @@ $(VALGRIND_SUPPRESS_FILE):
 VALGRIND_FLAGS := valgrind \
 	--suppressions=$(VALGRIND_SUPPRESS_FILE) \
 	--leak-check=full \
+	--track-origins=yes \
 	--trace-children=yes \
 	--track-fds=yes \
 	--show-leak-kinds=all \

@@ -52,42 +52,57 @@ char	*ft_reallocate(char *str, char c, int len)
 	return (ret);
 }
 
-char *handle_quotes_exec(char *input)
+void	init_data(t_quotes *data, char *input)
 {
-	char    *result;
-	int     len;
-	bool    in_s_quote;
-	bool    in_d_quote;
+	data->in_dquotes = false;
+	data->in_squotes = false;
+	data->original = input;
+	data->len = 0;
+	data->result = ft_calloc(1, sizeof(char));
+}
 
-	if (!input)
-		return (NULL);
-	len = 0;
-	in_s_quote = false;
-	in_d_quote = false;
-	result = ft_calloc(1, sizeof(char)); // Protect this
-	if (!result)
-		return (NULL);
-	if (ft_strcmp(input, "\"\"") == 0 || ft_strcmp(input, "''") == 0)
-		return (result);
+int	handle_quotes_main_loot(t_quotes *data, char *input)
+{
 	while (*input)
 	{
-		if ((*input == '\'' && !in_d_quote) || (*input == '\"' && !in_s_quote))
+		if ((*input == '\'' && !data->in_dquotes) || (*input == '\"' && !data->in_squotes))
 		{
 			if (*input == '\'')
-				in_s_quote = !in_s_quote;
+				data->in_squotes = !data->in_squotes;
 			else if (*input == '\"')
-				in_d_quote = !in_d_quote;
+				data->in_dquotes = !data->in_dquotes;
 		}
 		else
 		{
-			len++;
-			result = ft_reallocate(result, *input, len);
-			if (!result)
-				return (NULL);
+			data->len++;
+			data->result = ft_reallocate(data->result, *input, data->len);
+			if (!data->result)
+				return (-1);
 		}
 		input++;
 	}
-	return (result);
+	return (0);
+}
+
+char *handle_quotes_exec(char *input)
+{
+	t_quotes	data;
+
+	if (!input)
+		return (NULL);
+	init_data(&data, input);
+	if (!data.result)
+		return (NULL);
+	if (ft_strcmp(input, "\"\"") == 0 || ft_strcmp(input, "''") == 0)
+		return (data.result);
+	if (handle_quotes_main_loot(&data, input) == -1)
+		return (NULL);
+	if (data.in_squotes || data.in_dquotes)
+	{
+		free(data.result);
+		return (ft_strdup(data.original));
+	}
+	return (data.result);
 }
 
 int	exec_minishell(t_ast *node, t_minishell *minishell)
