@@ -92,5 +92,6 @@ int	check_heredoc(t_minishell *minishell)
 			minishell->exit_status = 2;
 		return (-1);
 	}
+	init_global();
 	return (0);
 }

@@ -4,8 +4,9 @@
 typedef struct s_list			t_list;
 typedef struct s_ast			t_ast;
 
+# include "expand.h"
+
 # include <unistd.h>
-# include "../expander/expand.h"
 
 // int	g_signal_received;
 
@@ -357,7 +358,6 @@ void	copy_with_quotes(char *dest, char *src, size_t *len);
 
 // t_list	*split_operators(const char *str, size_t i, size_t start);
 
-
 bool	add_token_to_list(t_list **tokens, char *content);
 bool	is_operator_char(char c, bool in_quotes);
 
@@ -415,59 +415,36 @@ int		ft_pwd(char **cmds);
 int		ft_cd(char **cmds, t_list *envp);
 int		update_cd_env(t_list **envp, char *path, int to_home);
 
-int		ft_export(char **cmds, t_list **env);
 t_list	*copy_env(t_list *env);
+int		ft_export(char **cmds, t_list **env);
 int		check_export(char **cmds);
 int		add_export_to_env(char *cmds, t_list **env);
 int		add_or_append_env(char *content, t_list **env, int len);
 int		find_env_var_node(char *var, t_list **env);
 
-int	ft_unset(char **cmds, t_minishell *minishell);
 int remove_node(t_list **head, char *var);
-
+int	ft_unset(char **cmds, t_minishell *minishell);
 int	ft_echo(char **cmds, t_minishell *minishell);
-
 int	ft_exit(char **cmds, t_minishell *minishell);
 
-char	**ft_free_double(char **strs);
-char	*ft_strndup(const char *s, size_t len);
-int		ft_strnlen(char *str, char c);
-void swap_data(t_list *a, t_list *b);
-int	ascii_cmp(char *a, char *b);
+void 	swap_data(t_list *a, t_list *b);
 void	ft_list_sort(t_list **begin_list, int (*cmp)(char *, char *));
 void	swap_strs(char **s1, char **s2);
 
-/* --- heredoc --- */
+char	**ft_free_double(char **strs);
+char	*ft_strndup(const char *s, size_t len);
 
-// char	*create_temp_file(void);
-// char	*handle_heredoc(char *delimiter);
-// bool	check_expand(char *delimiter);
-// int		check_heredoc(t_minishell *minishell);
-
-
-
-// int	is_last_heredoc(t_token *current, t_token *last_heredoc);
-// int	handle_last_heredoc(t_token *current, int *error);
-// int	is_op(char *token);
-// int	is_valid_heredoc_delimiter(char *token);
-
-// int	write_to_heredoc(char *file_name, char *delimiter);
-
-
-// t_token	*find_last_heredoc(t_token *start, t_token **last_heredoc, int *error);
-
-
-
-// void	handle_regular_heredoc(t_token *current);
-
+int		ft_strnlen(char *str, char c);
+int		ascii_cmp(char *a, char *b);
 
 /* test signal */
-int	return_global(void);
+
 void	heredoc_signal_handler(int sig);
 void	init_global(void);
+
 char	*read_input(t_minishell *minishell);
 
-
+int		return_global(void);
 
 /* ---- REFACTOR T_TOKEN TESTS ---- */
 
@@ -477,7 +454,5 @@ bool	add_token(t_token **tokens, char *content, t_node_type type);
 t_token	*init_token_node(char *content, t_node_type type);
 t_token *split_operators(t_token *tokens);
 t_token	*tokenize_input(char *input);
-
-
 
 #endif

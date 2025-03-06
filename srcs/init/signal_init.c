@@ -2,18 +2,14 @@
 
 int	g_signal_received = 0;
 
-/**
- * @brief comportement pas vraiment gerer je comprend pas trop comment faore
- *
- */
 void	heredoc_signal_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
+		g_signal_received = SIGINT;
 		write(STDOUT_FILENO, "\n", 1);
-		close(0);
+		close(STDIN_FILENO);
 	}
-	g_signal_received = sig;
 }
 
 void	signal_handler(int signum) //ctrl c

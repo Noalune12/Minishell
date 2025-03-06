@@ -16,26 +16,6 @@ static int	handle_dollar_sign(char *str, char *expanded, size_t *i, size_t *j, t
 	return (1);
 }
 
-void   	handle_expand(char *str, size_t *i)
-{
-	char	*var_name;
-	char	*var_value;
-	size_t	var_len;
-
-	*i += 1;
-	var_len = 0;
-	while (str[*i + var_len] && (ft_isalnum(str[*i + var_len]) || \
-			str[*i + var_len] == '_'))
-		var_len++;
-	var_name = ft_substr(str, *i, var_len);
-	if (!var_name)
-		return ;
-	var_value = getenv(var_name); // aller chercher dans notre liste chainee ?
-	printf("var value = %s & var name = %s", var_value, var_name);
-	free(var_name);
-	*i += var_len - 1;
-}
-
 char	*expand_env_vars(char *str, t_list *env)
 {
 	size_t	i;

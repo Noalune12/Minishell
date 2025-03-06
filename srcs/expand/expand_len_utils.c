@@ -66,3 +66,18 @@ size_t	get_expanded_str_len(char *str, t_list *env)
 	}
 	return (total_len);
 }
+
+bool	is_var_char(char c)
+{
+	return (ft_isalnum(c) || c == '_');
+}
+
+size_t	get_var_len(char *str, size_t i)
+{
+	size_t	var_len;
+
+	var_len = 0;
+	while (str[i + var_len] && is_var_char(str[i + var_len]))
+		var_len++;
+	return (var_len);
+}

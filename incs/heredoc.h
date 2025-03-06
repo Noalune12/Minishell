@@ -8,6 +8,8 @@
 # define AUTORIZED_CHAR \
 	"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
+extern int	g_signal_received;
+
 typedef struct s_heredoc
 {
 	char	*line;
