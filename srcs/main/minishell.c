@@ -96,16 +96,14 @@ int	main(int ac, char **av, char **envp)
 		// printf("\nArbre de syntaxe abstraite :\n");
 		// printf(BLUE"\nAST\n"RESET);
 		// print_ast(minishell.ast_node, 0);
-		if (return_global() == 2)
-			minishell.exit_status = 130;
 		// else if (minishell.ast_node)
 		// {
 		// 	printf(PURPLE"\nEXEC"RESET);
 		// 	printf("\n");
 		// 	minishell.exit_status = exec_minishell(minishell.ast_node, &minishell);
 		// }
-		if (return_global() == 2)
-			minishell.exit_status = 130;
+		// if (return_global() == SIGINT)
+		// 	minishell.exit_status = 130;
 		// printf(YELLOW"\nEXIT STATUS\n"RESET);
 		// printf("exit status = %d\n", minishell.exit_status);
 		// printf("--------------------\n");

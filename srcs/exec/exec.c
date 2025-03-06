@@ -47,52 +47,38 @@ char	*ft_reallocate(char *str, char c, int len)
 	}
 	ret[i] = c;
 	ret[i + 1] = '\0';
-	if (len > 1)
+	if (len > 0)
 		free(str);
 	return (ret);
 }
 
-void	check_quotes(const char input, bool *in_s_quote, bool *in_d_quote)
+char *handle_quotes_exec(char *input)
 {
-	if (input == '\'' && !(*in_d_quote))
-	{
-		if (*in_s_quote)
-			*in_s_quote = false; // out of single quotes
-		else
-			*in_s_quote = true; // enter single quotes
-	}
-	else if (input == '\"' && !(*in_s_quote))
-	{
-		if (*in_d_quote)
-			*in_d_quote = false; // out of double quotes
-		else
-			*in_d_quote = true; // enter double quotes
-	}
-}
+	char    *result;
+	int     len;
+	bool    in_s_quote;
+	bool    in_d_quote;
 
-char	*handle_quotes_exec(char *input)
-{
-	char	*result;
-	int		len;
-	bool	in_s_quote;
-	bool	in_d_quote;
-
-	result = NULL;
+	if (!input)
+		return (NULL);
 	len = 0;
 	in_s_quote = false;
 	in_d_quote = false;
+	result = ft_calloc(1, sizeof(char)); // Protect this
+	if (!result)
+		return (NULL);
 	if (ft_strcmp(input, "\"\"") == 0 || ft_strcmp(input, "''") == 0)
-	{
-		result = ft_calloc(1, sizeof(char)); // TODO protect
 		return (result);
-	}
-	while ((*input))
+	while (*input)
 	{
 		if ((*input == '\'' && !in_d_quote) || (*input == '\"' && !in_s_quote))
-			check_quotes(*input, &in_s_quote, &in_d_quote);
-		// if we are not in quotes, or in double quotes, or in single quotes
-		else if ((in_s_quote && !in_d_quote) || (in_d_quote && !in_s_quote)
-			|| (!in_s_quote && !in_d_quote))
+		{
+			if (*input == '\'')
+				in_s_quote = !in_s_quote;
+			else if (*input == '\"')
+				in_d_quote = !in_d_quote;
+		}
+		else
 		{
 			len++;
 			result = ft_reallocate(result, *input, len);
