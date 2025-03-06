@@ -1,26 +1,81 @@
 #include "heredoc.h"
 
-static char	*process_delimiter(char *delimiter)
+char	*ft_reallocate(char *str, char c, int len)
 {
-	char	*processed;
+	char	*ret;
 	int		i;
-	int		j;
 
-	if (!delimiter)
-		return (NULL);
-	processed = malloc(sizeof(char) * (ft_strlen(delimiter) + 1));
-	if (!processed)
-		return (NULL);
 	i = 0;
-	j = 0;
-	while (delimiter[i])
+	ret = malloc(sizeof(char) * (len + 2));
+	if (!ret)
 	{
-		if (!is_quote(delimiter[i]))
-			processed[j++] = delimiter[i];
+		if (len > 1)
+			free(str);
+		printf("Malloc failed");
+		return (NULL);
+	}
+	while (len > 1 && str[i])
+	{
+		ret[i] = str[i];
 		i++;
 	}
-	processed[j] = '\0';
-	return (processed);
+	ret[i] = c;
+	ret[i + 1] = '\0';
+	if (len > 1)
+		free(str);
+	return (ret);
+}
+
+void	check_quotes(const char input, bool *in_s_quote, bool *in_d_quote)
+{
+	if (input == '\'' && !(*in_d_quote))
+	{
+		if (*in_s_quote)
+			*in_s_quote = false; // out of single quotes
+		else
+			*in_s_quote = true; // enter single quotes
+	}
+	else if (input == '\"' && !(*in_s_quote))
+	{
+		if (*in_d_quote)
+			*in_d_quote = false; // out of double quotes
+		else
+			*in_d_quote = true; // enter double quotes
+	}
+}
+
+char	*handle_quotes_exec(char *input)
+{
+	char	*result;
+	int		len;
+	bool	in_s_quote;
+	bool	in_d_quote;
+
+	result = NULL;
+	len = 0;
+	in_s_quote = false;
+	in_d_quote = false;
+	if (ft_strcmp(input, "\"\"") == 0 || ft_strcmp(input, "''") == 0)
+	{
+		result = ft_calloc(1, sizeof(char)); // TODO protect
+		return (result);
+	}
+	while ((*input))
+	{
+		if ((*input == '\'' && !in_d_quote) || (*input == '\"' && !in_s_quote))
+			check_quotes(*input, &in_s_quote, &in_d_quote);
+		// if we are not in quotes, or in double quotes, or in single quotes
+		else if ((in_s_quote && !in_d_quote) || (in_d_quote && !in_s_quote)
+			|| (!in_s_quote && !in_d_quote))
+		{
+			len++;
+			result = ft_reallocate(result, *input, len);
+			if (!result)
+				return (NULL);
+		}
+		input++;
+	}
+	return (result);
 }
 
 char	*handle_heredoc(char *delimiter)
@@ -28,7 +83,7 @@ char	*handle_heredoc(char *delimiter)
 	char	*file_name;
 	char	*processed_delimiter;
 
-	processed_delimiter = process_delimiter(delimiter);
+	processed_delimiter = handle_quotes_exec(delimiter);
 	if (!processed_delimiter)
 		return (NULL);
 	file_name = create_temp_file();
