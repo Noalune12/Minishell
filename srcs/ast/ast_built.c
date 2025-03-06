@@ -1,4 +1,5 @@
 #include "minishell.h"
+ //TODO protect
 
 t_cmd	*add_cmd(char *content)
 {
@@ -123,7 +124,7 @@ t_ast	*create_command(t_token **token, t_ast **head, t_ast **root)
 			else
 				node_cmd = create_ast_tree_node(NODE_COMMAND, (*token)->content, NULL);
 		}
-		if ((*token)->next && ((*token)->next->type == NODE_PIPE || (*token)->next->type == NODE_AND || (*token)->next->type == NODE_OR))
+		if ((*token)->next && ((*token)->next->type == NODE_PIPE || (*token)->next->type == NODE_AND || (*token)->next->type == NODE_OR || (*token)->next->type == NODE_CLOSE_PAR))
 			break ;
 		(*token) = (*token)->next;
 	}
@@ -171,16 +172,64 @@ t_ast	*create_or_and(t_token **token, t_ast **left, t_ast **head, t_ast **root)
 	return (node_and_or);
 }
 
+t_ast	*build_par(t_token **token)
+{
+	t_ast	*root = NULL;
+	t_ast	*head_pipe = NULL;
+	t_ast	*left = NULL;
+	t_ast	*par = NULL;
+
+	while ((*token)->type != NODE_CLOSE_PAR)
+	{
+		if ((*token)->type == NODE_OPEN_PAR)
+		{
+			*token = (*token)->next;
+			par = build_par(token);
+		}
+		else if ((*token)->type == NODE_OR || (*token)->type == NODE_AND)
+			root = create_or_and(token, &left, &head_pipe, &root);
+		else if ((*token)->type == NODE_PIPE)
+			head_pipe = create_pipe(token, &left, &head_pipe, &root);
+		else if ((*token)->type != NODE_CLOSE_PAR)
+		{
+			if (!left)
+				left = create_command(token, &head_pipe, &root);
+			else
+			{
+				create_command(token, &head_pipe, &root);
+				if (root)
+					left = NULL;
+			}
+		}
+		if ((*token)->type == NODE_CLOSE_PAR)
+			break ;
+		*token = (*token)->next;
+	}
+	if (!root)
+		root = par;
+	if (!root)
+		root = head_pipe;
+	if (!root)
+		root = left;
+	return (root);
+}
+
 t_ast	*build_ast(t_token **token)
 {
 	t_token	*temp = *token;
 	t_ast	*root = NULL;
 	t_ast	*head_pipe = NULL;
 	t_ast	*left = NULL;
+	t_ast	*par = NULL;
 
 	while (temp)
 	{
-		if (temp->type == NODE_OR || temp->type == NODE_AND)
+		if (temp->type == NODE_OPEN_PAR)
+		{
+			temp = temp->next;
+			par = build_par(&temp);
+		}
+		else if (temp->type == NODE_OR || temp->type == NODE_AND)
 			root = create_or_and(&temp, &left, &head_pipe, &root);
 		else if (temp->type == NODE_PIPE)
 			head_pipe = create_pipe(&temp, &left, &head_pipe, &root);
@@ -199,6 +248,8 @@ t_ast	*build_ast(t_token **token)
 			break ;
 		temp = temp->next;
 	}
+	if (!root)
+		root = par;
 	if (!root)
 		root = head_pipe;
 	if (!root)
