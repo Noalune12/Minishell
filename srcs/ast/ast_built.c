@@ -70,12 +70,12 @@ void ft_swap(t_ast *a, t_ast *b)
 
 void create_ast(t_minishell *minishell)
 {
-	t_list *temp = minishell->token;
-	t_ast *command_node = NULL;
-	t_ast *prev_cmd = NULL;
-	t_ast *current = NULL;
-	t_ast *head = NULL;
-	t_ast *prev_and_or = NULL;
+	t_token	*temp = minishell->token;
+	t_ast	*command_node = NULL;
+	t_ast	*prev_cmd = NULL;
+	t_ast	*current = NULL;
+	t_ast	*head = NULL;
+	t_ast	*prev_and_or = NULL;
 	bool	left = true;
 	t_ast *prev_pipe = NULL;
 	t_ast *first_file = NULL;

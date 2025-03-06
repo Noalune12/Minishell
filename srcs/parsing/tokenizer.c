@@ -22,11 +22,11 @@ char	*extract_token(char *input, size_t *pos)
 	return (final_token);
 }
 
-t_list	*tokenize_input(char *input)
+t_token	*tokenize_input(char *input)
 {
-	t_list	*tokens;
+	t_token	*tokens;
 	size_t	i;
-	char	*token;
+	char	*content;
 
 	if (!check_unclosed_quotes(input))
 		return (NULL);
@@ -38,15 +38,49 @@ t_list	*tokenize_input(char *input)
 			i++;
 		else
 		{
-			token = extract_token(input, &i);
-			if (!token)
+			content = extract_token(input, &i);
+			if (!content)
 			{
-				free_list(tokens);
+				free_token_list(tokens);
 				return (NULL);
 			}
-			add_node(&tokens, token);
-			free(token);
+			if (!add_token(&tokens, content, NODE_COMMAND))
+			{
+				free(content);
+				free_token_list(tokens);
+				return (NULL);
+			}
+			free(content);
 		}
 	}
 	return (tokens);
 }
+
+// t_list	*tokenize_input(char *input)
+// {
+// 	t_list	*tokens;
+// 	size_t	i;
+// 	char	*content;
+
+// 	if (!check_unclosed_quotes(input))
+// 		return (NULL);
+// 	tokens = NULL;
+// 	i = 0;
+// 	while (input[i])
+// 	{
+// 		if (input[i] == ' ' || input[i] == '\t')
+// 			i++;
+// 		else
+// 		{
+// 			content = extract_token(input, &i);
+// 			if (!content)
+// 			{
+// 				free_list(tokens);
+// 				return (NULL);
+// 			}
+// 			add_node(&tokens, content);
+// 			free(content);
+// 		}
+// 	}
+// 	return (tokens);
+// }

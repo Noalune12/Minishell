@@ -39,6 +39,7 @@ SRC += $(addprefix $(UTILSDIR), $(addsuffix .c, $(UTILSSRC)))
 override UTILSSRC	:= \
 	free_utils \
 	list_utils \
+	t_token_utils
 
 SRC += $(addprefix $(ENVDIR), $(addsuffix .c, $(ENVSRC)))
 
@@ -98,8 +99,9 @@ override BUILTINSRC	:= \
 SRC += $(addprefix $(HEREDOCDIR), $(addsuffix .c, $(HEREDOCSRC)))
 
 override HEREDOCSRC	:= \
-	heredoc_check \
-	heredoc_expand_handling \
-	heredoc_file_handling \
+	heredoc_exec \
 	heredoc_utils \
-	multiple_heredoc_utils \
+	heredoc_file_utils \
+	heredoc_in_out \
+	heredoc_process \
+	heredoc \

@@ -1,4 +1,4 @@
-# Minishell
+****# Minishell
 
 *This project is about creating a simple shell.
 Yes, your own little bash.
@@ -8,7 +8,6 @@ You will learn a lot about processes and file descriptors.*
 
 # Table des Matières
 
-- [Minishell](#minishell)
 - [Table des Matières](#table-des-matières)
   - [Ressources pour travailler en groupe avec Git](#ressources-pour-travailler-en-groupe-avec-git)
     - [Git ressources](#git-ressources)
@@ -40,6 +39,7 @@ You will learn a lot about processes and file descriptors.*
     - [Expansions et gestion des variables](#expansions-et-gestion-des-variables)
     - [Arbre binaire premiere recherches](#arbre-binaire-premiere-recherches)
     - [Heredoc](#heredoc)
+  - [TO DO LIST DE LENFER](#to-do-list-de-lenfer)
 
 
 ## Ressources pour travailler en groupe avec Git
@@ -352,6 +352,8 @@ liens sur lesquels jetais en train de travailler avant de partir dimanche soir:
 
 [expand je crois, je sais plus ya trop de trucs (mais il y a vraiment plein de chose bien la dedans)](https://effective-shell.com/part-6-advanced-techniques/understanding-shell-expansion/)
 
+[bash posix doc](https://pubs.opengroup.org/onlinepubs/9799919799/)
+
 ### Arbre binaire premiere recherches
 
 Un arbre binaire est une structure de données arborescente dans laquelle chaque noeud a le plus possible deux enfantsm appelés enfant de gauche et enfant de droite.
@@ -375,3 +377,37 @@ Dans l'idée on doit gérer les heredoc de la meme facon que bash mais on est li
 - Deja, premiere chose ca va etre de rediriger les données entrées dans le heredoc dans un ficher temporaire (creer a la detection d'un heredoc)
   - deux solution: faire un nom aleatoire ou bien un nom fix avec une incrementation du nom de ce fichier
   - exemple pour le nom aleatoire: /tmp/.random_name_generated_taking_X_characters_read_from_/dev/urandom
+
+
+
+## TO DO LIST DE LENFER
+
+Exec:
+
+- [ ] Check des built-ins **apres** suppressions des quotes
+- [ ] expand (a prendre dans le dossier expand)
+- [ ] Parenthesis ?
+- [ ] Signaux
+
+Parsing:
+
+- [ ] Fix attribution type de token
+- [ ] Fix heredoc (suppression dernier fichier temporaire)
+- [ ] Fix heredoc delimiteurs (operateurs en tant que delimiteurs ne devraient pas fonctionner)
+- [ ] Fix quotes (double check)
+- [ ] Check syntaxe (pleins de choses a voir)
+- [ ] Signaux ?
+- [ ] <font color='red'>**Suppression quotes apres check lexical**</font>
+- [ ] **\* wildcard**
+
+General:
+
+- [ ] Revoir creation AST
+- [ ] **Check des mallocs + remonté d'erreur (en gros tout proteger et tout check des protections)**
+
+
+Bonus de bonus:
+
+- [ ] Avoir un historique qui reste meme si on quitte minishell (persistant jusqu'a recompilation)
+- [ ] Exit code mis a jour sur prompt qui s'affiche correctement
+- [ ] Expand dans les heredoc
