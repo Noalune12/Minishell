@@ -9,25 +9,25 @@ static int	write_heredoc_line(int fd, char *line)
 	return (1);
 }
 
-static void	write_heredoc_loop(t_heredoc_utils *data, char *delimiter)
+static void    write_heredoc_loop(t_heredoc_utils *data, char *delimiter)
 {
 	while (1)
 	{
 		if (data->prompt)
 			data->line = readline(data->prompt);
-		if (return_global() != SIGINT && !data->line)
+		if (!data->line)
 		{
 			print_redirect_error(REDIR_HEREDOC_EOF, delimiter);
 			break ;
 		}
-		else if (!write_heredoc_line(data->fd, data->line))
-			break ;
 		if (ft_strcmp(data->line, delimiter) == 0)
 		{
 			free(data->line);
 			data->line = NULL;
 			break ;
 		}
+		if (!write_heredoc_line(data->fd, data->line))
+			break ;
 	}
 }
 

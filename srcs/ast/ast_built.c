@@ -86,13 +86,13 @@ void create_ast(t_minishell *minishell)
 
 	while (temp)
 	{
-		if (strcmp(temp->content, "(\0") == 0)
+		if (temp->type == NODE_OPEN_PAR)
 		{
 			// check if is still in parenthesis to recall function
 			temp = temp->next;
 			parenthesis = create_parenthesis(temp);
 			// print_ast(parenthesis, 0);
-			while (strcmp(temp->content, ")\0") != 0)
+			while (temp->type == NODE_CLOSE_PAR)
 				temp = temp ->next;
 			// printf("now temp = %s\n", temp->content);
 			// printf("current = %s\n", current->cmd->cmds[0]);
@@ -124,10 +124,10 @@ void create_ast(t_minishell *minishell)
 			// printf("\n------ast----------\n");
 			// print_ast(head, 0);
 		}
-		else if (strcmp(temp->content, "&&\0") == 0
-			|| strcmp(temp->content, "||\0") == 0)
+		else if (temp->type == NODE_AND
+			|| temp->type == NODE_OR)
 		{
-			if (strcmp(temp->content, "&&\0") == 0)
+			if (temp->type == NODE_AND)
 				current = create_ast_tree_node(NODE_AND, temp->content);
 			else
 				current = create_ast_tree_node(NODE_OR, temp->content);
@@ -142,7 +142,7 @@ void create_ast(t_minishell *minishell)
 			prev_file = NULL;
 			last_pipe = NULL;
 		}
-		else if (strcmp(temp->content, "|\0") == 0)
+		else if (temp->type == NODE_PIPE)
 		{
 			current = create_ast_tree_node(NODE_PIPE, temp->content);
 			if (prev_cmd && left == false && !prev_pipe && !first_file)
@@ -166,34 +166,33 @@ void create_ast(t_minishell *minishell)
 			prev_cmd = NULL;
 			first_file = NULL;
 			prev_file = NULL;
-			if (strcmp(temp->next->content, "(\0") != 0)
+			if (temp->type == NODE_OPEN_PAR)
 				last_pipe = current;
 		}
-		else if (strcmp(temp->content, ">\0") == 0
-		|| strcmp(temp->content, "<\0") == 0
-		|| strcmp(temp->content, ">>\0") == 0
-		|| strcmp(temp->content, "<<\0") == 0)
+		else if (temp->type == NODE_REDIR_OUT
+		|| temp->type == NODE_REDIR_IN
+		|| temp->type == NODE_APPEND
+		|| temp->type == NODE_HEREDOC)
 		{
-			if (strcmp(temp->content, ">\0") == 0)
+			if (temp->type == NODE_REDIR_OUT)
 			{
 				temp = temp->next;
 				current = create_ast_tree_node(NODE_REDIR_OUT, temp->content);
 			}
-			else if (strcmp(temp->content, "<\0") == 0)
+			else if (temp->type == NODE_REDIR_IN)
 			{
 				temp = temp->next;
 				current = create_ast_tree_node(NODE_REDIR_IN, temp->content);
 			}
-			else if (strcmp(temp->content, ">>\0") == 0)
+			else if (temp->type == NODE_APPEND)
 			{
 				temp = temp->next;
 				current = create_ast_tree_node(NODE_APPEND, temp->content);
 			}
 			else
 			{
-				while (temp->next->next && strcmp(temp->next->next->content, "<<\0") == 0)
-					temp = temp->next->next;
-				temp = temp->next;
+				while (temp->next && (temp->next->type == NODE_COMMAND || temp->next->type == NODE_HEREDOC))
+					temp = temp->next;
 				current = create_ast_tree_node(NODE_HEREDOC, temp->content);
 			}
 			if (head && prev_cmd)

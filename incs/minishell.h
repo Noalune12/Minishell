@@ -384,7 +384,7 @@ bool	is_operator(char c, bool in_quotes);
 /* ---- exec */
 
 void	create_ast(t_minishell *minishell);
-t_ast *create_parenthesis(t_list *token);
+t_ast *create_parenthesis(t_token *token);
 t_cmd	*add_cmd(char *content);
 t_ast *create_ast_tree_node(t_node_type type, char *content);
 void add_child(t_ast *parent, t_ast *child);

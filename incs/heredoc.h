@@ -32,4 +32,6 @@ int		is_op(char *token);
 int		is_valid_heredoc_delimiter(char *token);
 int		write_to_heredoc(char *file_name, char *delimiter);
 
+char	*handle_quotes_exec(char *input);
+
 #endif
