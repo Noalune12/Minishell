@@ -210,7 +210,7 @@ t_ast	*make_subast(t_token **token, t_ast *root, int *par)
 		else if ((*token)->type == NODE_OPEN_PAR)
 		{
 			*token = (*token)->next;
-			sub_ast = make_subast(token, NULL, par);
+			sub_ast = make_subast(token, sub_ast, par);
 		}
 		*token = (*token)->next;
 	}
