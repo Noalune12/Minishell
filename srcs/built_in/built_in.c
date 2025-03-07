@@ -1,5 +1,8 @@
 #include "minishell.h"
 
+
+//TODO handle builtin if infile or outfile don't do in a fork
+
 static void	print_env(t_list *env)
 {
 	t_list	*temp;
@@ -13,27 +16,29 @@ static void	print_env(t_list *env)
 	}
 }
 
-static void	ft_echo(t_minishell *minishell)
-{
-	printf("%d\n", minishell->exit_status);
-}
-
 static int	ft_builtin(t_ast *node, t_minishell *minishell)
 {
-	int	ret = 0;
+	int	ret;
 
-	if(strcmp(node->cmd->cmds[0], "pwd\0") == 0)
-		ft_pwd(node->cmd->cmds);
-	if(strcmp(node->cmd->cmds[0], "cd\0") == 0)
-		ft_cd(node->cmd->cmds, minishell->envp);
-	if(strcmp(node->cmd->cmds[0], "env\0") == 0)
+	ret = 0;
+	if (ft_strcmp(node->cmd->cmds[0], "pwd\0") == 0)
+		ret = ft_pwd(node->cmd->cmds);
+	if (ft_strcmp(node->cmd->cmds[0], "cd\0") == 0)
+		ret = ft_cd(node->cmd->cmds, minishell->envp);
+	if (ft_strcmp(node->cmd->cmds[0], "env\0") == 0)
 		print_env(minishell->envp);
-	if(strcmp(node->cmd->cmds[0], "unset\0") == 0)
-		ft_unset(node->cmd->cmds, minishell);
-	if(strncmp(node->cmd->cmds[0], "export\0", ft_strlen(node->cmd->cmds[0])) == 0)
+	if (ft_strcmp(node->cmd->cmds[0], "unset\0") == 0)
+		ret = ft_unset(node->cmd->cmds, minishell);
+	if (ft_strcmp(node->cmd->cmds[0], "export\0") == 0)
 		ret = ft_export(node->cmd->cmds, &minishell->envp);
-	if(strncmp(node->cmd->cmds[0], "echo\0", ft_strlen(node->cmd->cmds[0])) == 0)
-		ft_echo(minishell);
+	if (ft_strcmp(node->cmd->cmds[0], "echo\0") == 0)
+		ret = ft_echo(node->cmd->cmds, minishell);
+	if (ft_strcmp(node->cmd->cmds[0], "exit\0") == 0)
+		ret = ft_exit(node->cmd->cmds, minishell);
+	if (minishell->fd_in)
+			close(minishell->fd_in); //TODO protect
+	if (minishell->fd_out)
+			close(minishell->fd_out); //TODO protect
 	return (ret);
 }
 

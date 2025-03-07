@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	*find_env_path(t_list *envp)
+char	*find_env_path(t_list *envp, t_minishell *minishell)
 {
 	char	*path_env;
 	t_list	*temp;
@@ -13,35 +13,39 @@ char	*find_env_path(t_list *envp)
 		{
 			path_env = ft_strdup(temp->content + 5);
 			if (!path_env)
-				// error_handler(errno, "strdup failed", cmds);
+			{
+				error_handling_exec(minishell, "Malloc failed");
+				exit (1);
+			}
 			break ;
 		}
 		temp = temp->next;
 	}
-	// if (!path_env)
-		// error_handler(errno, "PATH not defined in the envp", cmds);
 	return (path_env);
 }
 
-char	*join_full_path(char *path, char **cmds, char **paths, char *path_env)
+char	*join_full_path(t_minishell *minishell, t_path_cmds *path_cmds,
+	char **cmds, int index)
 {
 	char	*dir;
 	char	*full_path;
 
-	dir = ft_strjoin(path, "/");
+	dir = ft_strjoin(path_cmds->paths[index], "/");
 	if (!dir)
 	{
-		free(path_env);
-		ft_free_double(paths);
-		//error_handler(ENOMEM, "Strjoin failed", cmds);
+		free(path_cmds->path_env);
+		ft_free_double(path_cmds->paths);
+		error_handling_exec(minishell, "Malloc failed");
+		exit (1);
 	}
 	full_path = ft_strjoin(dir, cmds[0]);
 	if (!full_path)
 	{
-		free(path_env);
+		free(path_cmds->path_env);
 		free(dir);
-		ft_free_double(paths);
-		//error_handler(ENOMEM, "Strjoin failed", cmds);
+		ft_free_double(path_cmds->paths);
+		error_handling_exec(minishell, "Malloc failed");
+		exit (1);
 	}
 	free(dir);
 	if (access(full_path, X_OK) == 0)
@@ -50,49 +54,53 @@ char	*join_full_path(char *path, char **cmds, char **paths, char *path_env)
 	return (NULL);
 }
 
-char	*find_full_path(char **cmds, char *path_env)
+char	*find_full_path(t_minishell *minishell, t_path_cmds *path_cmds,
+	char **cmds)
 {
 	char	*full_path;
-	char	**paths;
 	size_t	i;
 
-	paths = ft_split(path_env, ':');
-	if (!paths)
+	path_cmds->paths = ft_split(path_cmds->path_env, ':');
+	if (!path_cmds->paths)
 	{
-		free(path_env);
-		//error_handler(errno, "Split failed", cmds);
+		free(path_cmds->path_env);
+		error_handling_exec(minishell, "yoyoMalloc failed");
+		exit (1);
 	}
 	i = 0;
-	while (paths[i])
+	while (path_cmds->paths[i])
 	{
-		full_path = join_full_path(paths[i], cmds, paths, path_env);
+		full_path = join_full_path(minishell, path_cmds, cmds, i);
 		if (full_path)
 		{
-			ft_free_double(paths);
+			ft_free_double(path_cmds->paths);
 			return (full_path);
 		}
 		i++;
 	}
-	ft_free_double(paths);
+	ft_free_double(path_cmds->paths);
 	free(full_path);
 	return (NULL);
 }
 
-char	*find_exec_cmd(char **cmds, t_minishell *minishell, t_ast *node)
+char	*find_exec_cmd(char **cmds, t_minishell *minishell)
 {
-	char	*full_path;
-	char	*path_env;
+	char		*full_path;
+	t_path_cmds	path_cmds;
 
-	path_env = find_env_path(minishell->envp);
-	full_path = find_full_path(cmds, path_env);
-	free(path_env);
+	ft_memset(&path_cmds, 0, sizeof(t_path_cmds));
+	path_cmds.path_env = find_env_path(minishell->envp, minishell);
+	if (path_cmds.path_env)
+	{
+		full_path = find_full_path(minishell, &path_cmds, cmds);
+		free(path_cmds.path_env);
+	}
+	else
+		full_path = NULL;
 	if (!full_path)
 	{
-		ft_free_double(cmds);
-		free_list(minishell->envp);
-		free(node->cmd);
-		free(node);
-		free_list(minishell->token);
+		ft_dprintf(STDERR_FILENO, CMD_NOT_FOUND, cmds[0]);
+		error_handling_exec(minishell, NULL);
 		exit(127);
 	}
 	return (full_path);

@@ -1,0 +1,41 @@
+#include "minishell.h"
+
+t_token	*init_token_node(char *content, t_node_type type)
+{
+	t_token	*token;
+
+	token = malloc(sizeof(t_token));
+	if (!token)
+		return (NULL);
+	token->content = ft_strdup(content);
+	if (!token->content)
+	{
+		free(token);
+		return (NULL);
+	}
+	token->type = type;
+	token->to_expand = true;  // valeur par defaut pour linstnat
+	token->next = NULL;
+	return (token);
+}
+
+bool	add_token(t_token **tokens, char *content, t_node_type type)
+{
+	t_token	*new;
+	t_token	*last;
+
+	new = init_token_node(content, type);
+	if (!new)
+		return (false);
+
+	if (!*tokens)
+		*tokens = new;
+	else // replace by lstaddback token ?
+	{
+		last = *tokens;
+		while (last->next)
+			last = last->next;
+		last->next = new;
+	}
+	return (true);
+}

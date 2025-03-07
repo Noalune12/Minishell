@@ -114,6 +114,12 @@ void print_ast(t_ast *node, int depth) {
         case NODE_HEREDOC:
             printf("<<:%s\n", node->cmd->cmds[0] ? node->cmd->cmds[0] : "null");
             break;
+        case NODE_OPEN_PAR:
+            printf("(:%s\n", node->cmd->cmds[0] ? node->cmd->cmds[0] : "null");
+            break;
+        case NODE_CLOSE_PAR:
+            printf("):%s\n", node->cmd->cmds[0] ? node->cmd->cmds[0] : "null");
+            break;
     }
 
     // Puis le sous-arbre gauche
