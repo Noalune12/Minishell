@@ -14,11 +14,6 @@ typedef struct s_ast			t_ast;
 // void	free_env(t_minishell *minishell);
 // void	tty_check(void);
 
-// #endif
-
-// #ifndef MINISHELL_H
-// # define MINISHELL_H
-
 # include <stdio.h>
 # include <stdlib.h>
 # include <readline/readline.h>

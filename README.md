@@ -1,4 +1,4 @@
-****# Minishell
+# Minishell
 
 *This project is about creating a simple shell.
 Yes, your own little bash.
@@ -8,6 +8,7 @@ You will learn a lot about processes and file descriptors.*
 
 # Table des Matières
 
+- [Minishell](#minishell)
 - [Table des Matières](#table-des-matières)
   - [Ressources pour travailler en groupe avec Git](#ressources-pour-travailler-en-groupe-avec-git)
     - [Git ressources](#git-ressources)
