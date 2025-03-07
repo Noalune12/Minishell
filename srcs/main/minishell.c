@@ -22,36 +22,6 @@ char	*read_input(t_minishell *minishell)
 	return (input);
 }
 
-// void	tokenize_and_split(t_minishell *minishell)
-// {
-// 	t_list  *current;
-// 	t_list  *split_tokens;
-// 	t_list  *next;
-
-// 	minishell->token = tokenize_input(minishell->input);
-// 	if (!minishell->token)
-// 		return ;
-// 	current = minishell->token;
-// 	while (current)
-// 	{
-// 		next = current->next;
-// 		split_tokens = split_operators(current->content, 0, 0);
-// 		if (!split_tokens)  // Handle this case
-// 		{
-// 			clear_token_list(minishell->token);
-// 			minishell->token = NULL;
-// 			return ;
-// 		}
-// 		if (!replace_token(current, split_tokens))
-// 		{
-// 			clear_token_list(minishell->token);
-// 			minishell->token = NULL;
-// 			return ;
-// 		}
-// 		current = next;
-// 	}
-// }
-
 int	main(int ac, char **av, char **envp)
 {
 	t_minishell	minishell;
