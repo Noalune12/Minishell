@@ -9,9 +9,8 @@
 
 	si consecutive operateurs :
 
-
-	faire fonction d'identification de type de node, (t_list *token est check et t_ast_node type_node est assigné)
-
+	CHECK IS PARENTHESIS NOT CLOSED
+	
 	*/
 
 
