@@ -91,25 +91,26 @@ int	main(int ac, char **av, char **envp)
 				   i, tmp_test->content, tmp_test->type, RESET);
 			tmp_test = tmp_test->next;
 		}
-		// final_syntax_check(&minishell);
-		// create_ast(&minishell);
+		minishell.ast_node = build_ast(&minishell.token);
 		// t_ast *test_tree = create_test_tree();
 		// printf("\nArbre de syntaxe abstraite :\n");
-		// printf(BLUE"\nAST\n"RESET);
-		// print_ast(minishell.ast_node, 0);
-		// else if (minishell.ast_node)
-		// {
-		// 	printf(PURPLE"\nEXEC"RESET);
-		// 	printf("\n");
-		// 	minishell.exit_status = exec_minishell(minishell.ast_node, &minishell);
-		// }
-		if (return_global() == SIGINT)
+		printf(BLUE"\nAST\n"RESET);
+		print_ast(minishell.ast_node, 0);
+		if (return_global() == 2)
+			minishell.exit_status = 130;
+		else if (minishell.ast_node)
+		{
+			printf(PURPLE"\nEXEC"RESET);
+			printf("\n");
+			minishell.exit_status = exec_minishell(minishell.ast_node, &minishell);
+		}
+		if (return_global() == 2)
 			minishell.exit_status = 130;
 		printf(YELLOW"\nEXIT STATUS\n"RESET);
 		printf("exit status = %d\n", minishell.exit_status);
 		printf("--------------------\n");
 		free(minishell.input);
-		// free_ast(minishell.ast_node);
+		free_ast(minishell.ast_node);
 	}
 	rl_clear_history();
 	free_env(&minishell);
