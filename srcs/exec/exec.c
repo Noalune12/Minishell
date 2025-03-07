@@ -107,9 +107,9 @@ char	*handle_quotes_exec(char *input)
 int	exec_minishell(t_ast *node, t_minishell *minishell)
 {
 	int	ret;
-	static t_handler	exec[] = {&handle_or, &handle_and, &handle_cmd,
-		&handle_pipe, &handle_redirout, &handle_redirin, &handle_redirappend,
-		&handle_heredocin, &handle_builtin};
+	static t_handler	exec[] = {&handle_cmd, &handle_pipe, &handle_or, &handle_and,
+		&handle_redirin, &handle_redirout, &handle_redirappend,
+		&handle_heredocin, 0, 0, &handle_builtin};
 
 	if (!node)
 		return (0);
