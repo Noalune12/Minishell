@@ -22,7 +22,7 @@ static t_list	*ft_get_env(char **envp)
 
 	i = 0;
 	env = NULL;
-	if (!envp || !envp[i])
+	if (!envp || !envp[i]) // condition correcte ?
 	{
 		env = malloc(sizeof(t_list));
 		if (!env)
@@ -66,10 +66,9 @@ t_list	*env_init(char **envp)
 			free_list(set_up_env);
 			return (NULL);
 		}
+		return (set_up_env);
 	}
-	// update_shlvl(set_up_env);
-	// if (nested_shell(set_up_env))
-	// 	update_shlvl(set_up_env);
+	update_shlvl(set_up_env);
 	// print_env(set_up_env);
 	return (set_up_env);
 }

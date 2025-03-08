@@ -61,7 +61,7 @@ void	init_data(t_quotes *data, char *input)
 	data->result = ft_calloc(1, sizeof(char));
 }
 
-int	handle_quotes_main_loot(t_quotes *data, char *input)
+int	handle_quotes_main_loop(t_quotes *data, char *input)
 {
 	while (*input)
 	{
@@ -95,7 +95,7 @@ char *handle_quotes_exec(char *input)
 		return (NULL);
 	if (ft_strcmp(input, "\"\"") == 0 || ft_strcmp(input, "''") == 0)
 		return (data.result);
-	if (handle_quotes_main_loot(&data, input) == -1)
+	if (handle_quotes_main_loop(&data, input) == -1)
 		return (NULL);
 	if (data.in_squotes || data.in_dquotes)
 	{

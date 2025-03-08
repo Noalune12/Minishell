@@ -32,7 +32,10 @@ void	update_shlvl(t_list *env)
 
 	shlvl_node = find_env_node(env, "SHLVL");
 	if (!shlvl_node)
+	{
+		add_node(&env, "SHLVL=1");
 		return ;
+	}
 	if (shlvl_node)
 	{
 		shlvl = ft_atoi(shlvl_node->content + 6);
@@ -53,16 +56,16 @@ void	update_shlvl(t_list *env)
 	}
 }
 
-int	nested_shell(t_list *env_list) // check if we launched shells inside shells
-{
-	t_list	*shlvl_node;
-	int		shlvl;
+// int	nested_shell(t_list *env_list) // check if we launched shells inside shells
+// {
+// 	t_list	*shlvl_node;
+// 	int		shlvl;
 
-	shlvl_node = find_env_node(env_list, "SHLVL");
-	if (shlvl_node)
-	{
-		shlvl = ft_atoi(shlvl_node->content + 6);
-		return (shlvl > 1); // more than one level indicates nested shell
-	}
-	return (0);
-}
+// 	shlvl_node = find_env_node(env_list, "SHLVL");
+// 	if (shlvl_node)
+// 	{
+// 		shlvl = ft_atoi(shlvl_node->content + 6);
+// 		return (shlvl > 1); // more than one level indicates nested shell
+// 	}
+// 	return (0);
+// }

@@ -28,7 +28,8 @@ int	main(int ac, char **av, char **envp)
 	t_token		*tmp_test;
 
 	tty_check();
-	setup_shell_signals();
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
 	minishell_init(&minishell, ac, av, envp);
 	printf("%s%s%s\n", BLUE, minishell.options.display_ast ? "true" : "false", RESET);
 	printf("%s%s%s\n", RED, minishell.exec_status ? "true" : "starting", RESET);
@@ -72,9 +73,7 @@ int	main(int ac, char **av, char **envp)
 		{
 			printf(PURPLE"\nEXEC"RESET);
 			printf("\n");
-			setup_exec_signals();
 			minishell.exit_status = exec_minishell(minishell.ast_node, &minishell);
-			setup_shell_signals();
 			printf("%sexec_minishell%s\n", minishell.exec_status ? GREEN : RED, RESET);
 		}
 		if (return_global() == 2)
