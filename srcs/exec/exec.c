@@ -114,14 +114,16 @@ int	exec_minishell(t_ast *node, t_minishell *minishell)
 
 	if (!node || minishell->exec_status == false)
 		return (0);
-	int	i = 0;
+	if (node->type == NODE_HEREDOC)
+		return handle_heredocin(node, minishell);
+	int i = 0;
 	while (node->cmd->cmds[i])
 	{
 		char *expanded;
 		char *temp;
 		char *final;
-		expanded = expand_env_vars(node->cmd->cmds[i], minishell->envp); //TODO protect
-		ft_dprintf(STDERR_FILENO, GREEN"expanded = '%s'\n"RESET, expanded);
+		expanded = expand_env_vars(node->cmd->cmds[i], minishell->envp);
+		ft_dprintf(STDERR_FILENO, GREEN"expanded = '%s'\n"RESET, expanded); // delete
 		temp = node->cmd->cmds[i];
 		if ((node->type == NODE_COMMAND || node->type == NODE_BUILTIN) || expanded[0])
 		{
@@ -129,11 +131,11 @@ int	exec_minishell(t_ast *node, t_minishell *minishell)
 			free(temp);
 		}
 		final = handle_quotes_exec(node->cmd->cmds[i]);
-		ft_dprintf(STDERR_FILENO, PURPLE"final = %s\n"RESET, final);
+		ft_dprintf(STDERR_FILENO, PURPLE"final = %s\n"RESET, final); // delete
 		temp = node->cmd->cmds[i];
 		node->cmd->cmds[i] = final;
 		free(temp);
-		if (i == 0)
+		if (i == 0 && node->type == NODE_COMMAND)
 		{
 			if (ft_strcmp(node->cmd->cmds[i], "echo\0") == 0
 				|| ft_strcmp(node->cmd->cmds[i], "cd\0") == 0

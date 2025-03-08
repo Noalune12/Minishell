@@ -8,7 +8,7 @@ void	heredoc_signal_handler(int sig)
 	{
 		g_signal_received = SIGINT;
 		write(STDOUT_FILENO, "\n", 1);
-		close(STDIN_FILENO);
+		close(STDIN_FILENO); // a degager, tres tres mauvaise pratique
 	}
 }
 

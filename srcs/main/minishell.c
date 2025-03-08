@@ -45,6 +45,7 @@ int	main(int ac, char **av, char **envp)
 		if (return_global() == SIGINT) // Check if Ctrl+C was pressed
 			minishell.exit_status = 130;
 		init_global();
+		// check_options // A CONTINUER
 		minishell.token = tokenize_input(minishell.input, &minishell.exec_status);
 		printf("%stokenize_input%s\n", minishell.exec_status ? GREEN : RED, RESET);
 		minishell.token = split_operators(minishell.token, &minishell.exec_status);
@@ -131,3 +132,6 @@ int	main(int ac, char **av, char **envp)
 // 	free_env(&minishell);
 // 	return (EXIT_SUCCESS);
 // }
+
+
+// lexing =
