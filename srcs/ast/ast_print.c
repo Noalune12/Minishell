@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static void	print_spaces(int depth)
+static void print_spaces(int depth)
 {
 	int	i;
 
@@ -12,7 +12,7 @@ static void	print_spaces(int depth)
 	}
 }
 
-static void	print_node_content(t_ast *node)
+static void print_node_content(t_ast *node)
 {
 	if (node->type == NODE_COMMAND)
 		print_cmd_node(node, "c");
@@ -38,7 +38,7 @@ static void	print_node_content(t_ast *node)
 		print_redirect_node(node, ")");
 }
 
-void    print_ast(t_ast *node, int depth, bool *exec_status)
+void	print_ast(t_ast *node, int depth, bool *exec_status)
 {
 	if (exec_status == false || !node)
 		return ;
