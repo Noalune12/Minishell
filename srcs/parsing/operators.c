@@ -53,6 +53,7 @@ static bool	handle_first_part(t_token **result, const char *content,
 		free(str);
 		return (false);
 	}
+	free(str);
 	return (true);
 }
 
@@ -119,12 +120,14 @@ static bool	process_token_content(t_token **result, const char *content)
 	return (true);
 }
 
-t_token	*split_operators(t_token *tokens)
+t_token	*split_operators(t_token *tokens, bool *exec_status)
 {
 	t_token	*result;
 	t_token	*current;
 	t_token	*next;
 
+	if (*exec_status == false)
+		return (NULL);
 	result = NULL;
 	current = tokens;
 	while (current)
@@ -132,6 +135,7 @@ t_token	*split_operators(t_token *tokens)
 		if (!process_token_content(&result, current->content))
 		{
 			free_token_list(result);
+			*exec_status = false;
 			return (NULL);
 		}
 		next = current->next;
