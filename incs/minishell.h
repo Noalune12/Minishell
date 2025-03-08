@@ -141,18 +141,25 @@ typedef struct s_path_cmds
 	char	*path_env;
 }	t_path_cmds;
 
+typedef struct s_options
+{
+	bool	display_ast;
+	bool	display_tokens;
+}	t_options;
+
 typedef struct s_minishell
 {
-	char	*input;
-	bool	exec_status;
-	int		exit_status;
-	pid_t	pid;
-	pid_t	pipe_fd[2];
-	int		fd_in;
-	int		fd_out;
-	t_list	*envp; // liste chainee de l'environnement
-	t_token	*token; // liste chainee des parametres -> replaced by t_token
-	t_ast	*ast_node; // Abstract Syntax Tree
+	char		*input;
+	bool		exec_status;
+	int			exit_status;
+	pid_t		pid;
+	pid_t		pipe_fd[2];
+	int			fd_in;
+	int			fd_out;
+	t_options	options;
+	t_list		*envp; // liste chainee de l'environnement
+	t_token		*token; // liste chainee des parametres -> replaced by t_token
+	t_ast		*ast_node; // Abstract Syntax Tree
 }	t_minishell;
 
 t_list	*env_init(char **envp);

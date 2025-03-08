@@ -28,9 +28,9 @@ int	main(int ac, char **av, char **envp)
 	t_token		*tmp_test;
 
 	tty_check();
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, SIG_IGN);
+	setup_shell_signals();
 	minishell_init(&minishell, ac, av, envp);
+	printf("%s%s%s\n", BLUE, minishell.options.display_ast ? "true" : "false", RESET);
 	printf("%s%s%s\n", RED, minishell.exec_status ? "true" : "starting", RESET);
 	while (1)
 	{
@@ -45,7 +45,7 @@ int	main(int ac, char **av, char **envp)
 		if (return_global() == SIGINT) // Check if Ctrl+C was pressed
 			minishell.exit_status = 130;
 		init_global();
-		// check_options // A CONTINUER
+		// check_options(&minishell); // A CONTINUER
 		minishell.token = tokenize_input(minishell.input, &minishell.exec_status);
 		printf("%stokenize_input%s\n", minishell.exec_status ? GREEN : RED, RESET);
 		minishell.token = split_operators(minishell.token, &minishell.exec_status);
@@ -72,7 +72,9 @@ int	main(int ac, char **av, char **envp)
 		{
 			printf(PURPLE"\nEXEC"RESET);
 			printf("\n");
+			setup_exec_signals();
 			minishell.exit_status = exec_minishell(minishell.ast_node, &minishell);
+			setup_shell_signals();
 			printf("%sexec_minishell%s\n", minishell.exec_status ? GREEN : RED, RESET);
 		}
 		if (return_global() == 2)
