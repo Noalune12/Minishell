@@ -41,9 +41,9 @@ static int	check_last_token(t_token *token, t_minishell *minishell)
 static int	check_consecutive_operators(t_token *current, t_token *next,
 									t_minishell *minishell)
 {
-	if ((current->type == NODE_PIPE || current->type == NODE_OR
+	if ((current->type == NODE_PIPE || current->type == NODE_OR \
 		|| current->type == NODE_AND)
-		&& (next->type == NODE_PIPE || next->type == NODE_OR
+		&& (next->type == NODE_PIPE || next->type == NODE_OR \
 		|| next->type == NODE_AND || next->type == NODE_CLOSE_PAR))
 	{
 		ft_dprintf(STDERR_FILENO, STR_SYNTAX, next->content);
@@ -51,7 +51,7 @@ static int	check_consecutive_operators(t_token *current, t_token *next,
 		minishell->exec_status = false;
 		return (-1);
 	}
-	if ((current->type == NODE_REDIR_IN || current->type == NODE_REDIR_OUT
+	if ((current->type == NODE_REDIR_IN || current->type == NODE_REDIR_OUT \
 		|| current->type == NODE_APPEND || current->type == NODE_HEREDOC)
 		&& next->type != NODE_COMMAND)
 	{
@@ -72,7 +72,6 @@ static int	check_token_sequence(t_token *current, int *paren_count,
 	{
 		if (check_unbalanced_parenthesis(current, paren_count, minishell) == -1)
 			return (-1);
-
 		next = current->next;
 		if (next)
 		{
@@ -100,7 +99,6 @@ int	syntax_check(t_minishell *minishell)
 	paren_count = 0;
 	if (check_token_sequence(current, &paren_count, minishell) == -1)
 		return (-1);
-
 	if (paren_count > 0)
 	{
 		ft_dprintf(STDERR_FILENO, NEWLINE_SYNTAX);

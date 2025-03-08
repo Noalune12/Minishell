@@ -30,7 +30,7 @@ t_token	*tokenize_input(char *input, bool *exec_status)
 
 	if (!check_unclosed_quotes(input))
 	{
-		*exec_status = true;
+		*exec_status = false;
 		return (NULL);
 	}
 	tokens = NULL;
