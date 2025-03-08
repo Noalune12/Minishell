@@ -161,7 +161,11 @@ t_list	*find_env_node(t_list *env, const char *var_searched);
 t_ast	*create_ast_node(t_node_type type, char *content);
 t_ast	*create_test_tree(void);
 void	free_ast(t_ast *node);
+
+
 void	print_ast(t_ast *node, int depth, bool *exec_status);
+void	print_cmd_node(t_ast *node, char *prefix);
+void	print_redirect_node(t_ast *node, char *symbol);
 
 t_list	*add_node(t_list **env, char *content); // ????????
 void	add_node_test(t_list *args); // ??????? oui je sais

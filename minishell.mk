@@ -49,10 +49,11 @@ override ENVSRC		:= \
 SRC += $(addprefix $(ASTDIR), $(addsuffix .c, $(ASTSRC)))
 
 override ASTSRC		:= \
-	ast_print \
-	ast_utils \
 	ast_built \
 	ast_parenthesis \
+	ast_print_utils \
+	ast_print \
+	ast_utils \
 
 SRC	+= $(addprefix $(PARSINGDIR), $(addsuffix .c, $(PARSINGSRC)))
 
