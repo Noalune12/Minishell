@@ -61,7 +61,9 @@ override PARSINGSRC	:= \
 	operator_check \
 	operator_utils \
 	operators \
+	parenthesis_check \
 	quotes \
+	syntax_check \
 	token_utils \
 	tokenizer \
 	word_utils \

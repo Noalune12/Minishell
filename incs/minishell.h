@@ -144,6 +144,7 @@ typedef struct s_path_cmds
 typedef struct s_minishell
 {
 	char	*input;
+	bool	exec_status;
 	int		exit_status;
 	pid_t	pid;
 	pid_t	pipe_fd[2];
@@ -160,7 +161,7 @@ t_list	*find_env_node(t_list *env, const char *var_searched);
 t_ast	*create_ast_node(t_node_type type, char *content);
 t_ast	*create_test_tree(void);
 void	free_ast(t_ast *node);
-void	print_ast(t_ast *node, int depth);
+void	print_ast(t_ast *node, int depth, bool *exec_status);
 
 t_list	*add_node(t_list **env, char *content); // ????????
 void	add_node_test(t_list *args); // ??????? oui je sais
@@ -379,8 +380,8 @@ bool	is_operator(char c, bool in_quotes);
 /* ---- exec */
 
 // void	create_ast(t_minishell *minishell);
-t_ast	*build_ast(t_token **token);
-t_ast *create_parenthesis(t_token *token);
+t_ast	*build_ast(t_token **token, bool *exec_status);
+t_ast	*create_parenthesis(t_token *token); // delete ?
 t_cmd	*add_cmd(char *content);
 // t_ast *create_ast_tree_node(t_node_type type, char *content);
 // void add_child(t_ast *parent, t_ast *child);
@@ -448,7 +449,15 @@ void	free_token_list(t_token *tokens);
 bool	add_token(t_token **tokens, char *content, t_node_type type);
 
 t_token	*init_token_node(char *content, t_node_type type);
-t_token *split_operators(t_token *tokens);
-t_token	*tokenize_input(char *input);
+t_token *split_operators(t_token *tokens, bool *exec_status);
+t_token	*tokenize_input(char *input, bool *exec_status);
+
+
+
+int	syntax_check(t_minishell *minishell);
+int	check_unbalanced_parenthesis(t_token *token, int *paren_count,
+									t_minishell *minishell);
+int	check_parentheses_tokens(t_token *current, t_token *next,
+								t_minishell *minishell);
 
 #endif
