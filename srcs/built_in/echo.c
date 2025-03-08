@@ -1,21 +1,18 @@
 #include "minishell.h"
 
-static int	is_no_nl(char *str, int *no_nl)
+static int	is_no_nl(char *str)
 {
 	int	i;
 
-	i = 0;
-	if (str[i] == '-')
-		i++;
-	else
+	if (!str || str[0] != '-')
 		return (0);
+	i = 1;
 	while (str[i])
 	{
 		if (str[i] != 'n')
 			return (0);
 		i++;
 	}
-	*no_nl = 1;
 	return (1);
 }
 
@@ -49,22 +46,23 @@ static int	ft_print_echo(char **cmds, int index, int no_nl, t_minishell *minishe
 
 int	ft_echo(char **cmds, t_minishell *minishell)
 {
-	int	ret;
 	int	no_nl;
 	int	i;
 
-	ret = 0;
-	i = 0;
+	i = 1;
 	no_nl = 0;
-	if (!cmds[++i])
+	if (!cmds[i])
 	{
 		ft_dprintf(STDOUT_FILENO, "\n");
-		return (ret);
+		return (0);
 	}
-	while (cmds[i] && is_no_nl(cmds[i], &no_nl))
+	while (cmds[i] && is_no_nl(cmds[i]))
+	{
+		no_nl = 1;
 		i++;
+	}
 	if (!cmds[i])
-		return (ret);
+		return (0);
 	ft_print_echo(cmds, i, no_nl, minishell);
-	return (ret);
+	return (0);
 }
