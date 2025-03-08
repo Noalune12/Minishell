@@ -40,6 +40,7 @@ static int	ft_print_echo(char **cmds, int index, int no_nl, t_minishell *minishe
 		index++;
 		if (cmds[index])
 			ft_dprintf(STDOUT_FILENO, " ");
+		i = 0;
 	}
 	if (!no_nl)
 		printf("\n");
