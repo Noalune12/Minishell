@@ -81,15 +81,21 @@ int	check_heredoc(t_minishell *minishell)
 {
 	int	error;
 
+	if (minishell->exec_status == false)
+		return (-1);
 	error = 0;
 	if (validate_heredoc_syntax(minishell->token, minishell) != 0)
+	{
+		minishell->exec_status = false;
 		return (-1);
+	}
 	if (process_command_heredocs(minishell->token, &error) != 0)
 	{
 		if (return_global() == SIGINT)
 			minishell->exit_status = 130;
 		else
 			minishell->exit_status = 2;
+		minishell->exec_status = false;
 		return (-1);
 	}
 	init_global();

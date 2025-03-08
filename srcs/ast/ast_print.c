@@ -55,13 +55,15 @@
 // }
 
 
-void print_ast(t_ast *node, int depth) {
+void print_ast(t_ast *node, int depth, bool *exec_status)
+{
+    if (exec_status == false)
+        return ;
     if (!node)
         return;
-
     // On commence par le sous-arbre droit
     if (node->right)
-        print_ast(node->right, depth + 10);
+        print_ast(node->right, depth + 10, exec_status);
 
     // Affichage du nœud actuel
     for (int i = 0; i < depth; i++)
@@ -124,7 +126,7 @@ void print_ast(t_ast *node, int depth) {
 
     // Puis le sous-arbre gauche
     if (node->left)
-        print_ast(node->left, depth + 10);
+        print_ast(node->left, depth + 10, exec_status);
 }
 
 // Fonction de test mise à jour

@@ -112,7 +112,7 @@ int	exec_minishell(t_ast *node, t_minishell *minishell)
 		&handle_redirin, &handle_redirout, &handle_redirappend,
 		&handle_heredocin, 0, 0, &handle_builtin};
 
-	if (!node)
+	if (!node || minishell->exec_status == false)
 		return (0);
 	int	i = 0;
 	while (node->cmd->cmds[i])
