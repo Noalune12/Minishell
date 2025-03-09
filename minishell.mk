@@ -50,7 +50,6 @@ SRC += $(addprefix $(ASTDIR), $(addsuffix .c, $(ASTSRC)))
 
 override ASTSRC		:= \
 	ast_built \
-	ast_parenthesis \
 	ast_print_utils \
 	ast_print \
 	ast_utils \

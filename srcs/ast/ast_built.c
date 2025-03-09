@@ -75,12 +75,35 @@ int	is_redir_node(t_node_type type)
 	return (0);
 }
 
+int	is_redir_node_not_heredoc(t_node_type type)
+{
+	if (type == NODE_REDIR_OUT
+	|| type == NODE_REDIR_IN
+	|| type == NODE_APPEND)
+		return (1);
+	return (0);
+}
+
+int	still_heredoc_left(t_token *token)
+{
+	t_token	*temp;
+
+	temp = token;
+	while (temp && (temp->type != NODE_PIPE && temp->type != NODE_AND && temp->type != NODE_OR && temp->type != NODE_CLOSE_PAR))
+	{
+		if (temp->type == NODE_HEREDOC)
+			return (1);
+		temp = temp->next;
+	}
+	return (0);
+}
+
 t_ast	*create_command(t_token **token)
 {
 	t_token	*token_redir;
 	t_ast	*node_cmd = NULL;
 	t_ast	*node_redir = NULL;
-	t_ast	*node_heredoc = NULL;
+	// t_ast	*node_heredoc = NULL;
 	t_ast	*node = NULL;
 
 	while ((*token))
@@ -89,18 +112,18 @@ t_ast	*create_command(t_token **token)
 		{
 			token_redir = *token;
 			(*token) = (*token)->next;
-			if (token_redir->type != NODE_HEREDOC)
+			if (is_redir_node_not_heredoc(token_redir->type) || (token_redir->type == NODE_HEREDOC && !still_heredoc_left(*token)))
 				node_redir = create_ast_tree_node(token_redir->type, (*token)->content, node_redir);
-			else
-			{
-				if (node_heredoc)
-					node_heredoc->cmd->cmds = update_heredoc(node_heredoc->cmd->cmds, (*token)->content);
-				else
-				{
-					node_heredoc = create_ast_tree_node(token_redir->type, (*token)->content, node_redir);
-					node_redir = node_heredoc;
-				}
-			}
+			// else
+			// {
+			// 	if (node_heredoc)
+			// 		node_heredoc->cmd->cmds = update_heredoc(node_heredoc->cmd->cmds, (*token)->content);
+			// 	else
+			// 	{
+			// 		node_heredoc = create_ast_tree_node(token_redir->type, (*token)->content, node_redir);
+			// 		node_redir = node_heredoc;
+			// 	}
+			// }
 			if (!node)
 				node = node_redir;
 		}
