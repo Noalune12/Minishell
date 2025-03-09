@@ -11,6 +11,7 @@ override EXECDIR	:= exec/
 override BUILTINDIR	:= built_in/
 override HEREDOCDIR	:= heredoc/
 override EXPANDDIR	:= expand/
+override WILDCARDIR	:= wildcard/
 
 SRC	+= $(addprefix $(EXPANDDIR), $(addsuffix .c, $(EXPANDSRC)))
 
@@ -106,3 +107,13 @@ override HEREDOCSRC	:= \
 	heredoc_in_out \
 	heredoc_process \
 	heredoc \
+
+SRC += $(addprefix $(WILDCARDIR), $(addsuffix .c, $(WILDCARDSRC)))
+
+override WILDCARDSRC	:= \
+	file_utils \
+	patterns \
+	wildcard_cleanup \
+	wildcard_utils \
+	wildcard \
+
