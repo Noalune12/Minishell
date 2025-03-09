@@ -53,6 +53,7 @@ t_list	*env_init(char **envp)
 		}
 		return (set_up_env);
 	}
-	update_shlvl(set_up_env);
+	else
+		update_shlvl(set_up_env);
 	return (set_up_env);
 }
