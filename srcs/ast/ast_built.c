@@ -228,7 +228,6 @@ t_ast	*make_subast(t_token **token, t_ast *root, int *par)
 	return (root);
 }
 
-
 t_ast	*build_ast(t_token **token, bool *exec_status)
 {
 	t_token	*temp;
