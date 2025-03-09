@@ -103,7 +103,6 @@ t_ast	*create_command(t_token **token)
 	t_token	*token_redir;
 	t_ast	*node_cmd = NULL;
 	t_ast	*node_redir = NULL;
-	// t_ast	*node_heredoc = NULL;
 	t_ast	*node = NULL;
 
 	while ((*token))
@@ -114,16 +113,6 @@ t_ast	*create_command(t_token **token)
 			(*token) = (*token)->next;
 			if (is_redir_node_not_heredoc(token_redir->type) || (token_redir->type == NODE_HEREDOC && !still_heredoc_left(*token)))
 				node_redir = create_ast_tree_node(token_redir->type, (*token)->content, node_redir);
-			// else
-			// {
-			// 	if (node_heredoc)
-			// 		node_heredoc->cmd->cmds = update_heredoc(node_heredoc->cmd->cmds, (*token)->content);
-			// 	else
-			// 	{
-			// 		node_heredoc = create_ast_tree_node(token_redir->type, (*token)->content, node_redir);
-			// 		node_redir = node_heredoc;
-			// 	}
-			// }
 			if (!node)
 				node = node_redir;
 		}
