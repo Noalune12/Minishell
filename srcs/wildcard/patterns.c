@@ -1,4 +1,6 @@
-#include "minishell.h"
+#include <stdbool.h>
+
+#include "wildcard.h"
 
 static bool	wildcard_match_end(const char *pattern, const char *str)
 {

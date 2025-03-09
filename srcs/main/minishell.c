@@ -1,5 +1,6 @@
 #include "minishell.h"
 #include "heredoc.h"
+#include "wildcard.h"
 
 char	*read_input(t_minishell *minishell)
 {
@@ -51,6 +52,8 @@ int	main(int ac, char **av, char **envp)
 		printf("%stokenize_input%s\n", minishell.exec_status ? GREEN : RED, RESET);
 		minishell.token = split_operators(minishell.token, &minishell.exec_status);
 		printf("%ssplit_operators%s\n", minishell.exec_status ? GREEN : RED, RESET);
+		minishell.token = expand_wildcards(minishell.token, &minishell.exec_status);
+		printf("%sexpand_wildcards%s\n", minishell.exec_status ? GREEN : RED, RESET);
 		check_heredoc(&minishell); //-> je parcours jusqu'a je tombe sur un "<< EOF "-> remplace par "< filename" dans token
 		tmp_test = minishell.token;
 		for (int i = 0; tmp_test != NULL; i++)
@@ -133,6 +136,3 @@ int	main(int ac, char **av, char **envp)
 // 	free_env(&minishell);
 // 	return (EXIT_SUCCESS);
 // }
-
-
-// lexing =
