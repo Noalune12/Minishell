@@ -54,20 +54,20 @@ int	main(int ac, char **av, char **envp)
 		// printf("%ssplit_operators%s\n", minishell.exec_status ? GREEN : RED, RESET);
 		check_heredoc(&minishell); //-> je parcours jusqu'a je tombe sur un "<< EOF "-> remplace par "< filename" dans token
 		tmp_test = minishell.token;
-		// for (int i = 0; tmp_test != NULL; i++)
-		// {
-		// 	printf("%sMaillon ID: %d : Token: [%s], Type: %d%s\n",RED,
-		// 		   i, tmp_test->content, tmp_test->type, RESET);
-		// 	tmp_test = tmp_test->next;
-		// }
+		for (int i = 0; tmp_test != NULL; i++)
+		{
+			printf("%sMaillon ID: %d : Token: [%s], Type: %d%s\n",RED,
+				   i, tmp_test->content, tmp_test->type, RESET);
+			tmp_test = tmp_test->next;
+		}
 		syntax_check(&minishell);
 		// printf("%ssyntax_check%s\n", minishell.exec_status ? GREEN : RED, RESET);
 		minishell.ast_node = build_ast(&minishell.token, &minishell.exec_status);
 		// printf("%sbuild_ast%s\n", minishell.exec_status ? GREEN : RED, RESET);
 		// t_ast *test_tree = create_test_tree();
 		// printf("\nArbre de syntaxe abstraite :\n");
-		// printf(BLUE"\nAST\n"RESET);
-		// print_ast(minishell.ast_node, 0, &minishell.exec_status);
+		printf(BLUE"\nAST\n"RESET);
+		print_ast(minishell.ast_node, 0, &minishell.exec_status);
 		if (g_signal_received != 0) // Check if Ctrl+C was pressed
 			minishell.exit_status = g_signal_received + 128;
 		else if (minishell.ast_node)
