@@ -42,8 +42,13 @@ static int	exec_right(t_ast *node, t_minishell *minishell)
 		exit(ret);
 	}
 	waitpid(minishell->pid, &ret, 0);
-	if (WIFEXITED(ret))
+	if (g_signal_received == 0 && WIFEXITED(ret))
+	{
+		g_signal_received = 0;
 		return (WEXITSTATUS(ret));
+	}
+	else
+		return (128 + g_signal_received);
 	return (1);
 }
 
@@ -56,6 +61,7 @@ int	handle_pipe(t_ast *node, t_minishell *minishell)
 		error_handling_exec(minishell, "pipe failed");
 		exit (1); // TODO add variable to know if we are in parent or child before and exit if in a child
 	}
+	handle_signal_child();
 	minishell->pid = fork();
 	if (minishell->pid == -1)
 	{

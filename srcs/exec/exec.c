@@ -10,8 +10,11 @@ int	handle_and(t_ast *node, t_minishell *minishell)
 
 	ret = exec_minishell(node->left, minishell);
 	minishell->exit_status = ret;
-	if (ret == 0)
+	if (ret == 0 && g_signal_received != SIGINT)
+	{
+		g_signal_received = 0;
 		ret = exec_minishell(node->right, minishell);
+	}
 	return (ret);
 }
 
@@ -21,8 +24,11 @@ int	handle_or(t_ast *node, t_minishell *minishell)
 
 	ret = exec_minishell(node->left, minishell);
 	minishell->exit_status = ret;
-	if (ret != 0)
+	if (ret != 0 && g_signal_received != SIGINT)
+	{
+		g_signal_received = 0;
 		ret = exec_minishell(node->right, minishell);
+	}
 	return (ret);
 }
 
@@ -125,7 +131,7 @@ int	exec_minishell(t_ast *node, t_minishell *minishell)
 		char *temp;
 		char *final;
 		expanded = expand_env_vars(node->cmd->cmds[i], minishell->envp);
-		ft_dprintf(STDERR_FILENO, GREEN"expanded = '%s'\n"RESET, expanded); // delete
+		// ft_dprintf(STDERR_FILENO, GREEN"expanded = '%s'\n"RESET, expanded); // delete
 		temp = node->cmd->cmds[i];
 		if ((node->type == NODE_COMMAND || node->type == NODE_BUILTIN) || expanded[0])
 		{
@@ -133,7 +139,7 @@ int	exec_minishell(t_ast *node, t_minishell *minishell)
 			free(temp);
 		}
 		final = handle_quotes_exec(node->cmd->cmds[i]);
-		ft_dprintf(STDERR_FILENO, PURPLE"final = %s\n"RESET, final); // delete
+		// ft_dprintf(STDERR_FILENO, PURPLE"final = %s\n"RESET, final); // delete
 		temp = node->cmd->cmds[i];
 		node->cmd->cmds[i] = final;
 		free(temp);
