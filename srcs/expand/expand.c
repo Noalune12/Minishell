@@ -40,7 +40,6 @@ char	*expand_env_vars(char *str, t_list *env, t_minishell *minishell)
 	bool	in_dquotes;
 
 	expanded_len = get_expanded_str_len(str, env, minishell);
-	printf(RED"len = %zu\n"RESET, expanded_len);
 	expanded = malloc(sizeof(char) * (expanded_len + 1));
 	if (!expanded)
 		return (NULL);
