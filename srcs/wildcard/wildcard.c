@@ -67,6 +67,7 @@ t_token	*expand_wildcards(t_token *tokens, bool *exec_status)
 			}
 		}
 		current = next;
+		ft_dprintf(STDERR_FILENO, "current->content after current = next: %s\n", current->content);
 	}
 	return (tokens);
 }
