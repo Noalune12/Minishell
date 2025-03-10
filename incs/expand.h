@@ -7,6 +7,8 @@
 # include <stdlib.h>
 # include "minishell.h"
 
+typedef struct s_minishell			t_minishell;
+
 typedef struct s_quotes
 {
 	char	*result;
@@ -18,11 +20,11 @@ typedef struct s_quotes
 
 bool	handle_quotes_expand(char c, bool *in_squotes, bool *in_dquotes);
 
-char	*expand_env_vars(char *str, t_list *env);
+char	*expand_env_vars(char *str, t_list *env, t_minishell *minishell);
 char	*ft_getenv(char *var_name, t_list *env);
 char	*remove_quotes(char *str);
 
-size_t	get_expanded_str_len(char *str, t_list *env);
+size_t	get_expanded_str_len(char *str, t_list *env, t_minishell *minishell);
 size_t	get_result_len(char *str);
 size_t	get_var_len(char *str, size_t i);
 
