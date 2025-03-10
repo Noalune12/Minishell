@@ -32,7 +32,7 @@ static void	add_var_value_len(char *var_name, size_t *total_len, t_list *env)
 		*total_len += ft_strlen(var_value);
 }
 
-size_t	get_expanded_str_len(char *str, t_list *env)
+size_t	get_expanded_str_len(char *str, t_list *env, t_minishell *minishell)
 {
 	size_t	i;
 	size_t	total_len;
@@ -40,15 +40,24 @@ size_t	get_expanded_str_len(char *str, t_list *env)
 	size_t	var_len;
 	bool	in_squotes;
 	bool	in_dquotes;
+	char	*exit_code_str;
 
 	i = 0;
 	total_len = 0;
 	in_squotes = false;
 	in_dquotes = false;
+	exit_code_str = ft_itoa(minishell->exit_status);
+	if (!exit_code_str)
+		return (0);
 	while (str && str[i])
 	{
 		if (!handle_quotes_expand(str[i], &in_squotes, &in_dquotes))
 			total_len++;
+		else if (str[i] == '$' && str[i + 1] && str[i + 1] == '?')
+		{
+			total_len += ft_strlen(exit_code_str);
+			i++;
+		}
 		else if (str[i] == '$' && str[i + 1])
 		{
 			i++;

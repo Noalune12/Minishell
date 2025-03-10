@@ -81,6 +81,7 @@ int	handle_cmd(t_ast *node, t_minishell *minishell)
 {
 	int	ret;
 
+	handle_signal_child();
 	minishell->pid = fork();
 	if (minishell->pid == -1)
 	{
@@ -99,7 +100,6 @@ int	handle_cmd(t_ast *node, t_minishell *minishell)
 			dup2(minishell->fd_out, STDOUT_FILENO); //TODO protect
 			close(minishell->fd_out); //TODO protect
 		}
-
 		exec_cmd(node, minishell);
 	}
 	waitpid(minishell->pid, &ret, 0);
@@ -107,7 +107,16 @@ int	handle_cmd(t_ast *node, t_minishell *minishell)
 			close(minishell->fd_in); //TODO protect
 	if (minishell->fd_out)
 			close(minishell->fd_out); //TODO protect
-	if (WIFEXITED(ret))
+	if (g_signal_received == SIGINT)
+		ft_dprintf(STDOUT_FILENO, "\n");
+	else if (g_signal_received == SIGQUIT)
+		ft_dprintf(STDOUT_FILENO, "Quit (core dumped)\n");
+	if (g_signal_received == 0 && WIFEXITED(ret))
+	{
+		g_signal_received = 0;
 		return (WEXITSTATUS(ret));
+	}
+	else
+		return (128 + g_signal_received);
 	return (1);
 }

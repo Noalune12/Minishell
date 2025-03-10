@@ -16,7 +16,21 @@ static int	handle_dollar_sign(char *str, char *expanded, size_t *i, size_t *j, t
 	return (1);
 }
 
-char	*expand_env_vars(char *str, t_list *env)
+static int	handle_exit_code(char *expanded, size_t *i, size_t *j, int exit_code)
+{
+	char	*exit_code_str;
+
+	(*i) += 1; // Skip over "$?"
+	exit_code_str = ft_itoa(exit_code);
+	if (!exit_code_str)
+		return (0);
+	ft_strcpy(&expanded[*j], exit_code_str);
+	*j += ft_strlen(exit_code_str);
+	free(exit_code_str);
+	return (1);
+}
+
+char	*expand_env_vars(char *str, t_list *env, t_minishell *minishell)
 {
 	size_t	i;
 	size_t	j;
@@ -25,7 +39,7 @@ char	*expand_env_vars(char *str, t_list *env)
 	bool	in_squotes;
 	bool	in_dquotes;
 
-	expanded_len = get_expanded_str_len(str, env);
+	expanded_len = get_expanded_str_len(str, env, minishell);
 	expanded = malloc(sizeof(char) * (expanded_len + 1));
 	if (!expanded)
 		return (NULL);
@@ -40,6 +54,14 @@ char	*expand_env_vars(char *str, t_list *env)
 		else if (str[i] == '$' && str[i + 1] && str[i + 1] != '?')
 		{
 			if (!handle_dollar_sign(str, expanded, &i, &j, env))
+			{
+				free(expanded);
+				return (NULL);
+			}
+		}
+		else if (str[i] == '$' && str[i + 1] == '?')
+		{
+			if (!handle_exit_code(expanded, &i, &j, minishell->exit_status))
 			{
 				free(expanded);
 				return (NULL);

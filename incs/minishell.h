@@ -8,7 +8,7 @@ typedef struct s_ast			t_ast;
 
 # include <unistd.h>
 
-// int	g_signal_received;
+extern int	g_signal_received;
 
 // void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
 // void	free_env(t_minishell *minishell);
@@ -180,7 +180,8 @@ void	free_list(t_list *list);
 void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
 
 void	signal_handler(int signum);
-// void	signal_handler_exec(int signum);
+void	handle_signal_main(void);
+void	handle_signal_child(void);
 
 bool	replace_token(t_list *current, t_list *new_tokens);
 void	free_env(t_minishell *minishell);
