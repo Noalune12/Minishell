@@ -13,17 +13,16 @@ static bool	replace_for_expanded_filename(t_token *current, char **file_names)
 	free(current->content);
 	current->content = ft_strdup(file_names[0]);
 	if (!current->content)
-		return (false);
-	last = current;
+	return (false);
 	i = 1;
+	last = current;
 	while (file_names[i])
 	{
-		if (!add_token(&last->next, file_names[i], NODE_COMMAND))
+		if (!add_token_in_place(&last, file_names[i], NODE_COMMAND))
 			return (false);
 		last = last->next;
 		i++;
 	}
-	last->next = next;
 	return (true);
 }
 
@@ -65,6 +64,7 @@ t_token	*expand_wildcards(t_token *tokens, bool *exec_status)
 				*exec_status = false;
 				return (NULL);
 			}
+			current = next;
 		}
 		current = next;
 	}

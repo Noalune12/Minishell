@@ -27,7 +27,6 @@ bool	add_token(t_token **tokens, char *content, t_node_type type)
 	new = init_token_node(content, type);
 	if (!new)
 		return (false);
-
 	if (!*tokens)
 		*tokens = new;
 	else // replace by lstaddback token ?
@@ -36,6 +35,23 @@ bool	add_token(t_token **tokens, char *content, t_node_type type)
 		while (last->next)
 			last = last->next;
 		last->next = new;
+	}
+	return (true);
+}
+
+bool	add_token_in_place(t_token **tokens, char *content, t_node_type type)
+{
+	t_token	*new;
+
+	new = init_token_node(content, type);
+	if (!new)
+		return (false);
+	if (!*tokens) // protection en trop ?
+		*tokens = new;
+	else
+	{
+		new->next = (*tokens)->next;
+		(*tokens)->next = new;
 	}
 	return (true);
 }

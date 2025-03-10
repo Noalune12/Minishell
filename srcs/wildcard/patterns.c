@@ -27,10 +27,6 @@ static bool	wildcard_match_char(const char *pattern, const char *str)
 
 bool	wildcard_match(const char *pattern, const char *str)
 {
-	static int	i = 1;
-
-	ft_dprintf(STDERR_FILENO, "%s%s%s", PURPLE, pattern, RESET);
-	ft_dprintf(STDERR_FILENO, "%d ", i++);
 	if (*pattern == '\0')
 		return (wildcard_match_end(pattern, str));
 	if (*pattern == '*')

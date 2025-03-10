@@ -458,6 +458,7 @@ int		return_global(void);
 
 void	free_token_list(t_token *tokens);
 bool	add_token(t_token **tokens, char *content, t_node_type type);
+bool	add_token_in_place(t_token **tokens, char *content, t_node_type type);
 
 t_token	*init_token_node(char *content, t_node_type type);
 t_token *split_operators(t_token *tokens, bool *exec_status);
