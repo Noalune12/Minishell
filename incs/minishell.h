@@ -4,18 +4,15 @@
 typedef struct s_list			t_list;
 typedef struct s_ast			t_ast;
 
+# include "expand.h"
+
 # include <unistd.h>
 
-// int	g_signal_received;
+extern int	g_signal_received;
 
 // void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
 // void	free_env(t_minishell *minishell);
 // void	tty_check(void);
-
-// #endif
-
-// #ifndef MINISHELL_H
-// # define MINISHELL_H
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -40,14 +37,22 @@ typedef struct s_ast			t_ast;
 // memo error code 127 -> no path to command
 // liste de define derreurs + dautres plus tard
 # define FILENAME_SYNTAX "syntax error: missing filename after redirection\n"
-# define NEWLINE_SYNTAX "syntax error near unexpected token `newline'\n"
-# define STRING_SYNTAX "minishell: syntax error near unexpected token `%s'\n"
+# define NEWLINE_SYNTAX "minishell: syntax error near unexpected token `newline'\n"
+# define STR_SYNTAX "minishell: syntax error near unexpected token `%s'\n"
 # define CHAR_SYNTAX "minishell: syntax error near unexpected token `%c'\n"
-# define CMD_NOT_FOUND "bash: %s: command not found\n"
-# define FILE_NOT_FOUND "%s: %s: No such file or directory\n"
-# define FIRST_HEREDOC_ERROR_MESSAGE "warning: here-document delimited by end-of-file (wanted `%s')\n"
+# define CMD_NOT_FOUND "minishell: %s: command not found\n"
+# define FILE_NOT_FOUND "minishell: %s: %s: No such file or directory\n"
+# define HEREDOC_ERROR_MESSAGE "minishell: warning: here-document delimited by end-of-file (wanted `%s')\n"
 # define ERROR_SYNTAX_TO_MODIFY "syntax error\n" // a modifier
+# define ERROR_OUTFILE "minishell: %s: Permission denied\n"
+# define ERROR_INFILE "minishell: %s: No such file or directory\n"
 
+// Error builtin
+# define EXIT_ERROR "minishell: exit: %s: numeric argument required\n"
+# define TOO_MANY_ARGS "minishell: %s: too many arguments\n"
+# define EXPORT_ERROR "minishell: export: `%s': not a valid identifier\n"
+# define CD_HOME "minishell: cd: HOME not set\n"
+# define PWD_ERROR "minishell: pwd: %s: invalid option\npwd: usage: pwd\n"
 // liste de define plutot que decrire en brut
 
 # define PWD			"PWD"
@@ -66,8 +71,7 @@ typedef struct s_ast			t_ast;
 
 // heredoc defines
 
-#define HEREDOC_PATH_BASE_NAME "/tmp/.heredoc_"
-#define RANDOM_NAME_LENGHT 10
+
 
 typedef enum e_quote // delete ? peut etre besoin pour le parsing
 {
@@ -89,19 +93,17 @@ typedef enum e_redirect_error
 
 typedef enum e_node_type
 {
-	// NODE_ROOT,		// noeud racine, -> ajout une struct root dans t_ast ?
-	// NODE_ARGUMENT,	// argument de commande
-	NODE_OR,		// ||
-	NODE_AND,		// &&
 	NODE_COMMAND,	// commande simple
 	NODE_PIPE,		// |
-	NODE_REDIR_OUT, // >
+	NODE_OR,		// ||
+	NODE_AND,		// &&
 	NODE_REDIR_IN,	// <
-	NODE_APPEND,	// >>
+	NODE_REDIR_OUT,	// >
 	NODE_HEREDOC,	// <<
-	NODE_BUILTIN,
-	// NODE_OPEN_PAR,	// (
-	// NODE_CLOSE_PAR,	// )
+	NODE_APPEND,	// >>
+	NODE_OPEN_PAR,	// (
+	NODE_CLOSE_PAR,	// )
+	NODE_BUILTIN	// commande builtin > delete ?
 }	t_node_type;
 
 typedef struct s_cmd
@@ -110,7 +112,7 @@ typedef struct s_cmd
 	char	**cmds;
 }	t_cmd;
 
-typedef struct s_ast
+typedef struct s_ast // rajouter boolean d'expand pour heredoc
 {
 	t_node_type		type; // type de noeud definis par lenum
 	t_cmd			*cmd; // ce qu'on recupere du parsing -> remplacer par t_cmd ?
@@ -119,29 +121,40 @@ typedef struct s_ast
 	struct s_ast	*root; // top priority node
 }	t_ast; // pas sur du nom, a discuter (t_node, t_ast_node, t_node_ast...)
 
-typedef struct s_exec
-{
-	pid_t	pipe_fd[2];
-}	t_exec;
-
 typedef struct	s_token
 {
-	char		*content;
-	bool		to_expand;
+	char			*content;
+	bool			to_expand;
+	t_node_type		type;
 	struct s_token	*next;
 }	t_token;
 
+typedef struct s_path_cmds
+{
+	char	*path;
+	char	**paths;
+	char	*path_env;
+}	t_path_cmds;
+
+typedef struct s_options
+{
+	bool	display_ast;
+	bool	display_tokens;
+}	t_options;
+
 typedef struct s_minishell
 {
-	char	*input;
-	int		exit_status;
-	pid_t	pid;
-	pid_t	pipe_fd[2];
-	int		fd_in;
-	int		fd_out;
-	t_list	*envp; // liste chainee de l'environnement
-	t_list	*token; // liste chainee des parametres
-	t_ast	*ast_node; // Abstract Syntax Tree
+	char		*input;
+	bool		exec_status;
+	int			exit_status;
+	pid_t		pid;
+	pid_t		pipe_fd[2];
+	int			fd_in;
+	int			fd_out;
+	t_options	options;
+	t_list		*envp; // liste chainee de l'environnement
+	t_token		*token; // liste chainee des parametres -> replaced by t_token
+	t_ast		*ast_node; // Abstract Syntax Tree
 }	t_minishell;
 
 t_list	*env_init(char **envp);
@@ -150,7 +163,11 @@ t_list	*find_env_node(t_list *env, const char *var_searched);
 t_ast	*create_ast_node(t_node_type type, char *content);
 t_ast	*create_test_tree(void);
 void	free_ast(t_ast *node);
-void	print_ast(t_ast *node, int depth);
+
+
+void	print_ast(t_ast *node, int depth, bool *exec_status);
+void	print_cmd_node(t_ast *node, char *prefix);
+void	print_redirect_node(t_ast *node, char *symbol);
 
 t_list	*add_node(t_list **env, char *content); // ????????
 void	add_node_test(t_list *args); // ??????? oui je sais
@@ -158,6 +175,8 @@ void	free_list(t_list *list);
 void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
 
 void	signal_handler(int signum);
+void	handle_signal_main(void);
+void	handle_signal_child(void);
 
 bool	replace_token(t_list *current, t_list *new_tokens);
 void	free_env(t_minishell *minishell);
@@ -241,7 +260,7 @@ int		nested_shell(t_list *env_list);
  * @return A pointer to the head of a linked list containing the tokens, or NULL
  * on failure.
  */
-t_list	*tokenize_input(char *input);
+// t_list	*tokenize_input(char *input);
 
 /**
  * @brief Checks the input string for unclosed quotes.
@@ -340,8 +359,7 @@ size_t	get_word_length(char *input, size_t start);
  */
 void	copy_with_quotes(char *dest, char *src, size_t *len);
 
-t_list	*split_operators(const char *str, size_t i, size_t start);
-
+// t_list	*split_operators(const char *str, size_t i, size_t start);
 
 bool	add_token_to_list(t_list **tokens, char *content);
 bool	is_operator_char(char c, bool in_quotes);
@@ -368,15 +386,22 @@ bool	is_operator(char c, bool in_quotes);
 
 /* ---- exec */
 
-void	create_ast(t_minishell *minishell);
+// void	create_ast(t_minishell *minishell);
+t_ast	*build_ast(t_token **token, bool *exec_status);
+t_ast	*create_parenthesis(t_token *token); // delete ?
+t_cmd	*add_cmd(char *content);
+// t_ast *create_ast_tree_node(t_node_type type, char *content);
+// void add_child(t_ast *parent, t_ast *child);
+char	**update_cmd(char **cmds, char *content);
+void ft_swap(t_ast *a, t_ast *b);
 void	free_ast(t_ast *node);
 void	ft_free(char **split);
-void	find_last_branch(t_minishell *minishell);
+int		error_handling_exec(t_minishell *minishell, char *message);
 
 int		exec_minishell(t_ast *node, t_minishell *minishell);
 
 int		handle_cmd(t_ast *node, t_minishell *minishell);
-char	*find_exec_cmd(char **cmds, t_minishell *minishell, t_ast *node);
+char	*find_exec_cmd(char **cmds, t_minishell *minishell);
 
 int		handle_pipe(t_ast *node, t_minishell *minishell);
 
@@ -390,49 +415,57 @@ int		handle_redirappend(t_ast *node, t_minishell *minishell);
 
 int		handle_builtin(t_ast *node, t_minishell *minishell);
 int		ft_pwd(char **cmds);
-int		ft_cd(char **cmds, t_list *envp);
 
-int		ft_export(char **cmds, t_list **env);
+int		ft_cd(char **cmds, t_list *envp);
+int		update_cd_env(t_list **envp, char *path, int to_home);
+
 t_list	*copy_env(t_list *env);
+int		ft_export(char **cmds, t_list **env);
 int		check_export(char **cmds);
 int		add_export_to_env(char *cmds, t_list **env);
 int		add_or_append_env(char *content, t_list **env, int len);
 int		find_env_var_node(char *var, t_list **env);
 
-void	ft_unset(char **cmds, t_minishell *minishell);
-void	remove_node(t_list **head, const char *var);
+int remove_node(t_list **head, char *var);
+int	ft_unset(char **cmds, t_minishell *minishell);
+int	ft_echo(char **cmds, t_minishell *minishell);
+int	ft_exit(char **cmds, t_minishell *minishell);
+
+void 	swap_data(t_list *a, t_list *b);
+void	ft_list_sort(t_list **begin_list, int (*cmp)(char *, char *));
+void	swap_strs(char **s1, char **s2);
 
 char	**ft_free_double(char **strs);
 char	*ft_strndup(const char *s, size_t len);
+
 int		ft_strnlen(char *str, char c);
-int ascii_cmp(const char *a, const char *b);
-void swap_data(t_list *a, t_list *b);
-void ft_list_sort(t_list **begin_list, int (*cmp)(const char *, const char *));
-
-
-/* --- heredoc --- */
-
-char	*create_temp_file(void);
-char	*handle_heredoc(char *delimiter);
-bool	check_expand(char *delimiter);
-int		check_heredoc(t_minishell *minishell);
-
-int	is_last_heredoc(t_list *current, t_list *last_heredoc);
-int	handle_last_heredoc(t_list *current, int *error);
-int	is_op(char *token);
-int	write_to_heredoc(char *file_name, char *delimiter);
-
-
-t_list	*find_last_heredoc(t_list *start, t_list **last_heredoc);
-
-
-void	handle_regular_heredoc(t_list *current);
-
+int		ascii_cmp(char *a, char *b);
 
 /* test signal */
-int	return_global(void);
+
 void	heredoc_signal_handler(int sig);
 void	init_global(void);
+
 char	*read_input(t_minishell *minishell);
+
+int		return_global(void);
+
+/* ---- REFACTOR T_TOKEN TESTS ---- */
+
+void	free_token_list(t_token *tokens);
+bool	add_token(t_token **tokens, char *content, t_node_type type);
+bool	add_token_in_place(t_token **tokens, char *content, t_node_type type);
+
+t_token	*init_token_node(char *content, t_node_type type);
+t_token *split_operators(t_token *tokens, bool *exec_status);
+t_token	*tokenize_input(char *input, bool *exec_status);
+
+
+
+int	syntax_check(t_minishell *minishell);
+int	check_unbalanced_parenthesis(t_token *token, int *paren_count,
+									t_minishell *minishell);
+int	check_parentheses_tokens(t_token *current, t_token *next,
+								t_minishell *minishell);
 
 #endif

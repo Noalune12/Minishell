@@ -44,8 +44,7 @@ void	check_if_space(char **cmds, int *ret)
 				&& ((cmds[i][j + 1] && cmds[i][j + 1] != '=')
 				|| !cmds[i][j + 1])))
 			{
-				ft_dprintf(STDERR_FILENO,
-					"bash: export: `%s': not a valid identifier\n", cmds[i]);
+				ft_dprintf(STDERR_FILENO, EXPORT_ERROR, cmds[i]);
 				*ret = 1;
 				remove_export(cmds, i);
 				i--;
@@ -67,8 +66,7 @@ int	check_export(char **cmds)
 	{
 		if (cmds[i][0] != '_' && !ft_isalpha(cmds[i][0]))
 		{
-			ft_dprintf(STDERR_FILENO,
-				"bash: export: `%s': not a valid identifier\n", cmds[i]);
+			ft_dprintf(STDERR_FILENO, EXPORT_ERROR, cmds[i]);
 			ret = 1;
 			remove_export(cmds, i);
 		}

@@ -60,7 +60,7 @@ int main(void)
 		{"13 - Trailing dollar sign", "$USER$", "gueberso$"},
 		{"14 - Interrupted variable name", "$U'SE'R", "SER"},
 		{"15 - Consecutive single quotes", "'$USE''R'", "$USER"},
-		{"16 - Expansion of a single quote", "$USER", "'"}
+		{"16 - Expansion of a single quote", "$SINGLEQUOTE", "'"} // export SINGLEQUOTE="'"
 
 	};
 

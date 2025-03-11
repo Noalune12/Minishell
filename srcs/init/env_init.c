@@ -1,20 +1,5 @@
 #include "minishell.h"
 
-// static void	print_env(t_list *env)
-// {
-// 	t_list	*temp;
-
-// 	if (!env)
-// 		return ;
-// 	temp = env;
-// 	while (temp)
-// 	{
-// 		if (temp->content)
-// 			printf("%s\n", (char *)temp->content);
-// 		temp = temp->next;
-// 	}
-// }
-
 static t_list	*ft_get_env(char **envp)
 {
 	t_list	*env;
@@ -22,7 +7,7 @@ static t_list	*ft_get_env(char **envp)
 
 	i = 0;
 	env = NULL;
-	if (!envp || !envp[i])
+	if (!envp || !envp[i]) // condition correcte ?
 	{
 		env = malloc(sizeof(t_list));
 		if (!env)
@@ -66,33 +51,9 @@ t_list	*env_init(char **envp)
 			free_list(set_up_env);
 			return (NULL);
 		}
+		return (set_up_env);
 	}
-	// update_shlvl(set_up_env);
-	// if (nested_shell(set_up_env))
-	// 	update_shlvl(set_up_env);
-	// print_env(set_up_env);
+	else
+		update_shlvl(set_up_env);
 	return (set_up_env);
 }
-
-
-// FICHIER A REFACTO IL Y A TROP DE FONCTIONS
-
-
-// WILL PROBABLY DELETE THIS
-
-// t_list	*split_env(char **envp)
-// {
-// 	t_list	*returned_env;
-// 	char	**split;
-// 	size_t	i;
-
-// 	if (envp == NULL)
-// 		return (NULL);
-// 	i = 0;
-// 	while (envp[i])
-// 	{
-// 		split = ft_split(envp, '='); // define '=' ? (maybe need '+=' define aswell)
-// 		if (!split)
-// 			return (NULL); // lstclear env ?
-// 	}
-// }

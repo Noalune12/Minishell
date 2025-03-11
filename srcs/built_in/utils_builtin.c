@@ -1,5 +1,14 @@
 #include "minishell.h"
 
+void	swap_strs(char **s1, char **s2)
+{
+	char	*temp;
+
+	temp = *s1;
+	*s1 = *s2;
+	free(temp);
+}
+
 char	*ft_strndup(const char *s, size_t len)
 {
 	char		*str;
@@ -32,9 +41,9 @@ int	ft_strnlen(char *str, char c)
 	return (i);
 }
 
-int	ascii_cmp(const char *a, const char *b)
+int	ascii_cmp(char *a, char *b)
 {
-	return (strcmp(a, b));
+	return (ft_strcmp(a, b));
 }
 
 void	swap_data(t_list *a, t_list *b)
@@ -46,8 +55,8 @@ void	swap_data(t_list *a, t_list *b)
 	b->content = temp;
 }
 
-void	ft_list_sort(t_list **begin_list, int (*cmp)(const char *,
-	const char *))
+void	ft_list_sort(t_list **begin_list, int (*cmp)(char *,
+	char *))
 {
 	t_list	*list;
 	t_list	*next;

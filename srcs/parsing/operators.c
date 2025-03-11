@@ -1,28 +1,5 @@
 #include "minishell.h"
 
-static bool	handle_operator(t_list **tokens, const char *str, \
-	size_t *i, size_t *start)
-{
-	t_redirect_error	error;
-	size_t				op_len;
-
-	if (*i > *start && !add_token_to_list(tokens, \
-		create_token(str, *start, *i - *start)))
-		return (false);
-	op_len = get_operator_len(str, *i);
-	error = check_operator_syntax(str + *i);
-	if (error != REDIR_SUCCESS)
-	{
-		handle_redirect_error(*tokens, error, str + *i);
-		return (false);
-	}
-	if (!add_token_to_list(tokens, create_token(str, *i, op_len)))
-		return (false);
-	*i += op_len;
-	*start = *i;
-	return (true);
-}
-
 static void	handle_quotes(char c, bool *in_quotes, char *quote_type)
 {
 	if (!*in_quotes)
@@ -37,37 +14,134 @@ static void	handle_quotes(char c, bool *in_quotes, char *quote_type)
 	}
 }
 
-static void	init_split_vars(bool *in_quotes, char *quote_type)
+static t_node_type	get_operator_type(const char *content, \
+	size_t i, size_t op_len)
 {
-	*in_quotes = false;
-	*quote_type = 0;
+	if (ft_strncmp(content + i, "|", op_len) == 0 && op_len == 1)
+		return (NODE_PIPE);
+	if (ft_strncmp(content + i, "||", op_len) == 0)
+		return (NODE_OR);
+	if (ft_strncmp(content + i, "&&", op_len) == 0)
+		return (NODE_AND);
+	if (ft_strncmp(content + i, ">", op_len) == 0 && op_len == 1)
+		return (NODE_REDIR_OUT);
+	if (ft_strncmp(content + i, "<", op_len) == 0 && op_len == 1)
+		return (NODE_REDIR_IN);
+	if (ft_strncmp(content + i, ">>", op_len) == 0)
+		return (NODE_APPEND);
+	if (ft_strncmp(content + i, "<<", op_len) == 0)
+		return (NODE_HEREDOC);
+	if (ft_strncmp(content + i, "(", op_len) == 0 && op_len == 1)
+		return (NODE_OPEN_PAR);
+	if (ft_strncmp(content + i, ")", op_len) == 0 && op_len == 1)
+		return (NODE_CLOSE_PAR);
+	return (NODE_COMMAND);
 }
 
-t_list	*split_operators(const char *str, size_t i, size_t start)
+static bool	handle_first_part(t_token **result, const char *content,
+							size_t *i, size_t *start)
 {
-	t_list	*tokens;
+	char	*str;
+
+	if (*i <= *start)
+		return (true);
+	str = ft_strndup(content + *start, *i - *start);
+	if (!str)
+		return (false);
+	if (!add_token(result, str, NODE_COMMAND))
+	{
+		free(str);
+		return (false);
+	}
+	free(str);
+	return (true);
+}
+
+static bool	process_operator(t_token **result, const char *content,
+							size_t *i, size_t *start)
+{
+	size_t		op_len;
+	t_node_type	op_type;
+	char		*str;
+
+	if (!handle_first_part(result, content, i, start))
+		return (false);
+	op_len = get_operator_len(content, *i);
+	op_type = get_operator_type(content, *i, op_len);
+	str = ft_strndup(content + *i, op_len);
+	if (!str)
+		return (false);
+	if (!add_token(result, str, op_type))
+	{
+		free(str);
+		return (false);
+	}
+	*i += op_len;
+	*start = *i;
+	free(str);
+	return (true);
+}
+
+static bool	process_token_content(t_token **result, const char *content)
+{
+	size_t	i;
+	size_t	start;
 	bool	in_quotes;
 	char	quote_type;
+	char	*str;
 
-	tokens = NULL;
-	init_split_vars(&in_quotes, &quote_type);
-	while (str[i])
+	i = 0;
+	start = 0;
+	in_quotes = false;
+	quote_type = 0;
+	while (content[i])
 	{
-		if (is_quote(str[i]))
+		if (is_quote(content[i]))
+			handle_quotes(content[i++], &in_quotes, &quote_type);
+		else if (!in_quotes && is_operator(content[i], false))
 		{
-			handle_quotes(str[i], &in_quotes, &quote_type);
-			i++;
-		}
-		else if (is_operator(str[i], in_quotes))
-		{
-			if (!handle_operator(&tokens, str, &i, &start))
-				return (NULL);
+			if (!process_operator(result, content, &i, &start))
+				return (false);
 		}
 		else
 			i++;
 	}
-	if (i > start && !add_token_to_list(&tokens, \
-		create_token(str, start, i - start)))
+	if (i <= start)
+		return (true);
+	str = ft_strndup(content + start, i - start);
+	if (!str)
+		return (false);
+	if (!add_token(result, str, NODE_COMMAND))
+	{
+		free(str);
+		return (false);
+	}
+	free(str);
+	return (true);
+}
+
+t_token	*split_operators(t_token *tokens, bool *exec_status)
+{
+	t_token	*result;
+	t_token	*current;
+	t_token	*next;
+
+	if (*exec_status == false)
 		return (NULL);
-	return (tokens);
+	result = NULL;
+	current = tokens;
+	while (current)
+	{
+		if (!process_token_content(&result, current->content))
+		{
+			free_token_list(result);
+			*exec_status = false;
+			return (NULL);
+		}
+		next = current->next;
+		free(current->content);
+		free(current);
+		current = next;
+	}
+	return (result);
 }

@@ -1,5 +1,21 @@
 #include "minishell.h"
 
+void	free_token_list(t_token *tokens)
+{
+	t_token	*current;
+	t_token	*next;
+
+	current = tokens;
+	while (current)
+	{
+		next = current->next;
+		if (current->content)
+			free(current->content);
+		free(current);
+		current = next;
+	}
+}
+
 void	free_list(t_list *list)
 {
 	t_list	*current;

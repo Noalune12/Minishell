@@ -23,7 +23,7 @@ static t_list	*error_handling(t_list	*new_node)
 	return (NULL);
 }
 
-t_list	*add_node(t_list **env, char *content) // nom a changer probablement
+t_list	*add_node(t_list **env, char *content) // nom a changer probablement + retour derreur
 {
 	t_list	*temp;
 	t_list	*new_node;
