@@ -59,6 +59,8 @@ int	handle_builtin(t_ast *node, t_minishell *minishell)
 	ret = ft_builtin(node, minishell);
 	dup2(save_fdin, STDIN_FILENO);
 	dup2(save_fdout, STDOUT_FILENO);
+	close(save_fdin);
+	close(save_fdout);
 	exec_minishell(node->left, minishell);
 	exec_minishell(node->right, minishell);
 	return (ret);

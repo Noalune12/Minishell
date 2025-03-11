@@ -70,6 +70,8 @@ int	ft_exit(char **cmds, t_minishell *minishell)
 	int	ret;
 
 	ret = 0;
+	if (minishell->pid == 0)
+		return (0);
 	if (!cmds[1])
 	{
 		ft_dprintf(STDOUT_FILENO, "exit\n");

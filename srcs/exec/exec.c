@@ -162,7 +162,7 @@ int	exec_minishell(t_ast *node, t_minishell *minishell)
 		char *temp;
 		char *final;
 		expanded = expand_env_vars(node->cmd->cmds[i], minishell->envp, minishell); // TODO handle $? if command
-		ft_dprintf(STDERR_FILENO, GREEN"expanded = '%s'\n"RESET, expanded); // delete
+		// ft_dprintf(STDERR_FILENO, GREEN"expanded = '%s'\n"RESET, expanded); // delete
 		temp = node->cmd->cmds[i];
 		if ((node->type == NODE_COMMAND || node->type == NODE_BUILTIN))
 		{
@@ -181,7 +181,7 @@ int	exec_minishell(t_ast *node, t_minishell *minishell)
 		else
 			free(expanded);
 		final = handle_quotes_exec(node->cmd->cmds[i]);
-		ft_dprintf(STDERR_FILENO, PURPLE"final = %s\n"RESET, final); // delete
+		// ft_dprintf(STDERR_FILENO, PURPLE"final = %s\n"RESET, final); // delete
 		if (final)
 		{
 			temp = node->cmd->cmds[i];
