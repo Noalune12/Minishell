@@ -1,6 +1,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+typedef struct s_options		t_options;
 typedef struct s_list			t_list;
 typedef struct s_ast			t_ast;
 
@@ -112,7 +113,7 @@ typedef struct s_cmd
 	char	**cmds;
 }	t_cmd;
 
-typedef struct s_ast
+typedef struct s_ast // rajouter boolean d'expand pour heredoc
 {
 	t_node_type		type; // type de noeud definis par lenum
 	t_cmd			*cmd; // ce qu'on recupere du parsing -> remplacer par t_cmd ?
@@ -141,12 +142,6 @@ typedef struct s_path_cmds
 	char	*path_env;
 }	t_path_cmds;
 
-typedef struct s_options
-{
-	bool	display_ast;
-	bool	display_tokens;
-}	t_options;
-
 typedef struct s_minishell
 {
 	char		*input;
@@ -156,7 +151,7 @@ typedef struct s_minishell
 	pid_t		pipe_fd[2];
 	int			fd_in;
 	int			fd_out;
-	t_options	options;
+	t_options	*options;
 	t_list		*envp; // liste chainee de l'environnement
 	t_token		*token; // liste chainee des parametres -> replaced by t_token
 	t_ast		*ast_node; // Abstract Syntax Tree
