@@ -21,19 +21,21 @@ extern int	g_signal_received;
 # include <readline/history.h>
 # include <stdbool.h>
 # include <signal.h>
-# include "libft.h"
-# include "get_next_line.h"
-# include "ft_dprintf.h"
 # include <sys/wait.h>
 # include <fcntl.h>
 
+# include "ft_dprintf.h"
+# include "get_next_line.h"
+# include "libft.h"
+# include "options.h"
 
 # define RED		"\033[1;31m"
 # define GREEN		"\033[1;32m"
 # define YELLOW		"\033[1;33m"
 # define BLUE		"\033[1;34m"
-# define RESET		"\033[0m"
+# define WHITE_BOLD	"\033[1;37m"
 # define PURPLE		"\033[0;35m"
+# define RESET		"\033[0m"
 
 // memo error code 127 -> no path to command
 // liste de define derreurs + dautres plus tard
