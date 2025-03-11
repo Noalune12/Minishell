@@ -1,4 +1,7 @@
+#include <stdlib.h>
+
 #include "expand.h"
+#include "libft.h"
 #include "minishell.h"
 
 static void	add_var_value_len(char *var_name, size_t *total_len, t_list *env)

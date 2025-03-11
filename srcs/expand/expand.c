@@ -1,5 +1,7 @@
-#include "libft.h"
+#include <stdlib.h>
+
 #include "expand.h"
+#include "libft.h"
 #include "minishell.h"
 
 static int	handle_dollar_sign(char *str, char *expanded, size_t *i, size_t *j, t_list *env)
