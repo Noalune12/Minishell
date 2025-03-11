@@ -1,3 +1,4 @@
+// #include ""
 #include "minishell.h"
 
 size_t	get_word_length(char *input, size_t start)
@@ -11,7 +12,7 @@ size_t	get_word_length(char *input, size_t start)
 	quote_type = 0;
 	while (input[start + i])
 	{
-		if (is_quote(input[start + i]))
+		if (is_quote(input[start + i])) // put is_quote in libft ?
 		{
 			if (!in_quotes)
 			{
