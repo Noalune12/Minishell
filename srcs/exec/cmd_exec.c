@@ -83,11 +83,8 @@ int	handle_cmd(t_ast *node, t_minishell *minishell)
 
 	handle_signal_child();
 	minishell->pid = fork();
-	if (minishell->pid == -1)
-	{
-		error_handling_exec(minishell, "fork failed"); //TODO close fds
-		exit (1); // TODO add variable to know if we are in parent or child before and exit if in a child
-	}
+	if (minishell->pid == -1) //TODO close fds
+			return (error_handling_exec(NULL, "fork failed"));
 	if (minishell->pid == 0)
 	{
 		if (minishell->fd_in)

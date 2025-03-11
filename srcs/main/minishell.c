@@ -85,7 +85,15 @@ int	main(int ac, char **av, char **envp)
 		free(minishell.input);
 		if (minishell.ast_node)
 			free_ast(minishell.ast_node);
+		if (minishell.fd_in)
+			close(minishell.fd_in);
+		if (minishell.fd_out)
+			close(minishell.fd_out);
 	}
+	if (minishell.fd_in)
+		close(minishell.fd_in);
+	if (minishell.fd_out)
+		close(minishell.fd_out);
 	rl_clear_history();
 	free_env(&minishell);
 	return (0);
