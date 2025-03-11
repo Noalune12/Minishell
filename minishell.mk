@@ -12,6 +12,8 @@ override BUILTINDIR	:= built_in/
 override HEREDOCDIR	:= heredoc/
 override EXPANDDIR	:= expand/
 override WILDCARDIR	:= wildcard/
+override OPTIONSDIR	:= options/
+
 
 SRC	+= $(addprefix $(EXPANDDIR), $(addsuffix .c, $(EXPANDSRC)))
 
@@ -116,3 +118,10 @@ override WILDCARDSRC	:= \
 	wildcard_cleanup \
 	wildcard_utils \
 	wildcard \
+
+SRC += $(addprefix $(OPTIONSDIR), $(addsuffix .c, $(OPTIONSSRC)))
+
+override OPTIONSSRC	:= \
+	options_setup \
+	print_tokens \
+	wrappers \
