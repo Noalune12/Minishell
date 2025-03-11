@@ -72,6 +72,7 @@ override PARSINGSRC	:= \
 	word_utils \
 
 SRC	+= $(addprefix $(EXECDIR), $(addsuffix .c, $(EXECSRC)))
+
 override EXECSRC	:= \
 	exec \
 	cmds_path \
