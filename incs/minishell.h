@@ -112,7 +112,7 @@ typedef struct s_cmd
 	char	**cmds;
 }	t_cmd;
 
-typedef struct s_ast
+typedef struct s_ast // rajouter boolean d'expand pour heredoc
 {
 	t_node_type		type; // type de noeud definis par lenum
 	t_cmd			*cmd; // ce qu'on recupere du parsing -> remplacer par t_cmd ?
@@ -120,11 +120,6 @@ typedef struct s_ast
 	struct s_ast	*right;
 	struct s_ast	*root; // top priority node
 }	t_ast; // pas sur du nom, a discuter (t_node, t_ast_node, t_node_ast...)
-
-typedef struct s_exec
-{
-	pid_t	pipe_fd[2];
-}	t_exec;
 
 typedef struct	s_token
 {
