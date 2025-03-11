@@ -1,13 +1,11 @@
 #ifndef EXPAND_H
 # define EXPAND_H
 
-# include <unistd.h>
 # include <stdbool.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include "minishell.h"
+# include <stddef.h>
 
-typedef struct s_minishell			t_minishell;
+typedef struct s_minishell	t_minishell;
+typedef struct s_list		t_list;
 
 typedef struct s_quotes
 {

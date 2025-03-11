@@ -1,7 +1,11 @@
 #ifndef WILDCARD_H
 # define WILDCARD_H
 
-# include "minishell.h"
+# include <stdbool.h>
+
+typedef struct s_token	t_token;
+
+t_token	*expand_wildcards(t_token *tokens, bool *exec_status);
 
 void	cleanup_file_names(char **file_names, int count);
 void	free_file_names_array(char **file_names);
@@ -14,7 +18,5 @@ char	**allocate_2d_array(int count);
 char	**get_file_names(char *pattern, int count);
 
 int		count_matches(char *pattern);
-
-t_token	*expand_wildcards(t_token *tokens, bool *exec_status);
 
 #endif

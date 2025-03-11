@@ -1,4 +1,7 @@
+#include <stdlib.h>
+
 #include "expand.h"
+#include "libft.h"
 
 static bool	is_quote_to_remove(char c, bool in_squotes, bool in_dquotes)
 {
