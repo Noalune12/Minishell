@@ -51,14 +51,9 @@ int	main(int ac, char **av, char **envp)
 		minishell.token = tokenize_input(minishell.input, &minishell.exec_status);
 		// printf("%stokenize_input%s\n", minishell.exec_status ? GREEN : RED, RESET);
 		minishell.token = split_operators(minishell.token, &minishell.exec_status);
-		// printf("%ssplit_operators%s\n", minishell.exec_status ? GREEN : RED, RESET);
-		// tmp_test = minishell.token;
-		// for (int i = 0; tmp_test != NULL; i++)
-		// {
-		// 	printf("%sMaillon ID: %d : Token: [%s], Type: %d%s\n",RED,
-		// 		   i, tmp_test->content, tmp_test->type, RESET);
-		// 	tmp_test = tmp_test->next;
-		// }
+		printf("%ssplit_operators%s\n", minishell.exec_status ? GREEN : RED, RESET);
+		tmp_test = minishell.token;
+
 		minishell.token = expand_wildcards(minishell.token, &minishell.exec_status);
 		//printf("%sexpand_wildcards%s\n", minishell.exec_status ? GREEN : RED, RESET);
 		tmp_test = minishell.token;
@@ -68,9 +63,17 @@ int	main(int ac, char **av, char **envp)
 		minishell.ast_node = build_ast(&minishell.token, &minishell.exec_status);
 		//printf("%sbuild_ast%s\n", minishell.exec_status ? GREEN : RED, RESET);
 		//printf(BLUE"\nAST\n"RESET);
-		print_ast(minishell.ast_node, 0, &minishell.exec_status);
+
+		//print_ast(minishell.ast_node, 0, &minishell.exec_status);
+		// for (int i = 0; tmp_test != NULL; i++)
+		// {
+		// 	printf("%sMaillon ID: %d : Token: [%s], Type: %d%s\n",RED,
+		// 		   i, tmp_test->content, tmp_test->type, RESET);
+		// 	tmp_test = tmp_test->next;
+		// }
 		if (g_signal_received != 0) // Check if Ctrl+C was pressed
 			minishell.exit_status = g_signal_received + 128;
+
 		else if (minishell.ast_node)
 		{
 			//printf(PURPLE"\nEXEC"RESET);

@@ -15,14 +15,14 @@ extern int	g_signal_received;
 // void	free_env(t_minishell *minishell);
 // void	tty_check(void);
 
+# include <fcntl.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdbool.h>
-# include <signal.h>
 # include <sys/wait.h>
-# include <fcntl.h>
 
 # include "ft_dprintf.h"
 # include "get_next_line.h"
