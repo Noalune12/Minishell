@@ -54,6 +54,7 @@ size_t	get_expanded_str_len(char *str, t_list *env, t_minishell *minishell)
 			total_len++;
 		i++;
 	}
+	free(exit_code_str);
 	return (total_len);
 }
 

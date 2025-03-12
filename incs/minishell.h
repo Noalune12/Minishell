@@ -124,11 +124,6 @@ typedef struct s_ast // rajouter boolean d'expand pour heredoc
 	struct s_ast	*root; // top priority node
 }	t_ast; // pas sur du nom, a discuter (t_node, t_ast_node, t_node_ast...)
 
-typedef struct s_exec
-{
-	pid_t	pipe_fd[2];
-}	t_exec;
-
 typedef struct	s_token
 {
 	char			*content;

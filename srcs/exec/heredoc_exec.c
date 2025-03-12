@@ -11,8 +11,8 @@ int	handle_heredocin(t_ast *node, t_minishell *minishell)
 	minishell->fd_in = open(node->cmd->cmds[0], O_RDONLY);
 	if (minishell->fd_in == -1)
 	{
-		ft_dprintf(STDERR_FILENO, ERROR_INFILE, node->cmd->cmds[0]);
-		// error_handling_exec(minishell, NULL);
+		ft_dprintf(STDERR_FILENO, "minishell: %s: ", node->cmd->cmds[0]);
+		perror("");
 		return (1);
 	}
 	ret = exec_minishell(node->left, minishell);

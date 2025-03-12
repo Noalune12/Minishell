@@ -50,7 +50,7 @@ int	ft_export(char **cmds, t_list **env)
 
 	i = 0;
 	ret = 0;
-	if (!cmds[++i])
+	if (!cmds[++i] || !cmds[i][0])
 	{
 		ret = ft_print_export(*env);
 		return (ret);

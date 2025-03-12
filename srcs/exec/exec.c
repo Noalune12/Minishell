@@ -113,6 +113,37 @@ char *handle_quotes_exec(char *input)
 	return (data.result);
 }
 
+char **remove_null_strings(char **strs, int nb_cmd)
+{
+	int count = 0;
+	int i = 0;
+	int j = 0;
+	char **new_strs;
+
+	while (nb_cmd > 0)
+	{
+		if (strs[i] != NULL)
+			count++;
+		nb_cmd--;
+		i++;
+	}
+	new_strs = (char **)malloc((count + 1) * sizeof(char *));
+	if (!new_strs)
+		return NULL;
+	i = 0;
+	while (j < count)
+	{
+		if (strs[i] != NULL)
+			new_strs[j++] = strs[i];
+		else
+			free(strs[i]);
+		i++;
+	}
+	new_strs[j] = NULL;
+	free(strs);
+	return (new_strs);
+}
+
 int	exec_minishell(t_ast *node, t_minishell *minishell)
 {
 	int	ret;
@@ -133,16 +164,30 @@ int	exec_minishell(t_ast *node, t_minishell *minishell)
 		expanded = expand_env_vars(node->cmd->cmds[i], minishell->envp, minishell); // TODO handle $? if command
 		//ft_dprintf(STDERR_FILENO, GREEN"expanded = '%s'\n"RESET, expanded); // delete
 		temp = node->cmd->cmds[i];
-		if ((node->type == NODE_COMMAND || node->type == NODE_BUILTIN) || expanded[0])
+		if ((node->type == NODE_COMMAND || node->type == NODE_BUILTIN))
 		{
-			node->cmd->cmds[i] = expanded;
+			if (expanded[0])
+			{
+				node->cmd->cmds[i] = expanded;
+				free(temp);
+			}
+			else
+			{
+				node->cmd->cmds[i] = NULL;
+				free(temp);
+				free(expanded);
+			}
+		}
+		else
+			free(expanded);
+		final = handle_quotes_exec(node->cmd->cmds[i]);
+		// ft_dprintf(STDERR_FILENO, PURPLE"final = %s\n"RESET, final); // delete
+		if (final)
+		{
+			temp = node->cmd->cmds[i];
+			node->cmd->cmds[i] = final;
 			free(temp);
 		}
-		final = handle_quotes_exec(node->cmd->cmds[i]);
-		//ft_dprintf(STDERR_FILENO, PURPLE"final = %s\n"RESET, final); // delete
-		temp = node->cmd->cmds[i];
-		node->cmd->cmds[i] = final;
-		free(temp);
 		if (i == 0 && node->type == NODE_COMMAND)
 		{
 			if (ft_strcmp(node->cmd->cmds[i], "echo\0") == 0
@@ -156,6 +201,7 @@ int	exec_minishell(t_ast *node, t_minishell *minishell)
 		}
 		i++;
 	}
+	node->cmd->cmds = remove_null_strings(node->cmd->cmds, i);
 	ret = exec[node->type](node, minishell);
 	return (ret);
 }

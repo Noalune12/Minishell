@@ -57,10 +57,7 @@ int	handle_pipe(t_ast *node, t_minishell *minishell)
 	int	ret;
 
 	if (pipe(minishell->pipe_fd) == -1)
-	{
-		error_handling_exec(minishell, "pipe failed");
-		exit (1); // TODO add variable to know if we are in parent or child before and exit if in a child
-	}
+			return (error_handling_exec(NULL, "pipe failed"));
 	handle_signal_child();
 	minishell->pid = fork();
 	if (minishell->pid == -1)

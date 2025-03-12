@@ -35,7 +35,7 @@ static int	ft_print_echo(char **cmds, int index, int no_nl, t_minishell *minishe
 			i++;
 		}
 		index++;
-		if (cmds[index])
+		if (cmds[index] && cmds[index][0])
 			ft_dprintf(STDOUT_FILENO, " ");
 		i = 0;
 	}
