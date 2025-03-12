@@ -56,6 +56,12 @@ static int	exec_cmd(t_ast *node, t_minishell *minishell)
 {
 	char	**env;
 
+	if (ft_strncmp(node->cmd->cmds[0], "./", 2) == 0 && access(node->cmd->cmds[0], F_OK) == 0 && access(node->cmd->cmds[0], X_OK) != 0)
+	{
+		ft_dprintf(STDERR_FILENO, "minishell: %s: ", node->cmd->cmds[0]);
+		perror("");
+		exit (126);
+	}
 	if (access(node->cmd->cmds[0], X_OK) == 0)
 	{
 		node->cmd->path = ft_strdup(node->cmd->cmds[0]);

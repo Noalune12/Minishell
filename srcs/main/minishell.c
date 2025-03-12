@@ -5,21 +5,21 @@
 char	*read_input(t_minishell *minishell)
 {
 	char	*input;
-	// char	*prompt;
-	// char	*tmp;
-	// char	*exit_code;
+	char	*prompt;
+	char	*tmp;
+	char	*exit_code;
 
-	// exit_code = ft_itoa(minishell->exit_status);
-	// tmp = ft_strjoin("[", exit_code);
-	// free(exit_code);
-	// exit_code = ft_strjoin(tmp, "]> ");
-	// free(tmp);
-	// prompt = ft_strjoin("minishell ", exit_code);
-	// free(exit_code);
-	// input = readline(prompt);
-	// free(prompt);
-	(void)minishell;
-	input = readline("minishell$>");
+	exit_code = ft_itoa(minishell->exit_status);
+	tmp = ft_strjoin("[", exit_code);
+	free(exit_code);
+	exit_code = ft_strjoin(tmp, "]> ");
+	free(tmp);
+	prompt = ft_strjoin("minishell ", exit_code);
+	free(exit_code);
+	input = readline(prompt);
+	free(prompt);
+	// (void)minishell;
+	// input = readline("minishell$>");
 	if (input && *input)
 		add_history(input);
 	return (input);
@@ -30,7 +30,7 @@ int	main(int ac, char **av, char **envp)
 	t_minishell	minishell;
 	t_token		*tmp_test;
 
-	// tty_check();
+	tty_check();
 	minishell_init(&minishell, ac, av, envp);
 	// printf("%s%s%s\n", BLUE, minishell.options.display_ast ? "true" : "false", RESET);
 	// printf("%s%s%s\n", RED, minishell.exec_status ? "true" : "starting", RESET);
