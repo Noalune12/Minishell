@@ -9,7 +9,7 @@ MAN_PAGE     := $(MAN_DIR)/options.1
 $(MAN_PAGE):
 	@echo "$(CYAN)[Setting up]$(RESETC) man page directory structure"
 	@mkdir -p $(MAN_DIR)
-	@echo "$(CYAN)[Creating]$(RESETC) man page for options >>>> 'man pages ?'
+	@echo "$(CYAN)[Creating]$(RESETC) man page for options"
 	@echo ".\\\"Man page for minishell options builtin" > $@
 	@echo ".TH OPTIONS 1 \"March 2025\" \"minishell 1.0\" \"User Commands\"" >> $@
 	@echo ".SH NAME" >> $@
