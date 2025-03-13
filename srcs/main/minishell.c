@@ -48,7 +48,7 @@ int	main(int ac, char **av, char **envp)
 		if (g_signal_received != 0) // Check if Ctrl+C was pressed
 			minishell.exit_status = g_signal_received + 128;
 		init_global();
-		check_entry(&minishell);
+		//check_entry(&minishell);
 		// check_options_entry(&minishell); // A CONTINUER
 		minishell.token = tokenize_input(minishell.input, &minishell.exec_status);
 		// printf("%stokenize_input%s\n", minishell.exec_status ? GREEN : RED, RESET);

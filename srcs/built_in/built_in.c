@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+#include "options.h"
+
 typedef int (* t_builtin)(char **cmds, t_minishell *minishell);
 
 static int	print_env(char **cmds, t_minishell *minishell)
@@ -22,12 +24,12 @@ static int	ft_builtin(t_ast *node, t_minishell *minishell)
 	int	ret;
 	int	i;
 	static t_builtin	builtin[] = {&ft_pwd, &ft_cd, &print_env, &ft_unset,
-		&ft_export, &ft_echo, &ft_exit};
-	static char	*builtin_name[] = {"pwd", "cd", "env", "unset", "export", "echo", "exit"};
+		&ft_export, &ft_echo, &ft_exit, &print_options_wrapper};
+	static char	*builtin_name[] = {"pwd", "cd", "env", "unset", "export", "echo", "exit", "options"};
 
 	ret = 0;
 	i = 0;
-	while (i < 7)
+	while (i < 8)
 	{
 		if (ft_strcmp(node->cmd->cmds[0], builtin_name[i]) == 0)
 			break ;
