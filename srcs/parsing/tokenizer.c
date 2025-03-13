@@ -37,7 +37,7 @@ t_token	*tokenize_input(char *input, bool *exec_status)
 	i = 0;
 	while (input[i])
 	{
-		if (input[i] == ' ' || input[i] == '\t')
+		if (ft_isspace(input[i]))
 			i++;
 		else
 		{
