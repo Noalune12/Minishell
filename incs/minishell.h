@@ -65,7 +65,7 @@ extern int	g_signal_received;
 # define HOME			"HOME"
 # define USER			"USER"
 # define ENV_DEFAULT	"_/usr/bin/env"
-
+# define MANPATH		"MANPATH=/usr/share/man"
 // liste de define de message derreur
 
 # define ERR_CMD "Message derreur par defaut de la commande\n"
@@ -463,5 +463,8 @@ int	check_unbalanced_parenthesis(t_token *token, int *paren_count,
 									t_minishell *minishell);
 int	check_parentheses_tokens(t_token *current, t_token *next,
 								t_minishell *minishell);
+
+void	add_manpath_to_env(t_list **env);
+
 
 #endif
