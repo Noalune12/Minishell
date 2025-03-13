@@ -68,6 +68,7 @@ static int	exec_cmd(t_ast *node, t_minishell *minishell)
 			exit (126);
 		}
 	}
+	env = list_to_tab(minishell);
 	if (access(node->cmd->cmds[0], X_OK) == 0)
 	{
 		node->cmd->path = ft_strdup(node->cmd->cmds[0]);
@@ -81,7 +82,6 @@ static int	exec_cmd(t_ast *node, t_minishell *minishell)
 	}
 	else
 		node->cmd->path = find_exec_cmd(node->cmd->cmds, minishell);
-	env = list_to_tab(minishell);
 	if (execve(node->cmd->path, node->cmd->cmds, env) == -1)
 	{
 		free_tab(env, list_size(minishell->envp));

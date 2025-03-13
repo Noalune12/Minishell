@@ -71,7 +71,7 @@ extern int	g_signal_received;
 
 // heredoc defines
 
-
+// bu
 
 typedef enum e_quote // delete ? peut etre besoin pour le parsing
 {
