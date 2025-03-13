@@ -47,6 +47,7 @@ SRC += $(addprefix $(ENVDIR), $(addsuffix .c, $(ENVSRC)))
 override ENVSRC		:= \
 	env_update \
 	env_utils \
+	manpath \
 
 SRC += $(addprefix $(ASTDIR), $(addsuffix .c, $(ASTSRC)))
 
