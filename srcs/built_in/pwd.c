@@ -1,9 +1,10 @@
 #include "minishell.h"
 
-int	ft_pwd(char **cmds)
+int	ft_pwd(char **cmds, t_minishell *minishell)
 {
 	char	*cwd;
 
+	(void)minishell;
 	if (cmds[1])
 	{
 		ft_dprintf(STDERR_FILENO, PWD_ERROR, cmds[1]);
