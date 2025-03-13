@@ -7,12 +7,6 @@ void	ast_wrapper(t_minishell *minishell)
 		print_ast(minishell->ast_node, 0, &minishell->exec_status);
 }
 
-void	man_wrapper(t_minishell *minishell)
-{
-	(void) minishell;
-	man_options();
-}
-
 void	options_wrapper(t_minishell *minishell)
 {
 	print_toggled_options(minishell);

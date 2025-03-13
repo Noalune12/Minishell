@@ -33,24 +33,15 @@ void	print_toggled_options(t_minishell *minishell)
 		ft_dprintf(STDOUT_FILENO, PRINT_UNACTIVATED, PTREE, RED, RESET);
 }
 
-void	man_options(void)
-{
-	printf(OPTIONS_MAN, WHITE_BOLD, RESET, WHITE_BOLD, RESET, WHITE_BOLD, \
-	RESET, WHITE_BOLD, RESET, WHITE_BOLD, RESET, WHITE_BOLD, RESET, \
-	WHITE_BOLD, RESET, WHITE_BOLD, RESET, WHITE_BOLD, RESET, \
-	WHITE_BOLD, RESET, WHITE_BOLD, RESET);
-}
-
 void	print_option(t_options_enum option, t_minishell *minishell)
 {
 	static const t_option_handler	handlers[] = {
 	[AST] = ast_wrapper,
 	[TOKENS] = tokens_wrapper,
 	[OPTIONS] = options_wrapper,
-	[MAN] = man_wrapper,
 	};
 
-	if (option >= AST && option <= MAN)
+	if (option >= AST && option <= OPTIONS	)
 		handlers[option](minishell);
 }
 
@@ -65,7 +56,4 @@ void	check_entry(t_minishell *minishell)
 	else if (minishell->input != NULL && \
 								ft_strcmp(minishell->input, "options") == 0)
 		print_option(OPTIONS, minishell);
-	else if (minishell->input != NULL && \
-								ft_strcmp(minishell->input, "man options") == 0)
-		print_option(MAN, minishell);
 }
