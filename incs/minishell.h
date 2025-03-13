@@ -445,6 +445,7 @@ int		ascii_cmp(char *a, char *b);
 
 void	heredoc_signal_handler(int sig);
 void	init_global(void);
+void	handle_signal_heredoc(void);
 
 char	*read_input(t_minishell *minishell);
 
