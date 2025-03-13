@@ -245,7 +245,7 @@ t_ast	*build_ast(t_token **token, bool *exec_status)
 	t_token	*temp;
 	t_ast	*root;
 	int		par;
-	
+
 	if (*exec_status == false)
 		return (NULL);
 	temp = *token;
