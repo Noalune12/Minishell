@@ -13,6 +13,7 @@ static void    write_heredoc_loop(t_heredoc_utils *data, char *delimiter)
 {
 	while (g_signal_received != SIGINT)
 	{
+
 		// if (return_global() == SIGINT)
 		// {
 		// 	data->line = NULL;
@@ -96,11 +97,7 @@ int	write_to_heredoc(char *file_name, char *delimiter)
 	previous_signal = return_global();
 	write_heredoc_loop(&data, delimiter);
 	result = cleanup_heredoc_data(&data, &original_stdin);
-	if (return_global() == SIGINT)
-	{
-		g_signal_received = SIGINT;
-	}
-	else if (previous_signal != 0)
+	if (previous_signal != 0)
 	{
 		g_signal_received = previous_signal;
 	}

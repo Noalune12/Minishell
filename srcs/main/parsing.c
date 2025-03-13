@@ -60,7 +60,7 @@ bool	precheck_input(const char *input, int *i)
 		return (false);
 	}
 	printf(YELLOW"quotes are closed\n"RESET);
-	while (input[*i] && (input[*i] == ' ' || input[*i] == '\v'))
+	while (input[*i] && (input[*i] == ' ' || input[*i] == '\v')) // replace for ft_isspace(input[*i])
 		(*i)++;
 	if (!input[*i])
 	{

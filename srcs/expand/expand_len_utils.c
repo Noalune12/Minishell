@@ -1,27 +1,8 @@
+#include <stdlib.h>
+
 #include "expand.h"
+#include "libft.h"
 #include "minishell.h"
-
-size_t	get_result_len(char *str)
-{
-	size_t	i;
-	size_t	len;
-	bool	in_dquotes;
-
-	i = 0;
-	len = 0;
-	in_dquotes = false;
-	while (str && str[i])
-	{
-		if (str[i] == '"')
-			in_dquotes = !in_dquotes;
-		else if (str[i] == '\'' && !in_dquotes)
-			;
-		else
-			len++;
-		i++;
-	}
-	return (len);
-}
 
 static void	add_var_value_len(char *var_name, size_t *total_len, t_list *env)
 {
@@ -77,7 +58,7 @@ size_t	get_expanded_str_len(char *str, t_list *env, t_minishell *minishell)
 	return (total_len);
 }
 
-bool	is_var_char(char c)
+static inline bool	is_var_char(char c)
 {
 	return (ft_isalnum(c) || c == '_');
 }

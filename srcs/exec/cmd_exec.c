@@ -71,6 +71,7 @@ static int	exec_cmd(t_ast *node, t_minishell *minishell)
 	env = list_to_tab(minishell);
 	if (access(node->cmd->cmds[0], X_OK) == 0)
 	{
+
 		node->cmd->path = ft_strdup(node->cmd->cmds[0]);
 		if (!(node->cmd->path))
 		{

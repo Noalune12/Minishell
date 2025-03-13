@@ -42,7 +42,7 @@ static int	check_consecutive_operators(t_token *current, t_token *next,
 									t_minishell *minishell)
 {
 	if ((current->type == NODE_PIPE || current->type == NODE_OR \
-		|| current->type == NODE_AND)
+		|| current->type == NODE_AND || current->type == NODE_OPEN_PAR)
 		&& (next->type == NODE_PIPE || next->type == NODE_OR \
 		|| next->type == NODE_AND || next->type == NODE_CLOSE_PAR))
 	{

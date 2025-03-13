@@ -1,5 +1,6 @@
 NAME	:= minishell
 
+include man.mk
 include minishell.mk
 
 BUILD_DIR	:= .build/
@@ -45,9 +46,9 @@ VALGRIND_FLAGS := valgrind \
 .PHONY: all
 all: $(NAME)
 
-$(NAME): libft/libft.a Makefile $(OBJS)
+$(NAME): libft/libft.a Makefile $(OBJS) $(MAN_PAGE)
 	@$(CC) $(CFLAGS) $(CPPFLAGS) -o $(NAME) $(OBJS) -L libft -lft $(RLFLAGS)
-	@echo "\n$(GREEN_BOLD)✓ $(NAME) is ready$(RESETC)"
+	@echo "\n$(GREEN_BOLD)✓ $(NAME) is ready$(RESETC)\n"
 
 # on peut rajouter tes petit emojis si tu veux 💫✨💫 🧹🧹🧹
 
@@ -73,6 +74,7 @@ clean:
 fclean: clean
 	@$(MAKE) fclean -C libft/
 	@$(RM) $(RMDIR) $(NAME) $(BUILD_DIR)
+	@$(RM) $(RMDIR) $(MAN_BASE_DIR)
 	@echo "$(RED_BOLD)✓ $(NAME) is fully cleaned!$(RESETC)"
 
 .PHONY: re

@@ -1,4 +1,4 @@
-#include "expand.h"
+#include <stdbool.h>
 
 bool	handle_quotes_expand(char c, bool *in_squotes, bool *in_dquotes)
 {
