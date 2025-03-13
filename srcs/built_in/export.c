@@ -50,7 +50,7 @@ int	ft_export(char **cmds, t_minishell *minishell)
 
 	i = 0;
 	ret = 0;
-	if (!cmds[++i] || !cmds[i][0])
+	if (!cmds[++i])
 	{
 		ret = ft_print_export(minishell->envp);
 		return (ret);

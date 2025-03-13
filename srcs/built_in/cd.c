@@ -50,9 +50,18 @@ static int	ft_cd_path(char **cmds, t_list **envp)
 {
 	char	*cwd;
 
-	if (chdir(cmds[1]) != 0)
+	if (ft_strcmp(cmds[1], "-") == 0)
 	{
-		ft_dprintf(STDERR_FILENO, FILE_NOT_FOUND, "cd", cmds[1]);
+		if (chdir(ft_getenv("OLDPWD", *envp))) //TODO protect ft_getenv ??
+		{
+			ft_dprintf(STDERR_FILENO, "minishell: cd: OLDPWD not set\n");
+			return (1);
+		}
+	}
+	else if (chdir(cmds[1]) != 0)
+	{
+		ft_dprintf(STDERR_FILENO, "minishell: %s: %s: ", "cd", cmds[1]);
+		perror("");
 		return (1);
 	}
 	cwd = getcwd(NULL, 4094);
