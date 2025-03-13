@@ -12,13 +12,13 @@ int	check_arg_exit(char *str)
 		i++;
 	while (str[i])
 	{
+		if (str[i] == ' ' || str[i] == '\t')
+			break ;
 		if (!isdigit(str[i]))
 			return (0);
-		if (str[i] == ' ')
-			break ;
 		i++;
 	}
-	while (str[i] && str[i] == ' ')
+	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
 		i++;
 	if (str[i])
 		return (0);
