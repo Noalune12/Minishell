@@ -63,11 +63,11 @@ static int	ft_cd_path(char **cmds, t_list **envp)
 	return (0);
 }
 
-int	ft_cd(char **cmds, t_list *envp)
+int	ft_cd(char **cmds, t_minishell *minishell)
 {
 	if (!cmds[1])
 	{
-		if (ft_cd_home(envp) == 1)
+		if (ft_cd_home(minishell->envp) == 1)
 			return (1);
 	}
 	else if (cmds[2])
@@ -77,7 +77,7 @@ int	ft_cd(char **cmds, t_list *envp)
 	}
 	else
 	{
-		if (ft_cd_path(cmds, &envp) == 1)
+		if (ft_cd_path(cmds, &minishell->envp) == 1)
 			return (1);
 	}
 	return (0);

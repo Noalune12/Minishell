@@ -74,8 +74,6 @@ extern int	g_signal_received;
 
 // heredoc defines
 
-
-
 typedef enum e_quote // delete ? peut etre besoin pour le parsing
 {
 	NONE_QUOTE,
@@ -411,13 +409,13 @@ int		handle_redirout(t_ast *node, t_minishell *minishell);
 int		handle_redirappend(t_ast *node, t_minishell *minishell);
 
 int		handle_builtin(t_ast *node, t_minishell *minishell);
-int		ft_pwd(char **cmds);
+int		ft_pwd(char **cmds, t_minishell *minishell);
 
-int		ft_cd(char **cmds, t_list *envp);
+int		ft_cd(char **cmds, t_minishell *minishell);
 int		update_cd_env(t_list **envp, char *path, int to_home);
 
 t_list	*copy_env(t_list *env);
-int		ft_export(char **cmds, t_list **env);
+int	ft_export(char **cmds, t_minishell *minishell);
 int		check_export(char **cmds);
 int		add_export_to_env(char *cmds, t_list **env);
 int		add_or_append_env(char *content, t_list **env, int len);
@@ -442,6 +440,7 @@ int		ascii_cmp(char *a, char *b);
 
 void	heredoc_signal_handler(int sig);
 void	init_global(void);
+void	handle_signal_heredoc(void);
 
 char	*read_input(t_minishell *minishell);
 

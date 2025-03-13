@@ -22,6 +22,7 @@ void	signal_handler(int signum) //ctrl c
 	rl_replace_line("", 0);
 	rl_redisplay();
 	g_signal_received = signum;
+	// rl_done = 1;
 	// 	g_signal_received = SIGINT;
 	// }
 	// else if (signum == SIGQUIT)
@@ -33,7 +34,7 @@ void	handle_signal_main(void)
 	struct sigaction	s_sigaction;
 
 	g_signal_received = 0;
-	s_sigaction.sa_flags = SA_SIGINFO;
+	s_sigaction.sa_flags = SA_RESTART;
 	sigemptyset(&s_sigaction.sa_mask);
 	sigaddset(&s_sigaction.sa_mask, SIGINT);
 	sigaddset(&s_sigaction.sa_mask, SIGQUIT);
@@ -52,7 +53,8 @@ void	handle_signal_child(void)
 {
 	struct sigaction	s_sigaction;
 
-	s_sigaction.sa_flags = SA_SIGINFO;
+	g_signal_received = 0;
+	s_sigaction.sa_flags = SA_RESTART; // mais pourquoi ??
 	sigemptyset(&s_sigaction.sa_mask);
 	sigaddset(&s_sigaction.sa_mask, SIGINT);
 	sigaddset(&s_sigaction.sa_mask, SIGQUIT);
@@ -60,6 +62,20 @@ void	handle_signal_child(void)
 	sigaction(SIGINT, &s_sigaction, NULL);
 	sigaction(SIGQUIT, &s_sigaction, NULL);
 }
+
+void	handle_signal_heredoc(void)
+{
+	struct sigaction	s_sigaction;
+
+	g_signal_received = 0;
+	s_sigaction.sa_flags = SA_RESTART; // mais pourquoi ??
+	sigemptyset(&s_sigaction.sa_mask);
+	sigaddset(&s_sigaction.sa_mask, SIGINT);
+	sigaddset(&s_sigaction.sa_mask, SIGQUIT);
+	s_sigaction.sa_handler = &heredoc_signal_handler;
+	sigaction(SIGINT, &s_sigaction, NULL);
+	s_sigaction.sa_handler = SIG_IGN;
+	sigaction(SIGQUIT, &s_sigaction, NULL);}
 
 int	return_global(void)
 {

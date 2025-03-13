@@ -42,7 +42,7 @@ int	main(int ac, char **av, char **envp)
 		minishell.input = read_input(&minishell);
 		if (minishell.input == NULL) // ctrl + d
 		{
-			ft_dprintf(STDERR_FILENO, "exit\n");
+			ft_dprintf(STDERR_FILENO, "exit\n"); // TODO do not \n is in ./minishell
 			break ;
 		}
 		if (g_signal_received != 0) // Check if Ctrl+C was pressed

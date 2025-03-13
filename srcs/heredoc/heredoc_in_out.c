@@ -11,18 +11,19 @@ static int	write_heredoc_line(int fd, char *line)
 
 static void    write_heredoc_loop(t_heredoc_utils *data, char *delimiter)
 {
-	while (1)
+	while (g_signal_received != SIGINT)
 	{
-		if (return_global() == SIGINT)
-		{
-			data->line = NULL;
-			break ;
-		}
+
+		// if (return_global() == SIGINT)
+		// {
+		// 	data->line = NULL;
+		// 	break;
+		// }
 		if (data->prompt)
 			data->line = readline(data->prompt);
 		if (!data->line)
 		{
-			if (return_global() == SIGINT)
+			if (g_signal_received == SIGINT)
 				break ;
 			print_redirect_error(REDIR_HEREDOC_EOF, delimiter);
 			break ;
@@ -50,7 +51,7 @@ static int	init_heredoc_data(t_heredoc_utils *data, char *file_name,
 		close(data->fd);
 		return (-1);
 	}
-	signal(SIGINT, heredoc_signal_handler);
+	// signal(SIGINT, heredoc_signal_handler);
 	data->prompt = ft_strjoin(delimiter, "> ");
 	if (!data->prompt)
 	{
@@ -64,8 +65,8 @@ static int	init_heredoc_data(t_heredoc_utils *data, char *file_name,
 
 static int	cleanup_heredoc_data(t_heredoc_utils *data, int *original_stdin)
 {
-	signal(SIGINT, SIG_IGN);
-	signal(SIGINT, signal_handler);
+	// signal(SIGINT, SIG_IGN);
+	// signal(SIGINT, signal_handler);
 	free(data->prompt);
 	close(data->fd);
 	if (data->line)

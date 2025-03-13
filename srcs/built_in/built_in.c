@@ -1,40 +1,39 @@
 #include "minishell.h"
 
+typedef int (* t_builtin)(char **cmds, t_minishell *minishell);
 
-//TODO handle builtin if infile or outfile don't do in a fork
-
-static void	print_env(t_list *env)
+static int	print_env(char **cmds, t_minishell *minishell)
 {
 	t_list	*temp;
 
-	temp = env;
+	(void)cmds;
+	temp = minishell->envp;
 	while (temp)
 	{
 		if (ft_strchr(temp->content, '='))
 			printf("%s\n", temp->content);
 		temp = temp->next;
 	}
+	return (0);
 }
 
 static int	ft_builtin(t_ast *node, t_minishell *minishell)
 {
 	int	ret;
+	int	i;
+	static t_builtin	builtin[] = {&ft_pwd, &ft_cd, &print_env, &ft_unset,
+		&ft_export, &ft_echo, &ft_exit};
+	static char	*builtin_name[] = {"pwd", "cd", "env", "unset", "export", "echo", "exit"};
 
 	ret = 0;
-	if (ft_strcmp(node->cmd->cmds[0], "pwd\0") == 0)
-		ret = ft_pwd(node->cmd->cmds);
-	if (ft_strcmp(node->cmd->cmds[0], "cd\0") == 0)
-		ret = ft_cd(node->cmd->cmds, minishell->envp);
-	if (ft_strcmp(node->cmd->cmds[0], "env\0") == 0)
-		print_env(minishell->envp);
-	if (ft_strcmp(node->cmd->cmds[0], "unset\0") == 0)
-		ret = ft_unset(node->cmd->cmds, minishell);
-	if (ft_strcmp(node->cmd->cmds[0], "export\0") == 0)
-		ret = ft_export(node->cmd->cmds, &minishell->envp);
-	if (ft_strcmp(node->cmd->cmds[0], "echo\0") == 0)
-		ret = ft_echo(node->cmd->cmds, minishell);
-	if (ft_strcmp(node->cmd->cmds[0], "exit\0") == 0)
-		ret = ft_exit(node->cmd->cmds, minishell);
+	i = 0;
+	while (i < 7)
+	{
+		if (ft_strcmp(node->cmd->cmds[0], builtin_name[i]) == 0)
+			break ;
+		i++;
+	}
+	ret = builtin[i](node->cmd->cmds, minishell);
 	return (ret);
 }
 

@@ -89,6 +89,7 @@ int	check_heredoc(t_minishell *minishell)
 		minishell->exec_status = false;
 		return (-1);
 	}
+	handle_signal_heredoc();
 	if (process_command_heredocs(minishell->token, &error) != 0)
 	{
 		if (return_global() == SIGINT)
