@@ -197,7 +197,9 @@ int	exec_minishell(t_ast *node, t_minishell *minishell)
 				|| ft_strcmp(node->cmd->cmds[i], "unset\0") == 0
 				|| ft_strcmp(node->cmd->cmds[i], "env\0") == 0
 				|| ft_strcmp(node->cmd->cmds[i], "exit\0") == 0
-				|| ft_strcmp(node->cmd->cmds[i], "options\0") == 0)
+				|| ft_strcmp(node->cmd->cmds[i], "options\0") == 0
+				|| ft_strcmp(node->cmd->cmds[i], "ptree\0") == 0
+				|| ft_strcmp(node->cmd->cmds[i], "ptokens\0") == 0)
 				node->type = NODE_BUILTIN;
 		}
 		i++;

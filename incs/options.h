@@ -32,6 +32,8 @@ void	print_tokens(t_minishell *minishell);
 void	print_option(t_options_enum option, t_minishell *minishell);
 
 int		print_options_wrapper(char **cmds, t_minishell *minishell);
+int		update_ptokens_wrapper(char **cmds, t_minishell *minishell);
+int		update_ptree_wrapper(char **cmds, t_minishell *minishell);
 
 void	update_options(bool *to_update);
 
