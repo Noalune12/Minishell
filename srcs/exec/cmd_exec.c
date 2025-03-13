@@ -1,5 +1,8 @@
 #include "minishell.h"
 
+#include <sys/types.h>
+#include <sys/stat.h>
+
 static size_t	list_size(t_list *list)
 {
 	t_list	*temp;
@@ -58,9 +61,12 @@ static int	exec_cmd(t_ast *node, t_minishell *minishell)
 
 	if (ft_strncmp(node->cmd->cmds[0], "./", 2) == 0 && access(node->cmd->cmds[0], F_OK) == 0 && access(node->cmd->cmds[0], X_OK) != 0)
 	{
-		ft_dprintf(STDERR_FILENO, "minishell: %s: ", node->cmd->cmds[0]);
-		perror("");
-		exit (126);
+		{
+			ft_dprintf(STDERR_FILENO, "minishell: %s: ", node->cmd->cmds[0]);
+			perror("");
+			error_handling_exec(minishell, NULL);
+			exit (126);
+		}
 	}
 	if (access(node->cmd->cmds[0], X_OK) == 0)
 	{
@@ -70,6 +76,8 @@ static int	exec_cmd(t_ast *node, t_minishell *minishell)
 			error_handling_exec(minishell, "Malloc failed");
 			exit (1);
 		}
+		if (execve(node->cmd->path, node->cmd->cmds, env) == -1)
+			node->cmd->path = find_exec_cmd(node->cmd->cmds, minishell);
 	}
 	else
 		node->cmd->path = find_exec_cmd(node->cmd->cmds, minishell);
@@ -86,7 +94,23 @@ static int	exec_cmd(t_ast *node, t_minishell *minishell)
 int	handle_cmd(t_ast *node, t_minishell *minishell)
 {
 	int	ret;
+	struct stat	path;
 
+	ret = 0;
+	if (stat(node->cmd->cmds[0], &path) == 0)
+	{
+		if (path.st_mode && ft_strncmp(node->cmd->cmds[0], "./", 2) == 0 && S_ISDIR(path.st_mode)) //TODO close fds
+		{
+			ft_dprintf(STDERR_FILENO, "minishell: %s: Is a directory\n", node->cmd->cmds[0]);
+			return (126);
+		}
+		else if (path.st_mode && ft_strncmp(node->cmd->cmds[0], "./", 2) == 0 && !S_ISREG(path.st_mode)) //TODO close fds
+		{
+			ft_dprintf(STDERR_FILENO, "minishell: %s: ", node->cmd->cmds[0]);
+			perror("");
+			return (127);
+		}
+	}
 	handle_signal_child();
 	minishell->pid = fork();
 	if (minishell->pid == -1) //TODO close fds
