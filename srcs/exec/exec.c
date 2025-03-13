@@ -188,7 +188,7 @@ int	exec_minishell(t_ast *node, t_minishell *minishell)
 			node->cmd->cmds[i] = final;
 			free(temp);
 		}
-		if (i == 0 && node->type == NODE_COMMAND)
+		if (node->cmd->cmds[i] && i == 0 && node->type == NODE_COMMAND)
 		{
 			if (ft_strcmp(node->cmd->cmds[i], "echo\0") == 0
 				|| ft_strcmp(node->cmd->cmds[i], "cd\0") == 0
@@ -202,6 +202,8 @@ int	exec_minishell(t_ast *node, t_minishell *minishell)
 		i++;
 	}
 	node->cmd->cmds = remove_null_strings(node->cmd->cmds, i);
+	if (!node->cmd->cmds[0])
+		return (0);
 	ret = exec[node->type](node, minishell);
 	return (ret);
 }

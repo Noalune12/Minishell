@@ -46,7 +46,6 @@ int	exit_return(char *str)
 	sign = 1;
 	i = 0;
 	nb = 0;
-	ft_dprintf(STDOUT_FILENO, "exit\n");
 	skip_whitespace_sign(str, &sign, &i);
 	while (str[i] >= 48 && str[i] <= 57)
 	{
@@ -73,14 +72,11 @@ int	ft_exit(char **cmds, t_minishell *minishell)
 	ret = 0;
 	if (minishell->pid == 0)
 		return (0);
+	ft_dprintf(STDOUT_FILENO, "exit\n");
 	if (!cmds[1])
-	{
-		ft_dprintf(STDOUT_FILENO, "exit\n");
 		ret = 0;
-	}
 	else if (check_arg_exit(cmds[1]) == 0)
 	{
-		ft_dprintf(STDOUT_FILENO, "exit\n");
 		ft_dprintf(STDOUT_FILENO, EXIT_ERROR, cmds[1]);
 		ret = 2;
 	}

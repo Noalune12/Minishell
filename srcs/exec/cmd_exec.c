@@ -59,7 +59,7 @@ static int	exec_cmd(t_ast *node, t_minishell *minishell)
 {
 	char	**env;
 
-	if (ft_strncmp(node->cmd->cmds[0], "./", 2) == 0 && access(node->cmd->cmds[0], F_OK) == 0 && access(node->cmd->cmds[0], X_OK) != 0)
+	if ((ft_strncmp(node->cmd->cmds[0], "./", 2) == 0 || ft_strncmp(node->cmd->cmds[0], "/", 1) == 0)&& access(node->cmd->cmds[0], F_OK) == 0 && access(node->cmd->cmds[0], X_OK) != 0)
 	{
 		{
 			ft_dprintf(STDERR_FILENO, "minishell: %s: ", node->cmd->cmds[0]);
@@ -97,14 +97,19 @@ int	handle_cmd(t_ast *node, t_minishell *minishell)
 	struct stat	path;
 
 	ret = 0;
+	if (!node->cmd->cmds[0][0]) //TODO find a better solution
+	{
+		ft_dprintf(STDERR_FILENO, CMD_NOT_FOUND, "");
+		return (127);
+	}
 	if (stat(node->cmd->cmds[0], &path) == 0)
 	{
-		if (path.st_mode && ft_strncmp(node->cmd->cmds[0], "./", 2) == 0 && S_ISDIR(path.st_mode)) //TODO close fds
+		if (path.st_mode && (ft_strncmp(node->cmd->cmds[0], "./", 2) == 0 || ft_strncmp(node->cmd->cmds[0], "/", 1) == 0) && S_ISDIR(path.st_mode)) //TODO close fds
 		{
 			ft_dprintf(STDERR_FILENO, "minishell: %s: Is a directory\n", node->cmd->cmds[0]);
 			return (126);
 		}
-		else if (path.st_mode && ft_strncmp(node->cmd->cmds[0], "./", 2) == 0 && !S_ISREG(path.st_mode)) //TODO close fds
+		if (path.st_mode && (ft_strncmp(node->cmd->cmds[0], "./", 2) == 0 || ft_strncmp(node->cmd->cmds[0], "/", 1) == 0) && !S_ISREG(path.st_mode)) //TODO close fds
 		{
 			ft_dprintf(STDERR_FILENO, "minishell: %s: ", node->cmd->cmds[0]);
 			perror("");
