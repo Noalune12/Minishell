@@ -149,10 +149,6 @@ int	main(int ac, char **av, char **envp)
 // 	t_minishell	minishell;
 
 // 	minishell_init(&minishell, ac, av, envp);
-
-// 	/* debug */
-// 	printf("%sexec_status: %s%s\n", RED, minishell.exec_status ? "true" : "false", RESET);
-
 // 	minishell_main_loop(&minishell);
 // 	rl_clear_history();
 // 	free_env(&minishell);

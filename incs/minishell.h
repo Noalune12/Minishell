@@ -147,9 +147,9 @@ typedef struct s_minishell
 	int			fd_in;
 	int			fd_out;
 	t_options	*options;
-	t_list		*envp; // liste chainee de l'environnement
-	t_token		*token; // liste chainee des parametres -> replaced by t_token
-	t_ast		*ast_node; // Abstract Syntax Tree
+	t_list		*envp;
+	t_token		*token;
+	t_ast		*ast_node;
 }	t_minishell;
 
 t_list	*env_init(char **envp);
