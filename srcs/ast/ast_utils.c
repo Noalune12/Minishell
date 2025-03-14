@@ -27,6 +27,8 @@ void	free_ast(t_ast *node)
 		free_ast(node->right);
 	if (node->cmd)
 	{
+		if (node->type == NODE_HEREDOC)
+			unlink(node->cmd->cmds[0]);
 		free(node->cmd->path);
 		ft_free(node->cmd->cmds);
 		free(node->cmd);

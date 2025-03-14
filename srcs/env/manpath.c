@@ -25,5 +25,6 @@ void	add_manpath_to_env(t_list **env)
 	free(temp2);
 	if (!own_manpath)
 		return ;
-	add_node(env, own_manpath);
+	add_or_replace_env(own_manpath, env, 7, 1);
+	free(own_manpath);
 }

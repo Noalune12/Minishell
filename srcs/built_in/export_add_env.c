@@ -56,7 +56,7 @@ static int	add_or_replace_condition(char *content, t_list **env,
 	return (0);
 }
 
-static int	add_or_replace_env(char *content, t_list **env, int len, int add)
+int	add_or_replace_env(char *content, t_list **env, int len, int add)
 {
 	t_list	*temp;
 	char	*var;
