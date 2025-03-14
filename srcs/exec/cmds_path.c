@@ -12,7 +12,7 @@ char	*find_env_path(t_list *envp, t_minishell *minishell)
 	temp = envp;
 	while (temp)
 	{
-		if (strncmp(temp->content, "PATH=", 5) == 0)
+		if (ft_strncmp(temp->content, "PATH=", 5) == 0)
 		{
 			path_env = ft_strdup(temp->content + 5);
 			if (!path_env)
