@@ -15,7 +15,7 @@ t_cmd	*add_cmd(char *content)
 	return (new_cmd);
 }
 
-t_ast *create_ast_tree_node(t_node_type type, char *content, t_ast *parent)
+t_ast *create_ast_tree_node(t_node_type type, char *content, bool expand, t_ast *parent)
 {
 	t_ast *node;
 
@@ -24,6 +24,10 @@ t_ast *create_ast_tree_node(t_node_type type, char *content, t_ast *parent)
 		return (NULL);
 	node->type = type;
 	node->cmd = add_cmd(content);
+	if (type == NODE_HEREDOC)
+		node->cmd->to_expand = expand;
+	else
+		node->cmd->to_expand = false;
 	node->left = NULL;
 	node->right = NULL;
 	if (parent && !parent->left)
@@ -112,7 +116,7 @@ t_ast	*create_command(t_token **token)
 			token_redir = *token;
 			(*token) = (*token)->next;
 			if (is_redir_node_not_heredoc(token_redir->type) || (token_redir->type == NODE_HEREDOC && !still_heredoc_left(*token)))
-				node_redir = create_ast_tree_node(token_redir->type, (*token)->content, node_redir);
+				node_redir = create_ast_tree_node(token_redir->type, (*token)->content, (*token)->to_expand, node_redir);
 			if (!node)
 				node = node_redir;
 		}
@@ -121,7 +125,7 @@ t_ast	*create_command(t_token **token)
 			if (node_cmd)
 				node_cmd->cmd->cmds = update_cmd(node_cmd->cmd->cmds, (*token)->content);
 			else
-				node_cmd = create_ast_tree_node(NODE_COMMAND, (*token)->content, NULL);
+				node_cmd = create_ast_tree_node(NODE_COMMAND, (*token)->content, 0, NULL);
 		}
 		if ((*token)->next && ((*token)->next->type == NODE_PIPE || (*token)->next->type == NODE_AND || (*token)->next->type == NODE_OR || (*token)->next->type == NODE_CLOSE_PAR))
 			break ;
@@ -138,7 +142,7 @@ t_ast	*create_operator(t_token **token)
 {
 	t_ast	*node;
 
-	node = create_ast_tree_node((*token)->type, (*token)->content, NULL);
+	node = create_ast_tree_node((*token)->type, (*token)->content, 0, NULL);
 	return (node);
 }
 
@@ -245,7 +249,7 @@ t_ast	*build_ast(t_token **token, bool *exec_status)
 	t_token	*temp;
 	t_ast	*root;
 	int		par;
-	
+
 	if (*exec_status == false)
 		return (NULL);
 	temp = *token;

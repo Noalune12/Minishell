@@ -111,6 +111,7 @@ typedef struct s_cmd
 {
 	char	*path;
 	char	**cmds;
+	bool	to_expand;
 }	t_cmd;
 
 typedef struct s_ast // rajouter boolean d'expand pour heredoc

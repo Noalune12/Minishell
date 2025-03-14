@@ -73,13 +73,6 @@ int	main(int ac, char **av, char **envp)
 		// 		   i, tmp_test->content, tmp_test->type, RESET);
 		// 	tmp_test = tmp_test->next;
 		// }
-		minishell.token = expand_wildcards(minishell.token, &minishell.exec_status);
-		// printf("%sexpand_wildcards%s\n", minishell.exec_status ? GREEN : RED, RESET);
-		tmp_test = minishell.token;
-		syntax_check(&minishell);
-		check_heredoc(&minishell); //-> je parcours jusqu'a je tombe sur un "<< EOF "-> remplace par "< filename" dans token
-		// printf("%ssyntax_check%s\n", minishell.exec_status ? GREEN : RED, RESET);
-		minishell.ast_node = build_ast(&minishell.token, &minishell.exec_status);
 		// printf("%sbuild_ast%s\n", minishell.exec_status ? GREEN : RED, RESET);
 		// printf(BLUE"\nAST\n"RESET);
 		// print_ast(minishell.ast_node, 0, &minishell.exec_status);
