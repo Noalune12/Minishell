@@ -1,5 +1,13 @@
 #include "minishell.h"
 
+static int	error_handling(char *str, char *message)
+{
+	if (str)
+		free(str);
+	ft_dprintf(STDERR_FILENO, "%s", message);
+	return (1);
+}
+
 int	ft_pwd(char **cmds, t_minishell *minishell)
 {
 	char	*cwd;
@@ -15,7 +23,8 @@ int	ft_pwd(char **cmds, t_minishell *minishell)
 		ft_dprintf(STDOUT_FILENO, "%s\n", cwd);
 	else
 	{
-		ft_dprintf(STDERR_FILENO, "getcwd failed\n");
+		error_handling(NULL, "pwd: error retrieving current directory: getcwd: cannot access parent directories: ");
+		perror("");
 		return (1);
 	}
 	free(cwd);

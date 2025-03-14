@@ -4,7 +4,7 @@ static int	error_handling(char *str, char *message)
 {
 	if (str)
 		free(str);
-	ft_dprintf(STDERR_FILENO, "%s\n", message);
+	ft_dprintf(STDERR_FILENO, "%s", message);
 	return (1);
 }
 
@@ -66,7 +66,11 @@ static int	ft_cd_path(char **cmds, t_list **envp)
 	}
 	cwd = getcwd(NULL, 4094);
 	if (!cwd)
-		return (error_handling(NULL, "getcwd failed"));
+	{
+		error_handling(NULL, "cd: error retrieving current directory: getcwd: cannot access parent directories: ");
+		perror("");
+		return (1);
+	}
 	if (update_cd_env(envp, cwd, 0) == 1)
 		return (error_handling(NULL, "Malloc failed"));
 	return (0);
