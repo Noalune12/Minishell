@@ -14,6 +14,7 @@ void	init_options(t_minishell *minishell)
 	minishell->options = malloc(sizeof(t_options));
 	if (!minishell->options)
 	{
+		free_list(minishell->envp);
 		ft_dprintf(STDERR_FILENO, "Memory allocation error\n");
 		exit(EXIT_FAILURE); // proper exit ?
 	}

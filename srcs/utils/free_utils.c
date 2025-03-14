@@ -38,6 +38,8 @@ void	free_env(t_minishell *minishell)
 {
 	if (minishell->envp)
 		free_list(minishell->envp);
+	if (minishell->options) // a deplacer
+		free(minishell->options);
 	minishell->envp = NULL;
 	minishell->token = NULL;
 }

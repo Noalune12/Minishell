@@ -23,6 +23,7 @@ void	add_manpath_to_env(t_list **env)
 	}
 	own_manpath = ft_strjoin(temp2, "/man");
 	free(temp2);
+	free(temp);
 	if (!own_manpath)
 		return ;
 	add_or_replace_env(own_manpath, env, 7, 1);
