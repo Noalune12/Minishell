@@ -65,7 +65,7 @@ extern int	g_signal_received;
 # define HOME			"HOME"
 # define USER			"USER"
 # define ENV_DEFAULT	"_/usr/bin/env"
-
+# define MANPATH		"MANPATH=/usr/share/man"
 // liste de define de message derreur
 
 # define ERR_CMD "Message derreur par defaut de la commande\n"
@@ -148,25 +148,21 @@ typedef struct s_minishell
 	int			fd_in;
 	int			fd_out;
 	t_options	*options;
-	t_list		*envp; // liste chainee de l'environnement
-	t_token		*token; // liste chainee des parametres -> replaced by t_token
-	t_ast		*ast_node; // Abstract Syntax Tree
+	t_list		*envp;
+	t_token		*token;
+	t_ast		*ast_node;
 }	t_minishell;
 
 t_list	*env_init(char **envp);
 t_list	*find_env_node(t_list *env, const char *var_searched);
 
-t_ast	*create_ast_node(t_node_type type, char *content);
-t_ast	*create_test_tree(void);
 void	free_ast(t_ast *node);
-
 
 void	print_ast(t_ast *node, int depth, bool *exec_status);
 void	print_cmd_node(t_ast *node, char *prefix);
 void	print_redirect_node(t_ast *node, char *symbol);
 
 t_list	*add_node(t_list **env, char *content); // ????????
-void	add_node_test(t_list *args); // ??????? oui je sais
 void	free_list(t_list *list);
 void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
 
@@ -384,12 +380,10 @@ bool	is_operator(char c, bool in_quotes);
 
 // void	create_ast(t_minishell *minishell);
 t_ast	*build_ast(t_token **token, bool *exec_status);
-t_ast	*create_parenthesis(t_token *token); // delete ?
 t_cmd	*add_cmd(char *content);
 // t_ast *create_ast_tree_node(t_node_type type, char *content);
 // void add_child(t_ast *parent, t_ast *child);
 char	**update_cmd(char **cmds, char *content);
-void ft_swap(t_ast *a, t_ast *b);
 void	free_ast(t_ast *node);
 void	ft_free(char **split);
 int		error_handling_exec(t_minishell *minishell, char *message);
@@ -464,5 +458,9 @@ int	check_unbalanced_parenthesis(t_token *token, int *paren_count,
 									t_minishell *minishell);
 int	check_parentheses_tokens(t_token *current, t_token *next,
 								t_minishell *minishell);
+
+void	add_manpath_to_env(t_list **env);
+
+int		add_or_replace_env(char *content, t_list **env, int len, int add);
 
 #endif

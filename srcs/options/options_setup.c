@@ -11,47 +11,45 @@
  *
  */
 
-void	update_options(bool *to_update)
-{
-	if (!to_update)
-	{
-		ft_dprintf(STDERR_FILENO, "Error: NULL pointer\n");
-		return ;
-	}
-	*to_update = !(*to_update);
-}
+// void	update_options(bool *to_update)
+// {
+// 	if (!to_update)
+// 	{
+// 		ft_dprintf(STDERR_FILENO, "Error: NULL pointer\n");
+// 		return ;
+// 	}
+// 	*to_update = !(*to_update);
+// }
 
-void	print_toggled_options(t_minishell *minishell)
-{
-	if (minishell->options->display_tokens == true)
-		ft_dprintf(STDOUT_FILENO, PRINT_ACTIVATED, PTOKENS, GREEN, RESET);
-	else
-		ft_dprintf(STDOUT_FILENO, PRINT_UNACTIVATED, PTOKENS, RED, RESET);
-	if (minishell->options->display_ast == true)
-		ft_dprintf(STDOUT_FILENO, PRINT_ACTIVATED, PTREE, GREEN, RESET);
-	else
-		ft_dprintf(STDOUT_FILENO, PRINT_UNACTIVATED, PTREE, RED, RESET);
-}
+// void	print_toggled_options(t_minishell *minishell)
+// {
+// 	if (minishell->options->display_tokens == true)
+// 		ft_dprintf(STDOUT_FILENO, PRINT_ACTIVATED, PTOKENS, GREEN, RESET);
+// 	else
+// 		ft_dprintf(STDOUT_FILENO, PRINT_UNACTIVATED, PTOKENS, RED, RESET);
+// 	if (minishell->options->display_ast == true)
+// 		ft_dprintf(STDOUT_FILENO, PRINT_ACTIVATED, PTREE, GREEN, RESET);
+// 	else
+// 		ft_dprintf(STDOUT_FILENO, PRINT_UNACTIVATED, PTREE, RED, RESET);
+// }
 
-void	print_option(t_options_enum option, t_minishell *minishell)
-{
-	static const t_option_handler	handlers[] = {
-	[AST] = ast_wrapper,
-	[TOKENS] = tokens_wrapper,
-	[OPTIONS] = options_wrapper,
-	};
+// void	print_option(t_options_enum option, t_minishell *minishell)
+// {
+// 	static const t_option_handler	handlers[] = {
+// 	[AST] = ast_wrapper,
+// 	[TOKENS] = tokens_wrapper,
+// 	[OPTIONS] = options_wrapper,
+// 	};
 
-	if (option >= AST && option <= OPTIONS	)
-		handlers[option](minishell);
-}
+// 	if (option >= AST && option <= OPTIONS)
+// 		handlers[option](minishell);
+// }
 
 void	check_entry(t_minishell *minishell)
 {
-	if (minishell->input != NULL && (ft_strcmp(minishell->input, \
-		"options ptree") == 0 || ft_strcmp(minishell->input, "ptree") == 0))
+	if (minishell->input != NULL && ft_strcmp(minishell->input, "ptree") == 0)
 		update_options(&minishell->options->display_ast);
-	else if (minishell->input != NULL && (ft_strcmp(minishell->input, \
-		"options ptokens") == 0 || ft_strcmp(minishell->input, "ptokens") == 0))
+	else if (minishell->input != NULL && ft_strcmp(minishell->input, "ptokens") == 0)
 		update_options(&minishell->options->display_tokens);
 	else if (minishell->input != NULL && \
 								ft_strcmp(minishell->input, "options") == 0)

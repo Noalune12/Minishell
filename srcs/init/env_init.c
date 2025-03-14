@@ -31,7 +31,9 @@ static int	create_minimal_env(t_list **env)
 
 	shlvl = "SHLVL=1"; // ignoble
 	underscore = "_=/usr/bin/env"; // ignoble++
+	// add_node(env, manpath);
 	add_node(env, shlvl); // protection
+	add_manpath_to_env(env);
 	add_node(env, underscore); // protection
 	return (1); // la fonction return jamais 0 cest un probleme -> probablement si add_node fail
 }
@@ -54,6 +56,9 @@ t_list	*env_init(char **envp)
 		return (set_up_env);
 	}
 	else
+	{
+		add_manpath_to_env(&set_up_env);
 		update_shlvl(set_up_env);
+	}
 	return (set_up_env);
 }

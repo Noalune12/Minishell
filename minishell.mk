@@ -47,6 +47,7 @@ SRC += $(addprefix $(ENVDIR), $(addsuffix .c, $(ENVSRC)))
 override ENVSRC		:= \
 	env_update \
 	env_utils \
+	manpath \
 
 SRC += $(addprefix $(ASTDIR), $(addsuffix .c, $(ASTSRC)))
 
@@ -87,18 +88,19 @@ SRC	+= $(addprefix $(BUILTINDIR), $(addsuffix .c, $(BUILTINSRC)))
 
 override BUILTINSRC	:= \
 	built_in \
-	pwd \
-	cd \
 	cd_update_env \
-	unset \
-	export \
-	export_args \
-	export_copy_env \
-	export_add_env \
-	export_append \
-	utils_builtin \
+	cd \
 	echo \
 	exit \
+	export_add_env \
+	export_append \
+	export_args \
+	export_copy_env \
+	export \
+	options \
+	pwd \
+	unset \
+	utils_builtin \
 
 SRC += $(addprefix $(HEREDOCDIR), $(addsuffix .c, $(HEREDOCSRC)))
 

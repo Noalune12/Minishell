@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	find_env_var_node(char *var, t_list **env)
+int	find_env_var_node(char *var, t_list **env) // credit a Sammy pour avoir trouvé ca
 {
 	char	*env_var;
 	t_list	*temp;
@@ -13,7 +13,7 @@ int	find_env_var_node(char *var, t_list **env)
 		{
 			free(var);
 			ft_dprintf(STDERR_FILENO, "Malloc failed\n");
-			return (0);
+			return (1); // j'ai remplacé par 1 parce que
 		}
 		if (ft_strcmp(var, env_var) == 0)
 		{
@@ -56,7 +56,7 @@ static int	add_or_replace_condition(char *content, t_list **env,
 	return (0);
 }
 
-static int	add_or_replace_env(char *content, t_list **env, int len, int add)
+int	add_or_replace_env(char *content, t_list **env, int len, int add)
 {
 	t_list	*temp;
 	char	*var;

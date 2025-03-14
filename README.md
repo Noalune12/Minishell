@@ -387,18 +387,18 @@ Exec:
 
 - [ ] Check des built-ins **apres** suppressions des quotes
 - [ ] expand (a prendre dans le dossier expand)
-- [ ] Parenthesis ?
+- [x] Parenthesis ?
 - [ ] Signaux
 
 Parsing:
 
-- [ ] Fix attribution type de token
-- [ ] Fix heredoc (suppression dernier fichier temporaire)
-- [ ] Fix heredoc delimiteurs (operateurs en tant que delimiteurs ne devraient pas fonctionner)
+- [x] Fix attribution type de token
+- [x] Fix heredoc (suppression dernier fichier temporaire)
+- [x] Fix heredoc delimiteurs (operateurs en tant que delimiteurs ne devraient pas fonctionner)
 - [ ] Fix quotes (double check)
 - [ ] Check syntaxe (pleins de choses a voir)
 - [ ] Signaux ?
-- [ ] <font color='red'>**Suppression quotes apres check lexical**</font>
+- [x] <font color='red'>**Suppression quotes apres check lexical**</font>
 - [ ] **\* wildcard**
 
 General:
