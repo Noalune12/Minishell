@@ -1,5 +1,8 @@
 #include "minishell.h"
 
+#include <sys/types.h>
+#include <sys/stat.h>
+
 char	*find_env_path(t_list *envp, t_minishell *minishell)
 {
 	char	*path_env;
@@ -27,8 +30,9 @@ char	*find_env_path(t_list *envp, t_minishell *minishell)
 char	*join_full_path(t_minishell *minishell, t_path_cmds *path_cmds,
 	char **cmds, int index)
 {
-	char	*dir;
-	char	*full_path;
+	char		*dir;
+	char		*full_path;
+	struct stat	path;
 
 	dir = ft_strjoin(path_cmds->paths[index], "/");
 	if (!dir)
@@ -48,7 +52,7 @@ char	*join_full_path(t_minishell *minishell, t_path_cmds *path_cmds,
 		exit (1);
 	}
 	free(dir);
-	if (access(full_path, X_OK) == 0)
+	if (access(full_path, X_OK) == 0 && stat(full_path, &path) == 0 && !S_ISDIR(path.st_mode))
 		return (full_path);
 	free(full_path);
 	return (NULL);
@@ -83,15 +87,16 @@ char	*find_full_path(t_minishell *minishell, t_path_cmds *path_cmds,
 	return (NULL);
 }
 
-#include <sys/types.h>
-#include <sys/stat.h>
-
 char	*find_exec_cmd(char **cmds, t_minishell *minishell)
 {
 	char		*full_path;
 	t_path_cmds	path_cmds;
-	struct stat	path;
 
+	if (ft_strncmp(cmds[0], "./", 2) == 0 || ft_strncmp(cmds[0], "/", 1) == 0)
+	{
+		ft_dprintf(STDERR_FILENO, ERROR_INFILE, cmds[0]);
+		exit(127);
+	}
 	ft_memset(&path_cmds, 0, sizeof(t_path_cmds));
 	path_cmds.path_env = find_env_path(minishell->envp, minishell);
 	if (path_cmds.path_env)
@@ -101,18 +106,9 @@ char	*find_exec_cmd(char **cmds, t_minishell *minishell)
 	}
 	else
 		full_path = NULL;
-	if (stat(full_path, &path) == 0 && S_ISDIR(path.st_mode))
-	{
-			ft_dprintf(STDERR_FILENO, "minishell: %s: Is a directory\n", full_path); // TODO is okay ?
-			error_handling_exec(minishell, NULL);
-			exit (126); // ???? for . and ..
-	}
 	if (!full_path)
 	{
-		if (ft_strncmp(cmds[0], "./", 2) == 0 || ft_strncmp(cmds[0], "/", 1) == 0)
-			ft_dprintf(STDERR_FILENO, ERROR_INFILE, cmds[0]);
-		else
-			ft_dprintf(STDERR_FILENO, CMD_NOT_FOUND, cmds[0]);
+		ft_dprintf(STDERR_FILENO, CMD_NOT_FOUND, cmds[0]);
 		error_handling_exec(minishell, NULL);
 		exit(127);
 	}

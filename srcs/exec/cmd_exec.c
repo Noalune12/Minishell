@@ -103,6 +103,11 @@ int	handle_cmd(t_ast *node, t_minishell *minishell)
 		ft_dprintf(STDERR_FILENO, CMD_NOT_FOUND, "");
 		return (127);
 	}
+	if (ft_strcmp(node->cmd->cmds[0], ".") == 0)
+	{
+		ft_dprintf(STDERR_FILENO, "minishell: %s: filename argument required\n", node->cmd->cmds[0]);
+		return (2);
+	}
 	if (stat(node->cmd->cmds[0], &path) == 0)
 	{
 		if (path.st_mode && (ft_strncmp(node->cmd->cmds[0], "./", 2) == 0 || ft_strncmp(node->cmd->cmds[0], "/", 1) == 0) && S_ISDIR(path.st_mode)) //TODO close fds
