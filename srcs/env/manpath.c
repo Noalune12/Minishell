@@ -9,7 +9,7 @@ void	add_manpath_to_env(t_list **env)
 
 	if (!env)
 		return ;
-	cwd = getcwd(NULL, 0); // 4094 ? 4096 ? Il faudrat que tu me reexplique
+	cwd = getcwd(NULL, 4096); // 4094 ? 4096 ? Il faudrat que tu me reexplique
 	if (!cwd)
 		return ;
 	temp = ft_strjoin(MANPATH, ":");

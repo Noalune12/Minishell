@@ -18,7 +18,7 @@ int	ft_pwd(char **cmds, t_minishell *minishell)
 		ft_dprintf(STDERR_FILENO, PWD_ERROR, cmds[1]);
 		return (1);
 	}
-	cwd = getcwd(NULL, 4094);
+	cwd = getcwd(NULL, 4096);
 	if (cwd)
 		ft_dprintf(STDOUT_FILENO, "%s\n", cwd);
 	else

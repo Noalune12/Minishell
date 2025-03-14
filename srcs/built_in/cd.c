@@ -64,7 +64,7 @@ static int	ft_cd_path(char **cmds, t_list **envp)
 		perror("");
 		return (1);
 	}
-	cwd = getcwd(NULL, 4094);
+	cwd = getcwd(NULL, 4096);
 	if (!cwd)
 	{
 		error_handling(NULL, "cd: error retrieving current directory: getcwd: cannot access parent directories: ");
