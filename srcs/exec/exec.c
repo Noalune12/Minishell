@@ -161,7 +161,7 @@ int	exec_minishell(t_ast *node, t_minishell *minishell)
 		char *expanded;
 		char *temp;
 		char *final;
-		expanded = expand_env_vars(node->cmd->cmds[i], minishell->envp, minishell); // TODO handle $? if command
+		expanded = expand_env_vars(node->cmd->cmds[i], minishell->envp, minishell);
 		//ft_dprintf(STDERR_FILENO, GREEN"expanded = '%s'\n"RESET, expanded); // delete
 		temp = node->cmd->cmds[i];
 		if ((node->type == NODE_COMMAND || node->type == NODE_BUILTIN))
