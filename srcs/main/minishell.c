@@ -55,24 +55,17 @@ int	main(int ac, char **av, char **envp)
 		tmp_test = minishell.token;
 
 		minishell.token = expand_wildcards(minishell.token, &minishell.exec_status);
+		check_heredoc(&minishell); //-> je parcours jusqu'a je tombe sur un "<< EOF "-> remplace par "< filename" dans token
 		//printf("%sexpand_wildcards%s\n", minishell.exec_status ? GREEN : RED, RESET);
 		tmp_test = minishell.token;
 		syntax_check(&minishell);
-		check_heredoc(&minishell); //-> je parcours jusqu'a je tombe sur un "<< EOF "-> remplace par "< filename" dans token
 		// printf("%ssyntax_check%s\n", minishell.exec_status ? GREEN : RED, RESET);
 		minishell.ast_node = build_ast(&minishell.token, &minishell.exec_status);
 		//print_ast(minishell.ast_node, 0, &minishell.exec_status);
-		// for (int i = 0; tmp_test != NULL; i++)
-		// {
-		// 	printf("%sMaillon ID: %d : Token: [%s], Type: %d%s\n",RED,
-		// 		   i, tmp_test->content, tmp_test->type, RESET);
-		// 	tmp_test = tmp_test->next;
-		// }
-		minishell.token = expand_wildcards(minishell.token, &minishell.exec_status);
 		// printf("%sexpand_wildcards%s\n", minishell.exec_status ? GREEN : RED, RESET);
 		tmp_test = minishell.token;
-		syntax_check(&minishell);
-		check_heredoc(&minishell); //-> je parcours jusqu'a je tombe sur un "<< EOF "-> remplace par "< filename" dans token
+		//syntax_check(&minishell);
+		//check_heredoc(&minishell); //-> je parcours jusqu'a je tombe sur un "<< EOF "-> remplace par "< filename" dans token
 		// printf("%ssyntax_check%s\n", minishell.exec_status ? GREEN : RED, RESET);
 		// printf("%sbuild_ast%s\n", minishell.exec_status ? GREEN : RED, RESET);
 		// printf(BLUE"\nAST\n"RESET);
@@ -87,6 +80,12 @@ int	main(int ac, char **av, char **envp)
 			// printf("\n");
 			minishell.exit_status = exec_minishell(minishell.ast_node, &minishell);
 			// printf("%sexec_minishell%s\n", minishell.exec_status ? GREEN : RED, RESET);
+		}
+		for (int i = 0; tmp_test != NULL; i++)
+		{
+			printf("%sMaillon ID: %d : Token: [%s], Type: %d%s\n",RED,
+				   i, tmp_test->content, tmp_test->type, RESET);
+			tmp_test = tmp_test->next;
 		}
 		// if (g_signal_received != 0) // Check if Ctrl+C was pressed
 		// 	minishell.exit_status = g_signal_received + 128;

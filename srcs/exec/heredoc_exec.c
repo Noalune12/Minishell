@@ -16,6 +16,5 @@ int	handle_heredocin(t_ast *node, t_minishell *minishell)
 		return (1);
 	}
 	ret = exec_minishell(node->left, minishell);
-	unlink(node->cmd->cmds[0]);
 	return (ret);
 }
