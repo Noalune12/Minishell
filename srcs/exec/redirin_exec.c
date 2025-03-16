@@ -21,8 +21,8 @@ int	handle_redirin(t_ast *node, t_minishell *minishell)
 {
 	int	ret;
 
-	if (minishell->fd_in)
-		close(minishell->fd_in);
+	// if (minishell->fd_in)
+	// 	close(minishell->fd_in);
 	minishell->fd_in = open(node->cmd->cmds[0], O_RDONLY);
 	if (minishell->fd_in == -1)
 	{

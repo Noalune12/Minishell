@@ -11,10 +11,7 @@ static int	exec_left(t_ast *node, t_minishell *minishell)
 	}
 	close(minishell->pipe_fd[1]);  //TODO protect
 	if (minishell->fd_out) // TODO check for redirout
-	{
 		close (minishell->fd_out);
-		minishell->fd_out = 0;
-	}
 	exec_minishell(node->left, minishell);
 	error_handling_exec(minishell, NULL); // TODO function free all minishell ?
 	exit(0);
@@ -43,10 +40,7 @@ static int	exec_right(t_ast *node, t_minishell *minishell)
 		}
 		close(minishell->pipe_fd[0]);  //TODO protect
 		if (minishell->fd_in) // TODO check for redirout
-		{
 			close (minishell->fd_in);
-			minishell->fd_in = 0;
-		}
 		ret = exec_minishell(node->right, minishell);
 		error_handling_exec(minishell, NULL); // TODO function free all minishell ?
 		exit(ret);

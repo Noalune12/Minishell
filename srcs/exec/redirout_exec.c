@@ -4,8 +4,8 @@ int	handle_redirout(t_ast *node, t_minishell *minishell)
 {
 	int	ret;
 
-	if (minishell->fd_out)
-		close(minishell->fd_out);
+	// if (minishell->fd_out)
+	// 	close(minishell->fd_out);
 	minishell->fd_out = open(node->cmd->cmds[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (minishell->fd_out == -1)
 	{
