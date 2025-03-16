@@ -14,7 +14,6 @@ override EXPANDDIR	:= expand/
 override WILDCARDIR	:= wildcard/
 override OPTIONSDIR	:= options/
 
-
 SRC	+= $(addprefix $(EXPANDDIR), $(addsuffix .c, $(EXPANDSRC)))
 
 override EXPANDSRC	:= \

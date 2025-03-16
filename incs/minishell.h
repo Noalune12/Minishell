@@ -462,5 +462,6 @@ int	check_parentheses_tokens(t_token *current, t_token *next,
 void	add_manpath_to_env(t_list **env);
 
 int		add_or_replace_env(char *content, t_list **env, int len, int add);
+char	*expand_heredoc(char *str, t_list *env, t_minishell *minishell);
 
 #endif

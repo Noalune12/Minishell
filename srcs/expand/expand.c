@@ -78,3 +78,46 @@ char	*expand_env_vars(char *str, t_list *env, t_minishell *minishell)
 	expanded[j] = '\0';
 	return (expanded);
 }
+
+char	*expand_heredoc(char *str, t_list *env, t_minishell *minishell)
+{
+	size_t	i;
+	size_t	j;
+	char	*expanded;
+	size_t	expanded_len;
+	bool	in_squotes;
+	bool	in_dquotes;
+
+	expanded_len = get_expanded_str_len(str, env, minishell);
+	expanded = malloc(sizeof(char) * (expanded_len + 1));
+	if (!expanded)
+		return (NULL);
+	i = 0;
+	j = 0;
+	in_squotes = false;
+	in_dquotes = false;
+	while (str && str[i])
+	{
+		if (str[i] == '$' && str[i + 1] && str[i + 1] != '?')
+		{
+			if (!handle_dollar_sign(str, expanded, &i, &j, env))
+			{
+				free(expanded);
+				return (NULL);
+			}
+		}
+		else if (str[i] == '$' && str[i + 1] == '?')
+		{
+			if (!handle_exit_code(expanded, &i, &j, minishell->exit_status))
+			{
+				free(expanded);
+				return (NULL);
+			}
+		}
+		else
+			expanded[j++] = str[i];
+		i++;
+	}
+	expanded[j] = '\0';
+	return (expanded);
+}
