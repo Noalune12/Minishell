@@ -3,7 +3,7 @@
 static int	exec_left(t_ast *node, t_minishell *minishell)
 {
 	close(minishell->pipe_fd[0]);  //TODO protect
-	if (dup2(minishell->pipe_fd[1], STDOUT_FILENO) == -1)
+	if (dup2(minishell->pipe_fd[1], STDOUT_FILENO) == -1) // add to fd_out
 	{
 		close(minishell->pipe_fd[1]);  //TODO protect
 		error_handling_exec(minishell, "dup2 failed");
@@ -32,7 +32,7 @@ static int	exec_right(t_ast *node, t_minishell *minishell)
 	}
 	if (minishell->pid == 0)
 	{
-		if (dup2(minishell->pipe_fd[0], STDIN_FILENO) == -1)
+		if (dup2(minishell->pipe_fd[0], STDIN_FILENO) == -1)// add to fd_in
 		{
 			close(minishell->pipe_fd[0]);  //TODO protect
 			error_handling_exec(minishell, "dup2 failed");

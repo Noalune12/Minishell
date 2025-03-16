@@ -114,6 +114,19 @@ typedef struct s_cmd
 	bool	to_expand;
 }	t_cmd;
 
+typedef struct s_fd_info
+{
+	int		*fds;
+	int		nb_elems;
+	int		capacity;
+}	t_fd_info;
+
+typedef struct s_fds
+{
+	t_fd_info	fd_in;
+	t_fd_info	fd_out;
+}	t_fds;
+
 typedef struct s_ast // rajouter boolean d'expand pour heredoc
 {
 	t_node_type		type; // type de noeud definis par lenum
@@ -151,6 +164,7 @@ typedef struct s_minishell
 	t_list		*envp;
 	t_token		*token;
 	t_ast		*ast_node;
+	t_fds		fds;
 }	t_minishell;
 
 t_list	*env_init(char **envp);

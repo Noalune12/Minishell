@@ -85,8 +85,8 @@ char	*expand_heredoc(char *str, t_list *env, t_minishell *minishell)
 	size_t	j;
 	char	*expanded;
 	size_t	expanded_len;
-	bool	in_squotes;
-	bool	in_dquotes;
+	// bool	in_squotes;
+	// bool	in_dquotes;
 
 	expanded_len = get_expanded_str_len(str, env, minishell);
 	expanded = malloc(sizeof(char) * (expanded_len + 1));
@@ -94,8 +94,8 @@ char	*expand_heredoc(char *str, t_list *env, t_minishell *minishell)
 		return (NULL);
 	i = 0;
 	j = 0;
-	in_squotes = false;
-	in_dquotes = false;
+	// in_squotes = false;
+	// in_dquotes = false;
 	while (str && str[i])
 	{
 		if (str[i] == '$' && str[i + 1] && str[i + 1] != '?')

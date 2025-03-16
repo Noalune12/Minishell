@@ -1,5 +1,18 @@
 #include "minishell.h"
 
+void	close_and_free_fds(t_fd_info *fd)
+{
+	int	i;
+
+	i = 0;
+	while (i < fd->nb_elems)
+	{
+		close(fd->fds[i]);
+		i++;
+	}
+	free(fd->fds);
+}
+
 void	free_token_list(t_token *tokens)
 {
 	t_token	*current;
@@ -36,6 +49,8 @@ void	free_list(t_list *list)
 
 void	free_env(t_minishell *minishell)
 {
+	close_and_free_fds(&minishell->fds.fd_in);
+	close_and_free_fds(&minishell->fds.fd_out);
 	if (minishell->envp)
 		free_list(minishell->envp);
 	if (minishell->options) // a deplacer

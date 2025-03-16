@@ -92,6 +92,24 @@ static int	exec_cmd(t_ast *node, t_minishell *minishell)
 	return (1);
 }
 
+void dup_fd(t_fd_info *fd, int fd_redirect)
+{
+	if (fd->nb_elems > 0)
+		dup2(fd->fds[fd->nb_elems - 1], fd_redirect); // TODO protect
+}
+
+void	close_fd(t_fd_info *fd)
+{
+	int	i;
+
+	i = 0;
+	while (i < fd->nb_elems)
+	{
+		close(fd->fds[i]); //TODO protect
+		i++;
+	}
+}
+
 int	handle_cmd(t_ast *node, t_minishell *minishell)
 {
 	int	ret;
@@ -128,16 +146,18 @@ int	handle_cmd(t_ast *node, t_minishell *minishell)
 			return (error_handling_exec(NULL, "fork failed"));
 	if (minishell->pid == 0)
 	{
-		if (minishell->fd_in)
-		{
-			dup2(minishell->fd_in, STDIN_FILENO);
-			close(minishell->fd_in); //TODO protect
-		}
+		// if (minishell->fd_in)
+		// {
+		// 	dup2(minishell->fd_in, STDIN_FILENO);
+		// 	close(minishell->fd_in); //TODO protect
+		// }
+		dup_fd(&minishell->fds.fd_in, STDIN_FILENO);
 		if (minishell->fd_out)
 		{
 			dup2(minishell->fd_out, STDOUT_FILENO); //TODO protect
 			close(minishell->fd_out); //TODO protect
 		}
+		close_fd(&minishell->fds.fd_in);
 		exec_cmd(node, minishell);
 	}
 	waitpid(minishell->pid, &ret, 0);

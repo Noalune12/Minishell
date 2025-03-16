@@ -25,10 +25,26 @@ char	*read_input(t_minishell *minishell)
 	return (input);
 }
 
+void	close_free_and_reinit_fds(t_fd_info *fd)
+{
+	int	i;
+
+	i = 0;
+	while (i < fd->nb_elems)
+	{
+		close(fd->fds[i]);
+		i++;
+	}
+	free(fd->fds);
+	fd->fds = malloc(sizeof(int) * 10);
+	fd->nb_elems = 0;
+	fd->capacity = 10;
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_minishell	minishell;
-	t_token		*tmp_test;
+	// t_token		*tmp_test;
 
 	tty_check();
 	minishell_init(&minishell, ac, av, envp);
@@ -36,6 +52,7 @@ int	main(int ac, char **av, char **envp)
 	// printf("%s%s%s\n", RED, minishell.exec_status ? "true" : "starting", RESET);
 	while (1)
 	{
+		// printf("fd in capacity: %d\n", minishell.fds.fd_in.capacity);
 		handle_signal_main(); // appel un peu tardif ?
 		free_token_list(minishell.token);
 		minishell.token = NULL;
@@ -52,18 +69,18 @@ int	main(int ac, char **av, char **envp)
 		// printf("%stokenize_input%s\n", minishell.exec_status ? GREEN : RED, RESET);
 		minishell.token = split_operators(minishell.token, &minishell.exec_status);
 		// printf("%ssplit_operators%s\n", minishell.exec_status ? GREEN : RED, RESET);
-		tmp_test = minishell.token;
+		// tmp_test = minishell.token;
 
 		minishell.token = expand_wildcards(minishell.token, &minishell.exec_status);
 		check_heredoc(&minishell); //-> je parcours jusqu'a je tombe sur un "<< EOF "-> remplace par "< filename" dans token
 		//printf("%sexpand_wildcards%s\n", minishell.exec_status ? GREEN : RED, RESET);
-		tmp_test = minishell.token;
+		// tmp_test = minishell.token;
 		syntax_check(&minishell);
 		// printf("%ssyntax_check%s\n", minishell.exec_status ? GREEN : RED, RESET);
 		minishell.ast_node = build_ast(&minishell.token, &minishell.exec_status);
 		//print_ast(minishell.ast_node, 0, &minishell.exec_status);
 		// printf("%sexpand_wildcards%s\n", minishell.exec_status ? GREEN : RED, RESET);
-		tmp_test = minishell.token;
+		// tmp_test = minishell.token;
 		//syntax_check(&minishell);
 		//check_heredoc(&minishell); //-> je parcours jusqu'a je tombe sur un "<< EOF "-> remplace par "< filename" dans token
 		// printf("%ssyntax_check%s\n", minishell.exec_status ? GREEN : RED, RESET);
@@ -99,6 +116,8 @@ int	main(int ac, char **av, char **envp)
 			close(minishell.fd_in);
 		if (minishell.fd_out)
 			close(minishell.fd_out);
+		close_free_and_reinit_fds(&minishell.fds.fd_in);
+		close_free_and_reinit_fds(&minishell.fds.fd_out);
 	}
 	if (minishell.fd_in)
 		close(minishell.fd_in);
