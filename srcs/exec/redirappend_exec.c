@@ -14,5 +14,6 @@ int	handle_redirappend(t_ast *node, t_minishell *minishell)
 		return (1);
 	}
 	ret = exec_minishell(node->left, minishell);
+	close(minishell->fd_out);
 	return (ret);
 }

@@ -141,10 +141,10 @@ int	handle_cmd(t_ast *node, t_minishell *minishell)
 		exec_cmd(node, minishell);
 	}
 	waitpid(minishell->pid, &ret, 0);
-	if (minishell->fd_in)
-			close(minishell->fd_in); //TODO protect
-	if (minishell->fd_out)
-			close(minishell->fd_out); //TODO protect
+	// if (minishell->fd_in)
+	// 		close(minishell->fd_in); //TODO protect  and check if same cpt as redirout
+	// if (minishell->fd_out)
+	// 		close(minishell->fd_out); //TODO protect
 	if (g_signal_received == SIGINT)
 		ft_dprintf(STDOUT_FILENO, "\n");
 	else if (g_signal_received == SIGQUIT)

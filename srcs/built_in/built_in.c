@@ -50,12 +50,12 @@ int	handle_builtin(t_ast *node, t_minishell *minishell)
 	if (minishell->fd_in)
 	{
 		dup2(minishell->fd_in, STDIN_FILENO);
-		close(minishell->fd_in); //TODO protect
+		// close(minishell->fd_in); //TODO protect
 	}
 	if (minishell->fd_out)
 	{
 		dup2(minishell->fd_out, STDOUT_FILENO); //TODO protect
-		close(minishell->fd_out); //TODO protect
+		// close(minishell->fd_out); //TODO protect
 	}
 	ret = ft_builtin(node, minishell);
 	dup2(save_fdin, STDIN_FILENO);
