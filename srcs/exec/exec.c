@@ -144,6 +144,50 @@ char **remove_null_strings(char **strs, int nb_cmd)
 	return (new_strs);
 }
 
+char	**remake_cmds(char **cmds, int *index)
+{
+	char	**new_cmd;
+	int		cmds_len = 0;
+	int		new_cmd_len = 0;
+	char	**ret;
+	int		i;
+
+	new_cmd = ft_split(cmds[*index], ' ');
+	for (int i = 0; new_cmd[i]; i++)
+		ft_dprintf(STDERR_FILENO, "new cmd %d = %s\n",  i, new_cmd[i]);
+	while (cmds[cmds_len])
+		cmds_len++;
+	while (new_cmd[new_cmd_len])
+		new_cmd_len++;
+	printf("cmds_len = %d && new_cmd_len = %d\n", cmds_len, new_cmd_len);
+	ret = malloc((cmds_len + new_cmd_len) * sizeof(char *));
+	i = 0;
+	while (i < *index)
+	{
+		ret[i] = cmds[i];
+		i++;
+	}
+	int j = -1;
+	while (new_cmd[++j])
+	{
+		ret[*index] = new_cmd[j];
+		(*index)++;
+	}
+	int k = *index;
+	i++;
+	while (cmds[i])
+	{
+		ret[k] = cmds[i];
+		i++;
+		k++;
+	}
+	printf("K = %d\n", k);
+	ret[k] = NULL;
+	(*index)--;
+	free(cmds);
+	return (ret);
+}
+
 int	exec_minishell(t_ast *node, t_minishell *minishell)
 {
 	int	ret;
@@ -156,13 +200,19 @@ int	exec_minishell(t_ast *node, t_minishell *minishell)
 	if (node->type == NODE_HEREDOC)
 		return handle_heredocin(node, minishell);
 	int i = 0;
+	int j = 0;
+	// int index[1000];
+	// int	k = 0;
 	while (node->cmd->cmds[i])
 	{
+		// if (k == 5)
+		// 	break;
 		char *expanded;
 		char *temp;
-		char *final;
-		expanded = expand_env_vars(node->cmd->cmds[i], minishell->envp, minishell);
-		//ft_dprintf(STDERR_FILENO, GREEN"expanded = '%s'\n"RESET, expanded); // delete
+		int	exp = 0;
+		int	quote = 0;
+		expanded = expand_env_vars(node->cmd->cmds[i], minishell->envp, minishell, &exp, &quote);
+		ft_dprintf(STDERR_FILENO, GREEN"expanded = '%s'\n"RESET, expanded); // delete
 		temp = node->cmd->cmds[i];
 		if ((node->type == NODE_COMMAND || node->type == NODE_BUILTIN))
 		{
@@ -170,18 +220,48 @@ int	exec_minishell(t_ast *node, t_minishell *minishell)
 			{
 				node->cmd->cmds[i] = expanded;
 				free(temp);
+				if (exp == 0)
+					i++;
 			}
 			else
 			{
-				node->cmd->cmds[i] = NULL;
+				exp = 0;
+				j = i;
+				while (node->cmd->cmds[j + 1])
+				{
+					node->cmd->cmds[j] = node->cmd->cmds[j + 1];
+					j++;
+				}
+				node->cmd->cmds[j] = NULL;
 				free(temp);
 				free(expanded);
+				// i++;
 			}
 		}
 		else
+		{
+			exp = 0;
 			free(expanded);
+			i++;
+		}
+		ft_dprintf(STDERR_FILENO, "exp = %d and quote = %d\n", exp, quote);
+		if (exp == 1 && node->cmd->cmds[i] && quote == 0)
+		{
+			node->cmd->cmds = remake_cmds(node->cmd->cmds, &i);
+			printf("index = %d\n", i);
+			i++;
+		}
+		// if (node->cmd->cmds[i])
+		// 	i++;
+		// k++;
+	}
+	i = 0;
+	while (node->cmd->cmds[i])
+	{
+		char *temp;
+		char *final;
 		final = handle_quotes_exec(node->cmd->cmds[i]);
-		// ft_dprintf(STDERR_FILENO, PURPLE"final = %s\n"RESET, final); // delete
+		ft_dprintf(STDERR_FILENO, PURPLE"final = %s\n"RESET, final); // delete
 		if (final)
 		{
 			temp = node->cmd->cmds[i];
@@ -195,7 +275,7 @@ int	exec_minishell(t_ast *node, t_minishell *minishell)
 		}
 		i++;
 	}
-	node->cmd->cmds = remove_null_strings(node->cmd->cmds, i);
+	// node->cmd->cmds = remove_null_strings(node->cmd->cmds, i);
 	if (!node->cmd->cmds[0])
 		return (0);
 	ret = exec[node->type](node, minishell);

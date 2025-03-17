@@ -34,7 +34,7 @@ static int	handle_exit_code(char *expanded, size_t *i, size_t *j, int exit_code)
 	return (1);
 }
 
-char	*expand_env_vars(char *str, t_list *env, t_minishell *minishell)
+char	*expand_env_vars(char *str, t_list *env, t_minishell *minishell, int *exp, int *quote)
 {
 	size_t	i;
 	size_t	j;
@@ -53,10 +53,11 @@ char	*expand_env_vars(char *str, t_list *env, t_minishell *minishell)
 	in_dquotes = false;
 	while (str && str[i])
 	{
-		if (!handle_quotes_expand(str[i], &in_squotes, &in_dquotes))
+		if (!handle_quotes_expand(str[i], &in_squotes, &in_dquotes, quote))
 			expanded[j++] = str[i];
-		else if (str[i] == '$' && str[i + 1] && str[i + 1] != '?')
+		else if (str[i] == '$' && str[i + 1] && (str[i + 1] != '?' && ft_isalnum(str[i + 1])))
 		{
+			*exp = 1;
 			if (!handle_dollar_sign(str, expanded, &i, &j, env))
 			{
 				free(expanded);
@@ -65,6 +66,7 @@ char	*expand_env_vars(char *str, t_list *env, t_minishell *minishell)
 		}
 		else if (str[i] == '$' && str[i + 1] == '?')
 		{
+			*exp = 1;
 			if (!handle_exit_code(expanded, &i, &j, minishell->exit_status))
 			{
 				free(expanded);
@@ -98,7 +100,7 @@ char	*expand_heredoc(char *str, t_list *env, t_minishell *minishell)
 	// in_dquotes = false;
 	while (str && str[i])
 	{
-		if (str[i] == '$' && str[i + 1] && str[i + 1] != '?')
+		if (str[i] == '$' && str[i + 1] && (str[i + 1] != '?' && ft_isalnum(str[i + 1])))
 		{
 			if (!handle_dollar_sign(str, expanded, &i, &j, env))
 			{
