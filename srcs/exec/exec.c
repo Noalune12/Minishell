@@ -32,8 +32,6 @@ int	handle_or(t_ast *node, t_minishell *minishell)
 	return (ret);
 }
 
-//TODO see if done in parsing part ?
-
 char	*ft_reallocate(char *str, char c, int len)
 {
 	char	*ret;
@@ -122,8 +120,8 @@ char	**remake_cmds(char **cmds, int *index)
 	int		i;
 
 	new_cmd = ft_split(cmds[*index], ' '); // TODO protect
-	for (int i = 0; new_cmd[i]; i++)
-		ft_dprintf(STDERR_FILENO, "new cmd %d = %s\n",  i, new_cmd[i]);
+	// for (int i = 0; new_cmd[i]; i++)
+	// 	ft_dprintf(STDERR_FILENO, "new cmd %d = %s\n",  i, new_cmd[i]);
 	while (cmds[cmds_len])
 		cmds_len++;
 	while (new_cmd[new_cmd_len])
@@ -200,7 +198,6 @@ int	exec_minishell(t_ast *node, t_minishell *minishell)
 		if (exp == 1 && quote == 0 && node->cmd->cmds[i])
 		{
 			node->cmd->cmds = remake_cmds(node->cmd->cmds, &i);
-			printf("index = %d\n", i);
 			i++;
 		}
 		else if (exp == 0)
