@@ -47,16 +47,18 @@ int	handle_builtin(t_ast *node, t_minishell *minishell)
 
 	save_fdin = dup(STDIN_FILENO);
 	save_fdout = dup(STDOUT_FILENO);
-	if (minishell->fd_in)
-	{
-		dup2(minishell->fd_in, STDIN_FILENO);
-		// close(minishell->fd_in); //TODO protect
-	}
-	if (minishell->fd_out)
-	{
-		dup2(minishell->fd_out, STDOUT_FILENO); //TODO protect
-		// close(minishell->fd_out); //TODO protect
-	}
+	dup_fd(&minishell->fds.fd_in, STDIN_FILENO);
+	dup_fd(&minishell->fds.fd_out, STDOUT_FILENO);
+	// if (minishell->fd_in)
+	// {
+	// 	dup2(minishell->fd_in, STDIN_FILENO);
+	// 	// close(minishell->fd_in); //TODO protect
+	// }
+	// if (minishell->fd_out)
+	// {
+	// 	dup2(minishell->fd_out, STDOUT_FILENO); //TODO protect
+	// 	// close(minishell->fd_out); //TODO protect
+	// }
 	ret = ft_builtin(node, minishell);
 	dup2(save_fdin, STDIN_FILENO);
 	dup2(save_fdout, STDOUT_FILENO);

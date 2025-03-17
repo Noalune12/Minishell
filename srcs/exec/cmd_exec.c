@@ -83,6 +83,8 @@ static int	exec_cmd(t_ast *node, t_minishell *minishell)
 	}
 	else
 		node->cmd->path = find_exec_cmd(node->cmd->cmds, minishell);
+	close_and_free_fds(&minishell->fds.fd_in);
+	close_and_free_fds(&minishell->fds.fd_out);
 	if (execve(node->cmd->path, node->cmd->cmds, env) == -1)
 	{
 		free_tab(env, list_size(minishell->envp));
@@ -90,24 +92,6 @@ static int	exec_cmd(t_ast *node, t_minishell *minishell)
 		exit (1);
 	}
 	return (1);
-}
-
-void dup_fd(t_fd_info *fd, int fd_redirect)
-{
-	if (fd->nb_elems > 0)
-		dup2(fd->fds[fd->nb_elems - 1], fd_redirect); // TODO protect
-}
-
-void	close_fd(t_fd_info *fd)
-{
-	int	i;
-
-	i = 0;
-	while (i < fd->nb_elems)
-	{
-		close(fd->fds[i]); //TODO protect
-		i++;
-	}
 }
 
 int	handle_cmd(t_ast *node, t_minishell *minishell)
@@ -152,12 +136,14 @@ int	handle_cmd(t_ast *node, t_minishell *minishell)
 		// 	close(minishell->fd_in); //TODO protect
 		// }
 		dup_fd(&minishell->fds.fd_in, STDIN_FILENO);
-		if (minishell->fd_out)
-		{
-			dup2(minishell->fd_out, STDOUT_FILENO); //TODO protect
-			close(minishell->fd_out); //TODO protect
-		}
+		dup_fd(&minishell->fds.fd_out, STDOUT_FILENO);
+		// if (minishell->fd_out)
+		// {
+		// 	dup2(minishell->fd_out, STDOUT_FILENO); //TODO protect
+		// 	close(minishell->fd_out); //TODO protect
+		// }
 		close_fd(&minishell->fds.fd_in);
+		close_fd(&minishell->fds.fd_out);
 		exec_cmd(node, minishell);
 	}
 	waitpid(minishell->pid, &ret, 0);

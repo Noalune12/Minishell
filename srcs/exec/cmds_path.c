@@ -87,7 +87,7 @@ char	*find_full_path(t_minishell *minishell, t_path_cmds *path_cmds,
 	return (NULL);
 }
 
-char	*find_exec_cmd(char **cmds, t_minishell *minishell)
+char	*find_exec_cmd(char **cmds, t_minishell *minishell) // TODO free **env + fds
 {
 	char		*full_path;
 	t_path_cmds	path_cmds;
@@ -95,6 +95,9 @@ char	*find_exec_cmd(char **cmds, t_minishell *minishell)
 	if (ft_strncmp(cmds[0], "./", 2) == 0 || ft_strncmp(cmds[0], "/", 1) == 0)
 	{
 		ft_dprintf(STDERR_FILENO, ERROR_INFILE, cmds[0]);
+		close_and_free_fds(&minishell->fds.fd_in);
+		close_and_free_fds(&minishell->fds.fd_out);
+		error_handling_exec(minishell, NULL);
 		exit(127);
 	}
 	ft_memset(&path_cmds, 0, sizeof(t_path_cmds));
@@ -109,6 +112,8 @@ char	*find_exec_cmd(char **cmds, t_minishell *minishell)
 	if (!full_path)
 	{
 		ft_dprintf(STDERR_FILENO, CMD_NOT_FOUND, cmds[0]);
+		close_and_free_fds(&minishell->fds.fd_in);
+		close_and_free_fds(&minishell->fds.fd_out);
 		error_handling_exec(minishell, NULL);
 		exit(127);
 	}

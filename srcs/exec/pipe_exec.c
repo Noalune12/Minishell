@@ -3,16 +3,21 @@
 static int	exec_left(t_ast *node, t_minishell *minishell)
 {
 	close(minishell->pipe_fd[0]);  //TODO protect
-	if (dup2(minishell->pipe_fd[1], STDOUT_FILENO) == -1) // add to fd_out
-	{
-		close(minishell->pipe_fd[1]);  //TODO protect
-		error_handling_exec(minishell, "dup2 failed");
-		exit(1);
-	}
-	close(minishell->pipe_fd[1]);  //TODO protect
-	if (minishell->fd_out) // TODO check for redirout
-		close (minishell->fd_out);
+	// if (dup2(minishell->pipe_fd[1], STDOUT_FILENO) == -1) // add to fd_out
+	// {
+	// 	close(minishell->pipe_fd[1]);  //TODO protect
+	// 	error_handling_exec(minishell, "dup2 failed");
+	// 	exit(1);
+	// }
+	// close(minishell->pipe_fd[1]);  //TODO protect
+	// if (minishell->fd_out) // TODO check for redirout
+	// 	close (minishell->fd_out);
+	add_fd(&minishell->fds.fd_out, minishell->pipe_fd[1]);
 	exec_minishell(node->left, minishell);
+	delete_fd(&minishell->fds.fd_out, minishell->fds.fd_out.nb_elems - 1);
+	close(minishell->pipe_fd[1]);
+	close_and_free_fds(&minishell->fds.fd_in);
+	close_and_free_fds(&minishell->fds.fd_out);
 	error_handling_exec(minishell, NULL); // TODO function free all minishell ?
 	exit(0);
 	return (0);
@@ -32,16 +37,21 @@ static int	exec_right(t_ast *node, t_minishell *minishell)
 	}
 	if (minishell->pid == 0)
 	{
-		if (dup2(minishell->pipe_fd[0], STDIN_FILENO) == -1)// add to fd_in
-		{
-			close(minishell->pipe_fd[0]);  //TODO protect
-			error_handling_exec(minishell, "dup2 failed");
-			exit(1);
-		}
-		close(minishell->pipe_fd[0]);  //TODO protect
-		if (minishell->fd_in) // TODO check for redirout
-			close (minishell->fd_in);
+		// if (dup2(minishell->pipe_fd[0], STDIN_FILENO) == -1)// add to fd_in
+		// {
+		// 	close(minishell->pipe_fd[0]);  //TODO protect
+		// 	error_handling_exec(minishell, "dup2 failed");
+		// 	exit(1);
+		// }
+		// close(minishell->pipe_fd[0]);  //TODO protect
+		// if (minishell->fd_in) // TODO check for redirout
+		// 	close (minishell->fd_in);
+		add_fd(&minishell->fds.fd_in, minishell->pipe_fd[0]);
 		ret = exec_minishell(node->right, minishell);
+		delete_fd(&minishell->fds.fd_in, minishell->fds.fd_in.nb_elems - 1);
+		close(minishell->pipe_fd[0]);
+		close_and_free_fds(&minishell->fds.fd_in);
+		close_and_free_fds(&minishell->fds.fd_out);
 		error_handling_exec(minishell, NULL); // TODO function free all minishell ?
 		exit(ret);
 	}

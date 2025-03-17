@@ -82,6 +82,7 @@ override EXECSRC	:= \
 	redirout_exec \
 	heredoc_exec \
 	exec_utils \
+	handle_fd \
 
 SRC	+= $(addprefix $(BUILTINDIR), $(addsuffix .c, $(BUILTINSRC)))
 

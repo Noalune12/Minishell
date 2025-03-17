@@ -95,22 +95,23 @@ int	open_and_replace(char *filename, t_minishell *minishell)
 int	handle_heredocin(t_ast *node, t_minishell *minishell)
 {
 	int	ret;
+	int	fd;
 
-	if (minishell->fd_in)
-		close(minishell->fd_in);
 	if (node->cmd->to_expand == true)
 	{
 		if (open_and_replace(node->cmd->cmds[0], minishell) == 1)
 			return (1);
 	}
-	minishell->fd_in = open(node->cmd->cmds[0], O_RDONLY);
-	if (minishell->fd_in == -1)
+	fd = open(node->cmd->cmds[0], O_RDONLY);
+	if (fd == -1)
 	{
 		ft_dprintf(STDERR_FILENO, "minishell: %s: ", node->cmd->cmds[0]);
 		perror("");
 		return (1);
 	}
+	add_fd(&minishell->fds.fd_in, fd);
 	ret = exec_minishell(node->left, minishell);
-	close(minishell->fd_in);
+	delete_fd(&minishell->fds.fd_in, minishell->fds.fd_in.nb_elems - 1);
+	close(fd);
 	return (ret);
 }
