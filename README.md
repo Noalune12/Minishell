@@ -355,6 +355,8 @@ liens sur lesquels jetais en train de travailler avant de partir dimanche soir:
 
 [bash posix doc](https://pubs.opengroup.org/onlinepubs/9799919799/)
 
+[video] (https://youtu.be/ubt-UjcQUYg?si=xo-UOU1YY5098p3t)
+
 ### Arbre binaire premiere recherches
 
 Un arbre binaire est une structure de données arborescente dans laquelle chaque noeud a le plus possible deux enfantsm appelés enfant de gauche et enfant de droite.
