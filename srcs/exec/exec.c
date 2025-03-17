@@ -45,7 +45,7 @@ char	*ft_reallocate(char *str, char c, int len)
 	{
 		if (len > 1)
 			free(str);
-		printf("Malloc failed");
+		ft_dprintf(STDERR_FILENO, "Malloc failed");
 		return (NULL);
 	}
 	while (len > 1 && str[i])
@@ -190,16 +190,7 @@ int	exec_minishell(t_ast *node, t_minishell *minishell)
 		}
 		if (node->cmd->cmds[i] && i == 0 && node->type == NODE_COMMAND)
 		{
-			if (ft_strcmp(node->cmd->cmds[i], "echo\0") == 0
-				|| ft_strcmp(node->cmd->cmds[i], "cd\0") == 0
-				|| ft_strcmp(node->cmd->cmds[i], "pwd\0") == 0
-				|| ft_strcmp(node->cmd->cmds[i], "export\0") == 0
-				|| ft_strcmp(node->cmd->cmds[i], "unset\0") == 0
-				|| ft_strcmp(node->cmd->cmds[i], "env\0") == 0
-				|| ft_strcmp(node->cmd->cmds[i], "exit\0") == 0
-				|| ft_strcmp(node->cmd->cmds[i], "options\0") == 0
-				|| ft_strcmp(node->cmd->cmds[i], "ptree\0") == 0
-				|| ft_strcmp(node->cmd->cmds[i], "ptokens\0") == 0)
+			if (is_builtin(node->cmd->cmds[i]) == 1)
 				node->type = NODE_BUILTIN;
 		}
 		i++;

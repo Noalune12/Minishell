@@ -3,28 +3,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-static size_t	list_size(t_list *list)
-{
-	t_list	*temp;
-	size_t	size;
-
-	temp = list;
-	size = 0;
-	while (temp)
-	{
-		size++;
-		temp = temp->next;
-	}
-	return (size);
-}
-
-static void	free_tab(char **tab, int i)
-{
-	while (i > 0)
-		free(tab[--i]);
-	free(tab);
-}
-
 static char	**list_to_tab(t_minishell *minishell)
 {
 	t_list	*temp;
@@ -32,7 +10,7 @@ static char	**list_to_tab(t_minishell *minishell)
 	size_t	i;
 
 	temp = minishell->envp;
-	tab = (char **)malloc((list_size(temp) + 1) * sizeof(char *));
+	tab = (char **)malloc((ft_lstsize(temp) + 1) * sizeof(char *));
 	if (!tab)
 	{
 		error_handling_exec(minishell, "Malloc failed");
@@ -59,14 +37,12 @@ static int	exec_cmd(t_ast *node, t_minishell *minishell)
 {
 	char	**env;
 
-	if ((ft_strncmp(node->cmd->cmds[0], "./", 2) == 0 || ft_strncmp(node->cmd->cmds[0], "/", 1) == 0)&& access(node->cmd->cmds[0], F_OK) == 0 && access(node->cmd->cmds[0], X_OK) != 0)
+	if ((ft_strncmp(node->cmd->cmds[0], "./", 2) == 0 || ft_strncmp(node->cmd->cmds[0], "/", 1) == 0) && access(node->cmd->cmds[0], F_OK) == 0 && access(node->cmd->cmds[0], X_OK) != 0)
 	{
-		{
-			ft_dprintf(STDERR_FILENO, "minishell: %s: ", node->cmd->cmds[0]);
-			perror("");
-			error_handling_exec(minishell, NULL);
-			exit (126);
-		}
+		ft_dprintf(STDERR_FILENO, "minishell: %s: ", node->cmd->cmds[0]);
+		perror("");
+		error_handling_exec(minishell, NULL);
+		exit (126);
 	}
 	env = list_to_tab(minishell);
 	if (access(node->cmd->cmds[0], X_OK) == 0)
@@ -79,27 +55,25 @@ static int	exec_cmd(t_ast *node, t_minishell *minishell)
 			exit (1);
 		}
 		if (execve(node->cmd->path, node->cmd->cmds, env) == -1)
-			node->cmd->path = find_exec_cmd(node->cmd->cmds, minishell);
+			node->cmd->path = find_exec_cmd(node->cmd->cmds, minishell, env);
 	}
 	else
-		node->cmd->path = find_exec_cmd(node->cmd->cmds, minishell);
+		node->cmd->path = find_exec_cmd(node->cmd->cmds, minishell, env);
 	close_and_free_fds(&minishell->fds.fd_in);
 	close_and_free_fds(&minishell->fds.fd_out);
 	if (execve(node->cmd->path, node->cmd->cmds, env) == -1)
 	{
-		free_tab(env, list_size(minishell->envp));
+		free_tab(env, ft_lstsize(minishell->envp));
 		error_handling_exec(minishell, "execve failed");
 		exit (1);
 	}
 	return (1);
 }
 
-int	handle_cmd(t_ast *node, t_minishell *minishell)
+static int	check_cmd(t_ast *node)
 {
-	int	ret;
 	struct stat	path;
 
-	ret = 0;
 	if (!node->cmd->cmds[0][0]) //TODO find a better solution
 	{
 		ft_dprintf(STDERR_FILENO, CMD_NOT_FOUND, "");
@@ -124,33 +98,29 @@ int	handle_cmd(t_ast *node, t_minishell *minishell)
 			return (127);
 		}
 	}
+	return (0);
+}
+
+int	handle_cmd(t_ast *node, t_minishell *minishell)
+{
+	int	ret;
+
+	ret = check_cmd(node);
+	if (ret != 0)
+		return (ret);
 	handle_signal_child();
 	minishell->pid = fork();
 	if (minishell->pid == -1) //TODO close fds
 			return (error_handling_exec(NULL, "fork failed"));
 	if (minishell->pid == 0)
 	{
-		// if (minishell->fd_in)
-		// {
-		// 	dup2(minishell->fd_in, STDIN_FILENO);
-		// 	close(minishell->fd_in); //TODO protect
-		// }
 		dup_fd(&minishell->fds.fd_in, STDIN_FILENO);
 		dup_fd(&minishell->fds.fd_out, STDOUT_FILENO);
-		// if (minishell->fd_out)
-		// {
-		// 	dup2(minishell->fd_out, STDOUT_FILENO); //TODO protect
-		// 	close(minishell->fd_out); //TODO protect
-		// }
 		close_fd(&minishell->fds.fd_in);
 		close_fd(&minishell->fds.fd_out);
 		exec_cmd(node, minishell);
 	}
 	waitpid(minishell->pid, &ret, 0);
-	// if (minishell->fd_in)
-	// 		close(minishell->fd_in); //TODO protect  and check if same cpt as redirout
-	// if (minishell->fd_out)
-	// 		close(minishell->fd_out); //TODO protect
 	if (g_signal_received == SIGINT)
 		ft_dprintf(STDOUT_FILENO, "\n");
 	else if (g_signal_received == SIGQUIT)

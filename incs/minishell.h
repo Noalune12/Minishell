@@ -401,11 +401,13 @@ char	**update_cmd(char **cmds, char *content);
 void	free_ast(t_ast *node);
 void	ft_free(char **split);
 int		error_handling_exec(t_minishell *minishell, char *message);
+int		is_builtin(char *cmds);
+void	free_tab(char **tab, int i);
 
 int		exec_minishell(t_ast *node, t_minishell *minishell);
 
 int		handle_cmd(t_ast *node, t_minishell *minishell);
-char	*find_exec_cmd(char **cmds, t_minishell *minishell);
+char	*find_exec_cmd(char **cmds, t_minishell *minishell, char **env);
 
 int		handle_pipe(t_ast *node, t_minishell *minishell);
 
