@@ -31,7 +31,6 @@ init:
 	@mkdir -p $(BUILD_DIR)
 	@echo "$(words $(SRCS))" > $(BUILD_DIR)total_files
 	@echo "0" > $(BUILD_DIR)current_file
-	@date +%s > $(BUILD_DIR)start_time
 
 .PHONY: all
 all: init $(NAME)
@@ -47,9 +46,6 @@ $(BUILD_DIR)%.o: $(SRCSDIR)%.c
 	CURRENT=$$((CURRENT+1)); \
 	echo "$$CURRENT" > $(BUILD_DIR)current_file; \
 	TOTAL=`cat $(BUILD_DIR)total_files`; \
-	START=`cat $(BUILD_DIR)start_time`; \
-	NOW=`date +%s`; \
-	ELAPSED=$$((NOW-START)); \
 	POSITION=$$((CURRENT % 6)); \
 	printf "$(ERASE)$(CYAN)["; \
 	if [ "$$POSITION" -eq 0 ]; then \
