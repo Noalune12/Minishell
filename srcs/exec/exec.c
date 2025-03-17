@@ -113,37 +113,6 @@ char *handle_quotes_exec(char *input)
 	return (data.result);
 }
 
-char **remove_null_strings(char **strs, int nb_cmd)
-{
-	int count = 0;
-	int i = 0;
-	int j = 0;
-	char **new_strs;
-
-	while (nb_cmd > 0)
-	{
-		if (strs[i] != NULL)
-			count++;
-		nb_cmd--;
-		i++;
-	}
-	new_strs = (char **)malloc((count + 1) * sizeof(char *));
-	if (!new_strs)
-		return NULL;
-	i = 0;
-	while (j < count)
-	{
-		if (strs[i] != NULL)
-			new_strs[j++] = strs[i];
-		else
-			free(strs[i]);
-		i++;
-	}
-	new_strs[j] = NULL;
-	free(strs);
-	return (new_strs);
-}
-
 char	**remake_cmds(char **cmds, int *index)
 {
 	char	**new_cmd;
@@ -152,15 +121,14 @@ char	**remake_cmds(char **cmds, int *index)
 	char	**ret;
 	int		i;
 
-	new_cmd = ft_split(cmds[*index], ' ');
+	new_cmd = ft_split(cmds[*index], ' '); // TODO protect
 	for (int i = 0; new_cmd[i]; i++)
 		ft_dprintf(STDERR_FILENO, "new cmd %d = %s\n",  i, new_cmd[i]);
 	while (cmds[cmds_len])
 		cmds_len++;
 	while (new_cmd[new_cmd_len])
 		new_cmd_len++;
-	printf("cmds_len = %d && new_cmd_len = %d\n", cmds_len, new_cmd_len);
-	ret = malloc((cmds_len + new_cmd_len) * sizeof(char *));
+	ret = malloc((cmds_len + new_cmd_len) * sizeof(char *)); // TODO protect
 	i = 0;
 	while (i < *index)
 	{
@@ -181,7 +149,6 @@ char	**remake_cmds(char **cmds, int *index)
 		i++;
 		k++;
 	}
-	printf("K = %d\n", k);
 	ret[k] = NULL;
 	(*index)--;
 	free(cmds);
@@ -201,81 +168,60 @@ int	exec_minishell(t_ast *node, t_minishell *minishell)
 		return handle_heredocin(node, minishell);
 	int i = 0;
 	int j = 0;
-	// int index[1000];
-	// int	k = 0;
 	while (node->cmd->cmds[i])
 	{
-		// if (k == 5)
-		// 	break;
 		char *expanded;
 		char *temp;
 		int	exp = 0;
 		int	quote = 0;
 		expanded = expand_env_vars(node->cmd->cmds[i], minishell->envp, minishell, &exp, &quote);
-		ft_dprintf(STDERR_FILENO, GREEN"expanded = '%s'\n"RESET, expanded); // delete
+		// ft_dprintf(STDERR_FILENO, GREEN"expanded = '%s'\n"RESET, expanded); // delete
 		temp = node->cmd->cmds[i];
-		if ((node->type == NODE_COMMAND || node->type == NODE_BUILTIN))
+		if (expanded[0])
 		{
-			if (expanded[0])
-			{
-				node->cmd->cmds[i] = expanded;
-				free(temp);
-				if (exp == 0)
-					i++;
-			}
-			else
-			{
-				exp = 0;
-				j = i;
-				while (node->cmd->cmds[j + 1])
-				{
-					node->cmd->cmds[j] = node->cmd->cmds[j + 1];
-					j++;
-				}
-				node->cmd->cmds[j] = NULL;
-				free(temp);
-				free(expanded);
-				// i++;
-			}
+			node->cmd->cmds[i] = expanded;
+			free(temp);
+			if (exp == 0)
+				i++;
 		}
 		else
 		{
-			exp = 0;
+			exp = -1;
+			j = i;
+			while (node->cmd->cmds[j + 1])
+			{
+				node->cmd->cmds[j] = node->cmd->cmds[j + 1];
+				j++;
+			}
+			node->cmd->cmds[j] = NULL;
+			free(temp);
 			free(expanded);
-			i++;
 		}
-		ft_dprintf(STDERR_FILENO, "exp = %d and quote = %d\n", exp, quote);
-		if (exp == 1 && node->cmd->cmds[i] && quote == 0)
+		if (exp == 1 && quote == 0 && node->cmd->cmds[i])
 		{
 			node->cmd->cmds = remake_cmds(node->cmd->cmds, &i);
 			printf("index = %d\n", i);
 			i++;
 		}
-		// if (node->cmd->cmds[i])
-		// 	i++;
-		// k++;
-	}
-	i = 0;
-	while (node->cmd->cmds[i])
-	{
-		char *temp;
-		char *final;
-		final = handle_quotes_exec(node->cmd->cmds[i]);
-		ft_dprintf(STDERR_FILENO, PURPLE"final = %s\n"RESET, final); // delete
-		if (final)
+		else if (exp == 0)
 		{
-			temp = node->cmd->cmds[i];
-			node->cmd->cmds[i] = final;
-			free(temp);
+			char *temp;
+			char *final;
+			final = handle_quotes_exec(node->cmd->cmds[i - 1]);
+			// ft_dprintf(STDERR_FILENO, PURPLE"final = %s\n"RESET, final); // delete
+			if (final)
+			{
+				temp = node->cmd->cmds[i - 1];
+				node->cmd->cmds[i - 1] = final;
+				free(temp);
+			}
+			if (node->cmd->cmds[i - 1] && i - 1 == 0 && node->type == NODE_COMMAND)
+			{
+				if (is_builtin(node->cmd->cmds[i - 1]) == 1)
+					node->type = NODE_BUILTIN;
+			}
 		}
-		if (node->cmd->cmds[i] && i == 0 && node->type == NODE_COMMAND)
-		{
-			if (is_builtin(node->cmd->cmds[i]) == 1)
-				node->type = NODE_BUILTIN;
-		}
-		i++;
 	}
-	// node->cmd->cmds = remove_null_strings(node->cmd->cmds, i);
 	if (!node->cmd->cmds[0])
 		return (0);
 	ret = exec[node->type](node, minishell);
