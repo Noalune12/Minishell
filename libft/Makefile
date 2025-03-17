@@ -26,17 +26,46 @@ DIR_DUP		= mkdir -p $(BUILD_DIR)
 
 -include $(DEPS)
 
+.PHONY: init
+init:
+	@mkdir -p $(BUILD_DIR)
+	@echo "$(words $(SRCS))" > $(BUILD_DIR)total_files
+	@echo "0" > $(BUILD_DIR)current_file
+	@date +%s > $(BUILD_DIR)start_time
+
 .PHONY: all
-all: $(NAME)
+all: init $(NAME)
 
 $(NAME): $(OBJS)
 	@$(AR) $(ARFLAGS) $(NAME) $(OBJS)
-	@echo "\n$(GREEN_BOLD)✓ $(NAME) is ready$(RESETC)\n"
+	@echo "\n\n$(GREEN_BOLD)✓ $(NAME) is ready$(RESETC)\n"
 
 $(BUILD_DIR)%.o: $(SRCSDIR)%.c
 	@mkdir -p $(dir $@)
-	@echo "$(CYAN)[Compiling]$(RESETC) $<"
 	@$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
+	@CURRENT=`cat $(BUILD_DIR)current_file`; \
+	CURRENT=$$((CURRENT+1)); \
+	echo "$$CURRENT" > $(BUILD_DIR)current_file; \
+	TOTAL=`cat $(BUILD_DIR)total_files`; \
+	START=`cat $(BUILD_DIR)start_time`; \
+	NOW=`date +%s`; \
+	ELAPSED=$$((NOW-START)); \
+	POSITION=$$((CURRENT % 6)); \
+	printf "$(ERASE)$(CYAN)["; \
+	if [ "$$POSITION" -eq 0 ]; then \
+		printf "⠋"; \
+	elif [ "$$POSITION" -eq 1 ]; then \
+		printf "⠙"; \
+	elif [ "$$POSITION" -eq 2 ]; then \
+		printf "⠹"; \
+	elif [ "$$POSITION" -eq 3 ]; then \
+		printf "⠸"; \
+	elif [ "$$POSITION" -eq 4 ]; then \
+		printf "⠼"; \
+	else \
+		printf "⠴"; \
+	fi; \
+	printf "] [%d/%d] $(RESETC)%s" "$$CURRENT" "$$TOTAL" "$<"
 
 .PHONY: clean
 clean:
@@ -55,6 +84,7 @@ re: fclean all
 # ********** COLORS AND BACKGROUND COLORS ************************************ #
 
 RESETC				:= \033[0m
+ERASE				:=	\033[2K\r
 
 GREEN_BOLD			:= \033[1;32m
 RED_BOLD			:= \033[1;31m

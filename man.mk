@@ -7,7 +7,7 @@ MAN_PAGE     := $(MAN_DIR)/options.1
 # ********** MAN PAGE CONTENT ************************************************ #
 
 $(MAN_PAGE):
-	@echo "$(CYAN)[Setting up]$(RESETC) man page directory structure"
+	@echo "\n$(CYAN)[Setting up]$(RESETC) man page directory structure"
 	@mkdir -p $(MAN_DIR)
 	@echo "$(CYAN)[Creating]$(RESETC) man page for options"
 	@echo ".\\\"Man page for minishell options builtin" > $@
