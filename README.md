@@ -349,15 +349,20 @@ liens sur lesquels jetais en train de travailler avant de partir dimanche soir:
 
 [MANY MANY RESSOURCES](https://github.com/ggjulio/minishell?tab=readme-ov-file)
 
-![alt text](image-1.png)
-
 [expand je crois, je sais plus ya trop de trucs (mais il y a vraiment plein de chose bien la dedans)](https://effective-shell.com/part-6-advanced-techniques/understanding-shell-expansion/)
 
 [bash posix doc](https://pubs.opengroup.org/onlinepubs/9799919799/)
 
+
 [video](https://youtu.be/ubt-UjcQUYg?si=xo-UOU1YY5098p3t)
 
 [video 2](https://youtu.be/SToUyjAsaFk?si=7pwlKfqdbji8I_o9)
+
+[Complete manpages guide](https://medium.com/better-programming/man-pages-the-complete-guide-800ad93425fe)
+
+[Generate manpages](https://roperzh.github.io/grapse/)
+
+![alt text](image-1.png)
 
 ### Arbre binaire premiere recherches
 
