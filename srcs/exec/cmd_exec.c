@@ -133,7 +133,5 @@ int	handle_cmd(t_ast *node, t_minishell *minishell)
 	}
 	else if (__WIFSIGNALED(ret))
 		return (128 + g_signal_received);
-	// else
-	// 	return (128 + g_signal_received);
 	return (1);
 }
