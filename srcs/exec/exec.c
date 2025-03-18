@@ -150,11 +150,13 @@ char	**remake_cmds(char **cmds, int *index)
 	ret[k] = NULL;
 	(*index)--;
 	free(cmds);
+	free(new_cmd);
 	return (ret);
 }
 
 int	exec_minishell(t_ast *node, t_minishell *minishell)
 {
+	char *expanded;
 	int	ret;
 	static t_handler	exec[] = {&handle_cmd, &handle_pipe, &handle_or, &handle_and,
 		&handle_redirin, &handle_redirout, &handle_heredocin,
@@ -168,7 +170,7 @@ int	exec_minishell(t_ast *node, t_minishell *minishell)
 	int j = 0;
 	while (node->cmd->cmds[i])
 	{
-		char *expanded;
+
 		char *temp;
 		int	exp = 0;
 		int	quote = 0;

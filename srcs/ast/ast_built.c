@@ -10,7 +10,19 @@ t_cmd	*add_cmd(char *content)
 		return (NULL);
 	new_cmd->path = NULL;
 	new_cmd->cmds = (char **)malloc(2 * sizeof(char *));
+	if (new_cmd->cmds == NULL)
+	{
+		free(new_cmd);
+		return (NULL);
+	}
+	(void) content;
 	new_cmd->cmds[0] = ft_strdup(content);
+	if (new_cmd->cmds[0] == NULL)
+	{
+		free(new_cmd->cmds);
+		free(new_cmd);
+		return (NULL);
+	}
 	new_cmd->cmds[1] = NULL;
 	return (new_cmd);
 }
@@ -23,7 +35,12 @@ t_ast *create_ast_tree_node(t_node_type type, char *content, bool expand, t_ast 
 	if (!node)
 		return (NULL);
 	node->type = type;
-	node->cmd = add_cmd(content);
+	node->cmd = add_cmd(content); // protect
+	if (node->cmd == NULL)
+	{
+		free(node);
+		return (NULL);
+	}
 	if (type == NODE_HEREDOC)
 		node->cmd->to_expand = expand;
 	else
@@ -46,6 +63,8 @@ char	**update_cmd(char **cmds, char *content)
 	while (cmds[i])
 		i++;
 	new_cmds = (char **)malloc((i+ 2) * sizeof(char *)); //protect
+	if (new_cmds == NULL)
+		return (NULL);
 	i = 0;
 	while (cmds[i])
 	{
@@ -125,7 +144,7 @@ t_ast	*create_command(t_token **token)
 			if (node_cmd)
 				node_cmd->cmd->cmds = update_cmd(node_cmd->cmd->cmds, (*token)->content);
 			else
-				node_cmd = create_ast_tree_node(NODE_COMMAND, (*token)->content, 0, NULL);
+				node_cmd = create_ast_tree_node(NODE_COMMAND, (*token)->content, 0, NULL); // protect
 		}
 		if ((*token)->next && ((*token)->next->type == NODE_PIPE || (*token)->next->type == NODE_AND || (*token)->next->type == NODE_OR || (*token)->next->type == NODE_CLOSE_PAR))
 			break ;
