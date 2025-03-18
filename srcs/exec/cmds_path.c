@@ -33,7 +33,7 @@ char	*join_full_path(t_minishell *minishell, t_path_cmds *path_cmds,
 	char		*dir;
 	char		*full_path;
 	struct stat	path;
-(void)env;
+
 	dir = ft_strjoin(path_cmds->paths[index], "/");
 	if (!dir)
 	{
