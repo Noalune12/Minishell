@@ -57,13 +57,14 @@ void	handle_signal_child(void)
 	struct sigaction	s_sigaction;
 
 	// g_signal_received = 0;
+	ft_memset(&s_sigaction, 0, sizeof(s_sigaction));
 	s_sigaction.sa_handler = SIG_DFL;
+	sigemptyset(&s_sigaction.sa_mask);
+	sigaddset(&s_sigaction.sa_mask, SIGINT);
+	sigaddset(&s_sigaction.sa_mask, SIGQUIT);
 	sigaction(SIGINT, &s_sigaction, NULL);
 	sigaction(SIGQUIT, &s_sigaction, NULL);
 	// s_sigaction.sa_flags = SA_RESTART; // mais pourquoi ??
-	// sigemptyset(&s_sigaction.sa_mask);
-	// sigaddset(&s_sigaction.sa_mask, SIGINT);
-	// sigaddset(&s_sigaction.sa_mask, SIGQUIT);
 	// s_sigaction.sa_handler = &signal_handler_exec;
 	// sigaction(SIGINT, &s_sigaction, NULL);
 	// sigaction(SIGQUIT, &s_sigaction, NULL);

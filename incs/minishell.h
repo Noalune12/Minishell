@@ -158,7 +158,7 @@ typedef struct s_minishell
 	int			exit_status;
 	int			is_pipe;
 	pid_t		pid;
-	pid_t		pipe_fd[2];
+	// pid_t		pipe_fd[2];
 	int			fd_in;
 	int			fd_out;
 	t_options	*options;
