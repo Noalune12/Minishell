@@ -156,6 +156,7 @@ typedef struct s_minishell
 	char		*input;
 	bool		exec_status;
 	int			exit_status;
+	int			is_pipe;
 	pid_t		pid;
 	pid_t		pipe_fd[2];
 	int			fd_in;
@@ -452,6 +453,7 @@ int		ascii_cmp(char *a, char *b);
 void	heredoc_signal_handler(int sig);
 void	init_global(void);
 void	handle_signal_heredoc(void);
+void	handle_signal_wait(void);
 
 char	*read_input(t_minishell *minishell);
 

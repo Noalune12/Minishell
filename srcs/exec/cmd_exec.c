@@ -108,12 +108,13 @@ int	handle_cmd(t_ast *node, t_minishell *minishell)
 	ret = check_cmd(node);
 	if (ret != 0)
 		return (ret);
-	handle_signal_child();
+	handle_signal_wait();
 	minishell->pid = fork();
 	if (minishell->pid == -1) //TODO close fds
 			return (error_handling_exec(NULL, "fork failed"));
 	if (minishell->pid == 0)
 	{
+		handle_signal_child();
 		dup_fd(&minishell->fds.fd_in, STDIN_FILENO);
 		dup_fd(&minishell->fds.fd_out, STDOUT_FILENO);
 		close_fd(&minishell->fds.fd_in);
@@ -121,16 +122,18 @@ int	handle_cmd(t_ast *node, t_minishell *minishell)
 		exec_cmd(node, minishell);
 	}
 	waitpid(minishell->pid, &ret, 0);
-	if (g_signal_received == SIGINT)
+	if (minishell->is_pipe == 0 && g_signal_received == SIGINT)
 		ft_dprintf(STDOUT_FILENO, "\n");
-	else if (g_signal_received == SIGQUIT)
+	else if (minishell->is_pipe == 0 && g_signal_received == SIGQUIT)
 		ft_dprintf(STDOUT_FILENO, "Quit (core dumped)\n");
-	if (g_signal_received == 0 && WIFEXITED(ret))
+	if (WIFEXITED(ret))
 	{
 		g_signal_received = 0;
 		return (WEXITSTATUS(ret));
 	}
-	else
+	else if (__WIFSIGNALED(ret))
 		return (128 + g_signal_received);
+	// else
+	// 	return (128 + g_signal_received);
 	return (1);
 }
