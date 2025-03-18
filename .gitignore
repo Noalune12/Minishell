@@ -74,3 +74,5 @@ test.mk
 
 *callgrind*
 *output*
+
+minishell_test_dir/
