@@ -466,12 +466,35 @@ run_test "Redirection check" ">test1 >test2 echo bonjour" 0
 run_test "Redirection check" ">> e" 0
 run_test "Redirection check" "echo bonjour > \"\$PATHH\"" 1
 
+echo -e "${RED}====== Parsing quotes Tests ======${RESET}"
+
 run_test "Parsing quote check" "'echo' \"bonjour\" \"wesh\"" 0
 run_test "Parsing quote check" "e\"ch\"o bonjour" 0
 run_test "Parsing quote check" "       'ech'o bonjour" 0
 run_test "Parsing quote check" "'echo \"\$HOME\"'" 127
 run_test "Parsing quote check" "echo '''''' | cat -e" 0
 
+echo -e "${RED}====== Expansion Tests ======${RESET}"
+
+
+run_test "1 - Simple expansion" "echo \$USER" 0
+run_test "2 - Undefined variable" "echo \$UNDEFINED" 0
+run_test "3 - Double dollar" "echo \$\$USER" 0
+run_test "4 - Simple single quotes" "echo '\$USER'" 0
+run_test "5 - Expansion then single quotes" "echo '\$USER'\$HOME" 0
+run_test "6 - Single double quotes" "echo '\$USER'\$HOME" 0
+run_test "7 - Simple double quotes" "echo \"\$USER\"" 0
+run_test "8 - Double quotes with single quotes inside" "echo \"\$USER'\$HOME'\"" 0
+run_test "9 - Double quotes with single quotes plus expansion" "echo \"'\$USER'\"\$HOME" 0
+run_test "10 - Double quotes inside single quotes" "echo '\"\$USER\"'" 0
+run_test "11 - Single quotes inside double quotes" "echo \"'\$USER'\"" 0
+run_test "12 - Mixed quotes with multiple expansions" "echo \"\$USER'\$HOME'\$PATH\"" 0
+run_test "13 - Trailing dollar sign" "echo \$USER\$" 0
+run_test "14 - Interrupted variable name" "echo \$U'SE'R" 0
+run_test "15 - Consecutive single quotes" "echo '\$USE''R'" 0
+run_test "16 - Expansion of a single quote" "export SINGLEQUOTE=\"'\" && echo \$SINGLEQUOTE" 0
+run_test "17 - Non expansion of quote after dollar sign" "echo \$\"USER\"" 0
+run_test "18 - Expansion of first and non print of second dollar sign" "echo \$HOME\$\"USER\"" 0
 
 # Make sure we're back in the starting directory before cleanup
 cd "$STARTING_DIR"
