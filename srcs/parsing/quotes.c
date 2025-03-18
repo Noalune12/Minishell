@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	is_quote(char c)
+inline int	is_quote(char c)
 {
 	return (c == '\'' || c == '\"');
 }
@@ -51,7 +51,7 @@ void	copy_with_quotes(char *dest, char *src, size_t *len)
 		}
 		else if (is_quote(src[i]) && src[i] == quote_type)
 			in_quotes = false;
-		else if (!in_quotes && (src[i] == ' ' || src[i] == '\t'))
+		else if (!in_quotes && ft_isspace(src[i]))
 			break ;
 		dest[j++] = src[i++];
 	}

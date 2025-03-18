@@ -8,7 +8,7 @@ void	update_pwd(t_list **env)
 
 	if (!env || !*env)
 		return ;
-	cwd = getcwd(NULL, 0);
+	cwd = getcwd(NULL, 4096);
 	if (!cwd)
 		return ;
 	actual_pwd = ft_strjoin("PWD=", cwd);
@@ -40,7 +40,7 @@ void	update_shlvl(t_list *env)
 			shlvl = 0;
 		else if (shlvl >= 999)
 		{
-			ft_dprintf(STDERR_FILENO, "minishell: warning: shell level (%d) too high, resetting to 1\n", shlvl + 1);
+			ft_dprintf(STDERR_FILENO, "minishell: warning: shell level (%d) too high, resetting to 1\n", shlvl + 1); // string define
 			shlvl = 0;
 		}
 		shlvl++;
@@ -53,16 +53,16 @@ void	update_shlvl(t_list *env)
 	}
 }
 
-// int	nested_shell(t_list *env_list) // check if we launched shells inside shells
-// {
-// 	t_list	*shlvl_node;
-// 	int		shlvl;
+int	nested_shell(t_list *env_list) // check if we launched shells inside shells
+{
+	t_list	*shlvl_node;
+	int		shlvl;
 
-// 	shlvl_node = find_env_node(env_list, "SHLVL");
-// 	if (shlvl_node)
-// 	{
-// 		shlvl = ft_atoi(shlvl_node->content + 6);
-// 		return (shlvl > 1); // more than one level indicates nested shell
-// 	}
-// 	return (0);
-// }
+	shlvl_node = find_env_node(env_list, "SHLVL");
+	if (shlvl_node)
+	{
+		shlvl = ft_atoi(shlvl_node->content + 6);
+		return (shlvl > 1); // more than one level indicates nested shell
+	}
+	return (0);
+}

@@ -43,7 +43,7 @@ static int	ft_print_export(t_list *env)
 //should begin with _ or letter -> check what it takes
 //if between quote can take space
 
-int	ft_export(char **cmds, t_list **env)
+int	ft_export(char **cmds, t_minishell *minishell)
 {
 	int		i;
 	int		ret;
@@ -52,14 +52,14 @@ int	ft_export(char **cmds, t_list **env)
 	ret = 0;
 	if (!cmds[++i])
 	{
-		ret = ft_print_export(*env);
+		ret = ft_print_export(minishell->envp);
 		return (ret);
 	}
 	else
 		ret = check_export(cmds);
 	while (cmds[i])
 	{
-		if (add_export_to_env(cmds[i], env) == 1)
+		if (add_export_to_env(cmds[i], &minishell->envp) == 1)
 			ret = 1;
 		i++;
 	}

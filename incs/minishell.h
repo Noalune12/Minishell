@@ -1,6 +1,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+typedef struct s_options		t_options;
 typedef struct s_list			t_list;
 typedef struct s_ast			t_ast;
 
@@ -14,25 +15,27 @@ extern int	g_signal_received;
 // void	free_env(t_minishell *minishell);
 // void	tty_check(void);
 
+# include <fcntl.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdbool.h>
-# include <signal.h>
-# include "libft.h"
-# include "get_next_line.h"
-# include "ft_dprintf.h"
 # include <sys/wait.h>
-# include <fcntl.h>
 
+# include "ft_dprintf.h"
+# include "get_next_line.h"
+# include "libft.h"
+# include "options.h"
 
 # define RED		"\033[1;31m"
 # define GREEN		"\033[1;32m"
 # define YELLOW		"\033[1;33m"
 # define BLUE		"\033[1;34m"
-# define RESET		"\033[0m"
+# define WHITE_BOLD	"\033[1;37m"
 # define PURPLE		"\033[0;35m"
+# define RESET		"\033[0m"
 
 // memo error code 127 -> no path to command
 // liste de define derreurs + dautres plus tard
@@ -62,7 +65,7 @@ extern int	g_signal_received;
 # define HOME			"HOME"
 # define USER			"USER"
 # define ENV_DEFAULT	"_/usr/bin/env"
-
+# define MANPATH		"MANPATH=/usr/share/man"
 // liste de define de message derreur
 
 # define ERR_CMD "Message derreur par defaut de la commande\n"
@@ -70,8 +73,6 @@ extern int	g_signal_received;
 # define AND_SO_ON "...."
 
 // heredoc defines
-
-
 
 typedef enum e_quote // delete ? peut etre besoin pour le parsing
 {
@@ -110,7 +111,21 @@ typedef struct s_cmd
 {
 	char	*path;
 	char	**cmds;
+	bool	to_expand;
 }	t_cmd;
+
+typedef struct s_fd_info
+{
+	int		*fds;
+	int		nb_elems;
+	int		capacity;
+}	t_fd_info;
+
+typedef struct s_fds
+{
+	t_fd_info	fd_in;
+	t_fd_info	fd_out;
+}	t_fds;
 
 typedef struct s_ast // rajouter boolean d'expand pour heredoc
 {
@@ -136,41 +151,33 @@ typedef struct s_path_cmds
 	char	*path_env;
 }	t_path_cmds;
 
-typedef struct s_options
-{
-	bool	display_ast;
-	bool	display_tokens;
-}	t_options;
-
 typedef struct s_minishell
 {
 	char		*input;
 	bool		exec_status;
 	int			exit_status;
+	int			is_pipe;
 	pid_t		pid;
-	pid_t		pipe_fd[2];
+	// pid_t		pipe_fd[2];
 	int			fd_in;
 	int			fd_out;
-	t_options	options;
-	t_list		*envp; // liste chainee de l'environnement
-	t_token		*token; // liste chainee des parametres -> replaced by t_token
-	t_ast		*ast_node; // Abstract Syntax Tree
+	t_options	*options;
+	t_list		*envp;
+	t_token		*token;
+	t_ast		*ast_node;
+	t_fds		fds;
 }	t_minishell;
 
 t_list	*env_init(char **envp);
 t_list	*find_env_node(t_list *env, const char *var_searched);
 
-t_ast	*create_ast_node(t_node_type type, char *content);
-t_ast	*create_test_tree(void);
 void	free_ast(t_ast *node);
-
 
 void	print_ast(t_ast *node, int depth, bool *exec_status);
 void	print_cmd_node(t_ast *node, char *prefix);
 void	print_redirect_node(t_ast *node, char *symbol);
 
 t_list	*add_node(t_list **env, char *content); // ????????
-void	add_node_test(t_list *args); // ??????? oui je sais
 void	free_list(t_list *list);
 void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
 
@@ -388,20 +395,20 @@ bool	is_operator(char c, bool in_quotes);
 
 // void	create_ast(t_minishell *minishell);
 t_ast	*build_ast(t_token **token, bool *exec_status);
-t_ast	*create_parenthesis(t_token *token); // delete ?
 t_cmd	*add_cmd(char *content);
 // t_ast *create_ast_tree_node(t_node_type type, char *content);
 // void add_child(t_ast *parent, t_ast *child);
 char	**update_cmd(char **cmds, char *content);
-void ft_swap(t_ast *a, t_ast *b);
 void	free_ast(t_ast *node);
 void	ft_free(char **split);
 int		error_handling_exec(t_minishell *minishell, char *message);
+int		is_builtin(char *cmds);
+void	free_tab(char **tab, int i);
 
 int		exec_minishell(t_ast *node, t_minishell *minishell);
 
 int		handle_cmd(t_ast *node, t_minishell *minishell);
-char	*find_exec_cmd(char **cmds, t_minishell *minishell);
+char	*find_exec_cmd(char **cmds, t_minishell *minishell, char **env);
 
 int		handle_pipe(t_ast *node, t_minishell *minishell);
 
@@ -414,13 +421,13 @@ int		handle_redirout(t_ast *node, t_minishell *minishell);
 int		handle_redirappend(t_ast *node, t_minishell *minishell);
 
 int		handle_builtin(t_ast *node, t_minishell *minishell);
-int		ft_pwd(char **cmds);
+int		ft_pwd(char **cmds, t_minishell *minishell);
 
-int		ft_cd(char **cmds, t_list *envp);
+int		ft_cd(char **cmds, t_minishell *minishell);
 int		update_cd_env(t_list **envp, char *path, int to_home);
 
 t_list	*copy_env(t_list *env);
-int		ft_export(char **cmds, t_list **env);
+int	ft_export(char **cmds, t_minishell *minishell);
 int		check_export(char **cmds);
 int		add_export_to_env(char *cmds, t_list **env);
 int		add_or_append_env(char *content, t_list **env, int len);
@@ -445,6 +452,8 @@ int		ascii_cmp(char *a, char *b);
 
 void	heredoc_signal_handler(int sig);
 void	init_global(void);
+void	handle_signal_heredoc(void);
+void	handle_signal_wait(void);
 
 char	*read_input(t_minishell *minishell);
 
@@ -468,4 +477,16 @@ int	check_unbalanced_parenthesis(t_token *token, int *paren_count,
 int	check_parentheses_tokens(t_token *current, t_token *next,
 								t_minishell *minishell);
 
+void	add_manpath_to_env(t_list **env);
+
+int		add_or_replace_env(char *content, t_list **env, int len, int add);
+char	*expand_heredoc(char *str, t_list *env, t_minishell *minishell);
+
+/* ---- HANDLE FD ---- */
+
+void add_fd(t_fd_info *fd, int fd_in);
+void delete_fd(t_fd_info *fd, int nb_elem);
+void dup_fd(t_fd_info *fd, int fd_redirect);
+void	close_fd(t_fd_info *fd);
+void	close_and_free_fds(t_fd_info *fd);
 #endif

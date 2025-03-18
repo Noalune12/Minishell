@@ -64,6 +64,7 @@ minishell
 tmp.c
 test_g/
 test_l/
+man/
 test/
 test.c
 test2.c
@@ -73,3 +74,5 @@ test.mk
 
 *callgrind*
 *output*
+
+minishell_test_dir/

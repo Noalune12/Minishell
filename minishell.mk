@@ -12,13 +12,13 @@ override BUILTINDIR	:= built_in/
 override HEREDOCDIR	:= heredoc/
 override EXPANDDIR	:= expand/
 override WILDCARDIR	:= wildcard/
+override OPTIONSDIR	:= options/
 
 SRC	+= $(addprefix $(EXPANDDIR), $(addsuffix .c, $(EXPANDSRC)))
 
 override EXPANDSRC	:= \
 	expand \
 	expand_utils \
-	expand_quote_removal \
 	expand_quote_handling \
 	expand_len_utils \
 
@@ -46,6 +46,7 @@ SRC += $(addprefix $(ENVDIR), $(addsuffix .c, $(ENVSRC)))
 override ENVSRC		:= \
 	env_update \
 	env_utils \
+	manpath \
 
 SRC += $(addprefix $(ASTDIR), $(addsuffix .c, $(ASTSRC)))
 
@@ -70,6 +71,7 @@ override PARSINGSRC	:= \
 	word_utils \
 
 SRC	+= $(addprefix $(EXECDIR), $(addsuffix .c, $(EXECSRC)))
+
 override EXECSRC	:= \
 	exec \
 	cmds_path \
@@ -80,23 +82,25 @@ override EXECSRC	:= \
 	redirout_exec \
 	heredoc_exec \
 	exec_utils \
+	handle_fd \
 
 SRC	+= $(addprefix $(BUILTINDIR), $(addsuffix .c, $(BUILTINSRC)))
 
 override BUILTINSRC	:= \
 	built_in \
-	pwd \
-	cd \
 	cd_update_env \
-	unset \
-	export \
-	export_args \
-	export_copy_env \
-	export_add_env \
-	export_append \
-	utils_builtin \
+	cd \
 	echo \
 	exit \
+	export_add_env \
+	export_append \
+	export_args \
+	export_copy_env \
+	export \
+	options \
+	pwd \
+	unset \
+	utils_builtin \
 
 SRC += $(addprefix $(HEREDOCDIR), $(addsuffix .c, $(HEREDOCSRC)))
 
@@ -116,3 +120,10 @@ override WILDCARDSRC	:= \
 	wildcard_cleanup \
 	wildcard_utils \
 	wildcard \
+
+SRC += $(addprefix $(OPTIONSDIR), $(addsuffix .c, $(OPTIONSSRC)))
+
+override OPTIONSSRC	:= \
+	options_setup \
+	print_tokens \
+	wrappers \

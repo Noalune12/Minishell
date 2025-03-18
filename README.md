@@ -353,12 +353,16 @@ liens sur lesquels jetais en train de travailler avant de partir dimanche soir:
 
 [bash posix doc](https://pubs.opengroup.org/onlinepubs/9799919799/)
 
+
+[video](https://youtu.be/ubt-UjcQUYg?si=xo-UOU1YY5098p3t)
+
+[video 2](https://youtu.be/SToUyjAsaFk?si=7pwlKfqdbji8I_o9)
+
 [Complete manpages guide](https://medium.com/better-programming/man-pages-the-complete-guide-800ad93425fe)
 
 [Generate manpages](https://roperzh.github.io/grapse/)
 
 ![alt text](image-1.png)
-
 
 ### Arbre binaire premiere recherches
 
@@ -392,18 +396,18 @@ Exec:
 
 - [ ] Check des built-ins **apres** suppressions des quotes
 - [ ] expand (a prendre dans le dossier expand)
-- [ ] Parenthesis ?
+- [x] Parenthesis ?
 - [ ] Signaux
 
 Parsing:
 
-- [ ] Fix attribution type de token
-- [ ] Fix heredoc (suppression dernier fichier temporaire)
-- [ ] Fix heredoc delimiteurs (operateurs en tant que delimiteurs ne devraient pas fonctionner)
+- [x] Fix attribution type de token
+- [x] Fix heredoc (suppression dernier fichier temporaire)
+- [x] Fix heredoc delimiteurs (operateurs en tant que delimiteurs ne devraient pas fonctionner)
 - [ ] Fix quotes (double check)
 - [ ] Check syntaxe (pleins de choses a voir)
 - [ ] Signaux ?
-- [ ] <font color='red'>**Suppression quotes apres check lexical**</font>
+- [x] <font color='red'>**Suppression quotes apres check lexical**</font>
 - [ ] **\* wildcard**
 
 General:

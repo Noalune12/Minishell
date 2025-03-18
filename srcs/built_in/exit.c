@@ -12,13 +12,13 @@ int	check_arg_exit(char *str)
 		i++;
 	while (str[i])
 	{
+		if (str[i] == ' ' || str[i] == '\t')
+			break ;
 		if (!isdigit(str[i]))
 			return (0);
-		if (str[i] == ' ')
-			break ;
 		i++;
 	}
-	while (str[i] && str[i] == ' ')
+	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
 		i++;
 	if (str[i])
 		return (0);
@@ -70,11 +70,11 @@ int	ft_exit(char **cmds, t_minishell *minishell)
 	int	ret;
 
 	ret = 0;
+	if (minishell->pid == 0)
+		return (0);
+	ft_dprintf(STDOUT_FILENO, "exit\n");
 	if (!cmds[1])
-	{
-		ft_dprintf(STDOUT_FILENO, "exit\n");
 		ret = 0;
-	}
 	else if (check_arg_exit(cmds[1]) == 0)
 	{
 		ft_dprintf(STDOUT_FILENO, EXIT_ERROR, cmds[1]);

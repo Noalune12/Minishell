@@ -11,6 +11,7 @@ static int	write_heredoc_line(int fd, char *line)
 
 static void    write_heredoc_loop(t_heredoc_utils *data, char *delimiter)
 {
+	// handle_signal_heredoc();
 	while (1)
 	{
 		if (return_global() == SIGINT)
@@ -22,8 +23,10 @@ static void    write_heredoc_loop(t_heredoc_utils *data, char *delimiter)
 			data->line = readline(data->prompt);
 		if (!data->line)
 		{
-			if (return_global() == SIGINT)
+			if (g_signal_received == SIGINT)
 				break ;
+			rl_replace_line("", 0);
+			rl_done = 1;
 			print_redirect_error(REDIR_HEREDOC_EOF, delimiter);
 			break ;
 		}
@@ -50,7 +53,7 @@ static int	init_heredoc_data(t_heredoc_utils *data, char *file_name,
 		close(data->fd);
 		return (-1);
 	}
-	signal(SIGINT, heredoc_signal_handler);
+	// signal(SIGINT, heredoc_signal_handler);
 	data->prompt = ft_strjoin(delimiter, "> ");
 	if (!data->prompt)
 	{
@@ -64,8 +67,8 @@ static int	init_heredoc_data(t_heredoc_utils *data, char *file_name,
 
 static int	cleanup_heredoc_data(t_heredoc_utils *data, int *original_stdin)
 {
-	signal(SIGINT, SIG_IGN);
-	signal(SIGINT, signal_handler);
+	// signal(SIGINT, SIG_IGN);
+	// signal(SIGINT, signal_handler);
 	free(data->prompt);
 	close(data->fd);
 	if (data->line)
@@ -79,7 +82,7 @@ static int	cleanup_heredoc_data(t_heredoc_utils *data, int *original_stdin)
 		}
 		close(*original_stdin);
 	}
-	init_global();
+	// init_global();
 	return (0);
 }
 
@@ -96,11 +99,7 @@ int	write_to_heredoc(char *file_name, char *delimiter)
 	previous_signal = return_global();
 	write_heredoc_loop(&data, delimiter);
 	result = cleanup_heredoc_data(&data, &original_stdin);
-	if (return_global() == SIGINT)
-	{
-		g_signal_received = SIGINT;
-	}
-	else if (previous_signal != 0)
+	if (previous_signal != 0)
 	{
 		g_signal_received = previous_signal;
 	}

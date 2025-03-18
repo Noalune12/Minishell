@@ -7,7 +7,7 @@ static void print_spaces(int depth)
 	i = 0;
 	while (i < depth)
 	{
-		printf(" ");
+		write(1, " ", 1);
 		i++;
 	}
 }

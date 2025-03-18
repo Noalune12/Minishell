@@ -1,9 +1,11 @@
-#include "expand.h"
+#include <stdbool.h>
 
-bool	handle_quotes_expand(char c, bool *in_squotes, bool *in_dquotes)
+bool	handle_quotes_expand(char c, bool *in_squotes, bool *in_dquotes, int *quote)
 {
 	if (c == '\'' && !*in_squotes && !*in_dquotes)
 	{
+		if (quote)
+			*quote = 1;
 		*in_squotes = true;
 		return (false);
 	}
@@ -14,6 +16,8 @@ bool	handle_quotes_expand(char c, bool *in_squotes, bool *in_dquotes)
 	}
 	else if (c == '"' && !*in_squotes && !*in_dquotes)
 	{
+		if (quote)
+			*quote = 1;
 		*in_dquotes = true;
 		return (true);
 	}

@@ -84,7 +84,7 @@ int	add_or_append_env(char *content, t_list **env, int len)
 		ft_dprintf(STDERR_FILENO, "Malloc failed\n");
 		return (1);
 	}
-	if (find_env_var_node(var, &temp) == 1)
+	if (find_env_var_node(var, &temp) == 1) // ?? elle return jamais 1 ta fonction Lou-Anne ? Tu fais quoi
 		return (1);
 	if (temp && ft_strchr(temp->content, '='))
 		equal = 1;
