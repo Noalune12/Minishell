@@ -466,6 +466,13 @@ run_test "Redirection check" ">test1 >test2 echo bonjour" 0
 run_test "Redirection check" ">> e" 0
 run_test "Redirection check" "echo bonjour > \"\$PATHH\"" 1
 
+run_test "Redirection check" "'echo' \"bonjour\" \"wesh\"" 0
+run_test "Redirection check" "e\"ch\"o bonjour" 0
+run_test "Redirection check" "       'ech'o bonjour" 0
+run_test "Redirection check" "'echo \"\$HOME\"'" 127
+run_test "Redirection check" "echo '''''' | cat -e" 0
+
+
 # Make sure we're back in the starting directory before cleanup
 cd "$STARTING_DIR"
 
