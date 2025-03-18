@@ -433,6 +433,38 @@ run_test "Liam v1" "(echo $PWD && (ls -l | grep *.c) || echo \"No .c files found
 # Test 97: truc de fou 2
 run_test "liam v2" "echo test1 > r1 && echo test2 > r2 && < r1 < r2 ls > r3 > r4 && > r1 > r2 ls > r3 > r4 && cat r4" 0
 
+echo -e "${YELLOW}====== Liam Random Environement Tests ======${RESET}"
+
+run_test "Environment parsing" "echo \"$'PATH'\"" 0
+run_test "Environment parsing" "echo $\"coucou\"" 0
+run_test "Environment parsing" "echo \$PATH" 0
+run_test "Environment parsing" "ls \$HOME/Desktop" 0
+run_test "Environment parsing" "echo \"\$PATH\"\"\" coucou" 0
+run_test "Environment parsing" "echo \$PATH\"coucou\"" 0
+run_test "Environment parsing" "echo \"hello\"\$PWD\"coucou\"" 0
+run_test "Environment parsing" "echo coucou\$PWD test\$COLORTERMlol lol\$HOME" 0
+run_test "Environment parsing" "echo \"bonjour\$PATH$PWD\"" 0
+run_test "Environment parsing" "echo \$PATH\"coucou\"" 0
+run_test "Environment parsing" "echo \$\$\$\$\$\$\$\$" 0
+run_test "Environment parsing" "echo \$12345" 0
+run_test "Environment parsing" "echo \$$" 0
+
+echo -e "${YELLOW}====== Liam Random Redirection Tests ======${RESET}"
+
+run_test "Redirection check" "cat < test.txt" 1
+run_test "Redirection check" "cat <test.txt >>hello<bonjour" 1
+run_test "Redirection check" "cat \"<test.txt\"" 1
+run_test "Redirection check" "echo bonjour1>test1" 0
+run_test "Redirection check" "echo bonjour 1>test2" 0
+run_test "Redirection check" "echo bonjour > \"     test1\"" 0
+run_test "Redirection check" "echo bonjour >hey test2" 0
+run_test "Redirection check" "echo bonjour >> test3" 0
+run_test "Redirection check" "echo bonjour>>test3>>test4" 0
+run_test "Redirection check" ">test1 >test2 echo bonjour" 0
+run_test "Redirection check" ">test1>test2 echo bonjour" 0
+run_test "Redirection check" ">test1 >test2 echo bonjour" 0
+run_test "Redirection check" ">> e" 0
+run_test "Redirection check" "echo bonjour > \"\$PATHH\"" 1
 
 # Make sure we're back in the starting directory before cleanup
 cd "$STARTING_DIR"
