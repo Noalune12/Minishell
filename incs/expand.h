@@ -16,9 +16,9 @@ typedef struct s_quotes
 	bool	in_dquotes;
 }	t_quotes;
 
-bool	handle_quotes_expand(char c, bool *in_squotes, bool *in_dquotes);
+bool	handle_quotes_expand(char c, bool *in_squotes, bool *in_dquotes, int *quote);
 
-char	*expand_env_vars(char *str, t_list *env, t_minishell *minishell);
+char	*expand_env_vars(char *str, t_list *env, t_minishell *minishell, int *exp, int *quote);
 char	*ft_getenv(char *var_name, t_list *env);
 
 size_t	get_expanded_str_len(char *str, t_list *env, t_minishell *minishell);

@@ -111,7 +111,21 @@ typedef struct s_cmd
 {
 	char	*path;
 	char	**cmds;
+	bool	to_expand;
 }	t_cmd;
+
+typedef struct s_fd_info
+{
+	int		*fds;
+	int		nb_elems;
+	int		capacity;
+}	t_fd_info;
+
+typedef struct s_fds
+{
+	t_fd_info	fd_in;
+	t_fd_info	fd_out;
+}	t_fds;
 
 typedef struct s_ast // rajouter boolean d'expand pour heredoc
 {
@@ -150,6 +164,7 @@ typedef struct s_minishell
 	t_list		*envp;
 	t_token		*token;
 	t_ast		*ast_node;
+	t_fds		fds;
 }	t_minishell;
 
 t_list	*env_init(char **envp);
@@ -386,11 +401,13 @@ char	**update_cmd(char **cmds, char *content);
 void	free_ast(t_ast *node);
 void	ft_free(char **split);
 int		error_handling_exec(t_minishell *minishell, char *message);
+int		is_builtin(char *cmds);
+void	free_tab(char **tab, int i);
 
 int		exec_minishell(t_ast *node, t_minishell *minishell);
 
 int		handle_cmd(t_ast *node, t_minishell *minishell);
-char	*find_exec_cmd(char **cmds, t_minishell *minishell);
+char	*find_exec_cmd(char **cmds, t_minishell *minishell, char **env);
 
 int		handle_pipe(t_ast *node, t_minishell *minishell);
 
@@ -461,5 +478,13 @@ int	check_parentheses_tokens(t_token *current, t_token *next,
 void	add_manpath_to_env(t_list **env);
 
 int		add_or_replace_env(char *content, t_list **env, int len, int add);
+char	*expand_heredoc(char *str, t_list *env, t_minishell *minishell);
 
+/* ---- HANDLE FD ---- */
+
+void add_fd(t_fd_info *fd, int fd_in);
+void delete_fd(t_fd_info *fd, int nb_elem);
+void dup_fd(t_fd_info *fd, int fd_redirect);
+void	close_fd(t_fd_info *fd);
+void	close_and_free_fds(t_fd_info *fd);
 #endif

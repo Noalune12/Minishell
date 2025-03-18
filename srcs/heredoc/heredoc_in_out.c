@@ -11,14 +11,14 @@ static int	write_heredoc_line(int fd, char *line)
 
 static void    write_heredoc_loop(t_heredoc_utils *data, char *delimiter)
 {
-	while (g_signal_received != SIGINT)
+	while (1)
 	{
 
-		// if (return_global() == SIGINT)
-		// {
-		// 	data->line = NULL;
-		// 	break;
-		// }
+		if (return_global() == SIGINT)
+		{
+			data->line = NULL;
+			break;
+		}
 		if (data->prompt)
 			data->line = readline(data->prompt);
 		if (!data->line)
@@ -80,7 +80,7 @@ static int	cleanup_heredoc_data(t_heredoc_utils *data, int *original_stdin)
 		}
 		close(*original_stdin);
 	}
-	init_global();
+	// init_global();
 	return (0);
 }
 

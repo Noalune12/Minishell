@@ -65,6 +65,11 @@ static int	process_command_heredocs(t_token *current, int *error)
 			if (*error == -1)
 				return (-1);
 		}
+		// if (g_signal_received == SIGINT)
+		// {
+		// 	minishell->exit_status = 130;
+		// 	break ;
+		// }
 		if (!pipe_token)
 			break ;
 		current = pipe_token->next;
@@ -99,6 +104,6 @@ int	check_heredoc(t_minishell *minishell)
 		minishell->exec_status = false;
 		return (-1);
 	}
-	init_global();
+	// init_global();
 	return (0);
 }

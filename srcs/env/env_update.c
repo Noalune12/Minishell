@@ -8,7 +8,7 @@ void	update_pwd(t_list **env)
 
 	if (!env || !*env)
 		return ;
-	cwd = getcwd(NULL, 0);
+	cwd = getcwd(NULL, 4096);
 	if (!cwd)
 		return ;
 	actual_pwd = ft_strjoin("PWD=", cwd);

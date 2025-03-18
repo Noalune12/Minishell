@@ -14,7 +14,6 @@ override EXPANDDIR	:= expand/
 override WILDCARDIR	:= wildcard/
 override OPTIONSDIR	:= options/
 
-
 SRC	+= $(addprefix $(EXPANDDIR), $(addsuffix .c, $(EXPANDSRC)))
 
 override EXPANDSRC	:= \
@@ -83,6 +82,7 @@ override EXECSRC	:= \
 	redirout_exec \
 	heredoc_exec \
 	exec_utils \
+	handle_fd \
 
 SRC	+= $(addprefix $(BUILTINDIR), $(addsuffix .c, $(BUILTINSRC)))
 
