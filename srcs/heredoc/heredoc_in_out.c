@@ -11,9 +11,9 @@ static int	write_heredoc_line(int fd, char *line)
 
 static void    write_heredoc_loop(t_heredoc_utils *data, char *delimiter)
 {
+	// handle_signal_heredoc();
 	while (1)
 	{
-
 		if (return_global() == SIGINT)
 		{
 			data->line = NULL;
@@ -25,6 +25,8 @@ static void    write_heredoc_loop(t_heredoc_utils *data, char *delimiter)
 		{
 			if (g_signal_received == SIGINT)
 				break ;
+			rl_replace_line("", 0);
+			rl_done = 1;
 			print_redirect_error(REDIR_HEREDOC_EOF, delimiter);
 			break ;
 		}

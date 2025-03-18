@@ -18,8 +18,6 @@ char	*read_input(t_minishell *minishell)
 	free(exit_code);
 	input = readline(prompt);
 	free(prompt);
-	// (void)minishell;
-	// input = readline("minishell$>");
 	if (input && *input)
 		add_history(input);
 	return (input);
@@ -41,13 +39,20 @@ void	close_free_and_reinit_fds(t_fd_info *fd)
 	fd->capacity = 10;
 }
 
+int event(void)
+{
+	return (0);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_minishell	minishell;
+	int			ret;
 	// t_token		*tmp_test;
 
 	tty_check();
 	minishell_init(&minishell, ac, av, envp);
+	rl_event_hook = &event; // define callback function when rl_done is set at 1;
 	// printf("%s%s%s\n", BLUE, minishell.options.display_ast ? "true" : "false", RESET);
 	// printf("%s%s%s\n", RED, minishell.exec_status ? "true" : "starting", RESET);
 	while (1)
@@ -57,13 +62,16 @@ int	main(int ac, char **av, char **envp)
 		free_token_list(minishell.token);
 		minishell.token = NULL;
 		minishell.input = read_input(&minishell);
+		if (g_signal_received != 0) // Check if Ctrl+C was pressed
+		{
+			minishell.exit_status = g_signal_received + 128;
+			continue ;
+		}
 		if (minishell.input == NULL) // ctrl + d
 		{
 			ft_dprintf(STDERR_FILENO, "exit\n"); // TODO do not \n is in ./minishell
 			break ;
 		}
-		if (g_signal_received != 0) // Check if Ctrl+C was pressed
-			minishell.exit_status = g_signal_received + 128;
 		init_global();
 		minishell.token = tokenize_input(minishell.input, &minishell.exec_status);
 		// printf("%stokenize_input%s\n", minishell.exec_status ? GREEN : RED, RESET);
@@ -119,13 +127,14 @@ int	main(int ac, char **av, char **envp)
 		close_free_and_reinit_fds(&minishell.fds.fd_in);
 		close_free_and_reinit_fds(&minishell.fds.fd_out);
 	}
+	ret = minishell.exit_status;
 	if (minishell.fd_in)
 		close(minishell.fd_in);
 	if (minishell.fd_out)
 		close(minishell.fd_out);
 	rl_clear_history();
 	free_env(&minishell);
-	return (0);
+	return (ret);
 }
 
 /**
