@@ -1,7 +1,7 @@
 #include "minishell.h"
 #include <signal.h>
 
-// int	g_signal_received = 0;
+int	g_signal_received = 0;
 
 // void	heredoc_signal_handler(int sig)
 // {
