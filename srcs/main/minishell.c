@@ -46,7 +46,6 @@ int	main(int ac, char **av, char **envp)
 	t_minishell	minishell;
 	// t_token		*tmp_test;
 
-	tty_check();
 	minishell_init(&minishell, ac, av, envp);
 	// printf("%s%s%s\n", BLUE, minishell.options.display_ast ? "true" : "false", RESET);
 	// printf("%s%s%s\n", RED, minishell.exec_status ? "true" : "starting", RESET);

@@ -2,7 +2,7 @@
 
 MAN_BASE_DIR := man
 MAN_DIR      := $(MAN_BASE_DIR)/man1
-MAN_PAGE     := $(MAN_DIR)/options.1
+MAN_PAGE     := $(MAN_DIR)/minishell.1
 
 # ********** MAN PAGE CONTENT ************************************************ #
 
