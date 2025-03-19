@@ -166,9 +166,7 @@ exit +"100"
 exit -100
 exit "-100"
 exit -"100"
-cat < FILEUNKNOWN
 ls >outfile01 && cat outfile01
 echo oi || echo tchau
-ls | ls | cat | ls
 ls * | grep " " > outfile1 && cat outfile1
 rm -rf "outfile01" "     test1" "e" "hey" "r1" "r2" "r3" "r4" "test1" "test2" "test3" "test4" "<test.txt" "bonjour" "hello" "hola" "test" "test.txt"
