@@ -365,7 +365,6 @@ void	copy_with_quotes(char *dest, char *src, size_t *len);
 // t_list	*split_operators(const char *str, size_t i, size_t start);
 
 bool	add_token_to_list(t_list **tokens, char *content);
-bool	is_operator_char(char c, bool in_quotes);
 
 
 char	*create_token(const char *str, size_t start, size_t len);
@@ -446,9 +445,7 @@ int		ascii_cmp(char *a, char *b);
 
 /* test signal */
 
-void	heredoc_signal_handler(int sig);
 void	init_global(void);
-void	handle_signal_heredoc(void);
 void	handle_signal_wait(void);
 
 char	*read_input(t_minishell *minishell);
