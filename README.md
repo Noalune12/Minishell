@@ -399,3 +399,4 @@ Dans l'idée on doit gérer les heredoc de la meme facon que bash mais on est li
 - [ ] Headers
 - [ ] Implementation built-in bonus
 - [ ] pwd check
+- [ ] make valgrind error when dup2 fail (since we added exit)
