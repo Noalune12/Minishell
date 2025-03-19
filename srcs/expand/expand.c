@@ -81,6 +81,14 @@ char *expand_env_vars(char *str, t_list *env, t_minishell *minishell, int *exp, 
 			if (str[i] == '"')
 				i++;
 		}
+		else if (str[i] == '$' && str[i + 1] == '\'' && !in_squotes && !in_dquotes)
+		{
+			i += 2;
+			while (str[i] && str[i] != '\'')
+				expanded[j++] = str[i++];
+			if (str[i] == '\'')
+				i++;
+		}
 		else if (!handle_quotes_expand(str[i], &in_squotes, &in_dquotes, quote))
 			expanded[j++] = str[i++];
 		else if (str[i] == '$' && str[i + 1] && (ft_isalnum(str[i + 1]) || str[i + 1] == '_'))
