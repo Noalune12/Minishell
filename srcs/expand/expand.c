@@ -54,53 +54,6 @@ static int handle_exit_code(char *expanded, size_t *i, size_t *j, int exit_code)
 	return (1);
 }
 
-char	*exec_expand(char *str, t_list *env, t_minishell *minishell, int *exp, int *quote)
-{
-	size_t	i;
-	size_t	j;
-	char	*expanded;
-	size_t	expanded_len;
-	bool	in_squotes;
-	bool	in_dquotes;
-
-	expanded_len = get_expanded_str_len(str, env, minishell);
-	expanded = malloc(sizeof(char) * (expanded_len + 1));
-	if (!expanded)
-		return (NULL);
-	i = 0;
-	j = 0;
-	in_squotes = false;
-	in_dquotes = false;
-	while (str && str[i])
-	{
-		if (!handle_quotes_expand(str[i], &in_squotes, &in_dquotes, quote))
-			expanded[j++] = str[i];
-		else if (str[i] == '$' && str[i + 1] && (str[i + 1] != '?' && ft_isalnum(str[i + 1])))
-		{
-			*exp = 1;
-			if (!handle_dollar_sign(str, expanded, &i, &j, env))
-			{
-				free(expanded);
-				return (NULL);
-			}
-		}
-		else if (str[i] == '$' && str[i + 1] == '?')
-		{
-			*exp = 1;
-			if (!handle_exit_code(expanded, &i, &j, minishell->exit_status))
-			{
-				free(expanded);
-				return (NULL);
-			}
-		}
-		else
-			expanded[j++] = str[i];
-		i++;
-	}
-	expanded[j] = '\0';
-	return (expanded);
-}
-
 char *expand_env_vars(char *str, t_list *env, t_minishell *minishell, int *exp, int *quote)
 {
 	size_t	i;
@@ -120,39 +73,17 @@ char *expand_env_vars(char *str, t_list *env, t_minishell *minishell, int *exp, 
 	in_dquotes = false;
 	while (str && str[i])
 	{
-		if (!handle_quotes_expand(str[i], &in_squotes, &in_dquotes, quote))
-			expanded[j++] = str[i];
-		else if (str[i] == '$' && str[i + 1] && str[i + 1] == '"' && !in_dquotes && !in_squotes)
+		if (str[i] == '$' && str[i + 1] == '"' && !in_squotes && !in_dquotes)
 		{
 			i += 2;
 			while (str[i] && str[i] != '"')
-			{
-				if (str[i] == '$' && str[i + 1] && ft_isalnum(str[i + 1]))
-				{
-					*exp = 1;
-					if (!handle_dollar_sign(str + i, expanded, &i, &j, env))
-					{
-						free(expanded);
-						return (NULL);
-					}
-				}
-				else if (str[i] == '$' && str[i + 1] == '?')
-				{
-					*exp = 1;
-					if (!handle_exit_code(expanded, &i, &j, minishell->exit_status))
-					{
-						free(expanded);
-						return (NULL);
-					}
-				}
-				else
-					expanded[j++] = str[i++];
-			}
+				expanded[j++] = str[i++];
 			if (str[i] == '"')
 				i++;
-			i--;
 		}
-		else if (str[i] == '$' && str[i + 1] && ft_isalnum(str[i + 1]))
+		else if (!handle_quotes_expand(str[i], &in_squotes, &in_dquotes, quote))
+			expanded[j++] = str[i++];
+		else if (str[i] == '$' && str[i + 1] && (ft_isalnum(str[i + 1]) || str[i + 1] == '_'))
 		{
 			*exp = 1;
 			if (!handle_dollar_sign(str, expanded, &i, &j, env))
@@ -160,6 +91,7 @@ char *expand_env_vars(char *str, t_list *env, t_minishell *minishell, int *exp, 
 				free(expanded);
 				return (NULL);
 			}
+			i++;
 		}
 		else if (str[i] == '$' && str[i + 1] == '?')
 		{
@@ -169,10 +101,10 @@ char *expand_env_vars(char *str, t_list *env, t_minishell *minishell, int *exp, 
 				free(expanded);
 				return (NULL);
 			}
+			i++;
 		}
 		else
-			expanded[j++] = str[i];
-		i++;
+			expanded[j++] = str[i++];
 	}
 	expanded[j] = '\0';
 	return (expanded);
