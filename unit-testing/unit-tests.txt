@@ -169,3 +169,76 @@ ls >outfile01 && cat outfile01
 echo oi || echo tchau
 ls * | grep " " > outfile1 && cat outfile1
 rm -rf "outfile1" "outfile01" "     test1" "e" "hey" "r1" "r2" "r3" "r4" "test1" "test2" "test3" "test4" "<test.txt" "bonjour" "hello" "hola" "test" "test.txt"
+/bin/ls
+/bin/pwd
+/bin/echo hello
+/bin/cat README.md
+/usr/bin/grep hello test.txt
+/bin/echo hello world test
+echo hello world
+echo testing spaces
+echo hello      world
+/bin/ls
+echo $?
+/bin/ls nonexistentfile
+echo $?
+ls nonexistentfile
+expr $? + $?
+echo "hello world"
+echo "  multiple   spaces  "
+echo "cat lol.c | cat > lol.c"
+echo "hello\nworld"
+echo "special chars: <>|&;"
+echo 'hello world'
+echo '  multiple   spaces  '
+echo '$USER'
+echo 'special chars: <>|&;'
+echo '\ backslash'
+export TEST1=hello
+export TEST2=world
+export PATH="/new/path:$PATH"
+echo $PATH
+export TEST=42
+echo $TEST
+unset TEST
+echo $TEST
+export A=1 B=2 C=3
+unset A B C
+echo $A $B $C
+echo hello > file1
+echo world > file2
+echo append >> file1
+ls | grep a
+cat file | grep hello | wc -l
+ls | grep a | sort | uniq
+ls nonexistent | grep a
+cd /tmp && ls -la | grep ^d > dirs && cat dirs
+cat nonexistent | grep test || echo "not found"
+ls && pwd && echo success
+ls nonexistent && echo "won't print" || echo "error happened"
+echo first || echo "won't print"
+ls || echo "won't print"
+ls nonexistent || echo "recovered from error"
+ls nonexistent && echo "won't print" || echo "error recovered"
+(ls && echo success) || echo "won't print"
+ls *
+ls *.c
+ls *.txt
+ls test*
+ls *test
+ls *test*
+ls *.c *.h
+ls test*.txt
+ls *test*.txt
+cp *.txt backup/
+mv test/* ./new_folder/
+cat */file.txt
+ls * | grep test
+ls *.c | wc -l
+cat *.txt > all_texts
+echo "hello" > test*.txt
+ls *.c && echo "found c files"
+ls *.txt || echo "no text files"
+(ls *.c && gcc *.c) && ./a.out || echo "compilation failed"
+(ls *.c && (gcc *.c || echo "compile failed")) && ./a.out
+ls *.c && echo "found" || echo "not found"
