@@ -18,7 +18,11 @@ static t_list	*ft_get_env(char **envp)
 	}
 	while (envp[i])
 	{
-		add_node(&env, envp[i]); // protection
+		if (!add_node(&env, envp[i]))
+		{
+			free_list(env);
+			return (NULL);
+		}
 		i++;
 	}
 	return (env);
