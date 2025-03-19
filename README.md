@@ -398,3 +398,4 @@ Dans l'idée on doit gérer les heredoc de la meme facon que bash mais on est li
 - [ ] Deplacer certaines fonctions dans la libft ? (is_quote) ?
 - [ ] Headers
 - [ ] Implementation built-in bonus
+- [ ] pwd check
