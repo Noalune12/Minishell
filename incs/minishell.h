@@ -505,9 +505,9 @@ char	*expand_heredoc(char *str, t_list *env, t_minishell *minishell);
 
 /* ---- HANDLE FD ---- */
 
-void add_fd(t_fd_info *fd, int fd_in);
+int *add_fd(t_fd_info *fd, int fd_in);
 void delete_fd(t_fd_info *fd, int nb_elem);
-void dup_fd(t_fd_info *fd, int fd_redirect);
+int dup_fd(t_fd_info *fd, int fd_redirect);
 void	close_fd(t_fd_info *fd);
 void	close_and_free_fds(t_fd_info *fd);
 #endif

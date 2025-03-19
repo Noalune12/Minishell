@@ -1,8 +1,6 @@
 #include "minishell.h"
 
-// TODO expand
-
-#define READ_LEN 2
+#define READ_LEN 1000
 
 char	*ft_strjoin_free_s1(char *s1, char *s2)
 {
@@ -109,7 +107,11 @@ int	handle_heredocin(t_ast *node, t_minishell *minishell)
 		perror("");
 		return (1);
 	}
-	add_fd(&minishell->fds.fd_in, fd);
+	if (add_fd(&minishell->fds.fd_in, fd) == NULL)
+	{
+		close(fd);
+		return (1);
+	}
 	ret = exec_minishell(node->left, minishell);
 	delete_fd(&minishell->fds.fd_in, minishell->fds.fd_in.nb_elems - 1);
 	close(fd);

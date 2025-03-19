@@ -18,7 +18,7 @@ static int	exec_right(t_ast *node, t_minishell *minishell, int pipe_fd[2])
 	int	ret;
 
 	handle_signal_wait();
-	close(pipe_fd[1]); //TODO protect
+	close(pipe_fd[1]);
 	minishell->pid = fork();
 	if (minishell->pid == -1)
 	{

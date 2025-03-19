@@ -9,7 +9,7 @@ void	tty_check(void)
 	}
 }
 
-void	init_options(t_minishell *minishell)
+static void	init_options(t_minishell *minishell)
 {
 	minishell->options = malloc(sizeof(t_options));
 	if (!minishell->options)
@@ -22,11 +22,14 @@ void	init_options(t_minishell *minishell)
 	minishell->options->display_tokens = false;
 }
 
-void init_fd_info(t_fd_info *fd)
+static bool init_fd_info(t_fd_info *fd)
 {
 	fd->fds = malloc(sizeof(int) * 10);
+	if (!fd->fds)
+		return (0);
 	fd->nb_elems = 0;
 	fd->capacity = 10;
+	return (1);
 }
 
 void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp)
@@ -35,9 +38,16 @@ void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp)
 	(void) av;
 	tty_check();
 	ft_memset(minishell, 0, sizeof(t_minishell));
-	minishell->envp = env_init(envp); // securité ? est-ce qu'on quitte le programme si l'initialisation a foiré ?
+	minishell->envp = env_init(envp); // TODO finish protection for minimal env
+	if (!minishell->envp)
+		exit(EXIT_FAILURE);
 	minishell->pid = -1;
 	init_options(minishell);
-	init_fd_info(&minishell->fds.fd_in);
-	init_fd_info(&minishell->fds.fd_out);
+	if (init_fd_info(&minishell->fds.fd_in) == 0
+		|| init_fd_info(&minishell->fds.fd_out) == 0)
+	{
+		free_env(minishell);
+		ft_dprintf(STDERR_FILENO, "Memory allocation error\n");
+		exit(EXIT_FAILURE);
+	}
 }
