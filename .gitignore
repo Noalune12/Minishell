@@ -76,3 +76,4 @@ test.mk
 *output*
 
 minishell_test_dir/
+test_results.log

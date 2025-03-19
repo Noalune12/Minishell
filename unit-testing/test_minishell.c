@@ -217,6 +217,6 @@ int main(int argc, char *argv[]) {
     if (test_passed == test_number -1)
         printf("every test passed\n");
     else
-        printf("not every test passed\n");
+        printf("failed passed\n");
     return EXIT_SUCCESS;
 }

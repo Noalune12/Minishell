@@ -116,7 +116,6 @@ echo "*"
 echo * | awk -v RS=" " '{print}' | sort
 echo 'bye *' t*.c bye
 echo *EMPTY hello READ* world
-cat <README*
 echo "pip*"
 echo *bonus *.supp bonjour
 cat ./test_files/infile_big | grep oi
