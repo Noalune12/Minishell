@@ -51,7 +51,12 @@ override ENVSRC		:= \
 SRC += $(addprefix $(ASTDIR), $(addsuffix .c, $(ASTSRC)))
 
 override ASTSRC		:= \
+	ast_add \
 	ast_built \
+	ast_cmd_redir \
+	ast_heredoc \
+	ast_identification \
+	ast_node_creation \
 	ast_print_utils \
 	ast_print \
 	ast_utils \
