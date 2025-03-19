@@ -5,15 +5,7 @@ typedef struct s_options		t_options;
 typedef struct s_list			t_list;
 typedef struct s_ast			t_ast;
 
-# include "expand.h"
-
-# include <unistd.h>
-
 extern int	g_signal_received;
-
-// void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
-// void	free_env(t_minishell *minishell);
-// void	tty_check(void);
 
 # include <fcntl.h>
 # include <readline/history.h>
@@ -23,21 +15,27 @@ extern int	g_signal_received;
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
+# include <unistd.h>
 
+# include "expand.h"
 # include "ft_dprintf.h"
-# include "get_next_line.h"
 # include "libft.h"
 # include "options.h"
 
-# define RED		"\033[1;31m"
-# define GREEN		"\033[1;32m"
-# define YELLOW		"\033[1;33m"
-# define BLUE		"\033[1;34m"
-# define WHITE_BOLD	"\033[1;37m"
-# define PURPLE		"\033[0;35m"
-# define RESET		"\033[0m"
+# define RED		"\001\033[0;31m\002"
+# define BOLD_RED	"\001\033[1;31m\002"
+# define GREEN		"\001\033[1;32m\002"
+# define YELLOW		"\001\033[1;33m\002"
+# define BLUE		"\001\033[1;34m\002"
+# define WHITE_BOLD	"\001\033[1;37m\002"
+# define PURPLE		"\001\033[0;35m\002"
+# define CYAN		"\001\033[1;36m\002"
+# define RESET		"\001\033[0m\002"
 
-// memo error code 127 -> no path to command
+# define GREEN_ARROW "\001\033[32m\xe2\x9e\002\x9c\001\033[0m\002"
+# define RED_ARROW   "\001\033[31m\xe2\x9e\002\x9c\001\033[0m\002"
+
+
 // liste de define derreurs + dautres plus tard
 # define FILENAME_SYNTAX "syntax error: missing filename after redirection\n"
 # define NEWLINE_SYNTAX "minishell: syntax error near unexpected token `newline'\n"
@@ -47,8 +45,9 @@ extern int	g_signal_received;
 # define FILE_NOT_FOUND "minishell: %s: %s: No such file or directory\n"
 # define HEREDOC_ERROR_MESSAGE "minishell: warning: here-document delimited by end-of-file (wanted `%s')\n"
 # define ERROR_SYNTAX_TO_MODIFY "syntax error\n" // a modifier
-# define ERROR_OUTFILE "minishell: %s: Permission denied\n"
+# define ERROR_OUTFILE "minishell: %s: Permission denied\n" // a delete ?
 # define ERROR_INFILE "minishell: %s: No such file or directory\n"
+# define SIGQUIT_MESSAGE "Quit (core dumped)\n"
 
 // Error builtin
 # define EXIT_ERROR "minishell: exit: %s: numeric argument required\n"
@@ -68,9 +67,6 @@ extern int	g_signal_received;
 # define MANPATH		"MANPATH=/usr/share/man"
 // liste de define de message derreur
 
-# define ERR_CMD "Message derreur par defaut de la commande\n"
-# define SIGQUIT_MESSAGE "Quit (core dumped)\n"
-# define AND_SO_ON "...."
 
 // heredoc defines
 

@@ -2,21 +2,48 @@
 #include "heredoc.h"
 #include "wildcard.h"
 
+void	free_input_setup(char *tmp, char *exit_code, char *prompt)
+{
+	if (NULL != tmp)
+		free(tmp);
+	if (NULL != exit_code)
+		free(exit_code);
+	if (NULL != prompt)
+		free(prompt);
+}
+
 char	*read_input(t_minishell *minishell)
 {
 	char	*input;
 	char	*prompt;
 	char	*tmp;
 	char	*exit_code;
+	int		code;
 
+	code = minishell->exit_status;
 	exit_code = ft_itoa(minishell->exit_status);
-	tmp = ft_strjoin("[", exit_code);
+	tmp = ft_strjoin(RED"[", exit_code);
+	if (tmp == NULL)
+		return (NULL);
 	free(exit_code);
-	exit_code = ft_strjoin(tmp, "]> ");
+	exit_code = ft_strjoin(tmp, RED"]> "RESET);
+	if (exit_code == NULL)
+	{
+		free_input_setup(tmp, exit_code, NULL);
+		return (NULL);
+	}
 	free(tmp);
-	prompt = ft_strjoin("minishell ", exit_code);
-	free(exit_code);
+	if (code == 0)
+		prompt = ft_strjoin_free(GREEN_ARROW CYAN" minishell "RESET, exit_code);
+	else
+		prompt = ft_strjoin_free(RED_ARROW CYAN" minishell "RESET, exit_code);
+	if (prompt == NULL)
+	{
+		free (exit_code);
+		return (NULL);
+	}
 	input = readline(prompt);
+
 	free(prompt);
 	if (input && *input)
 		add_history(input);
@@ -52,8 +79,6 @@ int	main(int ac, char **av, char **envp)
 
 	minishell_init(&minishell, ac, av, envp);
 	rl_event_hook = &event; // define callback function when rl_done is set at 1;
-	// printf("%s%s%s\n", BLUE, minishell.options.display_ast ? "true" : "false", RESET);
-	// printf("%s%s%s\n", RED, minishell.exec_status ? "true" : "starting", RESET);
 	while (1)
 	{
 		// printf("fd in capacity: %d\n", minishell.fds.fd_in.capacity);
@@ -73,49 +98,19 @@ int	main(int ac, char **av, char **envp)
 		}
 		init_global();
 		minishell.token = tokenize_input(minishell.input, &minishell.exec_status);
-		// printf("%stokenize_input%s\n", minishell.exec_status ? GREEN : RED, RESET);
 		minishell.token = split_operators(minishell.token, &minishell.exec_status);
-		// printf("%ssplit_operators%s\n", minishell.exec_status ? GREEN : RED, RESET);
-		// tmp_test = minishell.token;
-
 		minishell.token = expand_wildcards(minishell.token, &minishell.exec_status);
 		check_heredoc(&minishell); //-> je parcours jusqu'a je tombe sur un "<< EOF "-> remplace par "< filename" dans token
-		//printf("%sexpand_wildcards%s\n", minishell.exec_status ? GREEN : RED, RESET);
-		// tmp_test = minishell.token;
 		syntax_check(&minishell);
-		// printf("%ssyntax_check%s\n", minishell.exec_status ? GREEN : RED, RESET);
 		minishell.ast_node = build_ast(&minishell.token, &minishell.exec_status);
-		//print_ast(minishell.ast_node, 0, &minishell.exec_status);
-		// printf("%sexpand_wildcards%s\n", minishell.exec_status ? GREEN : RED, RESET);
-		// tmp_test = minishell.token;
-		//syntax_check(&minishell);
-		//check_heredoc(&minishell); //-> je parcours jusqu'a je tombe sur un "<< EOF "-> remplace par "< filename" dans token
-		// printf("%ssyntax_check%s\n", minishell.exec_status ? GREEN : RED, RESET);
-		// printf("%sbuild_ast%s\n", minishell.exec_status ? GREEN : RED, RESET);
-		// printf(BLUE"\nAST\n"RESET);
-		// print_ast(minishell.ast_node, 0, &minishell.exec_status);
 		if (minishell.options->display_ast)
 			print_ast(minishell.ast_node, 0, &minishell.exec_status);
 		if (g_signal_received != 0) // Check if Ctrl+C was pressed
 			minishell.exit_status = g_signal_received + 128;
 		else if (minishell.ast_node)
 		{
-			// printf(PURPLE"\nEXEC"RESET);
-			// printf("\n");
 			minishell.exit_status = exec_minishell(minishell.ast_node, &minishell);
-			// printf("%sexec_minishell%s\n", minishell.exec_status ? GREEN : RED, RESET);
 		}
-		// for (int i = 0; tmp_test != NULL; i++)
-		// {
-		// 	printf("%sMaillon ID: %d : Token: [%s], Type: %d%s\n",RED,
-		// 		   i, tmp_test->content, tmp_test->type, RESET);
-		// 	tmp_test = tmp_test->next;
-		// }
-		// if (g_signal_received != 0) // Check if Ctrl+C was pressed
-		// 	minishell.exit_status = g_signal_received + 128;
-		// printf(YELLOW"\nEXIT STATUS\n"RESET);
-		// printf("exit status = %d\n", minishell.exit_status);
-		// printf("--------------------\n");
 		free(minishell.input);
 		if (minishell.ast_node)
 			free_ast(minishell.ast_node);

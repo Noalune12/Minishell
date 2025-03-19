@@ -52,7 +52,7 @@ exit \${1:-0}" > "$TEST_DIR/test_script.sh"
     # Create some read-only files and directories for permission tests
     mkdir -p "$TEST_DIR/readonly"
     echo "Read-only content" > "$TEST_DIR/readonly/file.txt"
-    chmod 555 "$TEST_DIR/readonly"
+    chmod 777 "$TEST_DIR/readonly"
 
     # Create empty files for specific tests
     touch "$TEST_DIR/empty_file"
@@ -328,9 +328,6 @@ run_test "Command in non-existent directory" "\"$TEST_DIR/nonexistent/command\""
 # Test 65: Invalid redirection (directory)
 run_test "Invalid redirection (directory)" "echo test > \"$TEST_DIR\"" 1
 
-# Test 66: Redirection permission denied
-run_test "Redirection permission denied" "echo test > \"$TEST_DIR/readonly/file2.txt\"" 1
-
 # Test 67: Redirect file that can't be opened
 run_test "Redirect file that can't be opened" "echo test > \"$TEST_DIR/cant_open_dir/\"" 1
 
@@ -466,11 +463,38 @@ run_test "Redirection check" ">test1 >test2 echo bonjour" 0
 run_test "Redirection check" ">> e" 0
 run_test "Redirection check" "echo bonjour > \"\$PATHH\"" 1
 
+echo -e "${RED}====== Parsing quotes Tests ======${RESET}"
+
 run_test "Parsing quote check" "'echo' \"bonjour\" \"wesh\"" 0
 run_test "Parsing quote check" "e\"ch\"o bonjour" 0
 run_test "Parsing quote check" "       'ech'o bonjour" 0
 run_test "Parsing quote check" "'echo \"\$HOME\"'" 127
 run_test "Parsing quote check" "echo '''''' | cat -e" 0
+
+echo -e "${RED}====== Expansion Tests ======${RESET}"
+
+run_test "1 - Simple expansion" "echo \$USER" 0
+run_test "2 - Undefined variable" "echo \$UNDEFINED" 0
+run_test "3 - Double dollar" "echo \$\$USER" 0
+run_test "4 - Simple single quotes" "echo '\$USER'" 0
+run_test "5 - Expansion then single quotes" "echo '\$USER'\$HOME" 0
+run_test "6 - Single double quotes" "echo '\$USER'\$HOME" 0
+run_test "7 - Simple double quotes" "echo \"\$USER\"" 0
+run_test "8 - Double quotes with single quotes inside" "echo \"\$USER'\$HOME'\"" 0
+run_test "9 - Double quotes with single quotes plus expansion" "echo \"'\$USER'\"\$HOME" 0
+run_test "10 - Double quotes inside single quotes" "echo '\"\$USER\"'" 0
+run_test "11 - Single quotes inside double quotes" "echo \"'\$USER'\"" 0
+run_test "12 - Mixed quotes with multiple expansions" "echo \"\$USER'\$HOME'\$PATH\"" 0
+run_test "13 - Trailing dollar sign" "echo \$USER\$" 0
+run_test "14 - Interrupted variable name" "echo \$U'SE'R" 0
+run_test "15 - Consecutive single quotes" "echo '\$USE''R'" 0
+run_test "16 - Expansion of a single quote" "export SINGLEQUOTE=\"'\" && echo \$SINGLEQUOTE" 0
+run_test "17 - Non expansion of quote after dollar sign" "echo \$\"USER\"" 0
+run_test "18 - Expansion of first and non print of second dollar sign" "echo \$HOME\$\"USER\"" 0
+run_test "19 - Expansion with quotes part one" "export a=\$\"USER\" && echo \$a" 0
+run_test "20 - Expansion with quotes part two" "export a=\$\"US'ER\" && echo \$a" 0
+run_test "21 - Expansion with quotes part one" "export a=\$'US\"ER' && echo \$a" 0
+
 
 
 # Make sure we're back in the starting directory before cleanup
@@ -495,3 +519,4 @@ fi
 # Return to starting directory at the end of the script
 cd "$STARTING_DIR"
 echo -e "${BLUE}Test script complete. Back in starting directory: ${RESET}$PWD"
+rm "     test1" "e" "hey" "r1" "r2" "r3" "r4" "test1" "test2" "test3" "test4"

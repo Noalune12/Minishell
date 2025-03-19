@@ -4,7 +4,7 @@
 #include "libft.h"
 #include "minishell.h"
 
-static int	handle_dollar_sign(char *str, char *expanded, size_t *i, size_t *j, t_list *env)
+int	handle_dollar_sign(char *str, char *expanded, size_t *i, size_t *j, t_list *env)
 {
 	char	*var_name;
 	size_t	var_len;
@@ -20,65 +20,45 @@ static int	handle_dollar_sign(char *str, char *expanded, size_t *i, size_t *j, t
 	return (1);
 }
 
-static int	handle_exit_code(char *expanded, size_t *i, size_t *j, int exit_code)
+int	handle_exit_code(char *expanded, size_t *i, size_t *j, int exit_code)
 {
 	char	*exit_code_str;
+	size_t	k;
 
-	(*i) += 1; // Skip over "$?"
+	(*i) += 1;
 	exit_code_str = ft_itoa(exit_code);
 	if (!exit_code_str)
 		return (0);
-	ft_strcpy(&expanded[*j], exit_code_str);
-	*j += ft_strlen(exit_code_str);
+	k = 0;
+	while (exit_code_str[k])
+	{
+		expanded[*j] = exit_code_str[k];
+		(*j)++;
+		k++;
+	}
 	free(exit_code_str);
 	return (1);
 }
 
-char	*expand_env_vars(char *str, t_list *env, t_minishell *minishell, int *exp, int *quote)
+char	*expand_env_vars(char *str, t_minishell *minishell, int *exp, int *quote)
 {
-	size_t	i;
-	size_t	j;
-	char	*expanded;
-	size_t	expanded_len;
-	bool	in_squotes;
-	bool	in_dquotes;
+	t_expand_data	data;
 
-	expanded_len = get_expanded_str_len(str, env, minishell);
-	expanded = malloc(sizeof(char) * (expanded_len + 1));
-	if (!expanded)
+	if (!init_expand_data(&data, str, minishell))
 		return (NULL);
-	i = 0;
-	j = 0;
-	in_squotes = false;
-	in_dquotes = false;
-	while (str && str[i])
+	data.exp = exp;
+	data.quote = quote;
+	while (str && str[data.i])
 	{
-		if (!handle_quotes_expand(str[i], &in_squotes, &in_dquotes, quote))
-			expanded[j++] = str[i];
-		else if (str[i] == '$' && str[i + 1] && (str[i + 1] != '?' && ft_isalnum(str[i + 1])))
+		if (!process_character(&data))
 		{
-			*exp = 1;
-			if (!handle_dollar_sign(str, expanded, &i, &j, env))
-			{
-				free(expanded);
-				return (NULL);
-			}
+			free(data.expanded);
+			return (NULL);
 		}
-		else if (str[i] == '$' && str[i + 1] == '?')
-		{
-			*exp = 1;
-			if (!handle_exit_code(expanded, &i, &j, minishell->exit_status))
-			{
-				free(expanded);
-				return (NULL);
-			}
-		}
-		else
-			expanded[j++] = str[i];
-		i++;
+		data.i++;
 	}
-	expanded[j] = '\0';
-	return (expanded);
+	data.expanded[data.j] = '\0';
+	return (data.expanded);
 }
 
 char	*expand_heredoc(char *str, t_list *env, t_minishell *minishell)
@@ -87,17 +67,13 @@ char	*expand_heredoc(char *str, t_list *env, t_minishell *minishell)
 	size_t	j;
 	char	*expanded;
 	size_t	expanded_len;
-	// bool	in_squotes;
-	// bool	in_dquotes;
 
-	expanded_len = get_expanded_str_len(str, env, minishell);
+	expanded_len = get_expanded_str_len(str, minishell);
 	expanded = malloc(sizeof(char) * (expanded_len + 1));
 	if (!expanded)
 		return (NULL);
 	i = 0;
 	j = 0;
-	// in_squotes = false;
-	// in_dquotes = false;
 	while (str && str[i])
 	{
 		if (str[i] == '$' && str[i + 1] && (str[i + 1] != '?' && ft_isalnum(str[i + 1])))
