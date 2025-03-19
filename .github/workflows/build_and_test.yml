@@ -24,13 +24,13 @@ jobs:
       
       - name: Compile test suite
         run: |
-          cd Minishell_testeur
+          cd unit-testing
           cc test_minishell.c -o unit-testing
         
       - name: Run test suite
         run: |
-          cd Minishell_testeur
-          output=$(./unit-testing ../minishell 7)
+          cd unit-testing
+          output=$(./unit-testing ../minishell 1)
           echo "$output"
           
           # Check if the last line contains "every test passed"
