@@ -21,6 +21,7 @@ override EXPANDSRC	:= \
 	expand_utils \
 	expand_quote_handling \
 	expand_len_utils \
+	expand_main_loop \
 
 SRC	+= $(addprefix $(MAINDIR), $(addsuffix .c, $(MAINSRC)))
 

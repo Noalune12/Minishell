@@ -8,7 +8,7 @@ static void	add_var_value_len(char *var_name, size_t *total_len, t_list *env)
 {
 	char	*var_value;
 
-	var_value = ft_getenv(var_name, env); // changer pour notre t_list env ?
+	var_value = ft_getenv(var_name, env);
 	if (var_value)
 		*total_len += ft_strlen(var_value);
 }
@@ -32,7 +32,7 @@ size_t	get_expanded_str_len(char *str, t_list *env, t_minishell *minishell)
 		return (0);
 	while (str && str[i])
 	{
-		if (!handle_quotes_expand(str[i], &in_squotes, &in_dquotes, NULL))
+		if (!update_quotes_expand(str[i], &in_squotes, &in_dquotes, NULL))
 			total_len++;
 		else if (str[i] == '$' && str[i + 1] && str[i + 1] == '?')
 		{

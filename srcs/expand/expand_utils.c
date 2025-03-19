@@ -42,3 +42,23 @@ void	copy_var_value(char *var_name, char *expanded, size_t *j, t_list *env)
 		}
 	}
 }
+
+int	init_expand_data(t_expand_data *data, char *str, t_list *env, \
+														t_minishell *minishell)
+{
+	size_t	expanded_len;
+
+	expanded_len = get_expanded_str_len(str, env, minishell);
+	data->expanded = malloc(sizeof(char) * (expanded_len + 1));
+	if (!data->expanded)
+		return (0);
+	data->str = str;
+	data->env = env;
+	data->minishell = minishell;
+	data->i = 0;
+	data->j = 0;
+	data->in_squotes = false;
+	data->in_dquotes = false;
+	return (1);
+}
+
