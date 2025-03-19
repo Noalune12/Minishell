@@ -11,7 +11,7 @@ static bool	replace_for_expanded_filename(t_token *current, char **file_names)
 	free(current->content);
 	current->content = ft_strdup(file_names[0]);
 	if (!current->content)
-	return (false);
+		return (false);
 	i = 1;
 	last = current;
 	while (file_names[i])
