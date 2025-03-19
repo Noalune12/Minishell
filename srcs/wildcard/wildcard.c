@@ -3,13 +3,11 @@
 
 static bool	replace_for_expanded_filename(t_token *current, char **file_names)
 {
-	t_token	*next;
 	t_token	*last;
 	int		i;
 
 	if (!file_names[0])
 		return (true);
-	next = current->next;
 	free(current->content);
 	current->content = ft_strdup(file_names[0]);
 	if (!current->content)
