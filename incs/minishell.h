@@ -447,7 +447,6 @@ int		ascii_cmp(char *a, char *b);
 /* test signal */
 
 void	init_global(void);
-void	handle_signal_heredoc(void);
 void	handle_signal_wait(void);
 
 char	*read_input(t_minishell *minishell);
