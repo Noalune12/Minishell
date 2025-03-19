@@ -42,8 +42,7 @@ char	*read_input(t_minishell *minishell)
 		free (exit_code);
 		return (NULL);
 	}
-	input = readline(prompt);
-
+	input = readline("minishell$>");
 	free(prompt);
 	if (input && *input)
 		add_history(input);
@@ -93,7 +92,7 @@ int	main(int ac, char **av, char **envp)
 		}
 		if (minishell.input == NULL) // ctrl + d
 		{
-			ft_dprintf(STDERR_FILENO, "exit\n"); // TODO do not \n is in ./minishell
+			ft_dprintf(STDERR_FILENO, " "); // TODO do not \n is in ./minishell
 			break ;
 		}
 		init_global();

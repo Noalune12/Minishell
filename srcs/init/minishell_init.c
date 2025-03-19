@@ -33,7 +33,7 @@ void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp)
 {
 	(void) ac;
 	(void) av;
-	tty_check();
+	// tty_check();
 	ft_memset(minishell, 0, sizeof(t_minishell));
 	minishell->envp = env_init(envp); // securité ? est-ce qu'on quitte le programme si l'initialisation a foiré ?
 	minishell->pid = -1;
