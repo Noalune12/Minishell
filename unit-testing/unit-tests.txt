@@ -1,0 +1,171 @@
+cat Makefile
+echo $
+echo $_1234
+echo $_abc
+echo $%
+echo $U'SER'
+echo "$U"SER
+echo $USER
+echo $1
+echo $%%
+echo $^^^^^
+echo $abcdef
+echo "$USER"
+echo '$'USER''
+echo $'USER'
+echo $"USER"
+echo $""
+echo "$"
+echo ""$""
+echo ""$HOME
+echo ''$HOME
+echo Hello World
+pwd
+export TEST_VAR=value && echo $TEST_VAR
+export TEST_VAR=value && echo $TEST_VAR && unset TEST_VAR && echo $TEST_VAR
+export yo=ls && $yo
+export X=HOME && echo $X
+export X=$HOME && echo $X
+echo "$"""
+echo $""
+echo te$USERst
+echo "$USER'$HOME'"'$PATH'
+export X="tests" && echo $X
+echo "$?"
+echo $?
+echo "$USER:$HOME"
+export _X_Y_Z=test && echo $_X_Y_Z
+export X=$USER && echo $X
+export X="!@#$%^&*()" && echo "$X"
+export X="+test" && echo $X
+echo $USER
+export TEST=$USER && export TEST2=$TEST && echo $TEST2
+export TEST='$USER' && echo $TEST
+export TEST="$USER" && echo $TEST
+export TEST=$USER && echo $TEST
+echo $USER:$HOME
+echo test$
+export USER_NAME=testuser && echo $USER_NAME
+echo a$USER
+export X=""quoted"" && echo $X
+export X=123 && echo $X
+echo "$"
+echo $
+echo $USER$HOME$PATH
+export X="a>b" && echo "$X"
+export X="  spaced  " && echo $X
+export X="  spaced  " && echo "$X"
+export EMPTY="" && echo "$EMPTY"
+echo $USER""test
+export a=$'US"ER' && echo $a
+export a=$"USER" && echo $a
+echo $HOME$"USER"
+echo $"USER"
+export SINGLEQUOTE="'" && echo $SINGLEQUOTE
+echo '$USE''R'
+echo $U'SE'R
+echo $USER$
+echo "$USER'$HOME'$PATH"
+echo "'$USER'"
+echo '"$USER"'
+echo "'$USER'"$HOME
+echo "$USER'$HOME'"
+echo "$USER"
+echo '$USER'$HOME
+echo '$USER'
+echo $UNDEFINED
+echo $USER
+echo '''''' | cat
+echo "$HOME"
+       'ech'o bonjour
+e"ch"o bonjour
+'echo' "bonjour" "wesh"
+>> e
+cat "<test.txt"
+echo "$'PATH'"
+echo $"coucou"
+echo $PATH
+ls $HOME/Desktop
+echo "$PATH""" coucou
+echo $PATH"coucou"
+echo "hello"$PWD"coucou"
+echo coucou$PWD test$COLORTERMlol lol$HOME
+echo "bonjour$PATH$PWD"
+echo $PATH"coucou"
+echo yo
+export HELLO=123 && echo $HELLO
+export HELLO="beautiful world" && echo $HELLO
+echo $?
+$EMPTY
+echo $?
+unset USER
+unset PATH
+unset PWD
+/bin/ls
+cd && pwd
+export hello
+echo *.md
+echo built*
+echo oi*
+echo *.supp
+echo 'bye *' bo*s bye
+echo 'bye *' mini* bye
+echo *ME*
+echo "*"
+echo * | awk -v RS=" " '{print}' | sort
+echo 'bye *' t*.c bye
+echo *EMPTY hello READ* world
+echo "pip*"
+echo *bonus *.supp bonjour
+cat ./test_files/infile_big | grep oi
+cat minishell.h | grep ");"$
+unset HELLO=
+unset  A-
+unset  HELLO A- WORLD
+exit 9223372036854775807
+exit -9223372036854775807
+echo hello world
+echo "hello world"
+echo 'hello world'
+echo hello'world'
+echo hello""world
+echo ''
+echo "$PWD"
+echo '$PWD'
+echo "aspas ->'"
+echo "aspas -> ' "
+echo 'aspas ->"'
+echo 'aspas -> " '
+echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $ \ <<"
+echo '> >> < * ? [ ] | ; [ ] || && ( ) & # $ \ <<'
+echo "exit_code ->$? user ->$USER home -> $HOME"
+echo "$"
+echo '$'
+echo $
+echo $?
+echo $?HELLO
+pwd
+export hello
+export HELLO=123
+export HELLO=123 A
+export HELLO="123 A-"
+export hello world
+unset
+unset HELLO
+unset HELLO1 HELLO2
+unset HOME
+unset PATH
+unset SHELL
+cd $PWD
+exit 123
+exit 298
+exit +100
+exit "+100"
+exit +"100"
+exit -100
+exit "-100"
+exit -"100"
+ls >outfile01 && cat outfile01
+echo oi || echo tchau
+ls * | grep " " > outfile1 && cat outfile1
+rm -rf "outfile1" "outfile01" "     test1" "e" "hey" "r1" "r2" "r3" "r4" "test1" "test2" "test3" "test4" "<test.txt" "bonjour" "hello" "hola" "test" "test.txt"

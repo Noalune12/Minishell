@@ -12,7 +12,7 @@ void	print_tokens(t_minishell *minishell)
 		print_tokens = minishell->token;
 		while (print_tokens)
 		{
-			printf("%sToken: [%s], Type: %d%s\n", RED, \
+			printf("%sToken: [%s], Type: %d%s\n", BOLD_RED, \
 				print_tokens->content, print_tokens->type, RESET);
 			print_tokens = print_tokens->next;
 		}

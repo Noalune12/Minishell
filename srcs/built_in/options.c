@@ -16,11 +16,11 @@ void	print_toggled_options(t_minishell *minishell)
 	if (minishell->options->display_tokens == true)
 		ft_dprintf(STDOUT_FILENO, PRINT_ACTIVATED, PTOKENS, GREEN, RESET);
 	else
-		ft_dprintf(STDOUT_FILENO, PRINT_UNACTIVATED, PTOKENS, RED, RESET);
+		ft_dprintf(STDOUT_FILENO, PRINT_UNACTIVATED, PTOKENS, BOLD_RED, RESET);
 	if (minishell->options->display_ast == true)
 		ft_dprintf(STDOUT_FILENO, PRINT_ACTIVATED, PTREE, GREEN, RESET);
 	else
-		ft_dprintf(STDOUT_FILENO, PRINT_UNACTIVATED, PTREE, RED, RESET);
+		ft_dprintf(STDOUT_FILENO, PRINT_UNACTIVATED, PTREE, BOLD_RED, RESET);
 }
 
 void	print_option(t_options_enum option, t_minishell *minishell)
