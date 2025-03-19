@@ -166,6 +166,7 @@ exit +"100"
 exit -100
 exit "-100"
 exit -"100"
+cat < FILEUNKNOWN
 ls >outfile01 && cat outfile01
 echo oi || echo tchau
 ls | ls | cat | ls
