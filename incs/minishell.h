@@ -446,7 +446,6 @@ int		ascii_cmp(char *a, char *b);
 
 /* test signal */
 
-void	heredoc_signal_handler(int sig);
 void	init_global(void);
 void	handle_signal_heredoc(void);
 void	handle_signal_wait(void);
