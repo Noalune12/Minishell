@@ -40,12 +40,11 @@ int	handle_exit_code(char *expanded, size_t *i, size_t *j, int exit_code)
 	return (1);
 }
 
-char	*expand_env_vars(char *str, t_list *env, t_minishell *minishell, \
-														int *exp, int *quote)
+char	*expand_env_vars(char *str, t_minishell *minishell, int *exp, int *quote)
 {
 	t_expand_data	data;
 
-	if (!init_expand_data(&data, str, env, minishell))
+	if (!init_expand_data(&data, str, minishell))
 		return (NULL);
 	data.exp = exp;
 	data.quote = quote;
@@ -69,7 +68,7 @@ char	*expand_heredoc(char *str, t_list *env, t_minishell *minishell)
 	char	*expanded;
 	size_t	expanded_len;
 
-	expanded_len = get_expanded_str_len(str, env, minishell);
+	expanded_len = get_expanded_str_len(str, minishell);
 	expanded = malloc(sizeof(char) * (expanded_len + 1));
 	if (!expanded)
 		return (NULL);

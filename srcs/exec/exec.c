@@ -174,7 +174,7 @@ int	exec_minishell(t_ast *node, t_minishell *minishell)
 		char *temp;
 		int	exp = 0;
 		int	quote = 0;
-		expanded = expand_env_vars(node->cmd->cmds[i], minishell->envp, minishell, &exp, &quote);
+		expanded = expand_env_vars(node->cmd->cmds[i], minishell, &exp, &quote);
 		// ft_dprintf(STDERR_FILENO, GREEN"expanded = '%s'\n"RESET, expanded); // delete
 		temp = node->cmd->cmds[i];
 		if (expanded[0])
