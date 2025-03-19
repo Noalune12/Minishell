@@ -14,7 +14,7 @@
 
 // 🔹 Liste des fichiers de test disponibles
 const char *test_files[] = {
-    "tests/all.txt",
+    "unit-tests.txt",
 };
 const int num_tests = sizeof(test_files) / sizeof(test_files[0]);
 
