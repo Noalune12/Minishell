@@ -1,7 +1,10 @@
 #ifndef HEREDOC_H
 # define HEREDOC_H
 
-# include "minishell.h" // a enlever pour mettre au propre
+# include <stdbool.h>
+
+typedef struct s_minishell	t_minishell;
+typedef struct s_token		t_token;
 
 # define HEREDOC_PATH_BASE_NAME "/tmp/.heredoc_"
 # define RANDOM_NAME_LENGHT 10

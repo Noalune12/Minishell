@@ -1,4 +1,7 @@
+#include <signal.h>
+
 #include "heredoc.h"
+#include "minishell.h"
 
 static int	write_heredoc_line(int fd, char *line)
 {
