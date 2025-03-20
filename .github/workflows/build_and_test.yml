@@ -30,7 +30,7 @@ jobs:
 
           # Check if the last line contains "every test passed"
           last_line=$(echo "$output" | tail -n 1)
-          if [[ "$last_line" == *"every test passed"* ]]; then
+          if [[ "$last_line" == *"🎉 🎉 🎉"* ]]; then
             echo "✅ All tests passed!"
             exit 0
           else
