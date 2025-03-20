@@ -81,7 +81,7 @@ int	ft_exit(char **cmds, t_minishell *minishell)
 	}
 	else if (cmds[2])
 	{
-		// ft_dprintf(STDOUT_FILENO, TOO_MANY_ARGS, "exit");
+		ft_dprintf(STDOUT_FILENO, TOO_MANY_ARGS, "exit");
 		return (1);
 	}
 	else
