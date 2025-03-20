@@ -21,6 +21,7 @@ extern int	g_signal_received;
 # include "ft_dprintf.h"
 # include "libft.h"
 # include "options.h"
+# include "types.h"
 
 # define RED		"\001\033[0;31m\002"
 # define BOLD_RED	"\001\033[1;31m\002"
@@ -69,39 +70,6 @@ extern int	g_signal_received;
 
 
 // heredoc defines
-
-typedef enum e_quote // delete ? peut etre besoin pour le parsing
-{
-	NONE_QUOTE,
-	SINGLE_QUOTE,
-	DOUBLE_QUOTE,
-}	t_quote;
-
-typedef enum e_redirect_error
-{
-	REDIR_SUCCESS,
-	REDIR_UNEXPECTED_NEWLINE,
-	REDIR_UNEXPECTED_TOKEN,
-	REDIR_MISSING_FILENAME,
-	REDIR_FILE_ERROR,
-	REDIR_HEREDOC_EOF,
-	REDIR_SYNTAX_ERROR,
-}	t_redirect_error;
-
-typedef enum e_node_type
-{
-	NODE_COMMAND,	// commande simple
-	NODE_PIPE,		// |
-	NODE_OR,		// ||
-	NODE_AND,		// &&
-	NODE_REDIR_IN,	// <
-	NODE_REDIR_OUT,	// >
-	NODE_HEREDOC,	// <<
-	NODE_APPEND,	// >>
-	NODE_OPEN_PAR,	// (
-	NODE_CLOSE_PAR,	// )
-	NODE_BUILTIN	// commande builtin > delete ?
-}	t_node_type;
 
 typedef struct s_cmd
 {
@@ -386,16 +354,41 @@ size_t	get_operator_len(const char *str, size_t pos);
 bool	is_redirection(char c);
 bool	is_operator(char c, bool in_quotes);
 
-/* ---- exec */
+/* ---- ast */
 
-// void	create_ast(t_minishell *minishell);
+typedef struct s_branch
+{
+	t_token	*token_redir;
+	t_ast	*node_cmd;
+	t_ast	*node_redir;
+	t_ast	*node;
+}	t_branch;
+
 t_ast	*build_ast(t_token **token, bool *exec_status);
-t_cmd	*add_cmd(char *content);
-// t_ast *create_ast_tree_node(t_node_type type, char *content);
-// void add_child(t_ast *parent, t_ast *child);
-char	**update_cmd(char **cmds, char *content);
+t_ast	*create_ast_tree_node(t_node_type type, char *content, bool expand, t_ast *parent);
+t_ast	*create_branch(t_token **token, t_ast *root, t_ast *sub_ast);
+
+t_ast	*add_up(t_ast *root, t_ast *node);
+t_ast	*add_to_rightmost(t_ast *root, t_ast *node);
+t_ast	*add_to_left(t_ast *root, t_ast *node);
+t_ast	*add_down_right(t_ast *root, t_ast *node);
+t_ast	*add_to_ast(t_ast *root, t_ast *node);
+
+
+int		is_redir_node(t_node_type type);
+int		is_redir_node_not_heredoc(t_node_type type);
+int		is_operator_node(t_node_type type);
+
+char	**update_heredoc(char **cmds, char *content);
+int		still_heredoc_left(t_token *token);
+
 void	free_ast(t_ast *node);
 void	ft_free(char **split);
+t_ast	*error_handling_ast(t_ast *root, t_ast *sub_ast, char *str);
+
+
+/* ---- exec */
+
 int		error_handling_exec(t_minishell *minishell, char *message);
 int		is_builtin(char *cmds);
 void	free_tab(char **tab, int i);
@@ -477,9 +470,9 @@ char	*expand_heredoc(char *str, t_list *env, t_minishell *minishell);
 
 /* ---- HANDLE FD ---- */
 
-void add_fd(t_fd_info *fd, int fd_in);
+int *add_fd(t_fd_info *fd, int fd_in);
 void delete_fd(t_fd_info *fd, int nb_elem);
-void dup_fd(t_fd_info *fd, int fd_redirect);
+int dup_fd(t_fd_info *fd, int fd_redirect);
 void	close_fd(t_fd_info *fd);
 void	close_and_free_fds(t_fd_info *fd);
 #endif

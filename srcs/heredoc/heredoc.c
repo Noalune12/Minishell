@@ -1,4 +1,5 @@
 #include "heredoc.h"
+#include "minishell.h"
 
 static int	validate_heredoc_syntax(t_token *current, t_minishell *minishell)
 {
@@ -65,22 +66,12 @@ static int	process_command_heredocs(t_token *current, int *error)
 			if (*error == -1)
 				return (-1);
 		}
-		// if (g_signal_received == SIGINT)
-		// {
-		// 	minishell->exit_status = 130;
-		// 	break ;
-		// }
 		if (!pipe_token)
 			break ;
 		current = pipe_token->next;
 	}
 	return (0);
 }
-
-/*
-Je suis pas sur de la gestion des code d'erreurs... si tout va bien je garde
-en memoire celui d'avant je le modifie pas
-*/
 
 int	check_heredoc(t_minishell *minishell)
 {
@@ -103,6 +94,6 @@ int	check_heredoc(t_minishell *minishell)
 		minishell->exec_status = false;
 		return (-1);
 	}
-	// init_global();
+	// minishell->exit_status = 0;
 	return (0);
 }

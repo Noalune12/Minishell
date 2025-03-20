@@ -9,33 +9,26 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      
+
       - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y build-essential libreadline-dev
-        
+
       - name: Build project
         run: make
-      
-      - name: Compile test suite
-        run: |
-          cd unit-testing
-          cc test_minishell.c -o unit-testing
-        
+
       - name: Run test suite
         run: |
           cd unit-testing
-          output=$(./unit-testing ../minishell 1)
-          echo "$output"
-          
-          # Check if the last line contains "every test passed"
-          last_line=$(echo "$output" | tail -n 1)
-          if [[ "$last_line" == *"every test passed"* ]]; then
+          ./tester custom
+
+          # Check the exit code directly
+          if [ $? -eq 0 ]; then
             echo "✅ All tests passed!"
             exit 0
           else

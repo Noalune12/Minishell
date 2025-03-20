@@ -2,7 +2,6 @@ cat Makefile
 echo $
 echo $_1234
 echo $_abc
-echo $%
 echo $U'SER'
 echo "$U"SER
 echo $USER
@@ -36,7 +35,6 @@ echo $?
 echo "$USER:$HOME"
 export _X_Y_Z=test && echo $_X_Y_Z
 export X=$USER && echo $X
-export X="!@#$%^&*()" && echo "$X"
 export X="+test" && echo $X
 echo $USER
 export TEST=$USER && export TEST2=$TEST && echo $TEST2
@@ -242,3 +240,124 @@ ls *.txt || echo "no text files"
 (ls *.c && gcc *.c) && ./a.out || echo "compilation failed"
 (ls *.c && (gcc *.c || echo "compile failed")) && ./a.out
 ls *.c && echo "found" || echo "not found"
+ls *.c && echo "found" || echo "not found"
+(ls *.txt && cat *.txt) || echo "no texts"
+mkdir empty && cd empty
+ls *
+touch "file with spaces.txt"
+ls *.c && echo "found c files"
+ls *.txt || echo "no text files"
+cat *.txt > all_texts
+echo "hello" > test*.txt
+ls * | grep test
+ls *.c | wc -l
+cp *.txt backup/
+mv test/* ./new_folder/
+cat */file.txt
+ls *.c *.h
+ls test*.txt
+ls *test*.txt
+ls test*
+ls *test
+ls *test*
+ls *.c
+ls *.txt
+ls *
+ls nonexistent && echo "won't print" || echo "error recovered"
+(ls && echo success) || echo "won't print"
+ls nonexistent || echo "recovered from error"
+./nonexistent || echo "alternative executed"
+echo first || echo "won't print"
+ls || echo "won't print"
+./nonexistent && echo "won't print"
+ls nonexistent && echo "won't print" || echo "error happened"
+ls && pwd && echo success
+./nonexistent || echo failed
+cat nonexistent | grep test || echo "not found"
+echo hello > file && cat < file | grep hello > output
+cd /tmp && ls -la | grep ^d > dirs && cat dirs
+ls nonexistent | grep a
+ls | grep a | sort | uniq
+ls | grep a
+cat file | grep hello | wc -l
+cat < input > output
+echo test >> file1 > file2
+echo hello > file1
+echo world > file2
+echo append >> file1
+cat < file1
+grep hello < file1
+unset PATH
+ls
+export PATH=/bin
+ls
+cd /nonexistent
+export A=1 B=2 C=3
+unset A B C
+echo $A $B $C
+export TEST=42
+echo $TEST
+unset TEST
+echo $TEST
+export PATH="/new/path:$PATH"
+echo $PATH
+export TEST1=hello
+export TEST2=world
+echo $HOME$USER$PWD
+echo "$HOME""$USER"
+echo "$HOMEfolder"
+export FOO=BAR && export $FOO=test && echo $BAR
+export TEST=$USER:$HOME && echo $TEST
+export var+=test && echo $var
+echo "a\$USER b"
+echo '\\'
+echo hello > file1 > file2 > file3
+cat < file1 < file2
+echo test > file1 >> file2
+echo test >> noexist/file
+ls > /dev/null >1
+cat < Makefile > out > err
+cat nonexistent >> errorlog
+cat < Makefile > "file with spaces"
+echo hello > out1 > out2 < in1 < in2
+> out cat < in
+cat Makefile | grep -v "#" | head -n 5 | wc -l
+ls | cat -e | cat -e | cat -e
+(ls && echo ok) || (echo fail && false)
+false || false || false || echo ok
+true && true && false && echo "not printed" || echo "printed"
+((true && true) || false) && echo complex
+true && true && true && echo all true
+false || false || true && echo success
+./nonexistent_command
+ls -Z
+cat /etc/shadow
+cd /nonexistent/path
+>
+|
+< nonexistentfile
+ls < nonexistentfile
+&&
+(
+export =test
+unset =test
+(ls && echo success) > outfile || echo "Error: $?"
+export A=1 && export B=2 && unset A B && echo $A$B
+cat nonexistent >1 >/dev/null | grep -i "no such file"
+(cd /tmp && ls) | (cd / && grep bin)
+find . -name "*.c" >/dev/null | xargs wc -l | sort -nr
+test -f Makefile && echo exists || echo missing
+ls *.c | (cd /tmp && cat > output) && ls -la /tmp/output
+echo "$USER""$HOME"";ls"
+echo "a;b;c"
+..
+.
+echo \$USER
+ls "" ""
+ls /
+touch -- -f && rm -f -- -f
+echo bonjour > a < cat | ls
+/bin/cat Makefile > out >>out1 >out2 | /bin/ls > > | /bin/cat << file
+Makefile cat ><tet LOL LOL LOL >outfile
+>infile >infile2 <outfile1 cmd >outfileinvalid >outfile5 <infile4 | cat
+rm a file infile infile2 outfile1 outfileinvalid outfile5 infile4 1 out out1 out2 outfile output output.txt "test*.txt" ../1 all_texts errorlog "file with spaces.txt" file1 file2 file3

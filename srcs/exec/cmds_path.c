@@ -28,7 +28,7 @@ char	*find_env_path(t_list *envp, t_minishell *minishell)
 }
 
 char	*join_full_path(t_minishell *minishell, t_path_cmds *path_cmds,
-	char **cmds, int index)
+	char **cmds, int index, char **env)
 {
 	char		*dir;
 	char		*full_path;
@@ -52,14 +52,25 @@ char	*join_full_path(t_minishell *minishell, t_path_cmds *path_cmds,
 		exit (1);
 	}
 	free(dir);
-	if (access(full_path, X_OK) == 0 && stat(full_path, &path) == 0 && !S_ISDIR(path.st_mode))
+	if (access(full_path, F_OK) == 0 && access(full_path, X_OK) != 0 && stat(full_path, &path) == 0 && !S_ISDIR(path.st_mode))
+	{
+		ft_dprintf(STDERR_FILENO, "minishell: %s: ", cmds[0]);
+		perror("");
+		free(full_path);
+		free(path_cmds->path_env);
+		ft_free_double(path_cmds->paths);
+		free_tab(env, ft_lstsize(minishell->envp));
+		error_handling_exec(minishell, NULL);
+		exit(126);
+	}
+	if (access(full_path, F_OK | X_OK) == 0 && stat(full_path, &path) == 0 && !S_ISDIR(path.st_mode)) //TODO test with exec
 		return (full_path);
 	free(full_path);
 	return (NULL);
 }
 
 char	*find_full_path(t_minishell *minishell, t_path_cmds *path_cmds,
-	char **cmds)
+	char **cmds, char **env)
 {
 	char	*full_path;
 	size_t	i;
@@ -74,7 +85,7 @@ char	*find_full_path(t_minishell *minishell, t_path_cmds *path_cmds,
 	i = 0;
 	while (path_cmds->paths[i])
 	{
-		full_path = join_full_path(minishell, path_cmds, cmds, i);
+		full_path = join_full_path(minishell, path_cmds, cmds, i, env);
 		if (full_path)
 		{
 			ft_free_double(path_cmds->paths);
@@ -103,7 +114,7 @@ char	*find_exec_cmd(char **cmds, t_minishell *minishell, char **env)
 	path_cmds.path_env = find_env_path(minishell->envp, minishell);
 	if (path_cmds.path_env)
 	{
-		full_path = find_full_path(minishell, &path_cmds, cmds);
+		full_path = find_full_path(minishell, &path_cmds, cmds, env);
 		free(path_cmds.path_env);
 	}
 	else

@@ -11,7 +11,7 @@ int	*ft_realloc(int *tab, int len, int nb_elem)
 	{
 		if (len > 1)
 			free(tab);
-		ft_dprintf(STDERR_FILENO, "Malloc failed");
+		ft_dprintf(STDERR_FILENO, "Malloc failed\n");
 		return (NULL);
 	}
 	while (len > 1 && nb_elem > 0)
@@ -25,15 +25,18 @@ int	*ft_realloc(int *tab, int len, int nb_elem)
 	return (ret);
 }
 
-void add_fd(t_fd_info *fd, int fd_in)
+int *add_fd(t_fd_info *fd, int fd_in)
 {
 	if (fd->nb_elems == fd->capacity)
 	{
 		fd->fds = ft_realloc(fd->fds, sizeof(int) * (fd->capacity + 10), fd->nb_elems);
+		if (!fd->fds)
+			return (NULL);
 		fd->capacity += 10;
 	}
 	fd->fds[fd->nb_elems] = fd_in;
 	fd->nb_elems++;
+	return (fd->fds);
 }
 
 void delete_fd(t_fd_info *fd, int nb_elem)
@@ -49,10 +52,12 @@ void delete_fd(t_fd_info *fd, int nb_elem)
 	fd->nb_elems--;
 }
 
-void dup_fd(t_fd_info *fd, int fd_redirect)
+int dup_fd(t_fd_info *fd, int fd_redirect)
 {
 	if (fd->nb_elems > 0)
-		dup2(fd->fds[fd->nb_elems - 1], fd_redirect); // TODO protect
+		if (dup2(fd->fds[fd->nb_elems - 1], fd_redirect) == -1)
+			return (0);
+	return (1);
 }
 
 void	close_fd(t_fd_info *fd)
@@ -62,7 +67,7 @@ void	close_fd(t_fd_info *fd)
 	i = 0;
 	while (i < fd->nb_elems)
 	{
-		close(fd->fds[i]); //TODO protect
+		close(fd->fds[i]);
 		i++;
 	}
 }

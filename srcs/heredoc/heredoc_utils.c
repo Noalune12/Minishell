@@ -1,4 +1,5 @@
 #include "heredoc.h"
+#include "minishell.h"
 
 int	is_valid_heredoc_delimiter(char *token)
 {

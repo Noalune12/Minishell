@@ -86,12 +86,12 @@ static int	check_cmd(t_ast *node)
 	}
 	if (stat(node->cmd->cmds[0], &path) == 0)
 	{
-		if (path.st_mode && (ft_strncmp(node->cmd->cmds[0], "./", 2) == 0 || ft_strncmp(node->cmd->cmds[0], "/", 1) == 0) && S_ISDIR(path.st_mode)) //TODO close fds
+		if (path.st_mode && (ft_strncmp(node->cmd->cmds[0], "./", 2) == 0 || ft_strncmp(node->cmd->cmds[0], "/", 1) == 0) && S_ISDIR(path.st_mode))
 		{
 			ft_dprintf(STDERR_FILENO, "minishell: %s: Is a directory\n", node->cmd->cmds[0]);
 			return (126);
 		}
-		if (path.st_mode && (ft_strncmp(node->cmd->cmds[0], "./", 2) == 0 || ft_strncmp(node->cmd->cmds[0], "/", 1) == 0) && !S_ISREG(path.st_mode)) //TODO close fds
+		if (path.st_mode && (ft_strncmp(node->cmd->cmds[0], "./", 2) == 0 || ft_strncmp(node->cmd->cmds[0], "/", 1) == 0) && !S_ISREG(path.st_mode))
 		{
 			ft_dprintf(STDERR_FILENO, "minishell: %s: ", node->cmd->cmds[0]);
 			perror("");
@@ -110,18 +110,21 @@ int	handle_cmd(t_ast *node, t_minishell *minishell)
 		return (ret);
 	handle_signal_wait();
 	minishell->pid = fork();
-	if (minishell->pid == -1) //TODO close fds
+	if (minishell->pid == -1)
 			return (error_handling_exec(NULL, "fork failed"));
 	if (minishell->pid == 0)
 	{
 		handle_signal_child();
-		dup_fd(&minishell->fds.fd_in, STDIN_FILENO);
-		dup_fd(&minishell->fds.fd_out, STDOUT_FILENO);
+		if (dup_fd(&minishell->fds.fd_in, STDIN_FILENO) == 0)
+			exit (error_handling_exec(minishell, "Dup2 failed"));
+		if (dup_fd(&minishell->fds.fd_out, STDOUT_FILENO) == 0)
+			exit (error_handling_exec(minishell, "Dup2 failed"));
 		close_fd(&minishell->fds.fd_in);
 		close_fd(&minishell->fds.fd_out);
 		exec_cmd(node, minishell);
 	}
-	waitpid(minishell->pid, &ret, 0);
+	if (waitpid(minishell->pid, &ret, 0) == -1)
+		return (error_handling_exec(NULL, "Waitpid failed"));
 	if (minishell->is_pipe == 0 && g_signal_received == SIGINT)
 		ft_dprintf(STDOUT_FILENO, "\n");
 	else if (minishell->is_pipe == 0 && g_signal_received == SIGQUIT)
@@ -133,7 +136,5 @@ int	handle_cmd(t_ast *node, t_minishell *minishell)
 	}
 	else if (__WIFSIGNALED(ret))
 		return (128 + g_signal_received);
-	// else
-	// 	return (128 + g_signal_received);
 	return (1);
 }

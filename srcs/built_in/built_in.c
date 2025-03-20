@@ -44,12 +44,31 @@ int	handle_builtin(t_ast *node, t_minishell *minishell)
 	int	ret;
 
 	minishell->fd_in = dup(STDIN_FILENO);
+	if (minishell->fd_in == -1)
+		return (error_handling_exec(NULL, "Dup failed"));
 	minishell->fd_out = dup(STDOUT_FILENO);
-	dup_fd(&minishell->fds.fd_in, STDIN_FILENO);
-	dup_fd(&minishell->fds.fd_out, STDOUT_FILENO);
+	if (minishell->fd_out == -1)
+	{
+		close(minishell->fd_in);
+		return (error_handling_exec(NULL, "Dup failed"));
+	}
+	if (dup_fd(&minishell->fds.fd_in, STDIN_FILENO) == 0)
+	{
+		close(minishell->fd_in);
+		close(minishell->fd_out);
+		return (error_handling_exec(NULL, "Dup2 failed"));
+	}
+	if (dup_fd(&minishell->fds.fd_out, STDOUT_FILENO) == 0)
+	{
+		close(minishell->fd_in);
+		close(minishell->fd_out);
+		return (error_handling_exec(NULL, "Dup2 failed"));
+	}
 	ret = ft_builtin(node, minishell);
-	dup2(minishell->fd_in, STDIN_FILENO);
-	dup2(minishell->fd_out, STDOUT_FILENO);
+	if (dup2(minishell->fd_in, STDIN_FILENO) == -1) // TODO recheck how to protect
+		exit (error_handling_exec(minishell, "Dup2 failed"));
+	if (dup2(minishell->fd_out, STDOUT_FILENO) == -1)
+		exit (error_handling_exec(minishell, "Dup2 failed"));
 	close(minishell->fd_in);
 	close(minishell->fd_out);
 	exec_minishell(node->left, minishell);

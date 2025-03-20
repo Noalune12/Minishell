@@ -21,7 +21,7 @@ char	*read_input(t_minishell *minishell)
 	int		code;
 
 	code = minishell->exit_status;
-	exit_code = ft_itoa(minishell->exit_status);
+	exit_code = ft_itoa(code);
 	tmp = ft_strjoin(RED"[", exit_code);
 	if (tmp == NULL)
 		return (NULL);
@@ -77,7 +77,7 @@ int	main(int ac, char **av, char **envp)
 	// t_token		*tmp_test;
 
 	minishell_init(&minishell, ac, av, envp);
-	rl_event_hook = &event; // define callback function when rl_done is set at 1;
+	// rl_event_hook = &event; // define callback function when rl_done is set at 1;
 	while (1)
 	{
 		// printf("fd in capacity: %d\n", minishell.fds.fd_in.capacity);
@@ -92,13 +92,14 @@ int	main(int ac, char **av, char **envp)
 		}
 		if (minishell.input == NULL) // ctrl + d
 		{
-			ft_dprintf(STDERR_FILENO, " "); // TODO do not \n is in ./minishell
+			// ft_dprintf(STDERR_FILENO, "exit\n"); // TODO do not \n is in ./minishell
 			break ;
 		}
 		init_global();
 		minishell.token = tokenize_input(minishell.input, &minishell.exec_status);
 		minishell.token = split_operators(minishell.token, &minishell.exec_status);
 		minishell.token = expand_wildcards(minishell.token, &minishell.exec_status);
+		syntax_check(&minishell);
 		check_heredoc(&minishell); //-> je parcours jusqu'a je tombe sur un "<< EOF "-> remplace par "< filename" dans token
 		syntax_check(&minishell);
 		minishell.ast_node = build_ast(&minishell.token, &minishell.exec_status);

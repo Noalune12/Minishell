@@ -70,9 +70,8 @@ int	ft_exit(char **cmds, t_minishell *minishell)
 	int	ret;
 
 	ret = 0;
-	if (minishell->pid == 0)
-		return (0);
-	// ft_dprintf(STDOUT_FILENO, "exit\n");
+	if (minishell->pid != 0)
+		ft_dprintf(STDOUT_FILENO, "exit\n");
 	if (!cmds[1])
 		ret = 0;
 	else if (check_arg_exit(cmds[1]) == 0)
@@ -82,11 +81,13 @@ int	ft_exit(char **cmds, t_minishell *minishell)
 	}
 	else if (cmds[2])
 	{
-		// ft_dprintf(STDOUT_FILENO, TOO_MANY_ARGS, "exit");
+		ft_dprintf(STDOUT_FILENO, TOO_MANY_ARGS, "exit");
 		return (1);
 	}
 	else
 		ret = exit_return(cmds[1]);
+	if (minishell->pid == 0)
+		return (ret);
 	error_handling_exec(minishell, NULL); // TODO free function
 	exit(ret);
 }
