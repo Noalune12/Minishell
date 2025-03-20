@@ -25,12 +25,10 @@ jobs:
       - name: Run test suite
         run: |
           cd unit-testing
-          output=$(./tester custom)
-          echo "$output"
+          ./tester custom
 
-          # Check if the last line contains "good"
-          last_line=$(echo "$output" | tail -n 1)
-          if [[ "$last_line" == *"good"* ]]; then
+          # Check the exit code directly
+          if [ $? -eq 0 ]; then
             echo "✅ All tests passed!"
             exit 0
           else
