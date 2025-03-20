@@ -21,6 +21,7 @@ extern int	g_signal_received;
 # include "ft_dprintf.h"
 # include "libft.h"
 # include "options.h"
+# include "types.h"
 
 # define RED		"\001\033[0;31m\002"
 # define BOLD_RED	"\001\033[1;31m\002"
@@ -69,39 +70,6 @@ extern int	g_signal_received;
 
 
 // heredoc defines
-
-typedef enum e_quote // delete ? peut etre besoin pour le parsing
-{
-	NONE_QUOTE,
-	SINGLE_QUOTE,
-	DOUBLE_QUOTE,
-}	t_quote;
-
-typedef enum e_redirect_error
-{
-	REDIR_SUCCESS,
-	REDIR_UNEXPECTED_NEWLINE,
-	REDIR_UNEXPECTED_TOKEN,
-	REDIR_MISSING_FILENAME,
-	REDIR_FILE_ERROR,
-	REDIR_HEREDOC_EOF,
-	REDIR_SYNTAX_ERROR,
-}	t_redirect_error;
-
-typedef enum e_node_type
-{
-	NODE_COMMAND,	// commande simple
-	NODE_PIPE,		// |
-	NODE_OR,		// ||
-	NODE_AND,		// &&
-	NODE_REDIR_IN,	// <
-	NODE_REDIR_OUT,	// >
-	NODE_HEREDOC,	// <<
-	NODE_APPEND,	// >>
-	NODE_OPEN_PAR,	// (
-	NODE_CLOSE_PAR,	// )
-	NODE_BUILTIN	// commande builtin > delete ?
-}	t_node_type;
 
 typedef struct s_cmd
 {
