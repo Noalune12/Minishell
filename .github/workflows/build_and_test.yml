@@ -28,9 +28,9 @@ jobs:
           output=$(./tester custom)
           echo "$output"
 
-          # Check if the last line contains "every test passed"
+          # Check if the last line contains "good"
           last_line=$(echo "$output" | tail -n 1)
-          if [[ "$last_line" == *"🎉 🎉 🎉"* ]]; then
+          if [[ "$last_line" == *"good"* ]]; then
             echo "✅ All tests passed!"
             exit 0
           else

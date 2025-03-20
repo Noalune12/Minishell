@@ -119,7 +119,7 @@ printf $END
 if [[ "$ok" == "$i" ]]; then
 	echo "🎊 🎊 🎊"
 	echo "😎 😎 😎"
-	echo "🎉 🎉 🎉"
+	echo "good"
 	exit 0
 else
 	echo "😭 😭 😭"
