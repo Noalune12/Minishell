@@ -200,6 +200,7 @@ int	exec_minishell(t_ast *node, t_minishell *minishell)
 		if (exp == 1 && quote == 0 && node->cmd->cmds[i])
 		{
 			node->cmd->cmds = remake_cmds(node->cmd->cmds, &i);
+			free(expanded);
 			i++;
 		}
 		else if (exp == 0)

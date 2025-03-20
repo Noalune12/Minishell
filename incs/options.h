@@ -1,7 +1,7 @@
 #ifndef OPTIONS_H
 # define OPTIONS_H
 
-# include "stdbool.h"
+# include <stdbool.h>
 
 typedef struct s_minishell	t_minishell;
 typedef void				(*t_option_handler)(t_minishell *);

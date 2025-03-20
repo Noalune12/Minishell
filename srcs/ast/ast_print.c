@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static void print_spaces(int depth)
+static void	print_spaces(int depth)
 {
 	int	i;
 
@@ -12,12 +12,10 @@ static void print_spaces(int depth)
 	}
 }
 
-static void print_node_content(t_ast *node)
+static void	print_node_content(t_ast *node)
 {
 	if (node->type == NODE_COMMAND)
 		print_cmd_node(node, "c");
-	else if (node->type == NODE_BUILTIN) // delete ou pas ? on a pas encore identifier si cest un builtin ou pas
-		print_cmd_node(node, "b");
 	else if (node->type == NODE_PIPE)
 		printf("|\n");
 	else if (node->type == NODE_REDIR_OUT)
