@@ -205,9 +205,6 @@ echo $TEST
 export A=1 B=2 C=3
 unset A B C
 echo $A $B $C
-echo hello > file1
-echo world > file2
-echo append >> file1
 ls | grep a
 cat file | grep hello | wc -l
 ls | grep a | sort | uniq
@@ -236,7 +233,6 @@ cat */file.txt
 ls * | grep test
 ls *.c | wc -l
 cat *.txt > all_texts
-echo "hello" > test*.txt
 ls *.c && echo "found c files"
 ls *.txt || echo "no text files"
 (ls *.c && gcc *.c) && ./a.out || echo "compilation failed"
