@@ -13,7 +13,57 @@ echo "$USER"
 echo '$'USER''
 echo $'USER'
 echo $"USER"
-echo $""
+echo $HOME
+echo $NOTEXIST
+echo "HOME is $HOME"
+export TEST="Hello World"
+echo $TEST
+unset TEST
+echo $TEST
+echo $PATH
+export PATH="/custom/bin:$PATH"
+echo $PATH
+export PATH="$PATH:/another/bin"
+echo $PATH
+echo $?
+echo $?$?
+echo $?TEST
+echo $
+echo "$"
+echo '$'
+echo '$HOME'
+echo '$USER $PWD'
+echo "$HOME"
+echo "$USER in $PWD"
+echo "'$HOME'"
+echo '"$HOME"'
+echo $A$B$C$D$E$F$G$H$I$J$K$L$M$N$O$P$Q$R$S$T$U$V$W$X$Y$Z
+echo '\$HOME'
+export WEIRD="$HOME $USER $PWD \n \t"
+echo "$WEIRD"
+export A="Hello"
+export B="World"
+echo $A$B
+export VAR1="TEST"
+export VAR2="$VAR1"
+echo $VAR2
+export TEST1="Hello"
+export TEST2="World"
+export EMPTY=""
+echo "$EMPTY"
+echo $EMPTY$HOME
+true
+echo $?
+false
+echo $?
+echo "Last exit: $?"
+echo "$?"
+echo $TEST1 $TEST2 $HOME $USER $PWD
+export CMD="ls"
+$CMD
+export FILE="test_file.txt"
+export DIR="/tmp"
+ls $DIR
 echo "$"
 echo ""$""
 echo ""$HOME
@@ -361,3 +411,4 @@ echo bonjour > a < cat | ls
 Makefile cat ><tet LOL LOL LOL >outfile
 >infile >infile2 <outfile1 cmd >outfileinvalid >outfile5 <infile4 | cat
 rm a file infile infile2 outfile1 outfileinvalid outfile5 infile4 1 out out1 out2 outfile output output.txt "test*.txt" ../1 all_texts errorlog "file with spaces.txt" file1 file2 file3
+rm -rf empy
