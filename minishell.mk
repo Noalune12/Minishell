@@ -17,11 +17,12 @@ override OPTIONSDIR	:= options/
 SRC	+= $(addprefix $(EXPANDDIR), $(addsuffix .c, $(EXPANDSRC)))
 
 override EXPANDSRC	:= \
-	expand \
-	expand_utils \
-	expand_quote_handling \
+	expand_init \
 	expand_len_utils \
 	expand_main_loop \
+	expand_quote_handling \
+	expand_utils \
+	expand \
 
 SRC	+= $(addprefix $(MAINDIR), $(addsuffix .c, $(MAINSRC)))
 
