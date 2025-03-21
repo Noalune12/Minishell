@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "env.h"
 
 int	error_handling_exec(t_minishell *minishell, char *message)
 {

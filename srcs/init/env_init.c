@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "env.h"
 
 static t_list	*error_handling(void)
 {

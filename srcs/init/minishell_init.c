@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "env.h"
 
 void	tty_check(void)
 {
