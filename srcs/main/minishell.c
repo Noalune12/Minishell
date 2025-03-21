@@ -42,7 +42,7 @@ char	*read_input(t_minishell *minishell)
 		free (exit_code);
 		return (NULL);
 	}
-	input = readline(prompt);
+	input = readline("minishell$>");
 
 	free(prompt);
 	if (input && *input)
@@ -75,10 +75,10 @@ int	main(int ac, char **av, char **envp)
 {
 	t_minishell	minishell;
 	int			ret;
-	// t_token		*tmp_test;
+	t_token		*tmp_test;
 
 	minishell_init(&minishell, ac, av, envp);
-	rl_event_hook = &event; // define callback function when rl_done is set at 1;
+	// rl_event_hook = &event; // define callback function when rl_done is set at 1;
 	while (1)
 	{
 		// printf("fd in capacity: %d\n", minishell.fds.fd_in.capacity);
@@ -102,6 +102,16 @@ int	main(int ac, char **av, char **envp)
 		minishell.token = expand_wildcards(minishell.token, &minishell.exec_status);
 		check_heredoc(&minishell); //-> je parcours jusqu'a je tombe sur un "<< EOF "-> remplace par "< filename" dans token
 		syntax_check(&minishell);
+		if (minishell.options->display_tokens)
+		{
+			tmp_test = minishell.token;
+			for (int i = 0; tmp_test != NULL; i++)
+			{
+				printf("%sMaillon ID: %d : Token: [%s], Type: %d%s\n",RED,
+					i, tmp_test->content, tmp_test->type, RESET);
+				tmp_test = tmp_test->next;
+			}
+		}
 		minishell.ast_node = build_ast(&minishell.token, &minishell.exec_status);
 		if (minishell.options->display_ast)
 			print_ast(minishell.ast_node, 0, &minishell.exec_status);
@@ -113,7 +123,7 @@ int	main(int ac, char **av, char **envp)
 		}
 		free(minishell.input);
 		if (minishell.ast_node)
-			free_ast(minishell.ast_node);
+			free_ast_2(minishell.ast_node);
 		if (minishell.fd_in)
 			close(minishell.fd_in);
 		if (minishell.fd_out)
