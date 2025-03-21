@@ -6,9 +6,9 @@
 
 char	*ft_getenv(char *var_name, t_list *env)
 {
-	char	*var;
 	t_list	*temp;
-	int		len;
+	char	*var;
+	size_t	len;
 
 	var = ft_strjoin(var_name, "=");
 	if (!var)
@@ -42,22 +42,4 @@ void	copy_var_value(char *var_name, char *expanded, size_t *j, t_list *env)
 			var_value++;
 		}
 	}
-}
-
-int	init_expand_data(t_expand_data *data, char *str, t_minishell *minishell)
-{
-	size_t	expanded_len;
-
-	expanded_len = get_expanded_str_len(str, minishell);
-	data->expanded = malloc(sizeof(char) * (expanded_len + 1));
-	if (!data->expanded)
-		return (0);
-	data->str = str;
-	data->env = minishell->envp;
-	data->minishell = minishell;
-	data->i = 0;
-	data->j = 0;
-	data->in_squotes = false;
-	data->in_dquotes = false;
-	return (1);
 }

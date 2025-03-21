@@ -18,10 +18,10 @@ typedef struct s_quotes
 
 typedef struct s_expand_data
 {
-	char		*str;
-	char		*expanded;
 	t_list		*env;
 	t_minishell	*minishell;
+	char		*str;
+	char		*expanded;
 	size_t		i;
 	size_t		j;
 	int			*exp;
@@ -30,6 +30,16 @@ typedef struct s_expand_data
 	bool		in_dquotes;
 }	t_expand_data;
 
+typedef struct s_expanded_str_len
+{
+	size_t	i;
+	size_t	total_len;
+	size_t	var_len;
+	char	*var_name;
+	char	*exit_code_str;
+	bool	in_squotes;
+	bool	in_dquotes;
+}	t_exp_len;
 
 char	*ft_getenv(char *var_name, t_list *env);
 char	*expand_env_vars(char *str, t_minishell *minishell, int *exp, int *quote);
@@ -46,6 +56,7 @@ int		handle_variable_expansion(t_expand_data *data);
 int		process_character(t_expand_data *data);
 int		init_expand_data(t_expand_data *data, char *str, t_minishell *minishell);
 
+bool	init_expand_len_data(t_exp_len *data, t_minishell *minishell);
 bool	update_quotes_expand(char c, bool *in_squotes, bool *in_dquotes, \
 																	int *quote);
 

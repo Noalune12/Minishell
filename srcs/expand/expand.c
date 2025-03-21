@@ -4,7 +4,8 @@
 #include "libft.h"
 #include "minishell.h"
 
-int	handle_dollar_sign(char *str, char *expanded, size_t *i, size_t *j, t_list *env)
+int	handle_dollar_sign(char *str, char *expanded, \
+											size_t *i, size_t *j, t_list *env)
 {
 	char	*var_name;
 	size_t	var_len;
@@ -40,13 +41,13 @@ int	handle_exit_code(char *expanded, size_t *i, size_t *j, int exit_code)
 	return (1);
 }
 
-char	*expand_env_vars(char *str, t_minishell *minishell, int *exp, int *quote)
+char	*expand_env_vars(char *str, t_minishell *minishell, int *ex, int *quote)
 {
 	t_expand_data	data;
 
 	if (!init_expand_data(&data, str, minishell))
 		return (NULL);
-	data.exp = exp;
+	data.exp = ex;
 	data.quote = quote;
 	while (str && str[data.i])
 	{
