@@ -24,15 +24,15 @@ static bool	add_var_value_len(char *var_name, size_t *total_len, t_list *env)
 	char	*var_value;
 
 	var_value = ft_getenv(var_name, env);
-	if (var_value == NULL)
-	{
-		free(var_name);
-		return (false);
-	}
+	// if (var_value == NULL)
+	// {
+	// 	free(var_name);
+	// 	return (false);
+	// }
 	if (var_value)
 	{
 		*total_len += ft_strlen(var_value);
-		free(var_name);
+		// free(var_name);
 	}
 	return (true);
 }
@@ -48,7 +48,7 @@ static bool	len_expanded_env(char *str, t_minishell *minishell, t_exp_len *data)
 			free(data->exit_code_str);
 		return (false);
 	}
-	if (add_var_value_len(data->var_name, &data->total_len, minishell->envp) == false)
+	if (add_var_value_len(data->var_name, &data->total_len, minishell->envp) == true)
 	{
 		if (data->exit_code_str)
 			free(data->exit_code_str);
@@ -58,7 +58,7 @@ static bool	len_expanded_env(char *str, t_minishell *minishell, t_exp_len *data)
 	return (true);
 }
 
-size_t	get_expanded_str_len(char *s, t_minishell *minishell)
+ssize_t	get_expanded_str_len(char *s, t_minishell *minishell)
 {
 	t_exp_len	data;
 
