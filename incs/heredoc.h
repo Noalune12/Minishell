@@ -1,7 +1,9 @@
 #ifndef HEREDOC_H
 # define HEREDOC_H
 
-# include "minishell.h" // a enlever pour mettre au propre
+# include <stdbool.h>
+
+# include "types.h"
 
 # define HEREDOC_PATH_BASE_NAME "/tmp/.heredoc_"
 # define RANDOM_NAME_LENGHT 10
@@ -24,6 +26,7 @@ void	handle_regular_heredoc(t_token *current);
 
 char	*create_temp_file(void);
 char	*handle_heredoc(char *delimiter);
+char	*handle_quotes_exec(char *input);
 
 bool	check_expand(char *delimiter);
 
@@ -34,6 +37,5 @@ int		is_op(char *token);
 int		is_valid_heredoc_delimiter(char *token);
 int		write_to_heredoc(char *file_name, char *delimiter);
 
-char	*handle_quotes_exec(char *input);
 
 #endif

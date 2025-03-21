@@ -40,7 +40,7 @@ You will learn a lot about processes and file descriptors.*
     - [Expansions et gestion des variables](#expansions-et-gestion-des-variables)
     - [Arbre binaire premiere recherches](#arbre-binaire-premiere-recherches)
     - [Heredoc](#heredoc)
-  - [TO DO LIST DE LENFER](#to-do-list-de-lenfer)
+  - [Last things to do:](#last-things-to-do)
 
 
 ## Ressources pour travailler en groupe avec Git
@@ -388,36 +388,15 @@ Dans l'idée on doit gérer les heredoc de la meme facon que bash mais on est li
   - deux solution: faire un nom aleatoire ou bien un nom fix avec une incrementation du nom de ce fichier
   - exemple pour le nom aleatoire: /tmp/.random_name_generated_taking_X_characters_read_from_/dev/urandom
 
+## Last things to do:
 
-
-## TO DO LIST DE LENFER
-
-Exec:
-
-- [ ] Check des built-ins **apres** suppressions des quotes
-- [ ] expand (a prendre dans le dossier expand)
-- [x] Parenthesis ?
-- [ ] Signaux
-
-Parsing:
-
-- [x] Fix attribution type de token
-- [x] Fix heredoc (suppression dernier fichier temporaire)
-- [x] Fix heredoc delimiteurs (operateurs en tant que delimiteurs ne devraient pas fonctionner)
-- [ ] Fix quotes (double check)
-- [ ] Check syntaxe (pleins de choses a voir)
-- [ ] Signaux ?
-- [x] <font color='red'>**Suppression quotes apres check lexical**</font>
-- [ ] **\* wildcard**
-
-General:
-
-- [ ] Revoir creation AST
+- [ ] Norme
+- [ ] Finir testeur
 - [ ] **Check des mallocs + remonté d'erreur (en gros tout proteger et tout check des protections)**
-
-
-Bonus de bonus:
-
-- [ ] Avoir un historique qui reste meme si on quitte minishell (persistant jusqu'a recompilation)
-- [ ] Exit code mis a jour sur prompt qui s'affiche correctement
-- [ ] Expand dans les heredoc
+- [ ] Check fonctions interdites
+- [ ] Makefile qui fonctionne correctement (potentiellement suppression du changement de l'affichage a la compilation)
+- [ ] Deplacer certaines fonctions dans la libft ? (is_quote) ?
+- [ ] Headers
+- [ ] Implementation built-in bonus
+- [ ] pwd check
+- [ ] make valgrind error when dup2 fail (since we added exit)

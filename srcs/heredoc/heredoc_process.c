@@ -1,4 +1,5 @@
 #include "heredoc.h"
+#include "minishell.h"
 
 char	*handle_heredoc(char *delimiter)
 {

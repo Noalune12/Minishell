@@ -1,18 +1,5 @@
 #include "minishell.h"
 
-	/*
-
-	https://claude.ai/chat/5a4305a3-c0f9-447a-ad5d-5ee7a29966bd
-
-	syntax to check :
-	si dernier node est un <<, >, <, >>, |, (, &&, ||
-
-	si consecutive operateurs :
-
-	CHECK IS PARENTHESIS NOT CLOSED
-
-	*/
-
 static int	check_first_token(t_token *token, t_minishell *minishell)
 {
 	if (token->type == NODE_PIPE || token->type == NODE_OR
