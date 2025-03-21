@@ -135,7 +135,8 @@ typedef struct s_minishell
 t_list	*env_init(char **envp);
 t_list	*find_env_node(t_list *env, const char *var_searched);
 
-void	free_ast(t_ast *node);
+
+void	free_ast_2(t_ast *node);
 
 void	print_ast(t_ast *node, int depth, bool *exec_status);
 void	print_cmd_node(t_ast *node, char *prefix);

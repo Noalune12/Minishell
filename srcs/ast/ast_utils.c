@@ -17,7 +17,7 @@ void	ft_free(char **split)
 	}
 }
 
-void	free_ast(t_ast *node)
+void	free_ast_2(t_ast *node) // TODO make free ast exec without unlink
 {
 	if (!node)
 		return ;
@@ -29,6 +29,25 @@ void	free_ast(t_ast *node)
 	{
 		if (node->type == NODE_HEREDOC)
 			unlink(node->cmd->cmds[0]);
+		free(node->cmd->path);
+		ft_free(node->cmd->cmds);
+		free(node->cmd);
+	}
+	free(node);
+}
+
+void	free_ast(t_ast *node) // TODO make free ast exec without unlink
+{
+	if (!node)
+		return ;
+	if (node->left)
+		free_ast(node->left);
+	if (node->right)
+		free_ast(node->right);
+	if (node->cmd)
+	{
+		// if (node->type == NODE_HEREDOC)
+		// 	unlink(node->cmd->cmds[0]);
 		free(node->cmd->path);
 		ft_free(node->cmd->cmds);
 		free(node->cmd);

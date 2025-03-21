@@ -47,7 +47,7 @@ static char	**update_cmd(char **cmds, char *content)
 	return (new_cmds);
 }
 
-static t_ast	*create_redir(t_token **token, t_branch *branch,
+static int	create_redir(t_token **token, t_branch *branch,
 	t_ast *root, t_ast *sub_ast)
 {
 	branch->token_redir = *token;
@@ -62,12 +62,13 @@ static t_ast	*create_redir(t_token **token, t_branch *branch,
 		{
 			free_ast(branch->node);
 			free_ast(branch->node_cmd);
-			return (error_handling_ast(root, sub_ast, "Malloc failed\n"));
+			error_handling_ast(root, sub_ast, "Malloc failed\n");
+			return (0);
 		}
 	}
 	if (!(branch->node))
 		branch->node = branch->node_redir;
-	return (branch->node);
+	return (1);
 }
 
 static t_ast	*create_cmd(t_token **token, t_branch *branch,
@@ -107,13 +108,13 @@ t_ast	*create_branch(t_token **token, t_ast *root, t_ast *sub_ast)
 	{
 		if (is_redir_node((*token)->type))
 		{
-			if (create_redir(token, &branch, root, sub_ast) == NULL)
+			if (create_redir(token, &branch, root, sub_ast) == 0)
 				return (NULL);
 		}
 		else if (create_cmd(token, &branch, root, sub_ast) == NULL)
 			return (NULL);
-		if ((*token)->next && (is_operator_node((*token)->next->type)
-				|| (*token)->next->type == NODE_CLOSE_PAR))
+		if ((*token)->next && ((is_operator_node((*token)->next->type)
+				|| (*token)->next->type == NODE_CLOSE_PAR)))
 			break ;
 		(*token) = (*token)->next;
 	}

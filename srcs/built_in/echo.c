@@ -1,12 +1,14 @@
 #include "minishell.h"
 
-static int	is_no_nl(char *str)
+static inline int	is_no_nl(char *str)
 {
 	int	i;
 
 	if (!str || str[0] != '-')
 		return (0);
 	i = 1;
+	if (!str[i])
+		return (0);
 	while (str[i])
 	{
 		if (str[i] != 'n')
