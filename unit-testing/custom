@@ -97,6 +97,49 @@ export USER_NAME=testuser && echo $USER_NAME
 echo a$USER
 export X=""quoted"" && echo $X
 export X=123 && echo $X
+echo 'Hello $USER'
+echo 'Single quotes prevent $HOME expansion'
+echo "Hello $USER"
+echo "My home dir is $HOME"
+echo Hello     World
+echo "Hello     World"
+echo "outside 'inside' outside"
+echo 'outside "inside" outside'
+echo wor"d"
+echo wo'rd'
+echo "part1"'part2'"part3"
+echo "He said \"Hello\""
+echo \"Hello\"
+echo "It's working"
+echo 'He said "Hello"'
+export TEST="Hello World"
+echo "$TEST"
+echo '$TEST'
+echo $TEST
+export SPACES="Hello    World"
+echo $SPACES
+echo "$SPACES"
+echo '$SPACES'
+echo ""
+echo ''
+echo "" ''
+export A=Hello
+export B=World
+echo "$A $B"
+echo "$A$B"
+echo '$A$B'
+echo '$(echo not_interpreted)'
+echo "Stars * and ? question marks?"
+echo 'Stars * and ? question marks?'
+export COMPLEX="complex $USER string"
+echo "'$COMPLEX'"
+echo "\"$COMPLEX\""
+export X="first"
+export Y="second"
+echo "$X $Y"
+echo "$X$Y"
+echo "$X-$Y"
+
 echo "$"
 echo $
 echo $USER$HOME$PATH
@@ -411,4 +454,4 @@ echo bonjour > a < cat | ls
 Makefile cat ><tet LOL LOL LOL >outfile
 >infile >infile2 <outfile1 cmd >outfileinvalid >outfile5 <infile4 | cat
 rm a file infile infile2 outfile1 outfileinvalid outfile5 infile4 1 out out1 out2 outfile output output.txt "test*.txt" ../1 all_texts errorlog "file with spaces.txt" file1 file2 file3
-rm -rf empy
+rm -rf empty
