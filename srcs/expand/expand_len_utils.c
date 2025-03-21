@@ -19,24 +19,41 @@ inline size_t	get_var_len(char *str, size_t i)
 	return (var_len);
 }
 
-static void	add_var_value_len(char *var_name, size_t *total_len, t_list *env)
+static bool	add_var_value_len(char *var_name, size_t *total_len, t_list *env)
 {
 	char	*var_value;
 
 	var_value = ft_getenv(var_name, env);
+	if (var_value == NULL)
+	{
+		free(var_name);
+		return (false);
+	}
 	if (var_value)
+	{
 		*total_len += ft_strlen(var_value);
+		free(var_name);
+	}
+	return (true);
 }
 
-static bool	looping(char *str, t_minishell *minishell, t_exp_len *data)
+static bool	len_expanded_env(char *str, t_minishell *minishell, t_exp_len *data)
 {
 	data->i++;
 	data->var_len = get_var_len(str, data->i);
 	data->var_name = ft_substr(str, data->i, data->var_len);
 	if (!data->var_name)
+	{
+		if (data->exit_code_str)
+			free(data->exit_code_str);
 		return (false);
-	add_var_value_len(data->var_name, &data->total_len, minishell->envp);
-	free(data->var_name);
+	}
+	if (add_var_value_len(data->var_name, &data->total_len, minishell->envp) == false)
+	{
+		if (data->exit_code_str)
+			free(data->exit_code_str);
+		return (false);
+	}
 	data->i += data->var_len - 1;
 	return (true);
 }
@@ -50,7 +67,7 @@ size_t	get_expanded_str_len(char *s, t_minishell *minishell)
 	while (s && s[data.i])
 	{
 		if (update_quotes_expand(s[data.i], &data.in_squotes, \
-				&data.in_dquotes, NULL) == NULL)
+				&data.in_dquotes, NULL) == false)
 			data.total_len++;
 		else if (s[data.i] == '$' && s[data.i + 1] && s[data.i + 1] == '?')
 		{
@@ -59,7 +76,7 @@ size_t	get_expanded_str_len(char *s, t_minishell *minishell)
 		}
 		else if (s[data.i] == '$' && s[data.i + 1])
 		{
-			if (looping(s, minishell, &data) == false)
+			if (len_expanded_env(s, minishell, &data) == false)
 				return (0);
 		}
 		else

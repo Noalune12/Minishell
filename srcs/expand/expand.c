@@ -45,7 +45,7 @@ char	*expand_env_vars(char *str, t_minishell *minishell, int *ex, int *quote)
 {
 	t_expand_data	data;
 
-	if (!init_expand_data(&data, str, minishell))
+	if (init_expand_data(&data, str, minishell) == false)
 		return (NULL);
 	data.exp = ex;
 	data.quote = quote;
