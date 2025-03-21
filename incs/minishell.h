@@ -65,7 +65,6 @@ extern int	g_signal_received;
 # define HOME			"HOME"
 # define USER			"USER"
 # define ENV_DEFAULT	"_/usr/bin/env"
-# define MANPATH		"MANPATH=/usr/share/man"
 // liste de define de message derreur
 
 
@@ -132,18 +131,14 @@ typedef struct s_minishell
 	t_fds		fds;
 }	t_minishell;
 
-t_list	*env_init(char **envp);
-t_list	*find_env_node(t_list *env, const char *var_searched);
-
-
 void	free_ast_2(t_ast *node);
 
 void	print_ast(t_ast *node, int depth, bool *exec_status);
 void	print_cmd_node(t_ast *node, char *prefix);
 void	print_redirect_node(t_ast *node, char *symbol);
 
-t_list	*add_node(t_list **env, char *content); // ????????
-void	free_list(t_list *list);
+// t_list	*add_node(t_list **env, char *content); // ????????
+// void	free_list(t_list *list);
 void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
 
 void	signal_handler(int signum);
@@ -196,25 +191,6 @@ void	update_pwd(t_list **env);
  * @param env The environment list.
  */
 void	update_shlvl(t_list *env);
-
-/**
- * @brief Determines if the current shell is nested within another shell.
- *
- * This function checks the "SHLVL" environment variable in the environment
- * list.
- * If the value of SHLVL is greater than 1, it indicates that a shell has been
- * launched within another shell.
- *
- * @param env_list The environment list.
- * @return 1 if the shell is nested (SHLVL > 1), 0 otherwise.
- */
-int		nested_shell(t_list *env_list);
-
-
-
-
-
-
 
 /*	----------- parsing ----------------------------------------------------- */
 
