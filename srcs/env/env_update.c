@@ -8,7 +8,6 @@ void	add_manpath_to_env(t_list **env)
 	char	*cwd;
 	char	*own_manpath;
 	char	*temp;
-	char	*temp2;
 
 	if (!env)
 		return ;
