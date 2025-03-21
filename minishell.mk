@@ -80,7 +80,9 @@ SRC	+= $(addprefix $(EXECDIR), $(addsuffix .c, $(EXECSRC)))
 
 override EXECSRC	:= \
 	exec \
-	cmds_path \
+	cmd_check \
+	cmd_path \
+	cmd_path_utils \
 	cmd_exec \
 	pipe_exec \
 	redirappend_exec \

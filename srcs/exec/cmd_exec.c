@@ -1,8 +1,5 @@
 #include "minishell.h"
 
-#include <sys/types.h>
-#include <sys/stat.h>
-
 static char	**list_to_tab(t_minishell *minishell)
 {
 	t_list	*temp;
@@ -12,10 +9,7 @@ static char	**list_to_tab(t_minishell *minishell)
 	temp = minishell->envp;
 	tab = (char **)malloc((ft_lstsize(temp) + 1) * sizeof(char *));
 	if (!tab)
-	{
-		error_handling_exec(minishell, "Malloc failed");
-		exit (1);
-	}
+		exit (error_handling_exec(minishell, "Malloc failed"));
 	i = 0;
 	while (temp)
 	{
@@ -23,8 +17,7 @@ static char	**list_to_tab(t_minishell *minishell)
 		if (!tab[i])
 		{
 			free_tab(tab, i);
-			error_handling_exec(minishell, "Malloc failed");
-			exit (1);
+			exit (error_handling_exec(minishell, "Malloc failed"));
 		}
 		temp = temp->next;
 		i++;
@@ -33,27 +26,31 @@ static char	**list_to_tab(t_minishell *minishell)
 	return (tab);
 }
 
-static int	exec_cmd(t_ast *node, t_minishell *minishell)
+static int	check_permission(t_ast *node, t_minishell *minishell)
 {
-	char	**env;
-
-	if ((ft_strncmp(node->cmd->cmds[0], "./", 2) == 0 || ft_strncmp(node->cmd->cmds[0], "/", 1) == 0) && access(node->cmd->cmds[0], F_OK) == 0 && access(node->cmd->cmds[0], X_OK) != 0)
+	if (start_as_file(node) == 1 && access(node->cmd->cmds[0], F_OK) == 0
+		&& access(node->cmd->cmds[0], X_OK) != 0)
 	{
 		ft_dprintf(STDERR_FILENO, "minishell: %s: ", node->cmd->cmds[0]);
 		perror("");
 		error_handling_exec(minishell, NULL);
-		exit (126);
+		return (0);
 	}
+	return (1);
+}
+
+static int	exec_cmd(t_ast *node, t_minishell *minishell)
+{
+	char	**env;
+
+	if (check_permission(node, minishell) == 0)
+		exit (126);
 	env = list_to_tab(minishell);
 	if (access(node->cmd->cmds[0], X_OK) == 0)
 	{
-
 		node->cmd->path = ft_strdup(node->cmd->cmds[0]);
 		if (!(node->cmd->path))
-		{
-			error_handling_exec(minishell, "Malloc failed");
-			exit (1);
-		}
+			exit(error_handling_exec(minishell, "Malloc failed"));
 		if (execve(node->cmd->path, node->cmd->cmds, env) == -1)
 			node->cmd->path = find_exec_cmd(node->cmd->cmds, minishell, env);
 	}
@@ -64,54 +61,16 @@ static int	exec_cmd(t_ast *node, t_minishell *minishell)
 	if (execve(node->cmd->path, node->cmd->cmds, env) == -1)
 	{
 		free_tab(env, ft_lstsize(minishell->envp));
-		error_handling_exec(minishell, "execve failed");
-		exit (1);
+		exit(error_handling_exec(minishell, "execve failed"));
 	}
 	return (1);
 }
 
-static int	check_cmd(t_ast *node)
+static int	exec_in_child(t_ast *node, t_minishell *minishell, int *ret)
 {
-	struct stat	path;
-
-	if (!node->cmd->cmds[0][0]) //TODO find a better solution
-	{
-		ft_dprintf(STDERR_FILENO, CMD_NOT_FOUND, "");
-		return (127);
-	}
-	if (ft_strcmp(node->cmd->cmds[0], ".") == 0)
-	{
-		ft_dprintf(STDERR_FILENO, "minishell: %s: filename argument required\n", node->cmd->cmds[0]);
-		return (2);
-	}
-	if (stat(node->cmd->cmds[0], &path) == 0)
-	{
-		if (path.st_mode && (ft_strncmp(node->cmd->cmds[0], "./", 2) == 0 || ft_strncmp(node->cmd->cmds[0], "/", 1) == 0) && S_ISDIR(path.st_mode))
-		{
-			ft_dprintf(STDERR_FILENO, "minishell: %s: Is a directory\n", node->cmd->cmds[0]);
-			return (126);
-		}
-		if (path.st_mode && (ft_strncmp(node->cmd->cmds[0], "./", 2) == 0 || ft_strncmp(node->cmd->cmds[0], "/", 1) == 0) && !S_ISREG(path.st_mode))
-		{
-			ft_dprintf(STDERR_FILENO, "minishell: %s: ", node->cmd->cmds[0]);
-			perror("");
-			return (127);
-		}
-	}
-	return (0);
-}
-
-int	handle_cmd(t_ast *node, t_minishell *minishell)
-{
-	int	ret;
-
-	ret = check_cmd(node);
-	if (ret != 0)
-		return (ret);
-	handle_signal_wait();
 	minishell->pid = fork();
 	if (minishell->pid == -1)
-			return (error_handling_exec(NULL, "fork failed"));
+		return (error_handling_exec(NULL, "fork failed"));
 	if (minishell->pid == 0)
 	{
 		handle_signal_child();
@@ -123,8 +82,23 @@ int	handle_cmd(t_ast *node, t_minishell *minishell)
 		close_fd(&minishell->fds.fd_out);
 		exec_cmd(node, minishell);
 	}
-	if (waitpid(minishell->pid, &ret, 0) == -1)
+	if (waitpid(minishell->pid, ret, 0) == -1)
 		return (error_handling_exec(NULL, "Waitpid failed"));
+	return (0);
+}
+
+int	handle_cmd(t_ast *node, t_minishell *minishell)
+{
+	int	ret;
+	int	child_ret;
+
+	ret = check_cmd(node);
+	if (ret != 0)
+		return (ret);
+	handle_signal_wait();
+	child_ret = exec_in_child(node, minishell, &ret);
+	if (child_ret == 1)
+		return (1);
 	if (minishell->is_pipe == 0 && g_signal_received == SIGINT)
 		ft_dprintf(STDOUT_FILENO, "\n");
 	else if (minishell->is_pipe == 0 && g_signal_received == SIGQUIT)

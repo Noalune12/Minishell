@@ -6,34 +6,34 @@ typedef struct s_env
 	struct s_env	*next;
 } t_env;
 
-t_list	*add_node(t_list **env, char *content)
-{
-	t_list	*temp;
-	t_list	*new_node;
+// t_list	*add_node(t_list **env, char *content)
+// {
+// 	t_list	*temp;
+// 	t_list	*new_node;
 
-	if (!env)
-		return (NULL);
-	temp = *env;
-	new_node = malloc(sizeof(t_list));
-	if (!new_node)
-		return (NULL);
-	new_node->content = ft_strdup(content);
-	if (!new_node->content)
-	{
-		free(new_node);
-		return (NULL);
-	}
-	new_node->next = NULL;
-	if (!*env)
-	{
-		*env = new_node;
-		return (new_node);
-	}
-	while (temp->next)
-		temp = temp->next;
-	temp->next = new_node;
-	return (new_node);
-}
+// 	if (!env)
+// 		return (NULL);
+// 	temp = *env;
+// 	new_node = malloc(sizeof(t_list));
+// 	if (!new_node)
+// 		return (NULL);
+// 	new_node->content = ft_strdup(content);
+// 	if (!new_node->content)
+// 	{
+// 		free(new_node);
+// 		return (NULL);
+// 	}
+// 	new_node->next = NULL;
+// 	if (!*env)
+// 	{
+// 		*env = new_node;
+// 		return (new_node);
+// 	}
+// 	while (temp->next)
+// 		temp = temp->next;
+// 	temp->next = new_node;
+// 	return (new_node);
+// }
 
 void	free_env(t_env *env)
 {
