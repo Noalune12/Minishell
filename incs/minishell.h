@@ -393,12 +393,29 @@ t_ast	*error_handling_ast(t_ast *root, t_ast *sub_ast, char *str);
 
 /* ---- exec */
 
+typedef int (* t_handler)(t_ast *node, t_minishell *minishell);
+
+
 int		error_handling_exec(t_minishell *minishell, char *message);
 int		is_builtin(char *cmds);
 void	free_tab(char **tab, int i);
 int		start_as_file(t_ast *node);
 
 int		exec_minishell(t_ast *node, t_minishell *minishell);
+
+typedef struct	s_exp_qu
+{
+	char	*expanded;
+	char	*temp;
+	char	*final;
+	int		exp;
+	int		quote;
+	int		i;
+	int		j;
+}	t_exp_qu;
+
+int		expand_quotes_exec(t_ast *node, t_minishell *minishell);
+char	*handle_quotes_exec(char *input);
 
 int		handle_cmd(t_ast *node, t_minishell *minishell);
 char	*find_exec_cmd(char **cmds, t_minishell *minishell, char **env);
@@ -410,6 +427,9 @@ int		error_handling_cmd_path(t_path_cmds *path_cmds,	char *str,
 			char **env, t_minishell *minishell);
 int		free_error_cmd_path(t_minishell *minishell,
 			char *message, char **env, char *cmds);
+
+int		handle_and(t_ast *node, t_minishell *minishell);
+int		handle_or(t_ast *node, t_minishell *minishell);
 
 int		handle_pipe(t_ast *node, t_minishell *minishell);
 

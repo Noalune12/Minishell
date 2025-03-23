@@ -92,7 +92,7 @@ int	main(int ac, char **av, char **envp)
 		}
 		if (minishell.input == NULL) // ctrl + d
 		{
-			// ft_dprintf(STDERR_FILENO, "exit\n"); // TODO do not \n is in ./minishell
+			ft_dprintf(STDERR_FILENO, "exit\n"); // TODO do not \n is in ./minishell
 			break ;
 		}
 		init_global();

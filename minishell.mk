@@ -79,11 +79,13 @@ override PARSINGSRC	:= \
 SRC	+= $(addprefix $(EXECDIR), $(addsuffix .c, $(EXECSRC)))
 
 override EXECSRC	:= \
+	and_exec \
 	exec \
 	cmd_check \
 	cmd_path \
 	cmd_path_utils \
 	cmd_exec \
+	or_exec \
 	pipe_exec \
 	redirappend_exec \
 	redirin_exec \
@@ -91,6 +93,8 @@ override EXECSRC	:= \
 	heredoc_exec \
 	exec_utils \
 	handle_fd \
+	expand_quotes_exec \
+	quotes_utils \
 
 SRC	+= $(addprefix $(BUILTINDIR), $(addsuffix .c, $(BUILTINSRC)))
 
