@@ -49,7 +49,8 @@ void	check_entry(t_minishell *minishell)
 {
 	if (minishell->input != NULL && ft_strcmp(minishell->input, "ptree") == 0)
 		update_options(&minishell->options->display_ast);
-	else if (minishell->input != NULL && ft_strcmp(minishell->input, "ptokens") == 0)
+	else if (minishell->input != NULL && \
+								ft_strcmp(minishell->input, "ptokens") == 0)
 		update_options(&minishell->options->display_tokens);
 	else if (minishell->input != NULL && \
 								ft_strcmp(minishell->input, "options") == 0)

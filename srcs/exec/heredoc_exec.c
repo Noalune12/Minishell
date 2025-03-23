@@ -66,7 +66,7 @@ int	open_and_replace(char *filename, t_minishell *minishell)
 	close(fd);
 	// printf(GREEN"content = %s\n"RESET, content);
 	// printf("env before expand = %s\n", minishell->envp->content);
-	expanded = expand_heredoc(content, minishell->envp, minishell);
+	expanded = expand_heredoc(content, minishell);
 	// printf(PURPLE"expanded = %s\n"RESET, expanded);
 	fd = open(filename, O_WRONLY | O_TRUNC);
 	if (fd == -1)

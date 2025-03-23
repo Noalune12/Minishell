@@ -41,5 +41,7 @@ bool	init_heredoc_expand(t_heredoc_data *data, char *str, \
 	data->expanded = malloc(sizeof(char) * (data->expanded_len + len + 1));
 	if (data->expanded == NULL)
 		return (false);
+	data->str = str;
+	data->env = minishell->envp;
 	return (true);
 }

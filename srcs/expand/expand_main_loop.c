@@ -11,8 +11,7 @@ int	handle_variable_expansion(t_expand_data *data)
 		|| data->str[data->i + 1] == '_'))
 	{
 		*(data->exp) = 1;
-		if (!handle_dollar_sign(data->str, data->expanded, &(data->i),
-				&(data->j), data->env))
+		if (!handle_dollar_sign(data))
 			return (0);
 	}
 	else if (data->str[data->i] == '$' && data->str[data->i + 1] == '?')

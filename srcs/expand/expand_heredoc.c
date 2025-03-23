@@ -4,63 +4,54 @@
 #include "libft.h"
 #include "minishell.h"
 
-static int	process_dollar_var(char *str, char *expanded, size_t *i, size_t *j,
-							t_list *env)
+static int	process_dollar_var(t_heredoc_data *data)
 {
-	if (!handle_dollar_sign(str, expanded, i, j, env))
+	if (!handle_heredoc_dollar_sign(data))
 		return (0);
 	return (1);
 }
 
-static int	process_exit_code(char *expanded, size_t *i, size_t *j,
-							int exit_code)
+static int	process_exit_code(t_heredoc_data *data, int exit_code)
 {
-	if (!handle_exit_code(expanded, i, j, exit_code))
+	if (!handle_exit_code(data->expanded, &data->i, &data->j, exit_code))
 		return (0);
 	return (1);
 }
 
-static int	process_heredoc_chars(char *str, char *expanded, size_t *i,
-								size_t *j, t_list *env, t_minishell *minishell)
+static int	process_heredoc_chars(t_heredoc_data *data, t_minishell *minishell)
 {
-	while (str && str[*i])
+	while (data->str && data->str[data->i])
 	{
-		if (str[*i] == '$' && str[*i + 1] &&
-			(str[*i + 1] != '?' && ft_isalnum(str[*i + 1])))
+		if (data->str[data->i] == '$' && data->str[data->i + 1] \
+				&& (data->str[data->i + 1] != '?' \
+				&& ft_isalnum(data->str[data->i + 1])))
 		{
-			if (!process_dollar_var(str, expanded, i, j, env))
+			if (!process_dollar_var(data))
 				return (0);
 		}
-		else if (str[*i] == '$' && str[*i + 1] == '?')
+		else if (data->str[data->i] == '$' && data->str[data->i + 1] == '?')
 		{
-			if (!process_exit_code(expanded, i, j, minishell->exit_status))
+			if (!process_exit_code(data, minishell->exit_status))
 				return (0);
 		}
 		else
-			expanded[(*j)++] = str[(*i)];
-		(*i)++;
+			data->expanded[(data->j)++] = data->str[(data->i)];
+		data->i++;
 	}
 	return (1);
 }
 
-char	*expand_heredoc(char *str, t_list *env, t_minishell *minishell)
+char	*expand_heredoc(char *str, t_minishell *minishell)
 {
-	char	*expanded;
-	size_t	expanded_len;
-	size_t	i;
-	size_t	j;
+	t_heredoc_data	data;
 
-	expanded_len = get_expanded_str_len(str, minishell);
-	expanded = malloc(sizeof(char) * (expanded_len + 1));
-	if (!expanded)
+	if (init_heredoc_expand(&data, str, minishell) == false)
 		return (NULL);
-	i = 0;
-	j = 0;
-	if (!process_heredoc_chars(str, expanded, &i, &j, env, minishell))
+	if (!process_heredoc_chars(&data, minishell))
 	{
-		free(expanded);
+		free(data.expanded);
 		return (NULL);
 	}
-	expanded[j] = '\0';
-	return (expanded);
+	data.expanded[data.j] = '\0';
+	return (data.expanded);
 }

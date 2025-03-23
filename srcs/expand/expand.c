@@ -4,19 +4,35 @@
 #include "libft.h"
 #include "minishell.h"
 
-int	handle_dollar_sign(char *str, char *expanded, size_t *i, size_t *j, t_list *env)
+int	handle_heredoc_dollar_sign(t_heredoc_data *data)
 {
 	char	*var_name;
 	size_t	var_len;
 
-	(*i)++;
-	var_len = get_var_len(str, *i);
-	var_name = ft_substr(str, *i, var_len);
+	data->i++;
+	var_len = get_var_len(data->str, data->i);
+	var_name = ft_substr(data->str, data->i, var_len);
 	if (!var_name)
 		return (0);
-	copy_var_value(var_name, expanded, j, env);
+	copy_var_value(var_name, data->expanded, &data->j, data->env);
 	free(var_name);
-	*i += var_len - 1;
+	data->i += var_len - 1;
+	return (1);
+}
+
+int	handle_dollar_sign(t_expand_data *data)
+{
+	char	*var_name;
+	size_t	var_len;
+
+	data->i++;
+	var_len = get_var_len(data->str, data->i);
+	var_name = ft_substr(data->str, data->i, var_len);
+	if (!var_name)
+		return (0);
+	copy_var_value(var_name, data->expanded, &data->j, data->env);
+	free(var_name);
+	data->i += var_len - 1;
 	return (1);
 }
 
