@@ -5,7 +5,7 @@ void	print_tokens(t_minishell *minishell)
 {
 	t_token	*print_tokens;
 
-	if (!minishell->options->display_tokens)
+	if (minishell->options->display_tokens == false)
 		return ;
 	else
 	{
