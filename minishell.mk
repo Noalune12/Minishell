@@ -31,6 +31,8 @@ SRC	+= $(addprefix $(MAINDIR), $(addsuffix .c, $(MAINSRC)))
 
 override MAINSRC	:= \
 	minishell \
+	loop \
+	prompt \
 
 SRC +=  $(addprefix $(INITDIR), $(addsuffix .c, $(INITSRC)))
 

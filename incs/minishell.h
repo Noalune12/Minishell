@@ -134,6 +134,13 @@ typedef struct s_minishell
 	t_fds		fds;
 }	t_minishell;
 
+
+
+
+void	minishell_main_loop(t_minishell *minishell);
+char	*read_input(t_minishell *minishell);
+
+
 void	free_ast_2(t_ast *node);
 
 void	print_ast(t_ast *node, int depth, bool *exec_status);
