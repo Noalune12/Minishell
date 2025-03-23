@@ -6,9 +6,9 @@
 
 char	*ft_getenv(char *var_name, t_list *env)
 {
-	t_list	*temp;
 	char	*var;
-	size_t	len;
+	t_list	*temp;
+	int		len;
 
 	var = ft_strjoin(var_name, "=");
 	if (!var)
