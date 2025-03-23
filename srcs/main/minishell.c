@@ -49,22 +49,6 @@ char	*read_input(t_minishell *minishell)
 	return (input);
 }
 
-void	close_free_and_reinit_fds(t_fd_info *fd)
-{
-	int	i;
-
-	i = 0;
-	while (i < fd->nb_elems)
-	{
-		close(fd->fds[i]);
-		i++;
-	}
-	free(fd->fds);
-	fd->fds = malloc(sizeof(int) * 10);
-	fd->nb_elems = 0;
-	fd->capacity = 10;
-}
-
 int event(void)
 {
 	return (0);
@@ -92,15 +76,14 @@ int	main(int ac, char **av, char **envp)
 		}
 		if (minishell.input == NULL) // ctrl + d
 		{
-			// ft_dprintf(STDERR_FILENO, "exit\n"); // TODO do not \n is in ./minishell
+			ft_dprintf(STDERR_FILENO, "exit\n"); // TODO do not \n is in ./minishell
 			break ;
 		}
 		init_global();
 		minishell.token = tokenize_input(minishell.input, &minishell.exec_status);
 		minishell.token = split_operators(minishell.token, &minishell.exec_status);
-		minishell.token = expand_wildcards(minishell.token, &minishell.exec_status);
-		syntax_check(&minishell);
 		check_heredoc(&minishell); //-> je parcours jusqu'a je tombe sur un "<< EOF "-> remplace par "< filename" dans token
+		minishell.token = expand_wildcards(minishell.token, &minishell.exec_status);
 		syntax_check(&minishell);
 		if (minishell.options->display_tokens)
 		{
@@ -121,23 +104,10 @@ int	main(int ac, char **av, char **envp)
 		{
 			minishell.exit_status = exec_minishell(minishell.ast_node, &minishell);
 		}
-		free(minishell.input);
-		if (minishell.ast_node)
-			free_ast_2(minishell.ast_node);
-		if (minishell.fd_in)
-			close(minishell.fd_in);
-		if (minishell.fd_out)
-			close(minishell.fd_out);
-		close_free_and_reinit_fds(&minishell.fds.fd_in);
-		close_free_and_reinit_fds(&minishell.fds.fd_out);
+		cleanup_loop(&minishell);
 	}
 	ret = minishell.exit_status;
-	if (minishell.fd_in)
-		close(minishell.fd_in);
-	if (minishell.fd_out)
-		close(minishell.fd_out);
-	rl_clear_history();
-	free_env(&minishell);
+	cleanup_exit(&minishell);
 	return (ret);
 }
 

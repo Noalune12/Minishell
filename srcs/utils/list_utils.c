@@ -1,10 +1,10 @@
 #include "minishell.h"
 
-bool    replace_token(t_list *current, t_list *new_tokens)
+bool	replace_token(t_list *current, t_list *new_tokens)
 {
-	t_list  *next;
-	t_list  *new_next;
-	char    *new_content;
+	t_list	*next;
+	t_list	*new_next;
+	char	*new_content;
 
 	if (!new_tokens)
 		return (true);

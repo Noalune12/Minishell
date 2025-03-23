@@ -1,4 +1,6 @@
 #include "minishell.h"
+#include "env.h"
+
 //malloc checked
 
 char	*dup_dquotes(char *content)

@@ -49,6 +49,8 @@ extern int	g_signal_received;
 # define ERROR_OUTFILE "minishell: %s: Permission denied\n" // a delete ?
 # define ERROR_INFILE "minishell: %s: No such file or directory\n"
 # define SIGQUIT_MESSAGE "Quit (core dumped)\n"
+# define DOT_ERR "minishell: %s: filename argument required\n"
+# define IS_REDIR "minishell: %s: Is a directory\n"
 
 // Error builtin
 # define EXIT_ERROR "minishell: exit: %s: numeric argument required\n"
@@ -65,7 +67,6 @@ extern int	g_signal_received;
 # define HOME			"HOME"
 # define USER			"USER"
 # define ENV_DEFAULT	"_/usr/bin/env"
-# define MANPATH		"MANPATH=/usr/share/man"
 // liste de define de message derreur
 
 
@@ -113,6 +114,7 @@ typedef struct s_path_cmds
 	char	*path;
 	char	**paths;
 	char	*path_env;
+	int		index;
 }	t_path_cmds;
 
 typedef struct s_minishell
@@ -132,18 +134,14 @@ typedef struct s_minishell
 	t_fds		fds;
 }	t_minishell;
 
-t_list	*env_init(char **envp);
-t_list	*find_env_node(t_list *env, const char *var_searched);
-
-
 void	free_ast_2(t_ast *node);
 
 void	print_ast(t_ast *node, int depth, bool *exec_status);
 void	print_cmd_node(t_ast *node, char *prefix);
 void	print_redirect_node(t_ast *node, char *symbol);
 
-t_list	*add_node(t_list **env, char *content); // ????????
-void	free_list(t_list *list);
+// t_list	*add_node(t_list **env, char *content); // ????????
+// void	free_list(t_list *list);
 void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
 
 void	signal_handler(int signum);
@@ -151,7 +149,11 @@ void	handle_signal_main(void);
 void	handle_signal_child(void);
 
 bool	replace_token(t_list *current, t_list *new_tokens);
-void	free_env(t_minishell *minishell);
+void	cleanup_shell(t_minishell *minishell);
+void	cleanup_loop(t_minishell *minishell);
+void	cleanup_exit(t_minishell *minishell);
+
+
 
 
 
@@ -196,25 +198,6 @@ void	update_pwd(t_list **env);
  * @param env The environment list.
  */
 void	update_shlvl(t_list *env);
-
-/**
- * @brief Determines if the current shell is nested within another shell.
- *
- * This function checks the "SHLVL" environment variable in the environment
- * list.
- * If the value of SHLVL is greater than 1, it indicates that a shell has been
- * launched within another shell.
- *
- * @param env_list The environment list.
- * @return 1 if the shell is nested (SHLVL > 1), 0 otherwise.
- */
-int		nested_shell(t_list *env_list);
-
-
-
-
-
-
 
 /*	----------- parsing ----------------------------------------------------- */
 
@@ -263,26 +246,6 @@ int		check_unclosed_quotes(char *input);
  * @return Non-zero if c is a quote, 0 otherwise.
  */
 int		is_quote(char c); //
-
-/**
- * @brief Extracts a token from the input string.
- *
- * This function calculates the length of a token (considering quotes)
- * starting at the
- * current position in the input string. It allocates a temporary buffer,
- * copies the token
- * without quotes into it, and then duplicates the result into a final
- * dynamically allocated string.
- * The position pointer is updated to reflect the number of characters
- * processed.
- *
- * @param input The input string containing the token.
- * @param pos Pointer to the starting position in the input string;
- * updated after extraction.
- * @return A newly allocated string containing the extracted token,
- * or NULL on failure.
- */
-char	*extract_token(char *input, size_t *pos);
 
 /**
  * @brief Clears a linked list of tokens.
@@ -390,14 +353,43 @@ t_ast	*error_handling_ast(t_ast *root, t_ast *sub_ast, char *str);
 
 /* ---- exec */
 
+typedef int (* t_handler)(t_ast *node, t_minishell *minishell);
+
+
 int		error_handling_exec(t_minishell *minishell, char *message);
 int		is_builtin(char *cmds);
 void	free_tab(char **tab, int i);
+int		start_as_file(t_ast *node);
 
 int		exec_minishell(t_ast *node, t_minishell *minishell);
 
+typedef struct	s_exp_qu
+{
+	char	*expanded;
+	char	*temp;
+	char	*final;
+	int		exp;
+	int		quote;
+	int		i;
+	int		j;
+}	t_exp_qu;
+
+int		expand_quotes_exec(t_ast *node, t_minishell *minishell);
+char	*handle_quotes_exec(char *input);
+
 int		handle_cmd(t_ast *node, t_minishell *minishell);
 char	*find_exec_cmd(char **cmds, t_minishell *minishell, char **env);
+int		check_cmd_content(t_ast *node);
+int		check_cmd(t_ast *node);
+void	free_join_full_path(t_path_cmds *path_cmds,	char *str,
+			char **env, t_minishell *minishell);
+int		error_handling_cmd_path(t_path_cmds *path_cmds,	char *str,
+			char **env, t_minishell *minishell);
+int		free_error_cmd_path(t_minishell *minishell,
+			char *message, char **env, char *cmds);
+
+int		handle_and(t_ast *node, t_minishell *minishell);
+int		handle_or(t_ast *node, t_minishell *minishell);
 
 int		handle_pipe(t_ast *node, t_minishell *minishell);
 
@@ -467,7 +459,6 @@ int	check_parentheses_tokens(t_token *current, t_token *next,
 void	add_manpath_to_env(t_list **env);
 
 int		add_or_replace_env(char *content, t_list **env, int len, int add);
-char	*expand_heredoc(char *str, t_list *env, t_minishell *minishell);
 
 /* ---- HANDLE FD ---- */
 
@@ -476,4 +467,10 @@ void delete_fd(t_fd_info *fd, int nb_elem);
 int dup_fd(t_fd_info *fd, int fd_redirect);
 void	close_fd(t_fd_info *fd);
 void	close_and_free_fds(t_fd_info *fd);
+
+
+
+t_node_type	get_operator_type(const char *content, \
+	size_t i, size_t op_len);
+
 #endif

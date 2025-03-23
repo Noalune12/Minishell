@@ -13,8 +13,64 @@ echo "$USER"
 echo '$'USER''
 echo $'USER'
 echo $"USER"
-echo $""
+echo $HOME
+echo $NOTEXIST
+echo "HOME is $HOME"
+export TEST="Hello World"
+echo $TEST
+unset TEST
+echo $TEST
+echo $PATH
+export PATH="/custom/bin:$PATH"
+echo $PATH
+export PATH="$PATH:/another/bin"
+echo $PATH
+echo $?
+echo $?$?
+echo $?TEST
+echo $
 echo "$"
+echo '$'
+echo '$HOME'
+echo '$USER $PWD'
+echo "$HOME"
+echo "$USER in $PWD"
+echo "'$HOME'"
+echo '"$HOME"'
+echo $A$B$C$D$E$F$G$H$I$J$K$L$M$N$O$P$Q$R$S$T$U$V$W$X$Y$Z
+echo '\$HOME'
+export WEIRD="$HOME $USER $PWD \n \t"
+echo "$WEIRD"
+export A="Hello"
+export B="World"
+echo $A$B
+export VAR1="TEST"
+export VAR2="$VAR1"
+echo $VAR2
+export TEST1="Hello"
+export TEST2="World"
+export EMPTY=""
+echo "$EMPTY"
+echo $EMPTY$HOME
+true
+echo $?
+false
+echo $?
+echo "Last exit: $?"
+echo "$?"
+echo $TEST1 $TEST2 $HOME $USER $PWD
+export CMD="ls"
+$CMD
+export FILE="test_file.txt"
+export DIR="/tmp"
+ls $DIR
+echo "$?"
+echo '$$$$$$'
+echo '$$$$$'
+echo '$$$$'
+echo '$$$'
+echo '$$'
+echo '$'
 echo ""$""
 echo ""$HOME
 echo ''$HOME
@@ -47,6 +103,49 @@ export USER_NAME=testuser && echo $USER_NAME
 echo a$USER
 export X=""quoted"" && echo $X
 export X=123 && echo $X
+echo 'Hello $USER'
+echo 'Single quotes prevent $HOME expansion'
+echo "Hello $USER"
+echo "My home dir is $HOME"
+echo Hello     World
+echo "Hello     World"
+echo "outside 'inside' outside"
+echo 'outside "inside" outside'
+echo wor"d"
+echo wo'rd'
+echo "part1"'part2'"part3"
+echo "He said \"Hello\""
+echo \"Hello\"
+echo "It's working"
+echo 'He said "Hello"'
+export TEST="Hello World"
+echo "$TEST"
+echo '$TEST'
+echo $TEST
+export SPACES="Hello    World"
+echo $SPACES
+echo "$SPACES"
+echo '$SPACES'
+echo ""
+echo ''
+echo "" ''
+export A=Hello
+export B=World
+echo "$A $B"
+echo "$A$B"
+echo '$A$B'
+echo '$(echo not_interpreted)'
+echo "Stars * and ? question marks?"
+echo 'Stars * and ? question marks?'
+export COMPLEX="complex $USER string"
+echo "'$COMPLEX'"
+echo "\"$COMPLEX\""
+export X="first"
+export Y="second"
+echo "$X $Y"
+echo "$X$Y"
+echo "$X-$Y"
+
 echo "$"
 echo $
 echo $USER$HOME$PATH
@@ -210,7 +309,6 @@ ls | grep a
 cat file | grep hello | wc -l
 ls | grep a | sort | uniq
 ls nonexistent | grep a
-cd /tmp && ls -la | grep ^d > dirs && cat dirs
 cat nonexistent | grep test || echo "not found"
 ls && pwd && echo success
 ls nonexistent && echo "won't print" || echo "error happened"
@@ -357,7 +455,17 @@ ls "" ""
 ls /
 touch -- -f && rm -f -- -f
 echo bonjour > a < cat | ls
-/bin/cat Makefile > out >>out1 >out2 | /bin/ls > > | /bin/cat << file
+/bin/cat Makefile > out >>out1 >out2 | /bin/ls > > | /bin/cat < file
 Makefile cat ><tet LOL LOL LOL >outfile
 >infile >infile2 <outfile1 cmd >outfileinvalid >outfile5 <infile4 | cat
-rm a file infile infile2 outfile1 outfileinvalid outfile5 infile4 1 out out1 out2 outfile output output.txt "test*.txt" ../1 all_texts errorlog "file with spaces.txt" file1 file2 file3
+rm -rf test_dir && mkdir test_dir && cd test_dir && pwd && cd .. && pwd && rm -rf test_dir
+mkdir -p path/to/nested/directory && cd path/to/nested/directory && pwd && cd ../.. && pwd && cd ../.. && pwd
+rm -rf temp_dir && mkdir temp_dir && cd temp_dir && mkdir subdir && cd subdir && pwd && cd .. && rmdir subdir && cd subdir > /dev/null || echo "Directory not found" && cd .. && rm -rf temp_dir
+mkdir -p no_access_dir && chmod 000 no_access_dir && cd no_access_dir 2>/dev/null || echo "Permission denied handled correctly" && chmod 755 no_access_dir && rmdir no_access_dir
+cd && pwd
+export HOME=/tmp && cd && pwd && export HOME=$OLDPWD
+mkdir dir1 && cd dir1 && mkdir dir2 && cd dir2 && mkdir dir3 && cd dir3 && pwd && cd ../../.. && pwd && rm -rf dir1
+mkdir test1 && cd $PWD/test1 && pwd && cd .. && cd ./test1 && pwd && cd .. && rmdir test1
+mkdir -p a/b/c && cd a && pwd && cd b && pwd && cd - && pwd && cd $OLDPWD/c && pwd && cd ../../.. && rm -rf a
+rm -rf a file infile infile2 outfile1 outfileinvalid outfile5 infile4 1 out out1 out2 outfile output output.txt "test*.txt" ../1 all_texts errorlog "file with spaces.txt" file1 file2 file3
+rm -rf empty dir1 parent path

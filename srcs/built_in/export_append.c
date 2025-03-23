@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "env.h"
 
 static char	*remove_plus(char *content)
 {

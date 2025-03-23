@@ -3,7 +3,7 @@
 int	*ft_realloc(int *tab, int len, int nb_elem)
 {
 	int	*ret;
-	int		i;
+	int	i;
 
 	i = 0;
 	ret = malloc(len);
@@ -25,11 +25,12 @@ int	*ft_realloc(int *tab, int len, int nb_elem)
 	return (ret);
 }
 
-int *add_fd(t_fd_info *fd, int fd_in)
+int	*add_fd(t_fd_info *fd, int fd_in)
 {
 	if (fd->nb_elems == fd->capacity)
 	{
-		fd->fds = ft_realloc(fd->fds, sizeof(int) * (fd->capacity + 10), fd->nb_elems);
+		fd->fds = ft_realloc(fd->fds, sizeof(int) * (fd->capacity + 10),
+				fd->nb_elems);
 		if (!fd->fds)
 			return (NULL);
 		fd->capacity += 10;
@@ -39,7 +40,7 @@ int *add_fd(t_fd_info *fd, int fd_in)
 	return (fd->fds);
 }
 
-void delete_fd(t_fd_info *fd, int nb_elem)
+void	delete_fd(t_fd_info *fd, int nb_elem)
 {
 	int	i;
 
@@ -52,7 +53,7 @@ void delete_fd(t_fd_info *fd, int nb_elem)
 	fd->nb_elems--;
 }
 
-int dup_fd(t_fd_info *fd, int fd_redirect)
+int	dup_fd(t_fd_info *fd, int fd_redirect)
 {
 	if (fd->nb_elems > 0)
 		if (dup2(fd->fds[fd->nb_elems - 1], fd_redirect) == -1)

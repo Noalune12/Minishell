@@ -1,27 +1,34 @@
 #include <stdbool.h>
 
-bool	update_quotes_expand(char c, bool *in_squotes, bool *in_dquotes, int *quote)
+static bool	handle_squote_start(bool *in_squotes, int *quote)
+{
+	if (quote)
+		*quote = 1;
+	*in_squotes = true;
+	return (false);
+}
+
+static bool	handle_dquote_start(bool *in_dquotes, int *quote)
+{
+	if (quote)
+		*quote = 1;
+	*in_dquotes = true;
+	return (true);
+}
+
+bool	update_quotes_expand(char c, bool *in_squotes, bool *in_dquotes,
+			int *quote)
 {
 	if (c == '\'' && !*in_squotes && !*in_dquotes)
-	{
-		if (quote)
-			*quote = 1;
-		*in_squotes = true;
-		return (false);
-	}
-	else if (c == '\'' && *in_squotes)
+		return (handle_squote_start(in_squotes, quote));
+	if (c == '\'' && *in_squotes)
 	{
 		*in_squotes = false;
 		return (false);
 	}
-	else if (c == '"' && !*in_squotes && !*in_dquotes)
-	{
-		if (quote)
-			*quote = 1;
-		*in_dquotes = true;
-		return (true);
-	}
-	else if (c == '"' && *in_dquotes)
+	if (c == '"' && !*in_squotes && !*in_dquotes)
+		return (handle_dquote_start(in_dquotes, quote));
+	if (c == '"' && *in_dquotes)
 	{
 		*in_dquotes = false;
 		return (true);

@@ -1,5 +1,29 @@
 #include "minishell.h"
 #include <unistd.h>
+#include "common.h"
+#include "env.h"
+
+void	add_manpath_to_env(t_list **env)
+{
+	char	*cwd;
+	char	*own_manpath;
+	char	*temp;
+
+	if (!env)
+		return ;
+	cwd = getcwd(NULL, 4096);
+	if (!cwd)
+		return ;
+	temp = ft_strjoin_free(MANPATH, cwd);
+	if (!temp)
+		return ;
+	own_manpath = ft_strjoin(temp, "/man");
+	free(temp);
+	if (!own_manpath)
+		return ;
+	add_or_replace_env(own_manpath, env, 7, 1);
+	free(own_manpath);
+}
 
 void	update_pwd(t_list **env)
 {
@@ -11,58 +35,47 @@ void	update_pwd(t_list **env)
 	cwd = getcwd(NULL, 4096);
 	if (!cwd)
 		return ;
-	actual_pwd = ft_strjoin("PWD=", cwd);
-	free(cwd);
+	actual_pwd = ft_strjoin_free(RESEARCHPWD, cwd);
 	if (!actual_pwd)
 		return ;
 	if ((*env)->content == NULL)
 		(*env)->content = actual_pwd;
 	else
 	{
-		add_node(env, actual_pwd); // protection
+		if (add_node(env, actual_pwd) == NULL)
+		{
+			free_list(*env);
+			free(env);
+		}
 		free(actual_pwd);
 	}
 }
-
+ /* toujours le soucis de +2 au SHLVL de base */
 void	update_shlvl(t_list *env)
 {
-	t_list	*shlvl_node;
-	char	*next_lvl;
-	int		shlvl;
+	t_shlvl	u;
 
-	shlvl_node = find_env_node(env, "SHLVL");
-	if (!shlvl_node)
-		add_node(&env, "SHLVL=1");
+	ft_memset(&u, 0, sizeof(t_shlvl));
+	u.shlvl_node = find_env_node(env, SHLVL);
+	if (u.shlvl_node == NULL)
+	{
+		if (add_node(&env, INIT_SHLVL) == NULL)
+			free_list(env);
+	}
 	else
 	{
-		shlvl = ft_atoi(shlvl_node->content + 6);
-		if (shlvl < 0)
-			shlvl = 0;
-		else if (shlvl >= 999)
+		u.shlvl = ft_atoi(u.shlvl_node->content + 6);
+		if (u.shlvl < 0 || u.shlvl >= 999)
 		{
-			ft_dprintf(STDERR_FILENO, "minishell: warning: shell level (%d) too high, resetting to 1\n", shlvl + 1); // string define
-			shlvl = 0;
+			if (u.shlvl >= 999)
+				ft_dprintf(STDERR_FILENO, SHLVL_TOO_HIGH, u.shlvl + 1);
+			u.shlvl = 0;
 		}
-		shlvl++;
-		next_lvl = ft_itoa(shlvl);
-		free(shlvl_node->content);
-		if (!next_lvl)
+		u.shlvl++;
+		u.next_lvl = ft_itoa(u.shlvl);
+		free(u.shlvl_node->content);
+		if (u.next_lvl == NULL)
 			return ;
-		shlvl_node->content = ft_strjoin("SHLVL=", next_lvl); // protection
-		free(next_lvl);
+		u.shlvl_node->content = ft_strjoin_free(RESEARCHSHLVL, u.next_lvl);
 	}
-}
-
-int	nested_shell(t_list *env_list) // check if we launched shells inside shells
-{
-	t_list	*shlvl_node;
-	int		shlvl;
-
-	shlvl_node = find_env_node(env_list, "SHLVL");
-	if (shlvl_node)
-	{
-		shlvl = ft_atoi(shlvl_node->content + 6);
-		return (shlvl > 1); // more than one level indicates nested shell
-	}
-	return (0);
 }

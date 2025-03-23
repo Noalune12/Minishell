@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "env.h"
 
 void	tty_check(void)
 {
@@ -46,7 +47,7 @@ void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp)
 	if (init_fd_info(&minishell->fds.fd_in) == 0
 		|| init_fd_info(&minishell->fds.fd_out) == 0)
 	{
-		free_env(minishell);
+		cleanup_shell(minishell);
 		ft_dprintf(STDERR_FILENO, "Memory allocation error\n");
 		exit(EXIT_FAILURE);
 	}

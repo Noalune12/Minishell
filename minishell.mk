@@ -17,11 +17,14 @@ override OPTIONSDIR	:= options/
 SRC	+= $(addprefix $(EXPANDDIR), $(addsuffix .c, $(EXPANDSRC)))
 
 override EXPANDSRC	:= \
-	expand \
-	expand_utils \
-	expand_quote_handling \
+	expand_calc_len \
+	expand_heredoc \
+	expand_init \
 	expand_len_utils \
 	expand_main_loop \
+	expand_quote_handling \
+	expand_utils \
+	expand \
 
 SRC	+= $(addprefix $(MAINDIR), $(addsuffix .c, $(MAINSRC)))
 
@@ -38,6 +41,7 @@ override INITSRC	:= \
 SRC += $(addprefix $(UTILSDIR), $(addsuffix .c, $(UTILSSRC)))
 
 override UTILSSRC	:= \
+	cleanup_minishell \
 	free_utils \
 	list_utils \
 	t_token_utils
@@ -47,7 +51,6 @@ SRC += $(addprefix $(ENVDIR), $(addsuffix .c, $(ENVSRC)))
 override ENVSRC		:= \
 	env_update \
 	env_utils \
-	manpath \
 
 SRC += $(addprefix $(ASTDIR), $(addsuffix .c, $(ASTSRC)))
 
@@ -79,9 +82,13 @@ override PARSINGSRC	:= \
 SRC	+= $(addprefix $(EXECDIR), $(addsuffix .c, $(EXECSRC)))
 
 override EXECSRC	:= \
+	and_exec \
 	exec \
-	cmds_path \
+	cmd_check \
+	cmd_path \
+	cmd_path_utils \
 	cmd_exec \
+	or_exec \
 	pipe_exec \
 	redirappend_exec \
 	redirin_exec \
@@ -89,6 +96,8 @@ override EXECSRC	:= \
 	heredoc_exec \
 	exec_utils \
 	handle_fd \
+	expand_quotes_exec \
+	quotes_utils \
 
 SRC	+= $(addprefix $(BUILTINDIR), $(addsuffix .c, $(BUILTINSRC)))
 

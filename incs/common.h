@@ -18,6 +18,8 @@
 
 /* ---------- ERROR MESSAGES ------------------------------------------------ */
 
+# define SHLVL_TOO_HIGH	\
+			"minishell: warning: shell level (%d) too high, resetting to 1\n"
 # define FILENAME_SYNTAX "syntax error: missing filename after redirection\n"
 # define NEWLINE_SYNTAX \
 					"minishell: syntax error near unexpected token `newline'\n"
@@ -49,6 +51,11 @@
 # define HOME           "HOME"
 # define USER           "USER"
 # define ENV_DEFAULT    "_/usr/bin/env"
-# define MANPATH        "MANPATH=/usr/share/man"
+# define MANPATH        "MANPATH=/usr/share/man:"
+
+# define INIT_SHLVL		"SHLVL=1"
+
+# define RESEARCHSHLVL	"SHLVL="
+# define RESEARCHPWD	"PWD="
 
 #endif

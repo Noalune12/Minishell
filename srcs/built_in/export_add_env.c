@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "env.h"
 
 int	find_env_var_node(char *var, t_list **env) // credit a Sammy pour avoir trouvé ca
 {

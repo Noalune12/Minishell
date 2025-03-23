@@ -14,7 +14,7 @@ t_token	*init_token_node(char *content, t_node_type type)
 		return (NULL);
 	}
 	token->type = type;
-	token->to_expand = true;  // valeur par defaut pour linstnat
+	token->to_expand = true;
 	token->next = NULL;
 	return (token);
 }
@@ -29,7 +29,7 @@ bool	add_token(t_token **tokens, char *content, t_node_type type)
 		return (false);
 	if (!*tokens)
 		*tokens = new;
-	else // replace by lstaddback token ?
+	else
 	{
 		last = *tokens;
 		while (last->next)
@@ -46,7 +46,7 @@ bool	add_token_in_place(t_token **tokens, char *content, t_node_type type)
 	new = init_token_node(content, type);
 	if (!new)
 		return (false);
-	if (!*tokens) // protection en trop ?
+	if (!*tokens)
 		*tokens = new;
 	else
 	{
