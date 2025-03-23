@@ -64,9 +64,7 @@ static int	get_content(int fd, char **content, char *filename)
 		else
 			*content = ft_strjoin_free_s1(*content, buffer);
 		if (!content)
-		{
 			return (error_handling_heredoc(NULL, NULL, fd));
-		}
 	}
 	return (0);
 }
@@ -104,8 +102,8 @@ static int	open_and_replace(char *filename, t_minishell *minishell)
 	close(fd);
 	expanded = expand_heredoc(content, minishell);
 	free(content);
-	if (expanded == NULL)
-		return (1);
+	if (!expanded)
+		return (error_handling_heredoc(NULL, NULL, -1));
 	if (write_in_heredoc(filename, expanded) == 1)
 		return (1);
 	return (0);
