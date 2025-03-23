@@ -144,7 +144,6 @@ void	print_redirect_node(t_ast *node, char *symbol);
 // void	free_list(t_list *list);
 void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
 
-void	signal_handler(int signum);
 void	handle_signal_main(void);
 void	handle_signal_child(void);
 

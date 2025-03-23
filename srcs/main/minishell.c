@@ -1,6 +1,7 @@
 #include "minishell.h"
 #include "heredoc.h"
 #include "wildcard.h"
+#include "signals.h"
 
 void	free_input_setup(char *tmp, char *exit_code, char *prompt)
 {
@@ -42,17 +43,14 @@ char	*read_input(t_minishell *minishell)
 		free (exit_code);
 		return (NULL);
 	}
-	input = readline("minishell$>");
+	input = readline(prompt);
 	free(prompt);
 	if (input && *input)
 		add_history(input);
 	return (input);
 }
 
-int event(void)
-{
-	return (0);
-}
+
 
 int	main(int ac, char **av, char **envp)
 {
@@ -61,7 +59,7 @@ int	main(int ac, char **av, char **envp)
 	t_token		*tmp_test;
 
 	minishell_init(&minishell, ac, av, envp);
-	// rl_event_hook = &event; // define callback function when rl_done is set at 1;
+	rl_event_hook = &event; // define callback function when rl_done is set at 1;
 	while (1)
 	{
 		// printf("fd in capacity: %d\n", minishell.fds.fd_in.capacity);
@@ -79,10 +77,10 @@ int	main(int ac, char **av, char **envp)
 			ft_dprintf(STDERR_FILENO, "exit\n"); // TODO do not \n is in ./minishell
 			break ;
 		}
-		init_global();
+		// init_global();
 		minishell.token = tokenize_input(minishell.input, &minishell.exec_status);
 		minishell.token = split_operators(minishell.token, &minishell.exec_status);
-		check_heredoc(&minishell); //-> je parcours jusqu'a je tombe sur un "<< EOF "-> remplace par "< filename" dans token
+		check_heredoc(&minishell);
 		minishell.token = expand_wildcards(minishell.token, &minishell.exec_status);
 		syntax_check(&minishell);
 		if (minishell.options->display_tokens)
