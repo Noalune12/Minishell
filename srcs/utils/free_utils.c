@@ -53,7 +53,7 @@ void	free_env(t_minishell *minishell)
 	close_and_free_fds(&minishell->fds.fd_out);
 	if (minishell->envp)
 		free_list(minishell->envp);
-	if (minishell->options) // a deplacer
+	if (minishell->options)
 		free(minishell->options);
 	minishell->envp = NULL;
 	minishell->token = NULL;

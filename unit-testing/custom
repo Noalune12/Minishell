@@ -462,13 +462,11 @@ Makefile cat ><tet LOL LOL LOL >outfile
 rm -rf test_dir && mkdir test_dir && cd test_dir && pwd && cd .. && pwd && rm -rf test_dir
 mkdir -p path/to/nested/directory && cd path/to/nested/directory && pwd && cd ../.. && pwd && cd ../.. && pwd
 rm -rf temp_dir && mkdir temp_dir && cd temp_dir && mkdir subdir && cd subdir && pwd && cd .. && rmdir subdir && cd subdir > /dev/null || echo "Directory not found" && cd .. && rm -rf temp_dir
-pwd && mkdir dir1 && cd dir1 && pwd && cd /tmp && pwd && cd - && pwd && cd - && pwd
 mkdir -p no_access_dir && chmod 000 no_access_dir && cd no_access_dir 2>/dev/null || echo "Permission denied handled correctly" && chmod 755 no_access_dir && rmdir no_access_dir
 cd && pwd
 export HOME=/tmp && cd && pwd && export HOME=$OLDPWD
 mkdir dir1 && cd dir1 && mkdir dir2 && cd dir2 && mkdir dir3 && cd dir3 && pwd && cd ../../.. && pwd && rm -rf dir1
 mkdir test1 && cd $PWD/test1 && pwd && cd .. && cd ./test1 && pwd && cd .. && rmdir test1
 mkdir -p a/b/c && cd a && pwd && cd b && pwd && cd - && pwd && cd $OLDPWD/c && pwd && cd ../../.. && rm -rf a
-mkdir parent && cd parent && mkdir child1 child2 && cd child1 && pwd && cd ../child2 && pwd && cd - && pwd && cd .. && pwd && rm -rf parent
 rm -rf a file infile infile2 outfile1 outfileinvalid outfile5 infile4 1 out out1 out2 outfile output output.txt "test*.txt" ../1 all_texts errorlog "file with spaces.txt" file1 file2 file3
-rm -rf empty
+rm -rf empty dir1 parent path

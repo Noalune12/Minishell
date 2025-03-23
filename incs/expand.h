@@ -68,7 +68,7 @@ char	*expand_heredoc(char *str, t_minishell *minishell);
 ssize_t	get_expanded_str_len(char *s, t_minishell *minishell);
 size_t	get_var_len(char *str, size_t i);
 
-void	copy_var_value(char *var_name, char *expanded, size_t *j, t_list *env);
+void	copy_var_value(char *var_name, t_expand_data *data);
 
 int		handle_heredoc_dollar_sign(t_heredoc_data *data);
 int		handle_dollar_sign(t_expand_data *data);

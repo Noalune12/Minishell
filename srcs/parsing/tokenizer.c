@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	*extract_token(char *input, size_t *pos)
+static char	*extract_token(char *input, size_t *pos)
 {
 	size_t	len;
 	char	*token;
@@ -22,11 +22,34 @@ char	*extract_token(char *input, size_t *pos)
 	return (final_token);
 }
 
+static t_token	*handle_tokenization_error(t_token *tokens, char *content,
+										bool *exec_status)
+{
+	if (content)
+		free(content);
+	free_token_list(tokens);
+	*exec_status = false;
+	return (NULL);
+}
+
+static t_token	*process_token(t_token *tokens, char *input, size_t *i,
+							bool *exec_status)
+{
+	char	*content;
+
+	content = extract_token(input, i);
+	if (content == NULL)
+		return (handle_tokenization_error(tokens, NULL, exec_status));
+	if (add_token(&tokens, content, NODE_COMMAND) == false)
+		return (handle_tokenization_error(tokens, content, exec_status));
+	free(content);
+	return (tokens);
+}
+
 t_token	*tokenize_input(char *input, bool *exec_status)
 {
 	t_token	*tokens;
 	size_t	i;
-	char	*content;
 
 	if (!check_unclosed_quotes(input))
 	{
@@ -39,24 +62,8 @@ t_token	*tokenize_input(char *input, bool *exec_status)
 	{
 		if (ft_isspace(input[i]))
 			i++;
-		else
-		{
-			content = extract_token(input, &i);
-			if (!content)
-			{
-				free_token_list(tokens);
-				*exec_status = false;
-				return (NULL);
-			}
-			if (!add_token(&tokens, content, NODE_COMMAND))
-			{
-				free(content);
-				free_token_list(tokens);
-				*exec_status = false;
-				return (NULL);
-			}
-			free(content);
-		}
+		else if (!(tokens = process_token(tokens, input, &i, exec_status)))
+			return (NULL);
 	}
 	*exec_status = true;
 	return (tokens);

@@ -4,6 +4,22 @@
 #include "libft.h"
 #include "minishell.h"
 
+static void	copy_var_value_heredoc(char *var_name, t_heredoc_data *data)
+{
+	char	*var_value;
+
+	var_value = ft_getenv(var_name, data->env);
+	if (var_value)
+	{
+		while (*var_value)
+		{
+			data->expanded[data->j] = *var_value;
+			data->j++;
+			var_value++;
+		}
+	}
+}
+
 int	handle_heredoc_dollar_sign(t_heredoc_data *data)
 {
 	char	*var_name;
@@ -14,7 +30,7 @@ int	handle_heredoc_dollar_sign(t_heredoc_data *data)
 	var_name = ft_substr(data->str, data->i, var_len);
 	if (!var_name)
 		return (0);
-	copy_var_value(var_name, data->expanded, &data->j, data->env);
+	copy_var_value_heredoc(var_name, data);
 	free(var_name);
 	data->i += var_len - 1;
 	return (1);
@@ -30,7 +46,7 @@ int	handle_dollar_sign(t_expand_data *data)
 	var_name = ft_substr(data->str, data->i, var_len);
 	if (!var_name)
 		return (0);
-	copy_var_value(var_name, data->expanded, &data->j, data->env);
+	copy_var_value(var_name, data);
 	free(var_name);
 	data->i += var_len - 1;
 	return (1);

@@ -9,10 +9,12 @@
 bool	init_expand_data(t_expand_data *data, char *str, t_minishell *minishell)
 {
 	size_t	expanded_len;
+	size_t	len;
 
 	ft_memset(data, 0, sizeof(t_expand_data));
 	expanded_len = get_expanded_str_len(str, minishell);
-	data->expanded = malloc(sizeof(char) * (expanded_len + ft_strlen(str) + 1));
+	len = ft_strlen(str) + expanded_len;
+	data->expanded = malloc(sizeof(char) * (expanded_len + len));
 	if (data->expanded == NULL)
 		return (false);
 	data->str = str;
@@ -35,10 +37,10 @@ bool	init_heredoc_expand(t_heredoc_data *data, char *str, \
 {
 	size_t	len;
 
-	len = ft_strlen(str);
 	ft_memset(data, 0, sizeof(t_heredoc_data));
 	data->expanded_len = get_expanded_str_len(str, minishell);
-	data->expanded = malloc(sizeof(char) * (data->expanded_len + len + 1));
+	len = ft_strlen(str) + data->expanded_len;
+	data->expanded = malloc(sizeof(char) * (data->expanded_len + len));
 	if (data->expanded == NULL)
 		return (false);
 	data->str = str;

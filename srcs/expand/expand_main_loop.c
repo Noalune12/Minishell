@@ -37,7 +37,8 @@ int	process_character(t_expand_data *data)
 	else if (!update_quotes_expand(data->str[data->i], &(data->in_squotes), \
 											&(data->in_dquotes), data->quote))
 	{
-		data->expanded[data->j++] = data->str[data->i];
+		data->expanded[data->j] = data->str[data->i];
+		data->j++;
 		return (1);
 	}
 	else

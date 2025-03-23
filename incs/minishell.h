@@ -241,26 +241,6 @@ int		check_unclosed_quotes(char *input);
 int		is_quote(char c); //
 
 /**
- * @brief Extracts a token from the input string.
- *
- * This function calculates the length of a token (considering quotes)
- * starting at the
- * current position in the input string. It allocates a temporary buffer,
- * copies the token
- * without quotes into it, and then duplicates the result into a final
- * dynamically allocated string.
- * The position pointer is updated to reflect the number of characters
- * processed.
- *
- * @param input The input string containing the token.
- * @param pos Pointer to the starting position in the input string;
- * updated after extraction.
- * @return A newly allocated string containing the extracted token,
- * or NULL on failure.
- */
-char	*extract_token(char *input, size_t *pos);
-
-/**
  * @brief Clears a linked list of tokens.
  *
  * This function iterates through the linked list of tokens,
