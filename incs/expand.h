@@ -76,10 +76,11 @@ int 	handle_exit_code(char *expanded, size_t *i, size_t *j, int exit_code);
 int		handle_dollar_quoted(t_expand_data *data, char quote_char);
 int		handle_variable_expansion(t_expand_data *data);
 int		process_character(t_expand_data *data);
+int		init_heredoc_expand(t_heredoc_data *data, char *str, \
+														t_minishell *minishell);
 
 bool	init_expand_data(t_expand_data *data, char *str, t_minishell *minishell);
 bool	init_expand_len_data(t_exp_len *data, t_minishell *minishell);
-bool	init_heredoc_expand(t_heredoc_data *data, char *str, t_minishell *minishell);
 bool	update_quotes_expand(char c, bool *in_squotes, bool *in_dquotes, \
 																	int *quote);
 

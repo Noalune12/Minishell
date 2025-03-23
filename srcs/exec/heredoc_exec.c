@@ -29,64 +29,85 @@ char	*ft_strjoin_free_s1(char *s1, char *s2)
 	return (res);
 }
 
-int	open_and_replace(char *filename, t_minishell *minishell)
+static int	error_handling_heredoc(char *filename, char *str, int fd)
+{
+	if (filename)
+	{
+		ft_dprintf(STDERR_FILENO, "minishell: %s: ", filename);
+		perror("");
+	}
+	else
+		ft_dprintf(STDERR_FILENO, "Malloc failed\n");
+	if (str)
+		free(str);
+	if (fd != -1)
+		close(fd);
+	return (1);
+}
+
+static int	get_content(int fd, char **content, char *filename)
 {
 	char	buffer[READ_LEN + 1];
-	ssize_t	b_read = 1;
-	char	*content = NULL;
-	int		fd;
-	char	*expanded;
+	ssize_t	b_read;
 
-	fd = open(filename, O_RDONLY);
+	b_read = 1;
 	while (b_read > 0)
 	{
 		b_read = read(fd, buffer, READ_LEN);
 		if (b_read == 0)
 			break ;
 		if (b_read == -1)
-		{
-			perror("Failed to read file");
-			free(content);
-			close(fd);
-			return (1);
-		}
+			return (error_handling_heredoc(filename, *content, fd));
 		buffer[b_read] = '\0';
-		if (!content)
-			content = ft_strndup(buffer, b_read);
+		if (!*content)
+			*content = ft_strndup(buffer, b_read);
 		else
-			content = ft_strjoin_free_s1(content, buffer);
-		// printf(RED"buffer = %s /// content = %s\n"RESET, buffer, content);
+			*content = ft_strjoin_free_s1(*content, buffer);
 		if (!content)
 		{
-			perror("Malloc failed");
-			close(fd);
-			return (1);
+			return (error_handling_heredoc(NULL, NULL, fd));
 		}
 	}
-	close(fd);
-	// printf(GREEN"content = %s\n"RESET, content);
-	// printf("env before expand = %s\n", minishell->envp->content);
-	expanded = expand_heredoc(content, minishell);
-	// printf(PURPLE"expanded = %s\n"RESET, expanded);
+	return (0);
+}
+
+static int	write_in_heredoc(char *filename, char *expanded)
+{
+	int	fd;
+
 	fd = open(filename, O_WRONLY | O_TRUNC);
 	if (fd == -1)
-	{
-		perror("Failed to open file for writing");
-		free(expanded);
-		free(content);
-		return (1);
-	}
+		return (error_handling_heredoc(filename, expanded, -1));
 	if (write(fd, expanded, ft_strlen(expanded)) == -1)
+		return (error_handling_heredoc(filename, expanded, fd));
+	free(expanded);
+	close(fd);
+	return (0);
+}
+
+static int	open_and_replace(char *filename, t_minishell *minishell)
+{
+	char	*content;
+	int		fd;
+	char	*expanded;
+
+	content = NULL;
+	fd = open(filename, O_RDONLY);
+	if (fd == -1)
 	{
-		perror("Failed to write to file");
-		free(expanded);
-		free(content);
-		close(fd);
+		ft_dprintf(STDERR_FILENO, "minishell: %s: ", filename);
+		perror("");
 		return (1);
 	}
-	free(expanded);
-	free(content);
+	if (get_content(fd, &content, filename) == 1)
+		return (1);
 	close(fd);
+	expanded = expand_heredoc(content, minishell);
+	free(content);
+	if (expanded == NULL)
+		return (1);
+	if (write_in_heredoc(filename, expanded) == 1)
+		return (1);
 	return (0);
 }
 

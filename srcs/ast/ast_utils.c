@@ -46,8 +46,6 @@ void	free_ast(t_ast *node) // TODO make free ast exec without unlink
 		free_ast(node->right);
 	if (node->cmd)
 	{
-		// if (node->type == NODE_HEREDOC)
-		// 	unlink(node->cmd->cmds[0]);
 		free(node->cmd->path);
 		ft_free(node->cmd->cmds);
 		free(node->cmd);

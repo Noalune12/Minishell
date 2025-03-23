@@ -431,4 +431,10 @@ void delete_fd(t_fd_info *fd, int nb_elem);
 int dup_fd(t_fd_info *fd, int fd_redirect);
 void	close_fd(t_fd_info *fd);
 void	close_and_free_fds(t_fd_info *fd);
+
+
+
+t_node_type	get_operator_type(const char *content, \
+	size_t i, size_t op_len);
+
 #endif

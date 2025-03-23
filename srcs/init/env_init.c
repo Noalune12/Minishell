@@ -57,11 +57,10 @@ static int	create_minimal_env(t_list **env)
 	underscore = ft_strdup("_=/usr/bin/env");
 	if (!underscore)
 		return (error_handling_minimal_env(shlvl, NULL, 1));
-	// add_node(env, manpath);
-	if (add_node(env, shlvl) == NULL)// protection
+	if (add_node(env, shlvl) == NULL)
 		return (error_handling_minimal_env(shlvl, underscore, 0));
 	add_manpath_to_env(env);
-	if (add_node(env, underscore) == NULL) // protection
+	if (add_node(env, underscore) == NULL)
 		return (error_handling_minimal_env(shlvl, underscore, 0));
 	free(shlvl);
 	free(underscore);

@@ -32,18 +32,18 @@ static t_token	*handle_tokenization_error(t_token *tokens, char *content,
 	return (NULL);
 }
 
-static t_token	*process_token(t_token *tokens, char *input, size_t *i,
+static t_token	*process_token(t_token **tokens, char *input, size_t *i,
 							bool *exec_status)
 {
 	char	*content;
 
 	content = extract_token(input, i);
 	if (content == NULL)
-		return (handle_tokenization_error(tokens, NULL, exec_status));
-	if (add_token(&tokens, content, NODE_COMMAND) == false)
-		return (handle_tokenization_error(tokens, content, exec_status));
+		return (handle_tokenization_error(*tokens, NULL, exec_status));
+	if (add_token(&*tokens, content, NODE_COMMAND) == false)
+		return (handle_tokenization_error(*tokens, content, exec_status));
 	free(content);
-	return (tokens);
+	return (*tokens);
 }
 
 t_token	*tokenize_input(char *input, bool *exec_status)
@@ -51,7 +51,7 @@ t_token	*tokenize_input(char *input, bool *exec_status)
 	t_token	*tokens;
 	size_t	i;
 
-	if (!check_unclosed_quotes(input))
+	if (check_unclosed_quotes(input) == 0)
 	{
 		*exec_status = false;
 		return (NULL);
@@ -62,7 +62,7 @@ t_token	*tokenize_input(char *input, bool *exec_status)
 	{
 		if (ft_isspace(input[i]))
 			i++;
-		else if (!(tokens = process_token(tokens, input, &i, exec_status)))
+		else if (process_token(&tokens, input, &i, exec_status) == NULL)
 			return (NULL);
 	}
 	*exec_status = true;

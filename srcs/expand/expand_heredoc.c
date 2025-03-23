@@ -44,14 +44,26 @@ static int	process_heredoc_chars(t_heredoc_data *data, t_minishell *minishell)
 char	*expand_heredoc(char *str, t_minishell *minishell)
 {
 	t_heredoc_data	data;
+	char			*save;
+	int				ret;
 
-	if (init_heredoc_expand(&data, str, minishell) == false)
+	save = NULL;
+	ret = init_heredoc_expand(&data, str, minishell);
+	if (ret == 1)
+	{
+		save = ft_strdup("\0");
+		if (save == NULL)
+			return (NULL);
+		return (save);
+	}
+	else if (ret == 2)
 		return (NULL);
 	if (!process_heredoc_chars(&data, minishell))
 	{
 		free(data.expanded);
 		return (NULL);
 	}
-	data.expanded[data.j] = '\0';
+	if (data.expanded != NULL)
+		data.expanded[data.j] = '\0';
 	return (data.expanded);
 }

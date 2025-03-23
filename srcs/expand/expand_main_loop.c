@@ -26,7 +26,7 @@ int	handle_variable_expansion(t_expand_data *data)
 	return (1);
 }
 
-int	process_character(t_expand_data *data)
+int	process_character(t_expand_data *data) // issues ?
 {
 	if (data->str[data->i] == '$' && data->str[data->i + 1] == '"' \
 									&& !data->in_squotes && !data->in_dquotes)
