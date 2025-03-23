@@ -309,7 +309,6 @@ ls | grep a
 cat file | grep hello | wc -l
 ls | grep a | sort | uniq
 ls nonexistent | grep a
-cd /tmp && ls -la | grep ^d > dirs && cat dirs
 cat nonexistent | grep test || echo "not found"
 ls && pwd && echo success
 ls nonexistent && echo "won't print" || echo "error happened"
