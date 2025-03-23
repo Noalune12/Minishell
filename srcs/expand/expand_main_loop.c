@@ -4,17 +4,6 @@
 #include "libft.h"
 #include "minishell.h"
 
-int	handle_dollar_quoted(t_expand_data *data, char quote_char)
-{
-	(data->i) += 2;
-	while (data->str[data->i] && data->str[data->i] != quote_char)
-		data->expanded[data->j++] = data->str[data->i++];
-	if (data->str[data->i] == quote_char)
-		(data->i)++;
-	(data->i)--;
-	return (1);
-}
-
 int	handle_variable_expansion(t_expand_data *data)
 {
 	if (data->str[data->i] == '$' && data->str[data->i + 1]

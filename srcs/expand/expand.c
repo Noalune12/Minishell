@@ -60,35 +60,3 @@ char	*expand_env_vars(char *s, t_minishell *minishell, int *exp, int *quote)
 	data.expanded[data.j] = '\0';
 	return (data.expanded);
 }
-
-char	*expand_heredoc(char *str, t_list *env, t_minishell *minishell)
-{
-	t_heredoc_data	data;
-
-	if (init_heredoc_expand(&data, str, minishell) == 0)
-		return (NULL);
-	while (str && str[data.i])
-	{
-		if (str[data.i] == '$' && str[data.i + 1] && (str[data.i + 1] != '?' && ft_isalnum(str[data.i + 1])))
-		{
-			if (!handle_dollar_sign(str, data.expanded, &(data.i), &(data.j), env))
-			{
-				free(data.expanded);
-				return (NULL);
-			}
-		}
-		else if (str[data.i] == '$' && str[data.i + 1] == '?')
-		{
-			if (!handle_exit_code(data.expanded, &(data.i), &(data.j), minishell->exit_status))
-			{
-				free(data.expanded);
-				return (NULL);
-			}
-		}
-		else
-			data.expanded[data.j++] = str[data.i];
-		data.i++;
-	}
-	data.expanded[data.j] = '\0';
-	return (data.expanded);
-}

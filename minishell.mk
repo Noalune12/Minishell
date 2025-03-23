@@ -17,6 +17,8 @@ override OPTIONSDIR	:= options/
 SRC	+= $(addprefix $(EXPANDDIR), $(addsuffix .c, $(EXPANDSRC)))
 
 override EXPANDSRC	:= \
+	expand_calc_len \
+	expand_heredoc \
 	expand_init \
 	expand_len_utils \
 	expand_main_loop \
