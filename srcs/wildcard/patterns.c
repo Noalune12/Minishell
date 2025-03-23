@@ -30,6 +30,10 @@ bool	wildcard_match(const char *pattern, const char *str)
 	if (*pattern == '\0')
 		return (wildcard_match_end(pattern, str));
 	if (*pattern == '*')
+	{
+		while (*(pattern + 1) == '*')
+			pattern++;
 		return (wildcard_match_star(pattern, str));
+	}
 	return (wildcard_match_char(pattern, str));
 }
