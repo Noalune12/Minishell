@@ -47,7 +47,7 @@ void	free_list(t_list *list)
 	}
 }
 
-void	free_env(t_minishell *minishell)
+void	cleanup_shell(t_minishell *minishell)
 {
 	close_and_free_fds(&minishell->fds.fd_in);
 	close_and_free_fds(&minishell->fds.fd_out);

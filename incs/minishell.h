@@ -146,7 +146,11 @@ void	handle_signal_main(void);
 void	handle_signal_child(void);
 
 bool	replace_token(t_list *current, t_list *new_tokens);
-void	free_env(t_minishell *minishell);
+void	cleanup_shell(t_minishell *minishell);
+void	cleanup_loop(t_minishell *minishell);
+void	cleanup_exit(t_minishell *minishell);
+
+
 
 
 

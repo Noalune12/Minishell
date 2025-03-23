@@ -41,6 +41,7 @@ override INITSRC	:= \
 SRC += $(addprefix $(UTILSDIR), $(addsuffix .c, $(UTILSSRC)))
 
 override UTILSSRC	:= \
+	cleanup_minishell \
 	free_utils \
 	list_utils \
 	t_token_utils
