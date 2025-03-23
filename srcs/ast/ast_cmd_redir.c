@@ -113,7 +113,7 @@ t_ast	*create_branch(t_token **token, t_ast *root, t_ast *sub_ast)
 		}
 		else if (create_cmd(token, &branch, root, sub_ast) == NULL)
 			return (NULL);
-		if ((*token)->next && ((is_operator_node((*token)->next->type)
+		if ((*token)->next && ((is_operator_node((*token)->next->type) \
 				|| (*token)->next->type == NODE_CLOSE_PAR)))
 			break ;
 		(*token) = (*token)->next;
