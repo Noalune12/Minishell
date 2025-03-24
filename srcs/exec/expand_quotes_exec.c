@@ -114,7 +114,7 @@ int	expand_quotes_exec(t_ast *node, t_minishell *minishell)
 		exp_qu.expanded = expand_env_vars(node->cmd->cmds[exp_qu.i],
 				minishell, &exp_qu.exp, &exp_qu.quote); // TODO protect
 		if (!exp_qu.expanded)
-			return(1);
+			return (1);
 		exp_qu.temp = node->cmd->cmds[exp_qu.i];
 		expand_condition(node, &exp_qu);
 		if (exp_qu.exp == 1 && exp_qu.quote == 0 && node->cmd->cmds[exp_qu.i])
@@ -125,7 +125,7 @@ int	expand_quotes_exec(t_ast *node, t_minishell *minishell)
 				return (1);
 			exp_qu.i++;
 		}
-		else if (exp_qu.exp == 0 && quote_condition(node, &exp_qu) == 1) // TODO export A='"' export B="a b c $A" echo $B
+		else if ((exp_qu.exp == 0 || (exp_qu.exp == 1 && exp_qu.quote == 1 && ++exp_qu.i)) && quote_condition(node, &exp_qu) == 1) // TODO export A='"' export B="a b c $A" echo $B
 				return (1); // TODO protect
 	}
 	return (0);
