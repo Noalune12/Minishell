@@ -11,7 +11,7 @@ $(MAN_PAGE):
 	@mkdir -p $(MAN_DIR)
 	@echo "$(CYAN)[Creating]$(RESETC) man page for minishell"
 	@echo ".\\\"Man page for minishell shell" > $@
-	@echo ".TH MINISHELL 1 \"March 2025\" \"minishell 1.0\" \"User Commands\"" >> $@
+	@echo ".TH MINISHELL 1 \"March 2025\" \"minishell 1.1\" \"User Commands\"" >> $@
 	@echo ".SH NAME" >> $@
 	@echo "minishell \\- a simplified Unix shell with bash-like functionality" >> $@
 	@echo ".SH SYNOPSIS" >> $@
@@ -129,6 +129,6 @@ $(MAN_PAGE):
 	@echo "environment variable '?' and displayed in the prompt." >> $@
 	@echo ".SH SEE ALSO" >> $@
 	@echo ".BR bash (1)" >> $@
-	@echo ".SH AUTHOR" >> $@
+	@echo ".SH AUTHORS" >> $@
 	@echo "lbuisson & gueberso" >> $@
 	@chmod 644 $(MAN_PAGE)
