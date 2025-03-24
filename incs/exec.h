@@ -19,6 +19,7 @@ typedef struct	s_exp_qu
 	char	*expanded;
 	char	*temp;
 	char	*final;
+	char	**tmp_cmds;
 	int		exp;
 	int		quote;
 	int		i;

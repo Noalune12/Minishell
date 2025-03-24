@@ -45,13 +45,18 @@ static int	quote_condition(t_ast *node, t_exp_qu *exp_qu)
 	return (0);
 }
 
-static void	expand_quotes_init(t_ast *node, t_exp_qu *exp_qu,
+static int	expand_quotes_init(t_ast *node, t_exp_qu *exp_qu,
 	t_minishell *minishell)
 {
 	exp_qu->exp = 0;
 	exp_qu->quote = 0;
 	exp_qu->expanded = expand_env_vars(node->cmd->cmds[exp_qu->i],
 			minishell, &exp_qu->exp, &exp_qu->quote); // TODO protect
+	if (!exp_qu->expanded)
+		return (1);
+	exp_qu->temp = node->cmd->cmds[exp_qu->i];
+	expand_condition(node, exp_qu);
+	return (0);
 }
 
 int	expand_quotes_exec(t_ast *node, t_minishell *minishell)
@@ -61,17 +66,18 @@ int	expand_quotes_exec(t_ast *node, t_minishell *minishell)
 	ft_memset(&exp_qu, 0, sizeof(t_exp_qu));
 	while (node->cmd->cmds[exp_qu.i])
 	{
-		expand_quotes_init(node, &exp_qu, minishell);
-		if (!exp_qu.expanded)
+		if (expand_quotes_init(node, &exp_qu, minishell) == 1)
 			return (1);
-		exp_qu.temp = node->cmd->cmds[exp_qu.i];
-		expand_condition(node, &exp_qu);
 		if (exp_qu.exp == 1 && exp_qu.quote == 0 && node->cmd->cmds[exp_qu.i])
 		{
+			exp_qu.tmp_cmds = node->cmd->cmds;
 			node->cmd->cmds = remake_cmds(node->cmd->cmds, &exp_qu.i); // TODO protect
-			free(exp_qu.expanded);
 			if (!node->cmd->cmds)
+			{
+				ft_free_double(exp_qu.tmp_cmds);
 				return (1);
+			}
+			free(exp_qu.expanded);
 			exp_qu.i++;
 		}
 		else if ((exp_qu.exp == 0 || (exp_qu.exp == 1 && exp_qu.quote == 1

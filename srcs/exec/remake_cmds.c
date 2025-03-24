@@ -47,7 +47,7 @@ char	**remake_cmds(char **cmds, int *index)
 	ret = malloc((cmds_len + new_cmd_len) * sizeof(char *)); // TODO protect
 	if (!ret)
 	{
-		free(new_cmd);
+		ft_free_double(new_cmd);
 		return (NULL);
 	}
 	fill_new_cmds(cmds, index, new_cmd, ret);
