@@ -3,19 +3,25 @@
 
 void	print_tokens(t_minishell *minishell)
 {
-	t_token	*print_tokens;
+	t_token		*current;
+	int			i;
+	static char	*type_short[] = {
+		"CMD", "PIPE", "OR", "AND", "IN", "OUT",
+		"HDOC", "APP", "(", ")", "BUILT"
+	};
 
 	if (minishell->options->display_tokens == false)
 		return ;
-	else
+	printf(BOLD_RED"Tokens:\n"RESET);
+	current = minishell->token;
+	i = 0;
+	while (current)
 	{
-		print_tokens = minishell->token;
-		while (print_tokens)
-		{
-			printf("%sToken: [%s], Type: %d%s\n", BOLD_RED, \
-				print_tokens->content, print_tokens->type, RESET);
-			print_tokens = print_tokens->next;
-		}
+		printf(BOLD_RED"  %d. "RESET, current->type);
+		printf("%s%-4s"" → ", CYAN, type_short[current->type]);
+		printf("%s%s%s\n", WHITE_BOLD, current->content, RESET);
+		current = current->next;
+		i++;
 	}
 }
 
