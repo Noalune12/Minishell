@@ -17,7 +17,7 @@ static void	init_options(t_minishell *minishell)
 	{
 		free_list(minishell->envp);
 		ft_dprintf(STDERR_FILENO, "Memory allocation error\n");
-		exit(EXIT_FAILURE); // proper exit ?
+		exit(EXIT_FAILURE);
 	}
 	minishell->options->display_ast = false;
 	minishell->options->display_tokens = false;
