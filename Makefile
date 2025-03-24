@@ -47,7 +47,7 @@ NEED_REBUILD_SRC := $(shell find $(SRCSDIR) -name "*.c" -newer $(NAME) 2>/dev/nu
 NEWER_HEADERS := $(shell find incs/ libft/incs/ -name "*.h" -newer $(NAME) 2>/dev/null | wc -l)
 EXECUTABLE_EXISTS := $(shell [ -f $(NAME) ] && echo 1 || echo 0)
 
-ifeq ($(EXECUTABLE_EXISTS),1)
+ifeq ($(EXECUTABLE_EXISTS),0)
     NEED_REBUILD := $(words $(SRCS))
 else
     ifeq ($(NEWER_HEADERS),0)

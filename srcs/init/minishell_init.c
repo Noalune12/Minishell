@@ -37,11 +37,11 @@ void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp)
 {
 	(void) ac;
 	(void) av;
-	tty_check();
+	// tty_check();
 	ft_memset(minishell, 0, sizeof(t_minishell));
 	minishell->exec = av[0];
 	minishell->envp = env_init(envp); // TODO finish protection for minimal env
-	if (!minishell->envp)
+	if (minishell->envp == NULL)
 		exit(EXIT_FAILURE);
 	minishell->pid = -1;
 	init_options(minishell);
