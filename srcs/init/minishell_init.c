@@ -1,11 +1,12 @@
-#include "minishell.h"
+#include "common.h"
 #include "env.h"
+#include "minishell.h"
 
 void	tty_check(void)
 {
 	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
 	{
-		ft_dprintf(STDERR_FILENO, "minishell: not a tty\n");
+		ft_dprintf(STDERR_FILENO, NOT_A_TTY);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -13,10 +14,10 @@ void	tty_check(void)
 static void	init_options(t_minishell *minishell)
 {
 	minishell->options = malloc(sizeof(t_options));
-	if (!minishell->options)
+	if (minishell->options == NULL)
 	{
 		free_list(minishell->envp);
-		ft_dprintf(STDERR_FILENO, "Memory allocation error\n");
+		ft_dprintf(STDERR_FILENO, MEM_ALLOC_ERR);
 		exit(EXIT_FAILURE);
 	}
 	minishell->options->display_ast = false;
@@ -49,7 +50,7 @@ void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp)
 		|| init_fd_info(&minishell->fds.fd_out) == 0)
 	{
 		cleanup_shell(minishell);
-		ft_dprintf(STDERR_FILENO, "Memory allocation error\n");
+		ft_dprintf(STDERR_FILENO, MEM_ALLOC_ERR);
 		exit(EXIT_FAILURE);
 	}
 }

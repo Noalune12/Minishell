@@ -4,7 +4,7 @@
 
 static t_list	*error_handling(void)
 {
-	ft_dprintf(STDERR_FILENO, "Malloc failed\n");
+	ft_dprintf(STDERR_FILENO, MALLOC_FAIL);
 	return (NULL);
 }
 
@@ -15,7 +15,7 @@ static t_list	*ft_get_env(char **envp)
 
 	i = 0;
 	env = NULL;
-	if (envp == NULL || envp[i] == NULL) // condition correcte ?
+	if (envp == NULL || envp[i] == NULL)
 	{
 		env = malloc(sizeof(t_list));
 		if (env == NULL)
@@ -43,7 +43,7 @@ static int	error_handling_minimal_env(char *str, char *str2, int msg)
 	if (str2)
 		free(str2);
 	if (msg == 1)
-		ft_dprintf(STDERR_FILENO, "Malloc failed\n");
+		ft_dprintf(STDERR_FILENO, MALLOC_FAIL);
 	return (0);
 }
 
