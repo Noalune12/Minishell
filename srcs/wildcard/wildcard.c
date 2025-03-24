@@ -43,28 +43,27 @@ static bool	expand_token_wildcard(t_token *current)
 	return (res);
 }
 
-t_token	*expand_wildcards(t_token *tokens, bool *exec_status)
+void	expand_wildcards(t_minishell *minishell)
 {
 	t_token	*current;
 	t_token	*next;
 
-	if (!tokens || *exec_status == false)
-		return (NULL);
-	current = tokens;
-	while (current)
+	if (minishell->token == NULL || minishell->exec_status == false)
+		return ;
+	current = minishell->token;
+	while (current != NULL)
 	{
 		next = current->next;
 		if (current->type == NODE_COMMAND && contain_wildcard(current->content))
 		{
-			if (!expand_token_wildcard(current))
+			if (expand_token_wildcard(current) == false)
 			{
-				free_token_list(tokens);
-				*exec_status = false;
-				return (NULL);
+				free_token_list(minishell->token);
+				minishell->exec_status = false;
+				return ;
 			}
 			current = next;
 		}
 		current = next;
 	}
-	return (tokens);
 }
