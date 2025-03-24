@@ -58,4 +58,6 @@
 # define RESEARCHSHLVL	"SHLVL="
 # define RESEARCHPWD	"PWD="
 
+# define DEFAULT_PROMPT	"minishell$>"
+
 #endif
