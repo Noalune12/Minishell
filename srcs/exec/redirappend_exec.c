@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "exec.h"
 
 int	handle_redirappend(t_ast *node, t_minishell *minishell)
 {

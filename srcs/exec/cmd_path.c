@@ -1,7 +1,9 @@
-#include "minishell.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
+
+#include "minishell.h"
+#include "exec.h"
 
 static char	*find_env_path(t_list *envp, t_minishell *minishell)
 {

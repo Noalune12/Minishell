@@ -1,33 +1,7 @@
 #include "minishell.h"
+#include "exec.h"
 
 #define READ_LEN 1000
-
-char	*ft_strjoin_free_s1(char *s1, char *s2)
-{
-	char	*res;
-	size_t	s1_len;
-	size_t	s2_len;
-	size_t	i;
-	size_t	j;
-
-	if (!s1 || !s2)
-		return (NULL);
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	res = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
-	if (!res)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (i < s1_len)
-		res[i++] = s1[j++];
-	j = 0;
-	while (j < s2_len)
-		res[i++] = s2[j++];
-	res[i] = '\0';
-	free(s1);
-	return (res);
-}
 
 static int	error_handling_heredoc(char *filename, char *str, int fd)
 {

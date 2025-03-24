@@ -1,5 +1,6 @@
 #include "libft.h"
 #include "minishell.h"
+#include "exec.h"
 
 static int	fill_new_cmds(char **cmds, int *index, char **new_cmd, char **ret)
 {
