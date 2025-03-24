@@ -1,3 +1,6 @@
+#include "built_in.h"
+#include "ft_dprintf.h"
+#include "libft.h"
 #include "minishell.h"
 
 static void	free_node(t_list *node) //TODO utils ?

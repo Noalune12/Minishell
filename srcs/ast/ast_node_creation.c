@@ -1,3 +1,4 @@
+#include "ast.h"
 #include "minishell.h"
 
 static t_cmd	*add_cmd(char *content)

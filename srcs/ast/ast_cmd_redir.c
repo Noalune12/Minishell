@@ -1,3 +1,5 @@
+#include "ast.h"
+#include "libft.h"
 #include "minishell.h"
 
 static char	**update_cmd_content(char **cmds, char **new_cmds, char *content)

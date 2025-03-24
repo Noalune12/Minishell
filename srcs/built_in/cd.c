@@ -1,3 +1,7 @@
+#include "built_in.h"
+#include "env.h"
+#include "ft_dprintf.h"
+#include "libft.h"
 #include "minishell.h"
 
 static int	error_handling(char *str, char *message)

@@ -1,3 +1,4 @@
+#include "ast.h"
 #include "minishell.h"
 
 void	ft_free(char **split)

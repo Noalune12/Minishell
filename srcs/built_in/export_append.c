@@ -1,5 +1,7 @@
-#include "minishell.h"
+#include "built_in.h"
 #include "env.h"
+#include "ft_dprintf.h"
+#include "libft.h"
 
 static char	*remove_plus(char *content)
 {

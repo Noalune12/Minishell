@@ -1,3 +1,4 @@
+#include "ast.h"
 #include "minishell.h"
 
 t_ast	*create_operator(t_token **token, t_ast *root, t_ast *sub_ast)

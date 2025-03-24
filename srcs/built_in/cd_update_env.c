@@ -1,5 +1,6 @@
-#include "minishell.h"
+#include "built_in.h"
 #include "env.h"
+#include "libft.h"
 
 t_list	*find_info_env(t_list **envp, char *content, int equal)
 {

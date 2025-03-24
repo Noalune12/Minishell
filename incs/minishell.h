@@ -53,11 +53,7 @@ extern int	g_signal_received;
 # define IS_REDIR "minishell: %s: Is a directory\n"
 
 // Error builtin
-# define EXIT_ERROR "minishell: exit: %s: numeric argument required\n"
-# define TOO_MANY_ARGS "minishell: %s: too many arguments\n"
-# define EXPORT_ERROR "minishell: export: `%s': not a valid identifier\n"
-# define CD_HOME "minishell: cd: HOME not set\n"
-# define PWD_ERROR "minishell: pwd: %s: invalid option\npwd: usage: pwd\n"
+
 // liste de define plutot que decrire en brut
 
 # define PWD			"PWD"
@@ -119,12 +115,12 @@ typedef struct s_path_cmds
 
 typedef struct s_minishell
 {
+	char		*exec;
 	char		*input;
 	bool		exec_status;
 	int			exit_status;
 	int			is_pipe;
 	pid_t		pid;
-	// pid_t		pipe_fd[2];
 	int			fd_in;
 	int			fd_out;
 	t_options	*options;
@@ -320,37 +316,6 @@ bool	is_operator(char c, bool in_quotes);
 
 /* ---- ast */
 
-typedef struct s_branch
-{
-	t_token	*token_redir;
-	t_ast	*node_cmd;
-	t_ast	*node_redir;
-	t_ast	*node;
-}	t_branch;
-
-t_ast	*build_ast(t_token **token, bool *exec_status);
-t_ast	*create_ast_tree_node(t_node_type type, char *content, bool expand, t_ast *parent);
-t_ast	*create_branch(t_token **token, t_ast *root, t_ast *sub_ast);
-
-t_ast	*add_up(t_ast *root, t_ast *node);
-t_ast	*add_to_rightmost(t_ast *root, t_ast *node);
-t_ast	*add_to_left(t_ast *root, t_ast *node);
-t_ast	*add_down_right(t_ast *root, t_ast *node);
-t_ast	*add_to_ast(t_ast *root, t_ast *node);
-
-
-int		is_redir_node(t_node_type type);
-int		is_redir_node_not_heredoc(t_node_type type);
-int		is_operator_node(t_node_type type);
-
-char	**update_heredoc(char **cmds, char *content);
-int		still_heredoc_left(t_token *token);
-
-void	free_ast(t_ast *node);
-void	ft_free(char **split);
-t_ast	*error_handling_ast(t_ast *root, t_ast *sub_ast, char *str);
-
-
 /* ---- exec */
 
 typedef int (* t_handler)(t_ast *node, t_minishell *minishell);
@@ -401,33 +366,8 @@ int		handle_redirout(t_ast *node, t_minishell *minishell);
 
 int		handle_redirappend(t_ast *node, t_minishell *minishell);
 
-int		handle_builtin(t_ast *node, t_minishell *minishell);
-int		ft_pwd(char **cmds, t_minishell *minishell);
-
-int		ft_cd(char **cmds, t_minishell *minishell);
-int		update_cd_env(t_list **envp, char *path, int to_home);
-
-t_list	*copy_env(t_list *env);
-int	ft_export(char **cmds, t_minishell *minishell);
-int		check_export(char **cmds);
-int		add_export_to_env(char *cmds, t_list **env);
-int		add_or_append_env(char *content, t_list **env, int len);
-int		find_env_var_node(char *var, t_list **env);
-
-int remove_node(t_list **head, char *var);
-int	ft_unset(char **cmds, t_minishell *minishell);
-int	ft_echo(char **cmds, t_minishell *minishell);
-int	ft_exit(char **cmds, t_minishell *minishell);
-
-void 	swap_data(t_list *a, t_list *b);
-void	ft_list_sort(t_list **begin_list, int (*cmp)(char *, char *));
-void	swap_strs(char **s1, char **s2);
-
 char	**ft_free_double(char **strs);
-char	*ft_strndup(const char *s, size_t len);
 
-int		ft_strnlen(char *str, char c);
-int		ascii_cmp(char *a, char *b);
 
 /* test signal */
 

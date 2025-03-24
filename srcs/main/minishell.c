@@ -1,6 +1,7 @@
 #include "minishell.h"
 #include "heredoc.h"
 #include "wildcard.h"
+#include "ast.h"
 
 void	free_input_setup(char *tmp, char *exit_code, char *prompt)
 {
@@ -61,6 +62,7 @@ int	main(int ac, char **av, char **envp)
 	t_token		*tmp_test;
 
 	minishell_init(&minishell, ac, av, envp);
+	// printf("exec = %s\n", minishell.exec);
 	// rl_event_hook = &event; // define callback function when rl_done is set at 1;
 	while (1)
 	{

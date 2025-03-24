@@ -95,6 +95,8 @@ int	handle_cmd(t_ast *node, t_minishell *minishell)
 	ret = check_cmd(node);
 	if (ret != 0)
 		return (ret);
+	if (ft_strcmp(node->cmd->cmds[0], minishell->exec) == 0)
+		minishell->is_pipe = 1;
 	handle_signal_wait();
 	child_ret = exec_in_child(node, minishell, &ret);
 	if (child_ret == 1)
@@ -103,6 +105,7 @@ int	handle_cmd(t_ast *node, t_minishell *minishell)
 		ft_dprintf(STDOUT_FILENO, "\n");
 	else if (minishell->is_pipe == 0 && g_signal_received == SIGQUIT)
 		ft_dprintf(STDOUT_FILENO, "Quit (core dumped)\n");
+	minishell->is_pipe = 0;
 	if (WIFEXITED(ret))
 	{
 		g_signal_received = 0;

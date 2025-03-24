@@ -1,4 +1,5 @@
-#include "minishell.h"
+#include "ast.h"
+#include "types.h"
 
 int	is_redir_node(t_node_type type)
 {

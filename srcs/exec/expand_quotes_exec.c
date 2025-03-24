@@ -1,3 +1,4 @@
+#include "libft.h"
 #include "minishell.h"
 
 static int	fill_new_cmds(char **cmds, int *index, char **new_cmd, char **ret)
@@ -123,7 +124,7 @@ int	expand_quotes_exec(t_ast *node, t_minishell *minishell)
 				return (1);
 			exp_qu.i++;
 		}
-		else if (exp_qu.exp == 0 && quote_condition(node, &exp_qu) == 1)
+		else if (exp_qu.exp == 0 && quote_condition(node, &exp_qu) == 1) // TODO export A='"' export B="a b c $A" echo $B
 				return (1); // TODO protect
 	}
 	return (0);

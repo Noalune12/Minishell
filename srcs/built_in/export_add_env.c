@@ -1,5 +1,7 @@
-#include "minishell.h"
+#include "built_in.h"
 #include "env.h"
+#include "ft_dprintf.h"
+#include "libft.h"
 
 int	find_env_var_node(char *var, t_list **env) // credit a Sammy pour avoir trouvé ca
 {

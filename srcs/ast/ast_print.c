@@ -1,3 +1,4 @@
+#include "ast.h"
 #include "minishell.h"
 
 static void	print_spaces(int depth)

@@ -1,11 +1,13 @@
+#include "ast.h"
+#include "libft.h"
 #include "minishell.h"
 
 static void	print_cmd_value(char *cmd)
 {
 	if (cmd)
-		printf("%s +", cmd);
+		ft_dprintf(STDERR_FILENO, "%s +", cmd);
 	else
-		printf("null +");
+		ft_dprintf(STDERR_FILENO, "null +");
 }
 
 void	print_cmd_node(t_ast *node, char *prefix)
@@ -22,9 +24,9 @@ void	print_cmd_node(t_ast *node, char *prefix)
 static void	print_redirect_value(char *symbol, char *cmd)
 {
 	if (cmd)
-		printf("%s:%s ", symbol, cmd);
+		ft_dprintf(STDERR_FILENO, "%s:%s ", symbol, cmd);
 	else
-		printf("%s:null ", symbol);
+		ft_dprintf(STDERR_FILENO, "%s:null ", symbol);
 }
 
 static void	print_single_redirect(char *symbol, char *cmd)

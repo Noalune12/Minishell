@@ -1,5 +1,8 @@
-#include "minishell.h"
+#include "built_in.h"
+#include "ft_dprintf.h"
+#include "libft.h"
 #include "limits.h"
+#include "minishell.h"
 
 int	check_arg_exit(char *str)
 {
@@ -14,7 +17,7 @@ int	check_arg_exit(char *str)
 	{
 		if (str[i] == ' ' || str[i] == '\t')
 			break ;
-		if (!isdigit(str[i]))
+		if (!ft_isdigit(str[i]))
 			return (0);
 		i++;
 	}
@@ -50,7 +53,7 @@ int	exit_return(char *str)
 	while (str[i] >= 48 && str[i] <= 57)
 	{
 		if (sign == -1 && (sign * (((long long)nb * 10) + (str[i] - 48))
-				== LLONG_MIN) && (!str[i + 1] || !isdigit(str[i + 1])))
+				== LLONG_MIN) && (!str[i + 1] || !ft_isdigit(str[i + 1])))
 			return (0);
 		if ((long long)nb > (LLONG_MAX - (str[i] - 48)) / 10)
 		{

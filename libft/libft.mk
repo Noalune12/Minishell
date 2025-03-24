@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    libft.mk                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+         #
+#    By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/14 10:09:03 by gueberso          #+#    #+#              #
-#    Updated: 2025/02/26 19:18:00 by gueberso         ###   ########.fr        #
+#    Updated: 2025/03/24 09:20:36 by lbuisson         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,6 +89,7 @@ override STRINGSRC := \
 	ft_strlen \
 	ft_strmapi \
 	ft_strncmp \
+	ft_strndup \
 	ft_strnstr \
 	ft_strrchr \
 	ft_strtrim \

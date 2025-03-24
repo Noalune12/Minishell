@@ -1,4 +1,6 @@
-#include "minishell.h"
+#include "built_in.h"
+#include "ft_dprintf.h"
+#include "libft.h"
 
 void	remove_export(char **cmds, int i)
 {

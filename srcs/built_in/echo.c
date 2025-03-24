@@ -1,3 +1,4 @@
+#include "built_in.h"
 #include "minishell.h"
 
 static inline int	is_no_nl(char *str)

@@ -1,3 +1,5 @@
+#include "ast.h"
+#include "libft.h"
 #include "minishell.h"
 
 char	**update_heredoc(char **cmds, char *content)

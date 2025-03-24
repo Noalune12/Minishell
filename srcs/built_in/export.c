@@ -1,3 +1,6 @@
+#include "built_in.h"
+#include "ft_dprintf.h"
+#include "libft.h"
 #include "minishell.h"
 
 static void	free_env_export(t_list *env)
@@ -32,8 +35,8 @@ static int	ft_print_export(t_list *env)
 	temp = sorted;
 	while (temp)
 	{
-		printf("export ");
-		printf("%s\n", temp->content);
+		ft_dprintf(STDIN_FILENO, "export ");
+		ft_dprintf(STDIN_FILENO, "%s\n", temp->content);
 		temp = temp->next;
 	}
 	free_env_export(sorted);

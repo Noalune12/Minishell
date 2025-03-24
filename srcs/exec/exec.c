@@ -1,5 +1,5 @@
 #include "minishell.h"
-
+#include "built_in.h"
 //TODO exit minishell when malloc, pipe, fork error ??
 
 int	exec_minishell(t_ast *node, t_minishell *minishell)
