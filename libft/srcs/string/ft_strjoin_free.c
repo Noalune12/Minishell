@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:52:11 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/24 14:35:35 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/24 14:53:26 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,6 @@ char	*ft_strjoin_free(const char *s1, char *s2)
 		res[i++] = s2[j++];
 	res[i] = '\0';
 	free(s2);
+	s2 = NULL;
 	return (res);
 }
