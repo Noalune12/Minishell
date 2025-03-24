@@ -13,15 +13,15 @@ static void	build_and_execute(t_minishell *minishell)
 		minishell->exit_status = exec_minishell(minishell->ast_node, minishell);
 }
 
-static void	process_command(t_minishell *shell)
+static void	process_command(t_minishell *minishell)
 {
-	shell->token = tokenize_input(shell->input, &shell->exec_status);
-	shell->token = split_operators(shell->token, &shell->exec_status);
-	check_heredoc(shell);
-	shell->token = expand_wildcards(shell->token, &shell->exec_status);
-	syntax_check(shell);
-	print_tokens(shell);
-	build_and_execute(shell);
+	tokenize_input(minishell);
+	split_operators(minishell);
+	check_heredoc(minishell);
+	expand_wildcards(minishell);
+	syntax_check(minishell);
+	print_tokens(minishell);
+	build_and_execute(minishell);
 }
 
 static int	process_input(t_minishell *minishell)
