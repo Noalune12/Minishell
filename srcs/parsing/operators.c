@@ -84,28 +84,54 @@ static bool	process_token_content(t_token **result, const char *content)
 	return (add_final_token(result, content, data.start, data.i));
 }
 
-t_token	*split_operators(t_token *tokens, bool *exec_status)
+void	split_operators(t_minishell *minishell)
 {
 	t_token	*result;
 	t_token	*current;
 	t_token	*next;
 
-	if (*exec_status == false)
-		return (NULL);
+	if (minishell->exec_status == false)
+		return ;
 	result = NULL;
-	current = tokens;
-	while (current)
+	current = minishell->token;
+	while (current != NULL)
 	{
-		if (!process_token_content(&result, current->content))
+		if (process_token_content(&result, current->content) == false)
 		{
 			free_token_list(result);
-			*exec_status = false;
-			return (NULL);
+			minishell->exec_status = false;
+			return ;
 		}
 		next = current->next;
 		free(current->content);
 		free(current);
 		current = next;
 	}
-	return (result);
+	minishell->token = result;
 }
+
+// t_token	*split_operators(t_token *tokens, bool *exec_status)
+// {
+// 	t_token	*result;
+// 	t_token	*current;
+// 	t_token	*next;
+
+// 	if (*exec_status == false)
+// 		return (NULL);
+// 	result = NULL;
+// 	current = tokens;
+// 	while (current)
+// 	{
+// 		if (!process_token_content(&result, current->content))
+// 		{
+// 			free_token_list(result);
+// 			*exec_status = false;
+// 			return (NULL);
+// 		}
+// 		next = current->next;
+// 		free(current->content);
+// 		free(current);
+// 		current = next;
+// 	}
+// 	return (result);
+// }

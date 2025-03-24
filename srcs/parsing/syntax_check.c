@@ -55,12 +55,12 @@ static int	check_token_sequence(t_token *current, int *paren_count,
 {
 	t_token	*next;
 
-	while (current)
+	while (current != NULL)
 	{
 		if (check_unbalanced_parenthesis(current, paren_count, minishell) == -1)
 			return (-1);
 		next = current->next;
-		if (next)
+		if (next != NULL)
 		{
 			if (check_consecutive_operators(current, next, minishell) == -1
 				|| check_parentheses_tokens(current, next, minishell) == -1)
@@ -73,25 +73,24 @@ static int	check_token_sequence(t_token *current, int *paren_count,
 	return (0);
 }
 
-int	syntax_check(t_minishell *minishell)
+void	syntax_check(t_minishell *minishell)
 {
 	t_token	*current;
 	int		paren_count;
 
 	current = minishell->token;
-	if (!current || !minishell->exec_status)
-		return (0);
+	if (current == NULL || minishell->exec_status == false)
+		return ;
 	if (check_first_token(current, minishell) == -1)
-		return (-1);
+		return ;
 	paren_count = 0;
 	if (check_token_sequence(current, &paren_count, minishell) == -1)
-		return (-1);
+		return ;
 	if (paren_count > 0)
 	{
 		ft_dprintf(STDERR_FILENO, NEWLINE_SYNTAX);
 		minishell->exit_status = 2;
 		minishell->exec_status = false;
-		return (-1);
+		return ;
 	}
-	return (0);
 }
