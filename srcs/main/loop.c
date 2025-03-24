@@ -1,12 +1,13 @@
 #include "minishell.h"
 #include "wildcard.h"
 #include "heredoc.h"
+#include "ast.h"
+#include "exec.h"
 
 static void	build_and_execute(t_minishell *minishell)
 {
-	minishell->ast_node = build_ast(&minishell->token, &minishell->exec_status);
-	if (minishell->options->display_ast)
-		print_ast(minishell->ast_node, 0, &minishell->exec_status);
+	build_ast(minishell);
+	print_ast(minishell, minishell->ast_node, 0);
 	if (g_signal_received != 0)
 		minishell->exit_status = g_signal_received + 128;
 	else if (minishell->ast_node)

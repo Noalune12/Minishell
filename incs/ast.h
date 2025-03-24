@@ -3,6 +3,7 @@
 
 # include <stdbool.h>
 
+typedef struct s_minishell		t_minishell;
 typedef struct s_ast			t_ast;
 typedef struct s_token			t_token;
 typedef enum e_node_type		t_node_type;
@@ -18,6 +19,8 @@ typedef struct s_branch
 
 void	free_ast(t_ast *node);
 void	ft_free(char **split);
+void	free_tab(char **tab, int i);
+
 
 int		is_redir_node(t_node_type type);
 int		is_redir_node_not_heredoc(t_node_type type);
@@ -26,7 +29,7 @@ int		still_heredoc_left(t_token *token);
 
 char	**update_heredoc(char **cmds, char *content);
 
-t_ast	*build_ast(t_token **token, bool *exec_status);
+void	build_ast(t_minishell *ms);
 t_ast	*create_ast_tree_node(t_node_type type, char *content, bool expand, t_ast *parent);
 t_ast	*create_branch(t_token **token, t_ast *root, t_ast *sub_ast);
 t_ast	*add_up(t_ast *root, t_ast *node);

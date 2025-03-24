@@ -37,14 +37,14 @@ static void	print_node_content(t_ast *node)
 		print_redirect_node(node, ")");
 }
 
-void	print_ast(t_ast *node, int depth, bool *exec_status)
+void	print_ast(t_minishell *ms, t_ast *node, int depth)
 {
-	if (exec_status == false || !node)
+	if (ms->exec_status == false || ms->options->display_ast == false || !node)
 		return ;
 	if (node->right)
-		print_ast(node->right, depth + 10, exec_status);
+		print_ast(ms, node->right, depth + 10);
 	print_spaces(depth);
 	print_node_content(node);
 	if (node->left)
-		print_ast(node->left, depth + 10, exec_status);
+		print_ast(ms, node->left, depth + 10);
 }
