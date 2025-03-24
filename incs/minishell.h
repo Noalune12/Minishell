@@ -325,6 +325,7 @@ char	*read_input(t_minishell *minishell);
 
 int		return_global(void);
 
+
 /* ---- REFACTOR T_TOKEN TESTS ---- */
 
 void	free_token_list(t_token *tokens);
