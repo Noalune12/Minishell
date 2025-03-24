@@ -30,13 +30,13 @@ void	update_pwd(t_list **env)
 	char	*cwd;
 	char	*actual_pwd;
 
-	if (!env || !*env)
+	if (env == NULL || *env == NULL)
 		return ;
 	cwd = getcwd(NULL, 4096);
-	if (!cwd)
+	if (cwd == NULL)
 		return ;
 	actual_pwd = ft_strjoin_free(RESEARCHPWD, cwd);
-	if (!actual_pwd)
+	if (actual_pwd == NULL)
 		return ;
 	if ((*env)->content == NULL)
 		(*env)->content = actual_pwd;
@@ -50,7 +50,6 @@ void	update_pwd(t_list **env)
 		free(actual_pwd);
 	}
 }
- /* toujours le soucis de +2 au SHLVL de base */
 void	update_shlvl(t_list *env)
 {
 	t_shlvl	u;
@@ -73,9 +72,9 @@ void	update_shlvl(t_list *env)
 		}
 		u.shlvl++;
 		u.next_lvl = ft_itoa(u.shlvl);
-		free(u.shlvl_node->content);
 		if (u.next_lvl == NULL)
 			return ;
+		free(u.shlvl_node->content);
 		u.shlvl_node->content = ft_strjoin_free(RESEARCHSHLVL, u.next_lvl);
 	}
 }

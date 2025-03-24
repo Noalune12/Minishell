@@ -6,7 +6,7 @@ void	tty_check(void)
 	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
 	{
 		ft_dprintf(STDERR_FILENO, "minishell: not a tty\n");
-		exit(EXIT_FAILURE); // exit_failure ??
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -40,7 +40,7 @@ void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp)
 	// tty_check();
 	ft_memset(minishell, 0, sizeof(t_minishell));
 	minishell->exec = av[0];
-	minishell->envp = env_init(envp); // TODO finish protection for minimal env
+	minishell->envp = env_init(envp);
 	if (minishell->envp == NULL)
 		exit(EXIT_FAILURE);
 	minishell->pid = -1;

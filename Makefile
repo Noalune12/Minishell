@@ -104,6 +104,10 @@ $(BUILD_DIR)%.o: $(SRCSDIR)%.c
 valgrind: init $(VALGRIND_SUPPRESS_FILE) $(NAME)
 	$(VALGRIND_FLAGS) ./$(NAME)
 
+.PHONY: valgrindenv
+valgrindenv: init $(VALGRIND_SUPPRESS_FILE) $(NAME)
+	$(VALGRIND_FLAGS) env -i ./$(NAME)
+
 .PHONY: clean
 clean:
 	@$(MAKE) clean -C libft/

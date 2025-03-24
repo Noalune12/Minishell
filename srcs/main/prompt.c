@@ -36,7 +36,6 @@ char	*read_input(t_minishell *minishell)
 	int		code;
 
 	code = minishell->exit_status;
-	dprintf(STDERR_FILENO, "%d\n", code);
 	exit_code = setup_exit_code(code);
 	if (exit_code == NULL)
 		return (NULL);
@@ -48,7 +47,7 @@ char	*read_input(t_minishell *minishell)
 	if (prompt == NULL)
 		input = readline(DEFAULT_PROMPT);
 	else
-		input = readline(prompt);
+		input = readline(DEFAULT_PROMPT);
 	if (prompt != NULL)
 		free(prompt);
 	if (input && *input)
