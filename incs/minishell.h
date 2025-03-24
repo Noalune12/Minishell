@@ -130,13 +130,12 @@ void	minishell_main_loop(t_minishell *minishell);
 char	*read_input(t_minishell *minishell);
 
 
-void	free_ast_2(t_ast *node);
+void	free_ast_2(t_minishell *minishell); // TODO make free ast exec without unlink
 
 void	print_ast(t_minishell *ms, t_ast *node, int depth);
 void	print_cmd_node(t_ast *node, char *prefix);
 void	print_redirect_node(t_ast *node, char *symbol);
 
-// t_list	*add_node(t_list **env, char *content); // ????????
 // void	free_list(t_list *list);
 void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
 

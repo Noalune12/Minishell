@@ -20,7 +20,7 @@ void	cleanup_loop(t_minishell *minishell)
 {
 	free(minishell->input);
 	if (minishell->ast_node)
-		free_ast_2(minishell->ast_node);
+		free_ast_2(minishell);
 	if (minishell->fd_in)
 		close(minishell->fd_in);
 	if (minishell->fd_out)
