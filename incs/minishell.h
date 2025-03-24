@@ -130,6 +130,13 @@ typedef struct s_minishell
 	t_fds		fds;
 }	t_minishell;
 
+
+
+
+void	minishell_main_loop(t_minishell *minishell);
+char	*read_input(t_minishell *minishell);
+
+
 void	free_ast_2(t_ast *node);
 
 void	print_ast(t_ast *node, int depth, bool *exec_status);
@@ -140,7 +147,6 @@ void	print_redirect_node(t_ast *node, char *symbol);
 // void	free_list(t_list *list);
 void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
 
-void	signal_handler(int signum);
 void	handle_signal_main(void);
 void	handle_signal_child(void);
 
