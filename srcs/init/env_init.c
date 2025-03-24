@@ -14,16 +14,16 @@ static t_list	*ft_get_env(char **envp)
 
 	i = 0;
 	env = NULL;
-	if (!envp || !envp[i]) // condition correcte ?
+	if (envp == NULL || envp[i] == NULL) // condition correcte ?
 	{
 		env = malloc(sizeof(t_list));
-		if (!env)
+		if (env == NULL)
 			return (error_handling());
 		env->content = NULL;
 		env->next = NULL;
 		return (env);
 	}
-	while (envp[i])
+	while (envp[i] != NULL)
 	{
 		if (add_node(&env, envp[i]) == NULL)
 		{
