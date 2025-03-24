@@ -100,6 +100,7 @@ override EXECSRC	:= \
 	handle_fd \
 	expand_quotes_exec \
 	quotes_utils \
+	remake_cmds \
 
 SRC	+= $(addprefix $(BUILTINDIR), $(addsuffix .c, $(BUILTINSRC)))
 

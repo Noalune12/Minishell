@@ -61,5 +61,6 @@ int		handle_redirappend(t_ast *node, t_minishell *minishell);
 char	*ft_strjoin_free_s1(char *s1, char *s2);
 
 char	**ft_free_double(char **strs);
+char	**remake_cmds(char **cmds, int *index);
 
 #endif
