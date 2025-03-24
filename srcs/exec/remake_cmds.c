@@ -38,14 +38,14 @@ char	**remake_cmds(char **cmds, int *index)
 	cmds_len = 0;
 	new_cmd_len = 0;
 	new_cmd = ft_split(cmds[*index], ' '); // TODO protect
-	if (!new_cmd)
+	if (new_cmd == NULL)
 		return (NULL);
 	while (cmds[cmds_len])
 		cmds_len++;
 	while (new_cmd[new_cmd_len])
 		new_cmd_len++;
 	ret = malloc((cmds_len + new_cmd_len) * sizeof(char *)); // TODO protect
-	if (!ret)
+	if (ret == NULL)
 	{
 		free(new_cmd);
 		return (NULL);
