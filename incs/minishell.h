@@ -289,7 +289,6 @@ size_t	get_word_length(char *input, size_t start);
  */
 void	copy_with_quotes(char *dest, char *src, size_t *len);
 
-// t_list	*split_operators(const char *str, size_t i, size_t start);
 
 bool	add_token_to_list(t_list **tokens, char *content);
 
@@ -333,13 +332,15 @@ bool	add_token(t_token **tokens, char *content, t_node_type type);
 bool	add_token_in_place(t_token **tokens, char *content, t_node_type type);
 
 t_token	*init_token_node(char *content, t_node_type type);
-t_token *split_operators(t_token *tokens, bool *exec_status);
-t_token	*tokenize_input(char *input, bool *exec_status);
+
+void	split_operators(t_minishell *minishell);
+void	tokenize_input(t_minishell *minishell);
 
 
 
-int	syntax_check(t_minishell *minishell);
-int	check_unbalanced_parenthesis(t_token *token, int *paren_count,
+
+void	syntax_check(t_minishell *minishell);
+int		check_unbalanced_parenthesis(t_token *token, int *paren_count,
 									t_minishell *minishell);
 int	check_parentheses_tokens(t_token *current, t_token *next,
 								t_minishell *minishell);

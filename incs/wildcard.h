@@ -3,10 +3,10 @@
 
 # include <stdbool.h>
 
-typedef struct s_token	t_token;
+typedef struct s_minishell	t_minishell;
+typedef struct s_token		t_token;
 
-t_token	*expand_wildcards(t_token *tokens, bool *exec_status);
-
+void	expand_wildcards(t_minishell *minishell);
 void	cleanup_file_names(char **file_names, int count);
 void	free_file_names_array(char **file_names);
 
