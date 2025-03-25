@@ -1,5 +1,7 @@
 #include "minishell.h"
+#include "ast.h"
 #include "exec.h"
+#include "utils.h"
 
 static void	expand_condition(t_ast *node, t_exp_qu *exp_qu)
 {
@@ -81,8 +83,8 @@ int	expand_quotes_exec(t_ast *node, t_minishell *minishell)
 			exp_qu.i++;
 		}
 		else if ((exp_qu.exp == 0 || (exp_qu.exp == 1 && exp_qu.quote == 1
-				&& ++exp_qu.i)) && quote_condition(node, &exp_qu) == 1) // TODO export A='"' export B="a b c $A" echo $B
-				return (1); // TODO protect
+				&& ++exp_qu.i)) && quote_condition(node, &exp_qu) == 1)
+				return (1);
 	}
 	return (0);
 }

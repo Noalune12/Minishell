@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "ast.h"
 #include "exec.h"
 
 #define READ_LEN 1000

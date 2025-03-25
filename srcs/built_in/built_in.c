@@ -2,6 +2,7 @@
 #include "libft.h"
 #include "minishell.h"
 #include "options.h"
+#include "ast.h"
 #include "exec.h"
 
 static int	print_env(char **cmds, t_minishell *minishell)

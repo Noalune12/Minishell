@@ -4,10 +4,10 @@
 typedef struct s_options	t_options;
 typedef struct s_list		t_list;
 typedef struct s_ast		t_ast;
-typedef struct s_token		t_token;
-typedef struct s_minishell	t_minishell;
 typedef struct s_fd_info	t_fd_info;
 typedef struct s_fds		t_fds;
+typedef struct s_token		t_token;
+typedef struct s_minishell	t_minishell;
 typedef struct s_cmd		t_cmd;
 
 typedef enum e_node_type

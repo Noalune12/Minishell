@@ -1,23 +1,10 @@
+#include <stdlib.h>
+
+#include "types.h"
 #include "ast.h"
 #include "minishell.h"
-
-void	ft_free(char **split)
-{
-	size_t	i;
-
-	i = 0;
-	if (split)
-	{
-		while (split[i])
-		{
-			free(split[i]);
-			split[i] = NULL;
-			i++;
-		}
-		free (split);
-		split = NULL; // not sure
-	}
-}
+#include "ft_dprintf.h"
+#include "utils.h"
 
 void	free_ast_2(t_minishell *minishell) // TODO make free ast exec without unlink
 {
@@ -32,7 +19,7 @@ void	free_ast_2(t_minishell *minishell) // TODO make free ast exec without unlin
 		if (minishell->ast_node->type == NODE_HEREDOC)
 			unlink(minishell->ast_node->cmd->cmds[0]);
 		free(minishell->ast_node->cmd->path);
-		ft_free(minishell->ast_node->cmd->cmds);
+		ft_free_double(minishell->ast_node->cmd->cmds);
 		free(minishell->ast_node->cmd);
 	}
 	if (minishell->ast_node != NULL)
@@ -40,7 +27,7 @@ void	free_ast_2(t_minishell *minishell) // TODO make free ast exec without unlin
 	minishell->ast_node = NULL; // rigolo
 }
 
-void	free_ast(t_ast *node) // TODO make free ast exec without unlink
+void	free_ast(t_ast *node)
 {
 	if (node == NULL)
 		return ;
@@ -51,7 +38,7 @@ void	free_ast(t_ast *node) // TODO make free ast exec without unlink
 	if (node->cmd != NULL)
 	{
 		free(node->cmd->path);
-		ft_free(node->cmd->cmds);
+		ft_free_double(node->cmd->cmds);
 		free(node->cmd);
 	}
 	if (node != NULL)

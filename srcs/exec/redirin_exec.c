@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "ast.h"
 #include "exec.h"
 
 int	handle_redirin(t_ast *node, t_minishell *minishell)

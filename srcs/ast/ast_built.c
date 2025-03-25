@@ -1,3 +1,4 @@
+#include "types.h"
 #include "ast.h"
 #include "minishell.h"
 

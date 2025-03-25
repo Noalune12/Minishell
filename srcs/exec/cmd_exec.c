@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "ast.h"
 #include "exec.h"
 
 static char	**list_to_tab(t_minishell *minishell)

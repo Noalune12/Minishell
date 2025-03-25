@@ -1,6 +1,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+// typedef struct s_fds			t_fds;
 typedef struct s_options		t_options;
 typedef struct s_list			t_list;
 typedef struct s_ast			t_ast;
@@ -21,6 +22,7 @@ extern int	g_signal_received;
 # include "ft_dprintf.h"
 # include "libft.h"
 # include "options.h"
+# include "fd.h" // cannot include it otherwise --> error
 # include "types.h"
 
 # define RED		"\001\033[0;31m\002"
@@ -68,35 +70,6 @@ extern int	g_signal_received;
 
 // heredoc defines
 
-typedef struct s_cmd
-{
-	char	*path;
-	char	**cmds;
-	bool	to_expand;
-}	t_cmd;
-
-typedef struct s_fd_info
-{
-	int		*fds;
-	int		nb_elems;
-	int		capacity;
-}	t_fd_info;
-
-typedef struct s_fds
-{
-	t_fd_info	fd_in;
-	t_fd_info	fd_out;
-}	t_fds;
-
-typedef struct s_ast // rajouter boolean d'expand pour heredoc
-{
-	t_node_type		type; // type de noeud definis par lenum
-	t_cmd			*cmd; // ce qu'on recupere du parsing -> remplacer par t_cmd ?
-	struct s_ast	*left;
-	struct s_ast	*right;
-	struct s_ast	*root; // top priority node
-}	t_ast; // pas sur du nom, a discuter (t_node, t_ast_node, t_node_ast...)
-
 typedef struct	s_token
 {
 	char			*content;
@@ -130,11 +103,8 @@ void	minishell_main_loop(t_minishell *minishell);
 char	*read_input(t_minishell *minishell);
 
 
-void	free_ast_2(t_minishell *minishell); // TODO make free ast exec without unlink
 
-void	print_ast(t_minishell *ms, t_ast *node, int depth);
-void	print_cmd_node(t_ast *node, char *prefix);
-void	print_redirect_node(t_ast *node, char *symbol);
+
 
 // void	free_list(t_list *list);
 void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
@@ -350,12 +320,6 @@ void	add_manpath_to_env(t_list **env);
 int		add_or_replace_env(char *content, t_list **env, int len, int add);
 
 /* ---- HANDLE FD ---- */
-
-int *add_fd(t_fd_info *fd, int fd_in);
-void delete_fd(t_fd_info *fd, int nb_elem);
-int dup_fd(t_fd_info *fd, int fd_redirect);
-void	close_fd(t_fd_info *fd);
-void	close_and_free_fds(t_fd_info *fd);
 
 
 
