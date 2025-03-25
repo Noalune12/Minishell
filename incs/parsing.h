@@ -44,7 +44,7 @@ size_t	get_word_length(char *input, size_t start);
  * @param c The character to check.
  * @return Non-zero if c is a quote, 0 otherwise.
  */
-int	is_quote(char c) __attribute__((always_inline));
+int	is_quote(char c);
 
 /**
  * @brief Tokenizes the input string into a linked list of tokens.
