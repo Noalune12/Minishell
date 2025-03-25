@@ -1,11 +1,11 @@
-#include "minishell.h"
-#include "env.h"
 #include "ast.h"
 #include "built_in.h"
-#include "utils.h"
+#include "env.h"
 #include "fd.h"
 #include "ft_dprintf.h"
 #include "libft.h"
+#include "minishell.h"
+#include "utils.h"
 
 char	*ft_strjoin_free_s1(char *s1, char *s2)
 {

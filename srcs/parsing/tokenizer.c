@@ -1,7 +1,7 @@
-#include "parsing.h"
-#include "minishell.h"
-#include "utils.h"
 #include "libft.h"
+#include "minishell.h"
+#include "parsing.h"
+#include "utils.h"
 
 static char	*extract_token(char *input, size_t *pos)
 {

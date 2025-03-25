@@ -1,9 +1,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "minishell.h"
 #include "fd.h"
 #include "libft.h"
+#include "minishell.h"
 
 void	close_and_free_fds(t_fd_info *fd)
 {

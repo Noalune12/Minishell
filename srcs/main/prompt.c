@@ -1,10 +1,10 @@
 #include <readline/history.h>
 #include <readline/readline.h>
 
-#include "libft.h"
-#include "minishell.h"
 #include "common.h"
 #include "exec.h"
+#include "libft.h"
+#include "minishell.h"
 
 static char	*free_input_setup(char *tmp, char *exit_code)
 {

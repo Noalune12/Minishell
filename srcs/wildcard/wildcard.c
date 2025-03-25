@@ -1,5 +1,3 @@
-#include <stdlib.h>
-
 #include "libft.h"
 #include "minishell.h"
 #include "utils.h"

@@ -1,8 +1,6 @@
-#include <stdlib.h>
-
-#include "minishell.h"
 #include "expand.h"
 #include "libft.h"
+#include "minishell.h"
 
 char	*ft_getenv(char *var_name, t_list *env)
 {

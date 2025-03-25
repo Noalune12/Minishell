@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-#include "types.h"
 #include "ast.h"
+#include "types.h"
 
 static void	print_cmd_value(char *cmd)
 {

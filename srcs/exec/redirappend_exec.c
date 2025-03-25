@@ -1,10 +1,10 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-#include "minishell.h"
 #include "ast.h"
 #include "exec.h"
 #include "ft_dprintf.h"
+#include "minishell.h"
 
 int	handle_redirappend(t_ast *node, t_minishell *minishell)
 {

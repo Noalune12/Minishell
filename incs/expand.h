@@ -1,6 +1,7 @@
 #ifndef EXPAND_H
 # define EXPAND_H
 
+# include <stdlib.h>
 # include <stdbool.h>
 # include <stddef.h>
 

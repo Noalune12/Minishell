@@ -1,11 +1,11 @@
+#include <readline/readline.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <readline/readline.h>
 
-#include "types.h"
 #include "ast.h"
-#include "minishell.h"
 #include "env.h"
+#include "minishell.h"
+#include "types.h"
 
 static void	close_free_and_reinit_fds(t_fd_info *fd)
 {

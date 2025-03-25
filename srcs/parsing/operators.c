@@ -1,7 +1,7 @@
+#include "libft.h"
 #include "minishell.h"
 #include "parsing.h"
 #include "utils.h"
-#include "libft.h"
 
 static bool	handle_first_part(t_token **result, const char *content,
 							size_t *i, size_t *start)

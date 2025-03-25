@@ -3,6 +3,7 @@
 #include "libft.h"
 #include "minishell.h"
 
+
 static void	free_node(t_list *node) //TODO utils ?
 {
 	if (node)
@@ -11,6 +12,7 @@ static void	free_node(t_list *node) //TODO utils ?
 		free(node);
 	}
 }
+
 
 static int	compare_remove_node(t_list **head, char *content,
 	t_list *current, t_list *prev)

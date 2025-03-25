@@ -1,12 +1,12 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-#include "minishell.h"
 #include "ast.h"
 #include "exec.h"
-#include "ft_dprintf.h"
 #include "expand.h"
+#include "ft_dprintf.h"
 #include "libft.h"
+#include "minishell.h"
 
 #define READ_LEN 1000
 

@@ -1,6 +1,6 @@
-#include "libft.h"
 #include "common.h"
 #include "env.h"
+#include "libft.h"
 #include "minishell.h"
 
 static t_list	*ft_get_env(char **envp)

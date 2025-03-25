@@ -1,5 +1,5 @@
-#include "libft.h"
 #include "exec.h"
+#include "libft.h"
 #include "utils.h"
 
 static int	fill_new_cmds(char **cmds, int *index, char **new_cmd, char **ret)

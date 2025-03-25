@@ -1,5 +1,5 @@
-#include "parsing.h"
 #include "libft.h"
+#include "parsing.h"
 
 size_t	get_word_length(char *input, size_t start)
 {

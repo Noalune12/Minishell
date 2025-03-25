@@ -1,6 +1,6 @@
 #include "common.h"
-#include "minishell.h"
 #include "libft.h"
+#include "minishell.h"
 
 t_list	*find_env_node(t_list *env, const char *var_searched)
 {

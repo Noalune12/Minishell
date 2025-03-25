@@ -1,9 +1,9 @@
 #include <stdio.h>
 
-#include "types.h"
 #include "ast.h"
 #include "minishell.h"
 #include "options.h"
+#include "types.h"
 
 static void	print_spaces(int depth)
 {

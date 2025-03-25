@@ -1,9 +1,9 @@
-#include <signal.h>
 #include <readline/readline.h>
+#include <signal.h>
 
+#include "libft.h"
 #include "minishell.h"
 #include "signals.h"
-#include "libft.h"
 
 int	g_signal_received = 0;
 

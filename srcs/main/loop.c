@@ -1,12 +1,12 @@
-#include "minishell.h"
-#include "wildcard.h"
-#include "heredoc.h"
 #include "ast.h"
 #include "exec.h"
-#include "utils.h"
 #include "ft_dprintf.h"
+#include "heredoc.h"
+#include "minishell.h"
 #include "options.h"
 #include "signals.h"
+#include "utils.h"
+#include "wildcard.h"
 
 static void	build_and_execute(t_minishell *minishell)
 {

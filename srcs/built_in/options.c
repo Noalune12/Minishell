@@ -1,8 +1,8 @@
 #include "built_in.h"
+#include "common.h"
 #include "ft_dprintf.h"
 #include "minishell.h"
 #include "options.h"
-#include "common.h"
 
 void	update_options(bool *to_update)
 {

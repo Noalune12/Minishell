@@ -1,6 +1,6 @@
-#include "minishell.h"
-#include "ft_dprintf.h"
 #include "common.h"
+#include "ft_dprintf.h"
+#include "minishell.h"
 
 int	check_parentheses_tokens(t_token *current, t_token *next,
 								t_minishell *minishell)

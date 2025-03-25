@@ -1,8 +1,8 @@
 #include <signal.h>
 
-#include "minishell.h"
 #include "ast.h"
 #include "exec.h"
+#include "minishell.h"
 
 int	handle_or(t_ast *node, t_minishell *minishell)
 {

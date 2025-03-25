@@ -1,7 +1,7 @@
-#include "types.h"
 #include "ast.h"
 #include "libft.h"
 #include "minishell.h"
+#include "types.h"
 #include "utils.h"
 
 char	**update_heredoc(char **cmds, char *content)

@@ -1,8 +1,8 @@
 #include <stdlib.h>
 
-#include "types.h"
 #include "ast.h"
 #include "libft.h"
+#include "types.h"
 
 static t_cmd	*add_cmd(char *content)
 {

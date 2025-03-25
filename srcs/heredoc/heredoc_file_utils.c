@@ -1,8 +1,8 @@
 #include <fcntl.h>
 
 #include "heredoc.h"
-#include "minishell.h"
 #include "libft.h"
+#include "minishell.h"
 
 static void	format_file_name(char *file_name, int fd)
 {

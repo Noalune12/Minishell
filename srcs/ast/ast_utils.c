@@ -1,9 +1,7 @@
-#include <stdlib.h>
-
-#include "types.h"
 #include "ast.h"
-#include "minishell.h"
 #include "ft_dprintf.h"
+#include "minishell.h"
+#include "types.h"
 #include "utils.h"
 
 void	free_ast_2(t_minishell *minishell)

@@ -1,8 +1,8 @@
 #include <stdio.h>
 
-#include "options.h"
-#include "minishell.h"
 #include "common.h"
+#include "minishell.h"
+#include "options.h"
 
 void	print_tokens(t_minishell *minishell)
 {

@@ -1,7 +1,3 @@
-#include <stdbool.h>
-#include <stdlib.h>
-#include <unistd.h>
-
 #include "expand.h"
 #include "libft.h"
 #include "minishell.h"

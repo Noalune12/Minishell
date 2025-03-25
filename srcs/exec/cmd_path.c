@@ -1,11 +1,11 @@
-#include <sys/stat.h>
 #include <stdio.h>
+#include <sys/stat.h>
 
-#include "minishell.h"
 #include "exec.h"
-#include "utils.h"
 #include "ft_dprintf.h"
 #include "libft.h"
+#include "minishell.h"
+#include "utils.h"
 
 static char	*find_env_path(t_list *envp, t_minishell *minishell)
 {

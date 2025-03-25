@@ -1,10 +1,10 @@
 #include <signal.h>
 
-#include "heredoc.h"
-#include "minishell.h"
-#include "ft_dprintf.h"
 #include "common.h"
+#include "ft_dprintf.h"
+#include "heredoc.h"
 #include "libft.h"
+#include "minishell.h"
 #include "signals.h"
 
 static int	validate_heredoc_syntax(t_token *current, t_minishell *minishell)

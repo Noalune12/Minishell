@@ -2,6 +2,9 @@
 # define AST_H
 
 # include <stdbool.h>
+# include <stdlib.h>
+
+# include "types.h"
 
 typedef struct s_minishell		t_minishell;
 typedef struct s_token			t_token;

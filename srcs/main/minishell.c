@@ -1,10 +1,11 @@
-#include "minishell.h"
-#include "heredoc.h"
-#include "wildcard.h"
+#include <readline/readline.h>
+
 #include "ast.h"
+#include "heredoc.h"
+#include "minishell.h"
 #include "signals.h"
 #include "utils.h"
-#include <readline/readline.h>
+#include "wildcard.h"
 
 int	main(int ac, char **av, char **envp)
 {

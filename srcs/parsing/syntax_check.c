@@ -1,6 +1,6 @@
-#include "minishell.h"
-#include "ft_dprintf.h"
 #include "common.h"
+#include "ft_dprintf.h"
+#include "minishell.h"
 #include "parsing.h"
 
 static int	check_first_token(t_token *token, t_minishell *minishell)

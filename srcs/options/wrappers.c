@@ -1,6 +1,6 @@
-#include "options.h"
-#include "minishell.h"
 #include "ast.h"
+#include "minishell.h"
+#include "options.h"
 
 void	ast_wrapper(t_minishell *minishell)
 {

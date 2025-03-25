@@ -1,10 +1,10 @@
 #include "common.h"
 #include "env.h"
-#include "minishell.h"
-#include "utils.h"
 #include "ft_dprintf.h"
 #include "libft.h"
+#include "minishell.h"
 #include "options.h"
+#include "utils.h"
 
 void	tty_check(void)
 {

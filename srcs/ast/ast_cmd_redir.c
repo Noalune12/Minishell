@@ -1,7 +1,7 @@
-#include "types.h"
 #include "ast.h"
 #include "libft.h"
 #include "minishell.h"
+#include "types.h"
 #include "utils.h"
 
 static char	**update_cmd_content(char **cmds, char **new_cmds, char *content)

@@ -1,10 +1,8 @@
-#include <unistd.h>
-
-#include "ft_dprintf.h"
-#include "minishell.h"
 #include "common.h"
 #include "env.h"
+#include "ft_dprintf.h"
 #include "libft.h"
+#include "minishell.h"
 
 void	add_manpath_to_env(t_list **env)
 {

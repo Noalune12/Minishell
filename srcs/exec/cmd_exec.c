@@ -1,13 +1,13 @@
-#include <stdio.h>
 #include <signal.h>
+#include <stdio.h>
 #include <sys/wait.h>
 
-#include "minishell.h"
 #include "ast.h"
 #include "exec.h"
 #include "fd.h"
 #include "ft_dprintf.h"
 #include "libft.h"
+#include "minishell.h"
 #include "signals.h"
 
 static char	**list_to_tab(t_minishell *minishell)

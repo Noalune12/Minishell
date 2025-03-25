@@ -1,7 +1,5 @@
-#include <stdlib.h>
-
-#include "types.h"
 #include "ast.h"
+#include "types.h"
 
 t_ast	*add_up(t_ast *root, t_ast *node)
 {
