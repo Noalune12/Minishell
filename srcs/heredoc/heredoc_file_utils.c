@@ -32,7 +32,7 @@ char	*create_temp_file(void)
 	if (fd == -1)
 		return (NULL);
 	get_random_name = malloc(sizeof(char) * RANDOM_NAME_LENGHT);
-	if (!get_random_name)
+	if (get_random_name == NULL)
 	{
 		close(fd);
 		return (NULL);
@@ -41,7 +41,7 @@ char	*create_temp_file(void)
 	close(fd);
 	file_name = ft_strjoin(HEREDOC_PATH_BASE_NAME, get_random_name);
 	free(get_random_name);
-	if (!file_name)
+	if (file_name == NULL)
 		return (NULL);
 	if (access(file_name, F_OK) == 0)
 		return (create_temp_file());
