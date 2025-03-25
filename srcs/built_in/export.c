@@ -7,7 +7,7 @@ static void	free_env_export(t_list *env)
 {
 	t_list	*temp;
 
-	if (!env)
+	if (env == NULL)
 		return ;
 	temp = env;
 	while (temp)
@@ -26,7 +26,7 @@ static int	ft_print_export(t_list *env)
 	t_list	*temp;
 
 	sorted = copy_env(env);
-	if (!sorted)
+	if (sorted == NULL)
 		return (1);
 	ft_list_sort(&sorted, &ascii_cmp);
 	temp = sorted;
@@ -46,7 +46,7 @@ int	ft_export(char **cmds, t_minishell *minishell)
 
 	i = 0;
 	ret = 0;
-	if (!cmds[++i])
+	if (cmds[++i] == NULL)
 	{
 		ret = ft_print_export(minishell->envp);
 		return (ret);

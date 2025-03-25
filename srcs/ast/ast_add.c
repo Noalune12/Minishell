@@ -14,7 +14,7 @@ t_ast	*add_to_rightmost(t_ast *root, t_ast *node)
 	t_ast	*temp;
 
 	temp = root;
-	if (!root)
+	if (root == NULL)
 		return (node);
 	while (temp->right)
 		temp = temp->right;
@@ -27,7 +27,7 @@ t_ast	*add_to_left(t_ast *root, t_ast *node)
 	t_ast	*temp;
 
 	temp = root;
-	if (!root)
+	if (root == NULL)
 		return (node);
 	while (temp->left)
 		temp = temp->left;
@@ -57,9 +57,9 @@ t_ast	*add_down_right(t_ast *root, t_ast *node) //or up if needed
 
 t_ast	*add_to_ast(t_ast *root, t_ast *node)
 {
-	if (!node)
+	if (node == NULL)
 		return (NULL);
-	if (!root)
+	if (root == NULL)
 		return (node);
 	if (root->type == NODE_COMMAND || is_redir_node(root->type))
 		return (add_up(root, node));

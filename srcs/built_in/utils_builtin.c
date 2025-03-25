@@ -45,7 +45,7 @@ void	ft_list_sort(t_list **begin_list, int (*cmp)(char *,
 	t_list	*next;
 	bool	swap;
 
-	if (!begin_list || !cmp)
+	if (begin_list == NULL || !cmp)
 		return ;
 	swap = true;
 	while (swap)

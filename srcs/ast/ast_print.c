@@ -1,7 +1,8 @@
+#include <stdio.h>
+
 #include "types.h"
 #include "ast.h"
 #include "minishell.h"
-#include "ft_dprintf.h"
 
 static void	print_spaces(int depth)
 {
@@ -20,15 +21,15 @@ static void	print_node_content(t_ast *node)
 	if (node->type == NODE_COMMAND)
 		print_cmd_node(node, "c");
 	else if (node->type == NODE_PIPE)
-		ft_dprintf(STDERR_FILENO, "|\n");
+		printf("|\n");
 	else if (node->type == NODE_REDIR_OUT)
 		print_redirect_node(node, ">");
 	else if (node->type == NODE_REDIR_IN)
 		print_redirect_node(node, "<");
 	else if (node->type == NODE_AND)
-		ft_dprintf(STDERR_FILENO, "&&\n");
+		printf("&&\n");
 	else if (node->type == NODE_OR)
-		ft_dprintf(STDERR_FILENO, "||\n");
+		printf("||\n");
 	else if (node->type == NODE_APPEND)
 		print_redirect_node(node, ">>");
 	else if (node->type == NODE_HEREDOC)
@@ -41,7 +42,8 @@ static void	print_node_content(t_ast *node)
 
 void	print_ast(t_minishell *ms, t_ast *node, int depth)
 {
-	if (ms->exec_status == false || ms->options->display_ast == false || !node)
+	if (ms->exec_status == false || ms->options->display_ast == false
+		|| node == NULL)
 		return ;
 	if (node->right)
 		print_ast(ms, node->right, depth + 10);

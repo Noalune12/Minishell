@@ -11,7 +11,7 @@ char	*dup_dquotes(char *content)
 
 	equal = false;
 	content_dquotes = ft_calloc((ft_strlen(content) + 3), sizeof(char));
-	if (!content_dquotes)
+	if (content_dquotes == NULL)
 		return (NULL);
 	i = 0;
 	j = 0;
@@ -40,7 +40,7 @@ t_list	*copy_dquotes(t_list **new_list)
 	while (temp)
 	{
 		content_dquotes = dup_dquotes(temp->content);
-		if (!content_dquotes)
+		if (content_dquotes == NULL)
 		{
 			free_list(*new_list);
 			return (NULL);
@@ -61,14 +61,14 @@ t_list	*copy_env(t_list *env)
 	temp = env;
 	while (temp)
 	{
-		if (!add_node(&new_list, temp->content))
+		if (add_node(&new_list, temp->content) == NULL)
 		{
 			free_list(new_list);
 			return (NULL);
 		}
 		temp = temp->next;
 	}
-	if (!copy_dquotes(&new_list))
+	if (copy_dquotes(&new_list) == NULL)
 		return (NULL);
 	return (new_list);
 }
