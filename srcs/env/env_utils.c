@@ -17,7 +17,7 @@ t_list	*find_env_node(t_list *env, const char *var_searched)
 	return (NULL);
 }
 
-t_list	*add_node(t_list **env, char *content) // nom a changer probablement + retour derreur
+t_list	*add_node(t_list **env, char *content)
 {
 	t_list	*temp;
 	t_list	*new_node;

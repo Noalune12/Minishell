@@ -52,7 +52,7 @@ void	handle_signal_wait(void)
 
 	g_signal_received = 0;
 	sigemptyset(&s_sigaction.sa_mask);
-	s_sigaction.sa_flags = SA_RESTART; // mais pourquoi ??
+	s_sigaction.sa_flags = SA_RESTART;
 	sigaddset(&s_sigaction.sa_mask, SIGINT);
 	sigaddset(&s_sigaction.sa_mask, SIGQUIT);
 	sigaddset(&s_sigaction.sa_mask, SIGPIPE);

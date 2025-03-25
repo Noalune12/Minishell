@@ -2,7 +2,7 @@
 
 bool	wildcard_match(const char *pattern, const char *str);
 
-static bool	wildcard_match_end(const char *pattern, const char *str) // FINE DONE
+static bool	wildcard_match_end(const char *pattern, const char *str)
 {
 	if (*pattern == '\0')
 		return (*str == '\0');

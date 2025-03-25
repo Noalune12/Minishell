@@ -1,17 +1,20 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-extern int	g_signal_received;
-
 # include <stdbool.h>
 # include <unistd.h>
 # include <sys/types.h>
 
 # include "options.h"
+
+
 # include "fd.h" // cannot include it otherwise --> error
 # include "types.h" // je crois lui aussi on peut pas faire autrement
 
-typedef struct	s_token
+
+extern int	g_signal_received;
+
+typedef struct s_token
 {
 	char			*content;
 	bool			to_expand;
@@ -43,15 +46,5 @@ void	minishell_main_loop(t_minishell *minishell);
 void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
 
 char	*read_input(t_minishell *minishell);
-
-
-
-
-
-
-
-
-
-
 
 #endif

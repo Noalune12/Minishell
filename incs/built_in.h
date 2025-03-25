@@ -21,8 +21,11 @@ typedef int					(*t_builtin)(char **cmds, t_minishell *minishell);
 # define CD_HOME "minishell: cd: HOME not set\n"
 # define PWD_ERROR "minishell: pwd: %s: invalid option\npwd: usage: pwd\n"
 # define OLDPWD_NOT_SET "minishell: cd: OLDPWD not set\n"
-# define CWD_ERROR "%s: error retrieving current directory: getcwd: cannot access parent directories: "
 # define DOUBLE_STR_ERR "minishell: %s: %s: "
+# define CWD_ERROR \
+	"%s: error retrieving current directory: \
+getcwd: cannot access parent directories: "
+
 # define PWD_BI "pwd"
 # define CD "cd"
 # define ENV "env"
@@ -42,7 +45,11 @@ int		handle_builtin(t_ast *node, t_minishell *minishell);
 int		ft_pwd(char **cmds, t_minishell *minishell);
 int		ft_cd(char **cmds, t_minishell *minishell);
 int		update_cd_env(t_list **envp, char *path, int to_home);
+
+
 int		ft_strnlen(char *str, char c); // TODO in libft
+
+
 int		ascii_cmp(char *a, char *b);
 int		ft_export(char **cmds, t_minishell *minishell);
 int		check_export(char **cmds);

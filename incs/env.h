@@ -26,5 +26,4 @@ char	*ft_getenv(char *var_name, t_list *env);
 
 int		add_or_replace_env(char *content, t_list **env, int len, int add);
 
-
 #endif

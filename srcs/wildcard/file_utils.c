@@ -3,7 +3,7 @@
 #include "libft.h"
 #include "wildcard.h"
 
-static void	swap_files(char **first_file, char **second_file) // FILE COMPLETLY DONE
+static void	swap_files(char **first_file, char **second_file)
 {
 	char	*tmp;
 

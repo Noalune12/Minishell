@@ -20,7 +20,6 @@
 
 /* ---------- ERROR MESSAGES ------------------------------------------------ */
 
-
 # define NEWLINE_SYNTAX \
 					"minishell: syntax error near unexpected token `newline'\n"
 # define STR_SYNTAX "minishell: syntax error near unexpected token `%s'\n"

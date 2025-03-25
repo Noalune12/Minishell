@@ -16,5 +16,4 @@ bool	add_token_in_place(t_token **tokens, char *content, t_node_type type);
 bool	add_token(t_token **tokens, char *content, t_node_type type);
 bool	replace_token(t_list *current, t_list *new_tokens);
 
-
 #endif

@@ -3,7 +3,7 @@
 #include "libft.h"
 #include "wildcard.h"
 
-bool	contain_wildcard(char *token)										// FILE DONE
+bool	contain_wildcard(char *token)
 {
 	bool	in_squotes;
 	bool	in_dquotes;

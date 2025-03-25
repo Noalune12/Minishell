@@ -39,7 +39,7 @@ static int	process_input(t_minishell *minishell)
 	}
 	if (minishell->input == NULL)
 	{
-		// ft_dprintf(STDERR_FILENO, "exit\n");
+		ft_dprintf(STDERR_FILENO, "exit\n");
 		return (-1);
 	}
 	init_global();

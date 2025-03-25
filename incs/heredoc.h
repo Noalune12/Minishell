@@ -35,7 +35,7 @@ typedef struct s_heredoc
 	int		original_stdin;
 }	t_heredoc_utils;
 
-t_token *find_last_heredoc(t_token *start, t_token **last_heredoc);
+t_token	*find_last_heredoc(t_token *start, t_token **last_heredoc);
 
 void	handle_regular_heredoc(t_token *current);
 void	check_heredoc(t_minishell *minishell);
@@ -51,6 +51,5 @@ int		is_last_heredoc(t_token *current, t_token *last_heredoc);
 int		is_op(char *token);
 int		is_valid_heredoc_delimiter(char *token);
 int		write_to_heredoc(char *file_name, char *delimiter);
-
 
 #endif

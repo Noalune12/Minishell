@@ -5,7 +5,7 @@
 #include "utils.h"
 #include "wildcard.h"
 
-static bool	replace_for_expanded_filename(t_token *current, char **file_names) // FILE DONE
+static bool	replace_for_expanded_filename(t_token *current, char **file_names)
 {
 	t_token	*last;
 	int		i;

@@ -53,6 +53,7 @@ void	update_pwd(t_list **env)
 		free(actual_pwd);
 	}
 }
+
 void	update_shlvl(t_list *env)
 {
 	t_shlvl	u;
