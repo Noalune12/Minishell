@@ -33,7 +33,7 @@ int	count_matches(char *pattern)
 	t_wildcard	data;
 
 	ft_memset(&data, 0, sizeof(t_wildcard));
-	data.dir = opendir(".");
+	data.dir = opendir(CURRENT_DIR);
 	if (data.dir != NULL)
 		data.entry = readdir(data.dir);
 	while (data.entry != NULL)
@@ -44,7 +44,7 @@ int	count_matches(char *pattern)
 			continue ;
 		}
 		if (wildcard_match(pattern, data.entry->d_name))
-			data.count++;
+		data.count++;
 		data.entry = readdir(data.dir);
 	}
 	if (data.dir != NULL)

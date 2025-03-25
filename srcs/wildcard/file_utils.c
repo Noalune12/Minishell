@@ -36,7 +36,7 @@ static void	sort_file_names(char **file_names, int count)
 static bool	get_file_names_setup(t_wildcard *data, int count)
 {
 	data->file_names = allocate_2d_array(count);
-	data->dir = opendir(".");
+	data->dir = opendir(CURRENT_DIR);
 	if (data->file_names == NULL || data->dir == NULL)
 	{
 		if (data->file_names == NULL)
