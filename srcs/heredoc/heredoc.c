@@ -40,7 +40,7 @@ static void	process_heredocs(t_token *start, t_token *last_heredoc, int *error)
 			next = current->next;
 			if (is_last_heredoc(current, last_heredoc))
 			{
-				if (!handle_last_heredoc(current, error))
+				if (handle_last_heredoc(current, error) == 0)
 					return ;
 			}
 			else
@@ -66,7 +66,7 @@ static int	process_command_heredocs(t_token *current, int *error)
 			if (*error == -1)
 				return (-1);
 		}
-		if (!pipe_token)
+		if (pipe_token == NULL)
 			break ;
 		current = pipe_token->next;
 	}
