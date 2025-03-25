@@ -35,14 +35,13 @@ int	remove_node(t_list **head, char *var)
 	t_list	*prev;
 	char	*content;
 
+	if (var == NULL)
+		return (1);
 	current = *head;
 	prev = NULL;
 	content = ft_strjoin(var, "=");
-	if (!content)
-	{
-		ft_dprintf(STDERR_FILENO, "Malloc failed\n");
+	if (content == NULL)
 		return (1);
-	}
 	while (current)
 	{
 		if (compare_remove_node(head, content, current, prev) == 0)
@@ -67,11 +66,8 @@ int	ft_unset(char **cmds, t_minishell *minishell)
 	while (cmds[i])
 	{
 		var = ft_strdup(cmds[i]);
-		if (!var)
-		{
-			ft_dprintf(STDERR_FILENO, "Malloc failed\n");
+		if (var == NULL)
 			ret = 1;
-		}
 		if (remove_node(&minishell->envp, var) == 1)
 			ret = 1;
 		free(var);

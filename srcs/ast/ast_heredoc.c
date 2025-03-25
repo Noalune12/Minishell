@@ -1,6 +1,8 @@
+#include "types.h"
 #include "ast.h"
 #include "libft.h"
 #include "minishell.h"
+#include "utils.h"
 
 char	**update_heredoc(char **cmds, char *content)
 {
@@ -9,7 +11,7 @@ char	**update_heredoc(char **cmds, char *content)
 	new_cmd = (char **)malloc(2 * sizeof(char *));
 	new_cmd[0] = ft_strdup(content);
 	new_cmd[1] = NULL;
-	ft_free(cmds);
+	ft_free_double(cmds);
 	return (new_cmd);
 }
 

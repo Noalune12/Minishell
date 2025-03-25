@@ -1,5 +1,8 @@
+#include <stdlib.h>
+
+#include "types.h"
 #include "ast.h"
-#include "minishell.h"
+#include "libft.h"
 
 static t_cmd	*add_cmd(char *content)
 {

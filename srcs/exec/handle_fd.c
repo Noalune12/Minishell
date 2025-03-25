@@ -11,7 +11,6 @@ int	*ft_realloc(int *tab, int len, int nb_elem)
 	{
 		if (len > 1)
 			free(tab);
-		ft_dprintf(STDERR_FILENO, "Malloc failed\n");
 		return (NULL);
 	}
 	while (len > 1 && nb_elem > 0)

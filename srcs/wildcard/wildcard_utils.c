@@ -1,5 +1,6 @@
 #include <dirent.h>
 
+#include "types.h"
 #include "ast.h"
 #include "minishell.h"
 #include "wildcard.h"

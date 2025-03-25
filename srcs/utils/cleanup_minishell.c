@@ -1,3 +1,5 @@
+#include "types.h"
+#include "ast.h"
 #include "minishell.h"
 
 static void	close_free_and_reinit_fds(t_fd_info *fd)

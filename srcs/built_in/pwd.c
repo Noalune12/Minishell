@@ -3,14 +3,6 @@
 #include "built_in.h"
 #include "ft_dprintf.h"
 
-static int	error_handling(char *str, char *message)
-{
-	if (str)
-		free(str);
-	ft_dprintf(STDERR_FILENO, "%s", message);
-	return (1);
-}
-
 int	ft_pwd(char **cmds, t_minishell *minishell)
 {
 	char	*cwd;
@@ -26,7 +18,7 @@ int	ft_pwd(char **cmds, t_minishell *minishell)
 		ft_dprintf(STDOUT_FILENO, "%s\n", cwd);
 	else
 	{
-		error_handling(NULL, "pwd: error retrieving current directory: getcwd: cannot access parent directories: ");
+		ft_dprintf(STDERR_FILENO, CWD_ERROR, PWD_BI);
 		perror("");
 		return (1);
 	}

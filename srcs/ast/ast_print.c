@@ -1,5 +1,7 @@
+#include "types.h"
 #include "ast.h"
 #include "minishell.h"
+#include "ft_dprintf.h"
 
 static void	print_spaces(int depth)
 {
@@ -18,15 +20,15 @@ static void	print_node_content(t_ast *node)
 	if (node->type == NODE_COMMAND)
 		print_cmd_node(node, "c");
 	else if (node->type == NODE_PIPE)
-		printf("|\n");
+		ft_dprintf(STDERR_FILENO, "|\n");
 	else if (node->type == NODE_REDIR_OUT)
 		print_redirect_node(node, ">");
 	else if (node->type == NODE_REDIR_IN)
 		print_redirect_node(node, "<");
 	else if (node->type == NODE_AND)
-		printf("&&\n");
+		ft_dprintf(STDERR_FILENO, "&&\n");
 	else if (node->type == NODE_OR)
-		printf("||\n");
+		ft_dprintf(STDERR_FILENO, "||\n");
 	else if (node->type == NODE_APPEND)
 		print_redirect_node(node, ">>");
 	else if (node->type == NODE_HEREDOC)

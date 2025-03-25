@@ -2,12 +2,6 @@
 #include "env.h"
 #include "minishell.h"
 
-static t_list	*error_handling(void)
-{
-	ft_dprintf(STDERR_FILENO, MALLOC_FAIL);
-	return (NULL);
-}
-
 static t_list	*ft_get_env(char **envp)
 {
 	t_list	*env;
@@ -19,7 +13,7 @@ static t_list	*ft_get_env(char **envp)
 	{
 		env = malloc(sizeof(t_list));
 		if (env == NULL)
-			return (error_handling());
+			return (NULL);
 		env->content = NULL;
 		env->next = NULL;
 		return (env);
@@ -36,14 +30,12 @@ static t_list	*ft_get_env(char **envp)
 	return (env);
 }
 
-static int	error_handling_minimal_env(char *str, char *str2, int msg)
+static int	error_handling_minimal_env(char *str, char *str2)
 {
 	if (str)
 		free(str);
 	if (str2)
 		free(str2);
-	if (msg == 1)
-		ft_dprintf(STDERR_FILENO, MALLOC_FAIL);
 	return (0);
 }
 
@@ -54,15 +46,15 @@ static int	create_minimal_env(t_list **env)
 
 	shlvl = ft_strdup(INIT_SHLVL);
 	if (shlvl == NULL)
-		return (error_handling_minimal_env(NULL, NULL, 1));
+		return (error_handling_minimal_env(NULL, NULL));
 	underscore = ft_strdup(ENV_DEFAULT);
 	if (underscore == NULL)
-		return (error_handling_minimal_env(shlvl, NULL, 1));
+		return (error_handling_minimal_env(shlvl, NULL));
 	if (add_node(env, shlvl) == NULL)
-		return (error_handling_minimal_env(shlvl, underscore, 0));
+		return (error_handling_minimal_env(shlvl, underscore));
 	add_manpath_to_env(env);
 	if (add_node(env, underscore) == NULL)
-		return (error_handling_minimal_env(shlvl, underscore, 0));
+		return (error_handling_minimal_env(shlvl, underscore));
 	free(shlvl);
 	free(underscore);
 	return (1);

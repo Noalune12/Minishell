@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "ast.h"
 #include "exec.h"
 
 static char	**list_to_tab(t_minishell *minishell)
@@ -10,7 +11,7 @@ static char	**list_to_tab(t_minishell *minishell)
 	temp = minishell->envp;
 	tab = (char **)malloc((ft_lstsize(temp) + 1) * sizeof(char *));
 	if (!tab)
-		exit (error_handling_exec(minishell, "Malloc failed"));
+		exit (error_handling_exec(minishell, NULL));
 	i = 0;
 	while (temp)
 	{
@@ -18,7 +19,7 @@ static char	**list_to_tab(t_minishell *minishell)
 		if (!tab[i])
 		{
 			free_tab(tab, i);
-			exit (error_handling_exec(minishell, "Malloc failed"));
+			exit (error_handling_exec(minishell, NULL));
 		}
 		temp = temp->next;
 		i++;
@@ -51,7 +52,7 @@ static int	exec_cmd(t_ast *node, t_minishell *minishell)
 	{
 		node->cmd->path = ft_strdup(node->cmd->cmds[0]);
 		if (!(node->cmd->path))
-			exit(error_handling_exec(minishell, "Malloc failed"));
+			exit(error_handling_exec(minishell, NULL));
 		if (execve(node->cmd->path, node->cmd->cmds, env) == -1)
 			node->cmd->path = find_exec_cmd(node->cmd->cmds, minishell, env);
 	}

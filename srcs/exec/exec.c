@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "ast.h"
 #include "exec.h"
 #include "built_in.h"
 //TODO exit minishell when malloc, pipe, fork error ??

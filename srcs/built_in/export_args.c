@@ -18,18 +18,6 @@ void	remove_export(char **cmds, int i)
 	cmds[j] = NULL;
 }
 
-// void	print_double(char **strs)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (strs[i])
-// 	{
-// 		printf(BLUE"%s\n"RESET, strs[i]);
-// 		i++;
-// 	}
-// }
-
 void	check_if_space(char **cmds, int *ret)
 {
 	int	i;

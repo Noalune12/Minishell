@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "ast.h"
 #include "exec.h"
 
 #define READ_LEN 1000
@@ -10,8 +11,6 @@ static int	error_handling_heredoc(char *filename, char *str, int fd)
 		ft_dprintf(STDERR_FILENO, "minishell: %s: ", filename);
 		perror("");
 	}
-	else
-		ft_dprintf(STDERR_FILENO, "Malloc failed\n");
 	if (str)
 		free(str);
 	if (fd != -1)

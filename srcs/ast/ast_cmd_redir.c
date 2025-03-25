@@ -1,6 +1,8 @@
+#include "types.h"
 #include "ast.h"
 #include "libft.h"
 #include "minishell.h"
+#include "utils.h"
 
 static char	**update_cmd_content(char **cmds, char **new_cmds, char *content)
 {
@@ -12,7 +14,7 @@ static char	**update_cmd_content(char **cmds, char **new_cmds, char *content)
 		new_cmds[i] = ft_strdup(cmds[i]);
 		if (!new_cmds[i])
 		{
-			ft_free(cmds);
+			ft_free_double(cmds);
 			free_tab(new_cmds, i);
 			return (NULL);
 		}
@@ -21,7 +23,7 @@ static char	**update_cmd_content(char **cmds, char **new_cmds, char *content)
 	new_cmds[i] = ft_strdup(content);
 	if (!new_cmds[i])
 	{
-		ft_free(cmds);
+		ft_free_double(cmds);
 		free_tab(new_cmds, i);
 		return (NULL);
 	}
@@ -40,12 +42,12 @@ static char	**update_cmd(char **cmds, char *content)
 	new_cmds = (char **)malloc((i + 2) * sizeof(char *));
 	if (!new_cmds)
 	{
-		ft_free(cmds);
+		ft_free_double(cmds);
 		return (NULL);
 	}
 	if (update_cmd_content(cmds, new_cmds, content) == NULL)
 		return (NULL);
-	ft_free(cmds);
+	ft_free_double(cmds);
 	return (new_cmds);
 }
 
@@ -64,7 +66,7 @@ static int	create_redir(t_token **token, t_branch *branch,
 		{
 			free_ast(branch->node);
 			free_ast(branch->node_cmd);
-			error_handling_ast(root, sub_ast, "Malloc failed\n");
+			error_handling_ast(root, sub_ast);
 			return (0);
 		}
 	}
@@ -84,7 +86,7 @@ static t_ast	*create_cmd(t_token **token, t_branch *branch,
 		{
 			free_ast(branch->node);
 			free_ast(branch->node_cmd);
-			return (error_handling_ast(root, sub_ast, "Malloc failed\n"));
+			return (error_handling_ast(root, sub_ast));
 		}
 	}
 	else
@@ -95,7 +97,7 @@ static t_ast	*create_cmd(t_token **token, t_branch *branch,
 		{
 			free_ast(branch->node);
 			free_ast(branch->node_cmd);
-			return (error_handling_ast(root, sub_ast, "Malloc failed\n"));
+			return (error_handling_ast(root, sub_ast));
 		}
 	}
 	return (branch->node_cmd);
