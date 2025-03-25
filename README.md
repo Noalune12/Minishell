@@ -41,7 +41,7 @@ You will learn a lot about processes and file descriptors.*
     - [Arbre binaire premiere recherches](#arbre-binaire-premiere-recherches)
     - [Heredoc](#heredoc)
   - [Last things to do:](#last-things-to-do)
-  - [Remonté d'erreur](#remonté-derreur)
+  - [Remontée d'erreur](#remontée-derreur)
 
 
 ## Ressources pour travailler en groupe avec Git
@@ -396,13 +396,18 @@ Dans l'idée on doit gérer les heredoc de la meme facon que bash mais on est li
 - [ ] **Check des mallocs + remonté d'erreur (en gros tout proteger et tout check des protections)**
 - [ ] Check fonctions interdites
 - [ ] Makefile qui fonctionne correctement (potentiellement suppression du changement de l'affichage a la compilation)
-- [ ] Deplacer certaines fonctions dans la libft ? (is_quote) ?
 - [ ] Headers
 - [ ] Implementation built-in bonus
 - [ ] pwd check
 - [ ] make valgrind error when dup2 fail (since we added exit)
 
 
-## Remonté d'erreur
+## Remontée d'erreur
 - [x] wildcard
 - [x] init
+- [x] utils
+- [ ] parsing
+
+
+
+- [x] tokenizer.c

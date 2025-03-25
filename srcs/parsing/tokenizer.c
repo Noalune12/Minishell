@@ -1,3 +1,5 @@
+#include "parsing.h"
+
 #include "minishell.h"
 
 static char	*extract_token(char *input, size_t *pos)
@@ -7,6 +9,7 @@ static char	*extract_token(char *input, size_t *pos)
 	char	*final_token;
 
 	len = get_word_length(input, *pos);
+	(void) len;
 	token = malloc(sizeof(char) * (len + 1));
 	if (token == NULL)
 		return (NULL);
@@ -62,7 +65,11 @@ void	tokenize_input(t_minishell *minishell)
 		if (ft_isspace(minishell->input[i]) == true)
 			i++;
 		else if (process_token(&tokens, minishell, &i) == NULL)
+		{
+			minishell->exec_status = false;
+			minishell->exit_status = 1;
 			return ;
+		}
 	}
 	minishell->token = tokens;
 	minishell->exec_status = true;

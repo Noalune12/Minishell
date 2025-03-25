@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "parsing.h"
 
 t_redirect_error	check_operator_syntax(const char *str)
 {
