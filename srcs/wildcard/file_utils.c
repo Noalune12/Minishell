@@ -1,5 +1,4 @@
 #include <dirent.h>
-#include <errno.h>
 
 #include "common.h"
 #include "minishell.h"
