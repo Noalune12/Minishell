@@ -1,6 +1,9 @@
 #ifndef EXEC_H
 # define EXEC_H
 
+# define DUP2_ERR "Dup2 failed"
+# define DUP_ERR "Dup failed"
+
 typedef struct s_minishell	t_minishell;
 typedef struct s_ast		t_ast;
 typedef int					(*t_handler)(t_ast *node, t_minishell *minishell);

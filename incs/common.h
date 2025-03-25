@@ -38,11 +38,12 @@
 
 /* ---------- BUILTIN ERRORS ------------------------------------------------ */
 
-# define EXIT_ERROR "minishell: exit: %s: numeric argument required\n"
-# define TOO_MANY_ARGS "minishell: %s: too many arguments\n"
-# define EXPORT_ERROR "minishell: export: `%s': not a valid identifier\n"
-# define CD_HOME "minishell: cd: HOME not set\n"
-# define PWD_ERROR "minishell: pwd: %s: invalid option\npwd: usage: pwd\n"
+// in built_in.h
+// # define EXIT_ERROR "minishell: exit: %s: numeric argument required\n"
+// # define TOO_MANY_ARGS "minishell: %s: too many arguments\n"
+// # define EXPORT_ERROR "minishell: export: `%s': not a valid identifier\n"
+// # define CD_HOME "minishell: cd: HOME not set\n"
+// # define PWD_ERROR "minishell: pwd: %s: invalid option\npwd: usage: pwd\n"
 
 /* ---------- ENV VARIABLES ------------------------------------------------- */
 

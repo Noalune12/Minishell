@@ -3,6 +3,12 @@
 
 # include <stdlib.h>
 
+# define OLDPWD "OLDPWD"
+# define OLDPWD_EQUAL "OLDPWD="
+# define PWD "PWD"
+# define PWD_EQUAL "PWD="
+# define HOME_EQUAL "HOME="
+
 typedef struct s_minishell	t_minishell;
 typedef struct s_ast		t_ast;
 typedef struct s_list		t_list;
@@ -16,6 +22,7 @@ typedef int					(*t_builtin)(char **cmds, t_minishell *minishell);
 # define PWD_ERROR "minishell: pwd: %s: invalid option\npwd: usage: pwd\n"
 # define OLDPWD_NOT_SET "minishell: cd: OLDPWD not set\n"
 # define CWD_ERROR "%s: error retrieving current directory: getcwd: cannot access parent directories: "
+# define DOUBLE_STR_ERR "minishell: %s: %s: "
 # define PWD_BI "pwd"
 # define CD "cd"
 # define ENV "env"

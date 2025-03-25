@@ -32,7 +32,7 @@ static int	ft_print_export(t_list *env)
 	temp = sorted;
 	while (temp)
 	{
-		ft_dprintf(STDIN_FILENO, "export %s\n", temp->content);
+		ft_dprintf(STDIN_FILENO, "%s %s\n", EXPORT, temp->content);
 		temp = temp->next;
 	}
 	free_env_export(sorted);
