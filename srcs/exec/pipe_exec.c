@@ -57,13 +57,21 @@ static int	error_handling_pipe(int pipe_fd[2], char *message)
 	return (1);
 }
 
+static void	close_fds(int pipe_fd[2])
+{
+	close(pipe_fd[1]);
+	close(pipe_fd[0]);
+}
+
 int	handle_pipe(t_ast *node, t_minishell *minishell)
 {
 	int	ret;
 	int	pipe_fd[2];
+	int	was_pipe;
 
 	if (pipe(pipe_fd) == -1)
 		return (error_handling_exec(NULL, PIPE_ERR));
+	was_pipe = minishell->is_pipe;
 	minishell->is_pipe = 1;
 	handle_signal_wait();
 	minishell->pid = fork();
@@ -73,14 +81,13 @@ int	handle_pipe(t_ast *node, t_minishell *minishell)
 		exec_left(node, minishell, pipe_fd);
 	else
 		ret = exec_right(node, minishell, pipe_fd);
-	close(pipe_fd[1]);
-	close(pipe_fd[0]);
+	close_fds(pipe_fd);
 	while (wait(NULL) != -1)
 		;
-	minishell->is_pipe = 0;
-	if (g_signal_received == SIGINT)
+	minishell->is_pipe = was_pipe;
+	if (!was_pipe && g_signal_received == SIGINT)
 		ft_dprintf(STDOUT_FILENO, "\n");
-	else if (g_signal_received == SIGQUIT)
+	else if (!was_pipe && g_signal_received == SIGQUIT)
 		ft_dprintf(STDOUT_FILENO, SIGQUIT_MESSAGE);
 	return (ret);
 }

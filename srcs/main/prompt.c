@@ -51,7 +51,7 @@ char	*read_input(t_minishell *minishell)
 	if (prompt == NULL)
 		input = readline(DEFAULT_PROMPT);
 	else
-		input = readline(DEFAULT_PROMPT);
+		input = readline(prompt);
 	if (prompt != NULL)
 		free(prompt);
 	if (input && *input)
