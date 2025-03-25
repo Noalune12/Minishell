@@ -7,10 +7,10 @@ char	*handle_heredoc(char *delimiter)
 	char	*processed_delimiter;
 
 	processed_delimiter = handle_quotes_exec(delimiter);
-	if (!processed_delimiter)
+	if (processed_delimiter == NULL)
 		return (NULL);
 	file_name = create_temp_file();
-	if (!file_name)
+	if (file_name == NULL)
 	{
 		free(processed_delimiter);
 		return (NULL);
@@ -42,7 +42,7 @@ int	handle_last_heredoc(t_token *current, int *error)
 
 	should_expand = check_expand(current->content);
 	filename = handle_heredoc(current->content);
-	if (!filename)
+	if (filename == NULL)
 	{
 		*error = -1;
 		return (0);

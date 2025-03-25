@@ -1,30 +1,33 @@
 #include "heredoc.h"
+#include "parsing.h"
+#include "libft.h"
+#include "types.h"
 #include "minishell.h"
 
 int	is_valid_heredoc_delimiter(char *token)
 {
-	if (!token)
+	if (token == NULL)
 		return (0);
-	if (ft_strcmp(token, "|") == 0 || ft_strcmp(token, "||") == 0 || \
-		ft_strcmp(token, "<") == 0 || ft_strcmp(token, ">") == 0 || \
-		ft_strcmp(token, "<<") == 0 || ft_strcmp(token, ">>") == 0 || \
-		ft_strcmp(token, "(") == 0 || ft_strcmp(token, ")") == 0 || \
-		ft_strcmp(token, "&&") == 0)
+	if (ft_strcmp(token, PIPE) == 0 || ft_strcmp(token, OR) == 0 || \
+		ft_strcmp(token, REDIRIN) == 0 || ft_strcmp(token,REDIROUT) == 0 || \
+		ft_strcmp(token, HEREDOC) == 0 || ft_strcmp(token, APPEND) == 0 || \
+		ft_strcmp(token, OPEN_PAR) == 0 || ft_strcmp(token, CLOSE_PAR) == 0 || \
+		ft_strcmp(token, AND) == 0)
 		return (0);
 	return (1);
 }
 
 int	is_op(char *token)
 {
-	if (!token)
+	if (token == NULL)
 		return (0);
-	if (ft_strcmp(token, "<<") == 0)
+	if (ft_strcmp(token, HEREDOC) == 0)
 		return (0);
-	if (ft_strcmp(token, "|") == 0 || ft_strcmp(token, "||") == 0)
+	if (ft_strcmp(token, PIPE) == 0 || ft_strcmp(token, OR) == 0)
 		return (1);
-	if (ft_strcmp(token, "(") == 0 || ft_strcmp(token, ")") == 0)
+	if (ft_strcmp(token, OPEN_PAR) == 0 || ft_strcmp(token, CLOSE_PAR) == 0)
 		return (1);
-	if (ft_strcmp(token, "&&") == 0)
+	if (ft_strcmp(token, AND) == 0)
 		return (1);
 	return (0);
 }

@@ -6,17 +6,17 @@ static bool	replace_for_expanded_filename(t_token *current, char **file_names)
 	t_token	*last;
 	int		i;
 
-	if (!file_names[0])
+	if (file_names[0] == NULL)
 		return (true);
 	free(current->content);
 	current->content = ft_strdup(file_names[0]);
-	if (!current->content)
+	if (current->content == NULL)
 		return (false);
 	i = 1;
 	last = current;
-	while (file_names[i])
+	while (file_names[i] != NULL)
 	{
-		if (!add_token_in_place(&last, file_names[i], NODE_COMMAND))
+		if (add_token_in_place(&last, file_names[i], NODE_COMMAND) == false)
 			return (false);
 		last = last->next;
 		i++;

@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "parsing.h"
 
 bool	is_redirection(char c)
 {

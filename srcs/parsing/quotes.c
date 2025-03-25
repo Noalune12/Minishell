@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-inline int	is_quote(char c)
+int is_quote(char c)
 {
 	return (c == '\'' || c == '\"');
 }

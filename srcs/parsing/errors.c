@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "parsing.h"
 
 void	print_redirect_error(t_redirect_error error, const char *token)
 {

@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "heredoc.h"
 
 static char	*ft_reallocate(char *str, char c, int len)
 {
@@ -7,9 +8,9 @@ static char	*ft_reallocate(char *str, char c, int len)
 
 	i = 0;
 	ret = malloc(sizeof(char) * (len + 2));
-	if (!ret)
+	if (ret == NULL)
 	{
-		if (len > 1)
+		if (len > 0)
 			free(str);
 		return (NULL);
 	}
@@ -50,7 +51,7 @@ static int	handle_quotes_main_loop(t_quotes *data, char *input)
 		{
 			data->len++;
 			data->result = ft_reallocate(data->result, *input, data->len);
-			if (!data->result)
+			if (data->result == NULL)
 				return (-1);
 		}
 		input++;
@@ -62,15 +63,18 @@ char	*handle_quotes_exec(char *input)
 {
 	t_quotes	data;
 
-	if (!input)
+	if (input == NULL)
 		return (NULL);
 	init_data(&data, input);
-	if (!data.result)
+	if (data.result == NULL)
 		return (NULL);
-	if (ft_strcmp(input, "\"\"") == 0 || ft_strcmp(input, "''") == 0)
+	if (ft_strcmp(input, DQUOTES) == 0 || ft_strcmp(input, SQUOTES) == 0)
 		return (data.result);
 	if (handle_quotes_main_loop(&data, input) == -1)
+	{
+		free(data.result);
 		return (NULL);
+	}
 	if (data.in_squotes || data.in_dquotes)
 	{
 		free(data.result);

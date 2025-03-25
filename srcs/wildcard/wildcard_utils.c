@@ -73,6 +73,7 @@ bool	should_include_file(char *pattern, char *filename)
 
 bool	add_filename(char **filenames, char *name, int index)
 {
+	(void) name;
 	filenames[index] = ft_strdup(name);
 	if (filenames[index] == NULL)
 		return (false);
