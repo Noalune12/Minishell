@@ -1,6 +1,6 @@
 #include "parsing.h"
-
 #include "minishell.h"
+#include "utils.h"
 
 static char	*extract_token(char *input, size_t *pos)
 {

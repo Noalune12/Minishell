@@ -19,7 +19,6 @@ extern int	g_signal_received;
 # include <unistd.h>
 
 # include "expand.h"
-# include "ft_dprintf.h"
 # include "libft.h"
 # include "options.h"
 # include "fd.h" // cannot include it otherwise --> error
@@ -92,16 +91,12 @@ char	*read_input(t_minishell *minishell);
 
 
 
-// void	free_list(t_list *list);
 void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
 
 void	handle_signal_main(void);
 void	handle_signal_child(void);
 
 bool	replace_token(t_list *current, t_list *new_tokens);
-void	cleanup_shell(t_minishell *minishell);
-void	cleanup_loop(t_minishell *minishell);
-void	cleanup_exit(t_minishell *minishell);
 
 
 
@@ -168,11 +163,7 @@ int		return_global(void);
 
 /* ---- REFACTOR T_TOKEN TESTS ---- */
 
-void	free_token_list(t_token *tokens);
 bool	add_token(t_token **tokens, char *content, t_node_type type);
-bool	add_token_in_place(t_token **tokens, char *content, t_node_type type);
-
-t_token	*init_token_node(char *content, t_node_type type);
 
 void	split_operators(t_minishell *minishell);
 void	tokenize_input(t_minishell *minishell);

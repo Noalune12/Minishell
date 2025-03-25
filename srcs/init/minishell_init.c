@@ -1,6 +1,8 @@
 #include "common.h"
 #include "env.h"
 #include "minishell.h"
+#include "utils.h"
+#include "ft_dprintf.h"
 
 void	tty_check(void)
 {

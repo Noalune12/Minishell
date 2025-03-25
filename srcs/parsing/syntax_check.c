@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "ft_dprintf.h"
 
 static int	check_first_token(t_token *token, t_minishell *minishell)
 {

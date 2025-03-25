@@ -3,6 +3,8 @@
 #include "heredoc.h"
 #include "ast.h"
 #include "exec.h"
+#include "utils.h"
+#include "ft_dprintf.h"
 
 static void	build_and_execute(t_minishell *minishell)
 {

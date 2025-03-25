@@ -1,3 +1,5 @@
+#include "libft.h"
+#include "types.h"
 #include "minishell.h"
 
 t_token	*init_token_node(char *content, t_node_type type)

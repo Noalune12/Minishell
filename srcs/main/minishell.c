@@ -3,6 +3,7 @@
 #include "wildcard.h"
 #include "ast.h"
 #include "signals.h"
+#include "utils.h"
 
 int	main(int ac, char **av, char **envp)
 {

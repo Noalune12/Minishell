@@ -25,13 +25,6 @@ typedef enum e_node_type
 	NODE_BUILTIN
 }	t_node_type;
 
-typedef enum e_quote
-{
-	NONE_QUOTE,
-	SINGLE_QUOTE,
-	DOUBLE_QUOTE,
-}	t_quote;
-
 typedef enum e_redirect_error
 {
 	REDIR_SUCCESS,

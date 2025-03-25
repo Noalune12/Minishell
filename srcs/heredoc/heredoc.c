@@ -1,5 +1,6 @@
 #include "heredoc.h"
 #include "minishell.h"
+#include "ft_dprintf.h"
 
 static int	validate_heredoc_syntax(t_token *current, t_minishell *minishell)
 {

@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "libft.h"
 
 bool	replace_token(t_list *current, t_list *new_tokens)
 {

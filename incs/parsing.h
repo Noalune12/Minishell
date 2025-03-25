@@ -118,7 +118,6 @@ void	copy_with_quotes(char *dest, char *src, size_t *len);
 
 
 
-t_list	*handle_operator_error(t_list *tokens, const char *op);
 
 t_redirect_error	check_operator_syntax(const char *str);
 

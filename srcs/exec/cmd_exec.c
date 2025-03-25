@@ -1,6 +1,8 @@
 #include "minishell.h"
 #include "ast.h"
 #include "exec.h"
+#include "fd.h"
+#include "ft_dprintf.h"
 
 static char	**list_to_tab(t_minishell *minishell)
 {

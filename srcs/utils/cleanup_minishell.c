@@ -1,6 +1,11 @@
+#include <stdlib.h>
+#include <unistd.h>
+#include <readline/history.h>
+
 #include "types.h"
 #include "ast.h"
 #include "minishell.h"
+#include "env.h"
 
 static void	close_free_and_reinit_fds(t_fd_info *fd)
 {
@@ -31,6 +36,17 @@ void	cleanup_loop(t_minishell *minishell)
 	close_free_and_reinit_fds(&minishell->fds.fd_out);
 }
 
+void	cleanup_shell(t_minishell *minishell)
+{
+	close_and_free_fds(&minishell->fds.fd_in);
+	close_and_free_fds(&minishell->fds.fd_out);
+	if (minishell->envp != NULL)
+		free_list(minishell->envp);
+	if (minishell->options != NULL)
+		free(minishell->options);
+	minishell->envp = NULL;
+	minishell->token = NULL;
+}
 
 void	cleanup_exit(t_minishell *minishell)
 {

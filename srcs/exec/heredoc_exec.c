@@ -1,6 +1,7 @@
 #include "minishell.h"
 #include "ast.h"
 #include "exec.h"
+#include "ft_dprintf.h"
 
 #define READ_LEN 1000
 
