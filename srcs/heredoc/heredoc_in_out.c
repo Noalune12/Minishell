@@ -28,7 +28,7 @@ static void	write_heredoc_loop(t_heredoc_utils *data, char *delimiter)
 		{
 			rl_replace_line("", 0);
 			rl_done = 1;
-			print_redirect_error(REDIR_HEREDOC_EOF, delimiter);
+			ft_dprintf(STDERR_FILENO, HEREDOC_ERROR_MESSAGE, delimiter);
 			break ;
 		}
 		if (ft_strcmp(data->line, delimiter) == 0)

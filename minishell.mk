@@ -70,7 +70,6 @@ override ASTSRC		:= \
 SRC	+= $(addprefix $(PARSINGDIR), $(addsuffix .c, $(PARSINGSRC)))
 
 override PARSINGSRC	:= \
-	errors \
 	operator_check \
 	operator_utils \
 	operators \
@@ -135,7 +134,6 @@ SRC += $(addprefix $(WILDCARDIR), $(addsuffix .c, $(WILDCARDSRC)))
 override WILDCARDSRC	:= \
 	file_utils \
 	patterns \
-	wildcard_cleanup \
 	wildcard_utils \
 	wildcard \
 

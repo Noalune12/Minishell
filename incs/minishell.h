@@ -46,9 +46,7 @@ extern int	g_signal_received;
 # define CHAR_SYNTAX "minishell: syntax error near unexpected token `%c'\n"
 # define CMD_NOT_FOUND "minishell: %s: command not found\n"
 # define FILE_NOT_FOUND "minishell: %s: %s: No such file or directory\n"
-# define HEREDOC_ERROR_MESSAGE "minishell: warning: here-document delimited by end-of-file (wanted `%s')\n"
 # define ERROR_SYNTAX_TO_MODIFY "syntax error\n" // a modifier
-# define ERROR_OUTFILE "minishell: %s: Permission denied\n" // a delete ?
 # define ERROR_INFILE "minishell: %s: No such file or directory\n"
 # define SIGQUIT_MESSAGE "Quit (core dumped)\n"
 # define DOT_ERR "minishell: %s: filename argument required\n"
@@ -58,13 +56,6 @@ extern int	g_signal_received;
 
 // liste de define plutot que decrire en brut
 
-# define PWD			"PWD"
-# define OLDPWD			"OLDPWD"
-# define PATH			"PATH"
-# define SHLVL			"SHLVL"
-# define HOME			"HOME"
-# define USER			"USER"
-# define ENV_DEFAULT	"_/usr/bin/env"
 // liste de define de message derreur
 
 
