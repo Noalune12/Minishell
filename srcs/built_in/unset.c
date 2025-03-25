@@ -40,7 +40,7 @@ int	remove_node(t_list **head, char *var)
 	current = *head;
 	prev = NULL;
 	content = ft_strjoin(var, "=");
-	if (!content)
+	if (content == NULL)
 		return (1);
 	while (current)
 	{

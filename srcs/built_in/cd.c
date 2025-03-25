@@ -11,7 +11,7 @@ char	*find_home(t_list *env)
 
 	temp = env;
 	home = NULL;
-	if (!(temp->content))
+	if (temp->content == NULL)
 		return (NULL);
 	while (temp)
 	{
@@ -30,7 +30,7 @@ static int	ft_cd_home(t_list *envp)
 	char	*path;
 
 	path = find_home(envp);
-	if (!path)
+	if (path == NULL)
 	{
 		ft_dprintf(STDERR_FILENO, CD_HOME);
 		return (1);
@@ -76,7 +76,7 @@ static int	ft_cd_path(char **cmds, t_list **envp)
 	if (make_chdir(cmds, envp) == 1)
 		return (1);
 	cwd = getcwd(NULL, 4096);
-	if (!cwd)
+	if (cwd == NULL)
 	{
 		ft_dprintf(STDERR_FILENO, CWD_ERROR, CD);
 		perror("");
@@ -89,7 +89,7 @@ static int	ft_cd_path(char **cmds, t_list **envp)
 
 int	ft_cd(char **cmds, t_minishell *minishell)
 {
-	if (!cmds[1])
+	if (cmds[1] == NULL)
 	{
 		if (ft_cd_home(minishell->envp) == 1)
 			return (1);
