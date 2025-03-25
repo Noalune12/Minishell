@@ -43,10 +43,24 @@ VALGRIND_FLAGS := valgrind \
 
 -include $(DEPS)
 
+NEED_REBUILD_SRC := $(shell find $(SRCSDIR) -name "*.c" -newer $(NAME) 2>/dev/null | wc -l)
+NEWER_HEADERS := $(shell find incs/ libft/incs/ -name "*.h" -newer $(NAME) 2>/dev/null | wc -l)
+EXECUTABLE_EXISTS := $(shell [ -f $(NAME) ] && echo 1 || echo 0)
+
+ifeq ($(EXECUTABLE_EXISTS),0)
+    NEED_REBUILD := $(words $(SRCS))
+else
+    ifeq ($(NEWER_HEADERS),0)
+        NEED_REBUILD := $(NEED_REBUILD_SRC)
+    else
+        NEED_REBUILD := $(words $(SRCS))
+    endif
+endif
+
 .PHONY: init
 init:
 	@mkdir -p $(BUILD_DIR)
-	@echo "$(words $(SRCS))" > $(BUILD_DIR)total_files
+	@echo "$(NEED_REBUILD)" > $(BUILD_DIR)total_files
 	@echo "0" > $(BUILD_DIR)current_file
 
 .PHONY: all
@@ -63,7 +77,6 @@ libft/libft.a: FORCE
 
 $(BUILD_DIR)%.o: $(SRCSDIR)%.c
 	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
 	@CURRENT=`cat $(BUILD_DIR)current_file`; \
 	CURRENT=$$((CURRENT+1)); \
 	echo "$$CURRENT" > $(BUILD_DIR)current_file; \
@@ -84,10 +97,16 @@ $(BUILD_DIR)%.o: $(SRCSDIR)%.c
 		printf "⠴"; \
 	fi; \
 	printf "] [%d/%d] $(RESETC)%s" "$$CURRENT" "$$TOTAL" "$<"
+	@$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
+
 
 .PHONY: valgrind
-valgrind: $(VALGRIND_SUPPRESS_FILE) $(NAME)
+valgrind: init $(VALGRIND_SUPPRESS_FILE) $(NAME)
 	$(VALGRIND_FLAGS) ./$(NAME)
+
+.PHONY: valgrindenv
+valgrindenv: init $(VALGRIND_SUPPRESS_FILE) $(NAME)
+	$(VALGRIND_FLAGS) env -i ./$(NAME)
 
 .PHONY: clean
 clean:

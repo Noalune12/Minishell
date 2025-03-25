@@ -41,6 +41,7 @@ You will learn a lot about processes and file descriptors.*
     - [Arbre binaire premiere recherches](#arbre-binaire-premiere-recherches)
     - [Heredoc](#heredoc)
   - [Last things to do:](#last-things-to-do)
+  - [Remonté d'erreur](#remonté-derreur)
 
 
 ## Ressources pour travailler en groupe avec Git
@@ -400,3 +401,7 @@ Dans l'idée on doit gérer les heredoc de la meme facon que bash mais on est li
 - [ ] Implementation built-in bonus
 - [ ] pwd check
 - [ ] make valgrind error when dup2 fail (since we added exit)
+
+
+## Remonté d'erreur
+- [ ] init

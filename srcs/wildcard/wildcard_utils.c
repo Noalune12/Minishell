@@ -1,5 +1,6 @@
 #include <dirent.h>
 
+#include "ast.h"
 #include "minishell.h"
 #include "wildcard.h"
 
@@ -29,28 +30,26 @@ bool	contain_wildcard(char *token)
 
 int	count_matches(char *pattern)
 {
-	DIR				*dir;
-	struct dirent	*entry;
-	int				count;
+	t_wildcard	data;
 
-	count = 0;
-	dir = opendir(".");
-	if (!dir)
-		return (0);
-	entry = readdir(dir);
-	while (entry != NULL)
+	ft_memset(&data, 0, sizeof(t_wildcard));
+	data.dir = opendir(CURRENT_DIR);
+	if (data.dir != NULL)
+		data.entry = readdir(data.dir);
+	while (data.entry != NULL)
 	{
-		if (entry->d_name[0] == '.' && pattern[0] != '.')
+		if (data.entry->d_name[0] == '.' && pattern[0] != '.')
 		{
-			entry = readdir(dir);
+			data.entry = readdir(data.dir);
 			continue ;
 		}
-		if (wildcard_match(pattern, entry->d_name))
-			count++;
-		entry = readdir(dir);
+		if (wildcard_match(pattern, data.entry->d_name))
+		data.count++;
+		data.entry = readdir(data.dir);
 	}
-	closedir(dir);
-	return (count);
+	if (data.dir != NULL)
+		closedir(data.dir);
+	return (data.count);
 }
 
 char	**allocate_2d_array(int count)
@@ -58,7 +57,7 @@ char	**allocate_2d_array(int count)
 	char	**array;
 
 	array = malloc(sizeof(char *) * (count + 1));
-	if (!array)
+	if (array == NULL)
 		return (NULL);
 	array[count] = NULL;
 	return (array);
@@ -69,4 +68,12 @@ bool	should_include_file(char *pattern, char *filename)
 	if (filename[0] == '.' && pattern[0] != '.')
 		return (false);
 	return (wildcard_match(pattern, filename));
+}
+
+bool	add_filename(char **filenames, char *name, int index)
+{
+	filenames[index] = ft_strdup(name);
+	if (filenames[index] == NULL)
+		return (false);
+	return (true);
 }

@@ -34,10 +34,10 @@ void	free_list(t_list *list)
 	t_list	*current;
 	t_list	*next;
 
-	if (!list)
+	if (list == NULL)
 		return ;
 	current = list;
-	while (current)
+	while (current != NULL)
 	{
 		next = current->next;
 		if (current->content)

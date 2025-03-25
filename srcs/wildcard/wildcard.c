@@ -30,13 +30,14 @@ static bool	expand_token_wildcard(t_token *current)
 	int		count_found_files;
 	bool	res;
 
-	if (!current || !current->content)
+	count_found_files = 0;
+	if (current == NULL || current->content == NULL)
 		return (false);
 	count_found_files = count_matches(current->content);
-	if (count_found_files == 0)
-		return (true);
+	if (count_found_files == -1)
+		return (false);
 	file_names = get_file_names(current->content, count_found_files);
-	if (!file_names)
+	if (file_names == NULL)
 		return (false);
 	res = replace_for_expanded_filename(current, file_names);
 	free_file_names_array(file_names);
@@ -58,7 +59,6 @@ void	expand_wildcards(t_minishell *minishell)
 		{
 			if (expand_token_wildcard(current) == false)
 			{
-				free_token_list(minishell->token);
 				minishell->exec_status = false;
 				return ;
 			}

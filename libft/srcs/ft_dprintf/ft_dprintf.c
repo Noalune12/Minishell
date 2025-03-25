@@ -6,14 +6,15 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 22:04:17 by gueberso          #+#    #+#             */
-/*   Updated: 2025/02/21 09:08:55 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:24:34 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <stdarg.h>
 
 #include "ft_dprintf.h"
 #include "libft.h"
 
-#include <stdarg.h>
 
 static int	convert_args(t_dprintf *data, char type, va_list args)
 {
