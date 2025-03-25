@@ -16,7 +16,7 @@ int	error_handling_cmd_path(t_path_cmds *path_cmds,	char *str,
 	char **env, t_minishell *minishell)
 {
 	free_join_full_path(path_cmds, str, env, minishell);
-	error_handling_exec(minishell, "Malloc failed");
+	error_handling_exec(minishell, NULL);
 	return (1);
 }
 

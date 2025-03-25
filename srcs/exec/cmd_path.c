@@ -20,7 +20,7 @@ static char	*find_env_path(t_list *envp, t_minishell *minishell)
 			path_env = ft_strdup(temp->content + 5);
 			if (!path_env)
 			{
-				error_handling_exec(minishell, "Malloc failed");
+				error_handling_exec(minishell, NULL);
 				exit (1);
 			}
 			break ;
@@ -70,7 +70,7 @@ static char	*find_full_path(t_minishell *minishell, t_path_cmds *path_cmds,
 	{
 		free_tab(env, ft_lstsize(minishell->envp));
 		free(path_cmds->path_env);
-		exit(error_handling_exec(minishell, "Malloc failed"));
+		exit(error_handling_exec(minishell, NULL));
 	}
 	path_cmds->index = 0;
 	while (path_cmds->paths[path_cmds->index])

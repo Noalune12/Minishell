@@ -16,14 +16,6 @@ t_list	*find_env_node(t_list *env, const char *var_searched)
 	return (NULL);
 }
 
-static t_list	*error_handling(t_list	*new_node)
-{
-	if (new_node != NULL)
-		free(new_node);
-	ft_dprintf(STDERR_FILENO, MALLOC_FAIL);
-	return (NULL);
-}
-
 t_list	*add_node(t_list **env, char *content) // nom a changer probablement + retour derreur
 {
 	t_list	*temp;
@@ -32,10 +24,13 @@ t_list	*add_node(t_list **env, char *content) // nom a changer probablement + re
 	temp = *env;
 	new_node = malloc(sizeof(t_list));
 	if (new_node == NULL)
-		return (error_handling(NULL));
+		return (NULL);
 	new_node->content = ft_strdup(content);
 	if (new_node->content == NULL)
-		return (error_handling(new_node));
+	{
+		free(new_node);
+		return (NULL);
+	}
 	new_node->next = NULL;
 	if (*env == NULL)
 	{

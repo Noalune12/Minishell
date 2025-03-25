@@ -27,24 +27,17 @@ static int	ft_print_export(t_list *env)
 
 	sorted = copy_env(env);
 	if (!sorted)
-	{
-		ft_dprintf(STDERR_FILENO, "Malloc failed\n");
 		return (1);
-	}
 	ft_list_sort(&sorted, &ascii_cmp);
 	temp = sorted;
 	while (temp)
 	{
-		ft_dprintf(STDIN_FILENO, "export ");
-		ft_dprintf(STDIN_FILENO, "%s\n", temp->content);
+		ft_dprintf(STDIN_FILENO, "export %s\n", temp->content);
 		temp = temp->next;
 	}
 	free_env_export(sorted);
 	return (0);
 }
-
-//should begin with _ or letter -> check what it takes
-//if between quote can take space
 
 int	ft_export(char **cmds, t_minishell *minishell)
 {

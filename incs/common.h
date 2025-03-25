@@ -64,6 +64,6 @@
 
 # define NOT_A_TTY		"minishell: not a tty\n"
 # define MEM_ALLOC_ERR	"Memory allocation error\n"
-# define MALLOC_FAIL	"Malloc failed\n"
+# define MALLOC_FAIL	"Malloc failed\n" //TODO delete?
 
 #endif

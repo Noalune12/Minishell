@@ -54,6 +54,6 @@ t_ast	*add_to_rightmost(t_ast *root, t_ast *node);
 t_ast	*add_to_left(t_ast *root, t_ast *node);
 t_ast	*add_down_right(t_ast *root, t_ast *node);
 t_ast	*add_to_ast(t_ast *root, t_ast *node);
-t_ast	*error_handling_ast(t_ast *root, t_ast *sub_ast, char *str);
+t_ast	*error_handling_ast(t_ast *root, t_ast *sub_ast);
 
 #endif

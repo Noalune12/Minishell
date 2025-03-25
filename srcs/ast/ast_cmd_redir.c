@@ -66,7 +66,7 @@ static int	create_redir(t_token **token, t_branch *branch,
 		{
 			free_ast(branch->node);
 			free_ast(branch->node_cmd);
-			error_handling_ast(root, sub_ast, "Malloc failed\n");
+			error_handling_ast(root, sub_ast);
 			return (0);
 		}
 	}
@@ -86,7 +86,7 @@ static t_ast	*create_cmd(t_token **token, t_branch *branch,
 		{
 			free_ast(branch->node);
 			free_ast(branch->node_cmd);
-			return (error_handling_ast(root, sub_ast, "Malloc failed\n"));
+			return (error_handling_ast(root, sub_ast));
 		}
 	}
 	else
@@ -97,7 +97,7 @@ static t_ast	*create_cmd(t_token **token, t_branch *branch,
 		{
 			free_ast(branch->node);
 			free_ast(branch->node_cmd);
-			return (error_handling_ast(root, sub_ast, "Malloc failed\n"));
+			return (error_handling_ast(root, sub_ast));
 		}
 	}
 	return (branch->node_cmd);

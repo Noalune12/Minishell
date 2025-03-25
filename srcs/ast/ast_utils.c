@@ -46,12 +46,11 @@ void	free_ast(t_ast *node)
 	node = NULL;
 }
 
-t_ast	*error_handling_ast(t_ast *root, t_ast *sub_ast, char *str)
+t_ast	*error_handling_ast(t_ast *root, t_ast *sub_ast)
 {
 	if (root)
 		free_ast(root);
 	if (sub_ast)
 		free_ast(sub_ast);
-	ft_dprintf(STDERR_FILENO, "%s", str);
 	return (NULL);
 }

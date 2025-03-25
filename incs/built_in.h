@@ -14,6 +14,18 @@ typedef int					(*t_builtin)(char **cmds, t_minishell *minishell);
 # define EXPORT_ERROR "minishell: export: `%s': not a valid identifier\n"
 # define CD_HOME "minishell: cd: HOME not set\n"
 # define PWD_ERROR "minishell: pwd: %s: invalid option\npwd: usage: pwd\n"
+# define OLDPWD_NOT_SET "minishell: cd: OLDPWD not set\n"
+# define CWD_ERROR "%s: error retrieving current directory: getcwd: cannot access parent directories: "
+# define PWD_BI "pwd"
+# define CD "cd"
+# define ENV "env"
+# define UNSET "unset"
+# define EXPORT "export"
+# define ECHO "echo"
+# define EXIT "exit"
+# define OPTIONS_BI "options"
+# define PTREE_BI "ptree"
+# define PTOKENS_BI "ptokens"
 
 void	swap_data(t_list *a, t_list *b);
 void	ft_list_sort(t_list **begin_list, int (*cmp)(char *, char *));

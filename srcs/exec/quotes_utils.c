@@ -11,7 +11,6 @@ static char	*ft_reallocate(char *str, char c, int len)
 	{
 		if (len > 1)
 			free(str);
-		ft_dprintf(STDERR_FILENO, "Malloc failed");
 		return (NULL);
 	}
 	while (len > 1 && str[i])

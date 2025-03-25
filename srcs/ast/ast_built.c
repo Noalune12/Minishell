@@ -8,7 +8,7 @@ static t_ast	*create_operator(t_token **token, t_ast *root, t_ast *sub_ast)
 
 	node = create_ast_tree_node((*token)->type, (*token)->content, 0, NULL);
 	if (!node)
-		return (error_handling_ast(root, sub_ast, "Malloc failed\n"));
+		return (error_handling_ast(root, sub_ast));
 	return (node);
 }
 
