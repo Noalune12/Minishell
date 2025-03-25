@@ -1,4 +1,7 @@
-#include "minishell.h"
+#include <stdlib.h>
+
+#include "types.h"
+#include "ast.h"
 
 t_ast	*add_up(t_ast *root, t_ast *node)
 {

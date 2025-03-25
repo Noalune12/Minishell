@@ -1,13 +1,14 @@
+#include "built_in.h"
 #include "minishell.h"
 
 static inline int	is_no_nl(char *str)
 {
 	int	i;
 
-	if (!str || str[0] != '-')
+	if (str == NULL || str[0] != '-')
 		return (0);
 	i = 1;
-	if (!str[i])
+	if (str[i] == '\0')
 		return (0);
 	while (str[i])
 	{
@@ -18,7 +19,7 @@ static inline int	is_no_nl(char *str)
 	return (1);
 }
 
-static int	ft_print_echo(char **cmds, int index, int no_nl, t_minishell *minishell)
+static int	ft_print_echo(char **cmds, int index, int no_nl)
 {
 	int	i;
 
@@ -27,13 +28,7 @@ static int	ft_print_echo(char **cmds, int index, int no_nl, t_minishell *minishe
 	{
 		while (cmds[index][i])
 		{
-			if (cmds[index][i] == '$' && cmds[index][i + 1] && cmds[index][i + 1] == '?')
-			{
-				ft_dprintf(STDOUT_FILENO, "%d", minishell->exit_status);
-				i++;
-			}
-			else
-				ft_dprintf(STDOUT_FILENO, "%c", cmds[index][i]);
+			ft_dprintf(STDOUT_FILENO, "%c", cmds[index][i]);
 			i++;
 		}
 		index++;
@@ -41,7 +36,7 @@ static int	ft_print_echo(char **cmds, int index, int no_nl, t_minishell *minishe
 			ft_dprintf(STDOUT_FILENO, " ");
 		i = 0;
 	}
-	if (!no_nl)
+	if (no_nl == 0)
 		printf("\n");
 	return (0);
 }
@@ -51,9 +46,10 @@ int	ft_echo(char **cmds, t_minishell *minishell)
 	int	no_nl;
 	int	i;
 
+	(void)minishell;
 	i = 1;
 	no_nl = 0;
-	if (!cmds[i])
+	if (cmds[i] == NULL)
 	{
 		ft_dprintf(STDOUT_FILENO, "\n");
 		return (0);
@@ -65,6 +61,6 @@ int	ft_echo(char **cmds, t_minishell *minishell)
 	}
 	if (!cmds[i])
 		return (0);
-	ft_print_echo(cmds, i, no_nl, minishell);
+	ft_print_echo(cmds, i, no_nl);
 	return (0);
 }

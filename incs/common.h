@@ -13,6 +13,8 @@
 # define CYAN       "\001\033[1;36m\002"
 # define RESET      "\001\033[0m\002"
 
+/* ---------- ARROWS -------------------------------------------------------- */
+
 # define GREEN_ARROW "\001\033[32m\xe2\x9e\002\x9c\001\033[0m\002"
 # define RED_ARROW   "\001\033[31m\xe2\x9e\002\x9c\001\033[0m\002"
 
@@ -57,5 +59,11 @@
 
 # define RESEARCHSHLVL	"SHLVL="
 # define RESEARCHPWD	"PWD="
+
+# define DEFAULT_PROMPT	"minishell$>"
+
+# define NOT_A_TTY		"minishell: not a tty\n"
+# define MEM_ALLOC_ERR	"Memory allocation error\n"
+# define MALLOC_FAIL	"Malloc failed\n" //TODO delete?
 
 #endif

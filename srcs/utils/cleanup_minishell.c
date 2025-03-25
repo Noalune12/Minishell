@@ -1,3 +1,5 @@
+#include "types.h"
+#include "ast.h"
 #include "minishell.h"
 
 static void	close_free_and_reinit_fds(t_fd_info *fd)
@@ -20,7 +22,7 @@ void	cleanup_loop(t_minishell *minishell)
 {
 	free(minishell->input);
 	if (minishell->ast_node)
-		free_ast_2(minishell->ast_node);
+		free_ast_2(minishell);
 	if (minishell->fd_in)
 		close(minishell->fd_in);
 	if (minishell->fd_out)

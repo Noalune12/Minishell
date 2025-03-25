@@ -1,53 +1,7 @@
 #include "minishell.h"
-
-static int	fill_new_cmds(char **cmds, int *index, char **new_cmd, char **ret)
-{
-	int		i;
-	int		k;
-	int		j;
-
-	i = -1;
-	while (++i < *index)
-		ret[i] = cmds[i];
-	j = -1;
-	while (new_cmd[++j])
-	{
-		ret[*index] = new_cmd[j];
-		(*index)++;
-	}
-	k = *index;
-	i++;
-	while (cmds[i])
-	{
-		ret[k] = cmds[i];
-		i++;
-		k++;
-	}
-	ret[k] = NULL;
-	return (0);
-}
-
-static char	**remake_cmds(char **cmds, int *index)
-{
-	char	**new_cmd;
-	int		cmds_len;
-	int		new_cmd_len;
-	char	**ret;
-
-	cmds_len = 0;
-	new_cmd_len = 0;
-	new_cmd = ft_split(cmds[*index], ' '); // TODO protect
-	while (cmds[cmds_len])
-		cmds_len++;
-	while (new_cmd[new_cmd_len])
-		new_cmd_len++;
-	ret = malloc((cmds_len + new_cmd_len) * sizeof(char *)); // TODO protect
-	fill_new_cmds(cmds, index, new_cmd, ret);
-	(*index)--;
-	free(cmds);
-	free(new_cmd);
-	return (ret);
-}
+#include "ast.h"
+#include "exec.h"
+#include "utils.h"
 
 static void	expand_condition(t_ast *node, t_exp_qu *exp_qu)
 {
@@ -76,6 +30,8 @@ static void	expand_condition(t_ast *node, t_exp_qu *exp_qu)
 static int	quote_condition(t_ast *node, t_exp_qu *exp_qu)
 {
 	exp_qu->final = handle_quotes_exec(node->cmd->cmds[exp_qu->i - 1]); // TODO protect
+	if (!exp_qu->final)
+		return (1);
 	if (exp_qu->final)
 	{
 		exp_qu->temp = node->cmd->cmds[exp_qu->i - 1];
@@ -91,6 +47,20 @@ static int	quote_condition(t_ast *node, t_exp_qu *exp_qu)
 	return (0);
 }
 
+static int	expand_quotes_init(t_ast *node, t_exp_qu *exp_qu,
+	t_minishell *minishell)
+{
+	exp_qu->exp = 0;
+	exp_qu->quote = 0;
+	exp_qu->expanded = expand_env_vars(node->cmd->cmds[exp_qu->i],
+			minishell, &exp_qu->exp, &exp_qu->quote); // TODO protect
+	if (!exp_qu->expanded)
+		return (1);
+	exp_qu->temp = node->cmd->cmds[exp_qu->i];
+	expand_condition(node, exp_qu);
+	return (0);
+}
+
 int	expand_quotes_exec(t_ast *node, t_minishell *minishell)
 {
 	t_exp_qu	exp_qu;
@@ -98,20 +68,23 @@ int	expand_quotes_exec(t_ast *node, t_minishell *minishell)
 	ft_memset(&exp_qu, 0, sizeof(t_exp_qu));
 	while (node->cmd->cmds[exp_qu.i])
 	{
-		exp_qu.exp = 0;
-		exp_qu.quote = 0;
-		exp_qu.expanded = expand_env_vars(node->cmd->cmds[exp_qu.i],
-				minishell, &exp_qu.exp, &exp_qu.quote); // TODO protect
-		exp_qu.temp = node->cmd->cmds[exp_qu.i];
-		expand_condition(node, &exp_qu);
+		if (expand_quotes_init(node, &exp_qu, minishell) == 1)
+			return (1);
 		if (exp_qu.exp == 1 && exp_qu.quote == 0 && node->cmd->cmds[exp_qu.i])
 		{
+			exp_qu.tmp_cmds = node->cmd->cmds;
 			node->cmd->cmds = remake_cmds(node->cmd->cmds, &exp_qu.i); // TODO protect
+			if (!node->cmd->cmds)
+			{
+				ft_free_double(exp_qu.tmp_cmds);
+				return (1);
+			}
 			free(exp_qu.expanded);
 			exp_qu.i++;
 		}
-		else if (exp_qu.exp == 0)
-			quote_condition(node, &exp_qu); // TODO protect
+		else if ((exp_qu.exp == 0 || (exp_qu.exp == 1 && exp_qu.quote == 1
+				&& ++exp_qu.i)) && quote_condition(node, &exp_qu) == 1)
+				return (1);
 	}
 	return (0);
 }

@@ -35,7 +35,7 @@ init:
 .PHONY: all
 all: init $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): Makefile $(OBJS)
 	@$(AR) $(ARFLAGS) $(NAME) $(OBJS)
 	@echo "\n\n$(GREEN_BOLD)✓ $(NAME) is ready$(RESETC)\n"
 

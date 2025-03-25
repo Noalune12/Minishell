@@ -1,64 +1,57 @@
+#include <stdlib.h>
+
+#include "types.h"
+#include "ast.h"
 #include "minishell.h"
 
-void	ft_free(char **split)
-{
-	size_t	i;
+#include "ft_dprintf.h"
+#include "utils.h"
 
-	i = 0;
-	if (split)
+void	free_ast_2(t_minishell *minishell) // TODO make free ast exec without unlink
+{
+	if (minishell->ast_node == NULL)
+		return ;
+	if (minishell->ast_node->left != NULL)
+		free_ast(minishell->ast_node->left);
+	if (minishell->ast_node->right != NULL)
+		free_ast(minishell->ast_node->right);
+	if (minishell->ast_node->cmd != NULL)
 	{
-		while (split[i])
-		{
-			free(split[i]);
-			split[i] = NULL;
-			i++;
-		}
-		free (split);
+		if (minishell->ast_node->type == NODE_HEREDOC)
+			unlink(minishell->ast_node->cmd->cmds[0]);
+		free(minishell->ast_node->cmd->path);
+		ft_free_double(minishell->ast_node->cmd->cmds);
+		free(minishell->ast_node->cmd);
 	}
+	if (minishell->ast_node != NULL)
+		free(minishell->ast_node);
+	minishell->ast_node = NULL; // rigolo
 }
 
-void	free_ast_2(t_ast *node) // TODO make free ast exec without unlink
+void	free_ast(t_ast *node)
 {
-	if (!node)
+	if (node == NULL)
 		return ;
-	if (node->left)
+	if (node->left != NULL)
 		free_ast(node->left);
-	if (node->right)
+	if (node->right != NULL)
 		free_ast(node->right);
-	if (node->cmd)
-	{
-		if (node->type == NODE_HEREDOC)
-			unlink(node->cmd->cmds[0]);
-		free(node->cmd->path);
-		ft_free(node->cmd->cmds);
-		free(node->cmd);
-	}
-	free(node);
-}
-
-void	free_ast(t_ast *node) // TODO make free ast exec without unlink
-{
-	if (!node)
-		return ;
-	if (node->left)
-		free_ast(node->left);
-	if (node->right)
-		free_ast(node->right);
-	if (node->cmd)
+	if (node->cmd != NULL)
 	{
 		free(node->cmd->path);
-		ft_free(node->cmd->cmds);
+		ft_free_double(node->cmd->cmds);
 		free(node->cmd);
 	}
-	free(node);
+	if (node != NULL)
+		free(node);
+	node = NULL;
 }
 
-t_ast	*error_handling_ast(t_ast *root, t_ast *sub_ast, char *str)
+t_ast	*error_handling_ast(t_ast *root, t_ast *sub_ast)
 {
 	if (root)
 		free_ast(root);
 	if (sub_ast)
 		free_ast(sub_ast);
-	ft_dprintf(STDERR_FILENO, "%s", str);
 	return (NULL);
 }

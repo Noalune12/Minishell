@@ -1,5 +1,6 @@
 #include <dirent.h>
 
+#include "common.h"
 #include "minishell.h"
 #include "wildcard.h"
 
@@ -31,52 +32,76 @@ static void	sort_file_names(char **file_names, int count)
 	}
 }
 
-static int	get_file_names_setup(char ***file_names, int *count, DIR **dir)
+static bool	get_file_names_setup(t_wildcard *data, int count)
 {
-	*file_names = allocate_2d_array(*count);
-	*dir = opendir(".");
-	if (!(*file_names) || !*(dir))
+	data->file_names = allocate_2d_array(count);
+	data->dir = opendir(CURRENT_DIR);
+	if (data->file_names == NULL || data->dir == NULL)
 	{
-		if (*file_names)
-			free(*file_names);
-		return (-1);
+		if (data->file_names == NULL)
+			ft_dprintf(STDERR_FILENO, MALLOC_FAIL);
+		if (data->file_names != NULL)
+		{
+			free(data->file_names);
+			data->file_names = NULL;
+		}
+		if (data->dir != NULL)
+			closedir(data->dir);
+		return (false);
 	}
-	return (1);
+	data->entry = readdir(data->dir);
+	if (data->entry == NULL)
+	{
+		if (data->file_names)
+			free(data->file_names);
+		if (data->dir)
+			closedir(data->dir);
+		return (false);
+	}
+	return (true);
 }
 
-bool	add_filename(char **filenames, char *name, int index)
+static void	cleanup_resources(t_wildcard *data)
 {
-	filenames[index] = ft_strdup(name);
-	if (!filenames[index])
-		return (false);
-	return (true);
+	int	i;
+
+	if (data->file_names)
+	{
+		i = 0;
+		while (data->file_names[i])
+		{
+			free(data->file_names[i]);
+			i++;
+		}
+		free(data->file_names);
+	}
+	if (data->dir)
+		closedir(data->dir);
 }
 
 char	**get_file_names(char *pattern, int count)
 {
-	DIR				*dir;
-	struct dirent	*entry;
-	char			**file_names;
-	int				i;
+	t_wildcard	d;
 
-	if (get_file_names_setup(&file_names, &count, &dir) == -1)
+	ft_memset(&d, 0, sizeof(t_wildcard));
+	if (get_file_names_setup(&d, count) == false)
 		return (NULL);
-	i = 0;
-	entry = readdir(dir);
-	while (entry && i < count)
+	while (d.i < count)
 	{
-		if (should_include_file(pattern, entry->d_name))
+		d.entry = readdir(d.dir);
+		if (d.entry == NULL)
+			break ;
+		if (should_include_file(pattern, d.entry->d_name) == true) // reprendre ici
 		{
-			if (!add_filename(file_names, entry->d_name, i++))
+			if (add_filename(d.file_names, d.entry->d_name, d.i++) == false)
 			{
-				cleanup_file_names(file_names, i - 1);
-				closedir(dir);
+				cleanup_resources(&d);
 				return (NULL);
 			}
 		}
-		entry = readdir(dir);
 	}
-	closedir(dir);
-	sort_file_names(file_names, count);
-	return (file_names);
+	sort_file_names(d.file_names, d.i);
+	d.file_names[d.i] = NULL;
+	closedir(d.dir);
+	return (d.file_names);
 }

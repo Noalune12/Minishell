@@ -9,9 +9,9 @@ static bool	handle_first_part(t_token **result, const char *content,
 	if (*i <= *start)
 		return (true);
 	str = ft_strndup(content + *start, *i - *start);
-	if (!str)
+	if (str == false)
 		return (false);
-	if (!add_token(result, str, NODE_COMMAND))
+	if (add_token(result, str, NODE_COMMAND) == false)
 	{
 		free(str);
 		return (false);
@@ -20,21 +20,21 @@ static bool	handle_first_part(t_token **result, const char *content,
 	return (true);
 }
 
-static bool	process_operator(t_token **result, const char *content,
+static bool	process_op(t_token **result, const char *content,
 							size_t *i, size_t *start)
 {
 	size_t		op_len;
 	t_node_type	op_type;
 	char		*str;
 
-	if (!handle_first_part(result, content, i, start))
+	if (handle_first_part(result, content, i, start) == false)
 		return (false);
 	op_len = get_operator_len(content, *i);
 	op_type = get_operator_type(content, *i, op_len);
 	str = ft_strndup(content + *i, op_len);
-	if (!str)
+	if (str == NULL)
 		return (false);
-	if (!add_token(result, str, op_type))
+	if (add_token(result, str, op_type) == false)
 	{
 		free(str);
 		return (false);
@@ -73,7 +73,7 @@ static bool	process_token_content(t_token **result, const char *content)
 			handle_quotes(content[data.i++], &data.in_quotes, &data.quote_type);
 		else if (!data.in_quotes && is_operator(content[data.i], false))
 		{
-			if (!process_operator(result, content, &data.i, &data.start))
+			if (process_op(result, content, &data.i, &data.start) == false)
 				return (false);
 		}
 		else
@@ -84,28 +84,29 @@ static bool	process_token_content(t_token **result, const char *content)
 	return (add_final_token(result, content, data.start, data.i));
 }
 
-t_token	*split_operators(t_token *tokens, bool *exec_status)
+void	split_operators(t_minishell *minishell)
 {
 	t_token	*result;
 	t_token	*current;
 	t_token	*next;
 
-	if (*exec_status == false)
-		return (NULL);
+	if (minishell->exec_status == false)
+		return ;
 	result = NULL;
-	current = tokens;
-	while (current)
+	current = minishell->token;
+	while (current != NULL)
 	{
-		if (!process_token_content(&result, current->content))
+		if (process_token_content(&result, current->content) == false)
 		{
 			free_token_list(result);
-			*exec_status = false;
-			return (NULL);
+			minishell->exec_status = false;
+			minishell->exit_status = 1;
+			return ;
 		}
 		next = current->next;
 		free(current->content);
 		free(current);
 		current = next;
 	}
-	return (result);
+	minishell->token = result;
 }

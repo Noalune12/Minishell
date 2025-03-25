@@ -1,3 +1,5 @@
+#include "built_in.h"
+#include "ft_dprintf.h"
 #include "minishell.h"
 #include "options.h"
 

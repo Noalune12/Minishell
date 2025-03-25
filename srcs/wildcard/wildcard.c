@@ -6,17 +6,17 @@ static bool	replace_for_expanded_filename(t_token *current, char **file_names)
 	t_token	*last;
 	int		i;
 
-	if (!file_names[0])
+	if (file_names[0] == NULL)
 		return (true);
 	free(current->content);
 	current->content = ft_strdup(file_names[0]);
-	if (!current->content)
+	if (current->content == NULL)
 		return (false);
 	i = 1;
 	last = current;
-	while (file_names[i])
+	while (file_names[i] != NULL)
 	{
-		if (!add_token_in_place(&last, file_names[i], NODE_COMMAND))
+		if (add_token_in_place(&last, file_names[i], NODE_COMMAND) == false)
 			return (false);
 		last = last->next;
 		i++;
@@ -30,41 +30,40 @@ static bool	expand_token_wildcard(t_token *current)
 	int		count_found_files;
 	bool	res;
 
-	if (!current || !current->content)
+	count_found_files = 0;
+	if (current == NULL || current->content == NULL)
 		return (false);
 	count_found_files = count_matches(current->content);
-	if (count_found_files == 0)
-		return (true);
+	if (count_found_files == -1)
+		return (false);
 	file_names = get_file_names(current->content, count_found_files);
-	if (!file_names)
+	if (file_names == NULL)
 		return (false);
 	res = replace_for_expanded_filename(current, file_names);
 	free_file_names_array(file_names);
 	return (res);
 }
 
-t_token	*expand_wildcards(t_token *tokens, bool *exec_status)
+void	expand_wildcards(t_minishell *minishell)
 {
 	t_token	*current;
 	t_token	*next;
 
-	if (!tokens || *exec_status == false)
-		return (NULL);
-	current = tokens;
-	while (current)
+	if (minishell->token == NULL || minishell->exec_status == false)
+		return ;
+	current = minishell->token;
+	while (current != NULL)
 	{
 		next = current->next;
 		if (current->type == NODE_COMMAND && contain_wildcard(current->content))
 		{
-			if (!expand_token_wildcard(current))
+			if (expand_token_wildcard(current) == false)
 			{
-				free_token_list(tokens);
-				*exec_status = false;
-				return (NULL);
+				minishell->exec_status = false;
+				return ;
 			}
 			current = next;
 		}
 		current = next;
 	}
-	return (tokens);
 }

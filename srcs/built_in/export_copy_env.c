@@ -1,7 +1,6 @@
-#include "minishell.h"
+#include "built_in.h"
 #include "env.h"
-
-//malloc checked
+#include "libft.h"
 
 char	*dup_dquotes(char *content)
 {

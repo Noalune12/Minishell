@@ -1,6 +1,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+// typedef struct s_fds			t_fds;
 typedef struct s_options		t_options;
 typedef struct s_list			t_list;
 typedef struct s_ast			t_ast;
@@ -21,6 +22,7 @@ extern int	g_signal_received;
 # include "ft_dprintf.h"
 # include "libft.h"
 # include "options.h"
+# include "fd.h" // cannot include it otherwise --> error
 # include "types.h"
 
 # define RED		"\001\033[0;31m\002"
@@ -53,11 +55,7 @@ extern int	g_signal_received;
 # define IS_REDIR "minishell: %s: Is a directory\n"
 
 // Error builtin
-# define EXIT_ERROR "minishell: exit: %s: numeric argument required\n"
-# define TOO_MANY_ARGS "minishell: %s: too many arguments\n"
-# define EXPORT_ERROR "minishell: export: `%s': not a valid identifier\n"
-# define CD_HOME "minishell: cd: HOME not set\n"
-# define PWD_ERROR "minishell: pwd: %s: invalid option\npwd: usage: pwd\n"
+
 // liste de define plutot que decrire en brut
 
 # define PWD			"PWD"
@@ -72,35 +70,6 @@ extern int	g_signal_received;
 
 // heredoc defines
 
-typedef struct s_cmd
-{
-	char	*path;
-	char	**cmds;
-	bool	to_expand;
-}	t_cmd;
-
-typedef struct s_fd_info
-{
-	int		*fds;
-	int		nb_elems;
-	int		capacity;
-}	t_fd_info;
-
-typedef struct s_fds
-{
-	t_fd_info	fd_in;
-	t_fd_info	fd_out;
-}	t_fds;
-
-typedef struct s_ast // rajouter boolean d'expand pour heredoc
-{
-	t_node_type		type; // type de noeud definis par lenum
-	t_cmd			*cmd; // ce qu'on recupere du parsing -> remplacer par t_cmd ?
-	struct s_ast	*left;
-	struct s_ast	*right;
-	struct s_ast	*root; // top priority node
-}	t_ast; // pas sur du nom, a discuter (t_node, t_ast_node, t_node_ast...)
-
 typedef struct	s_token
 {
 	char			*content;
@@ -109,22 +78,15 @@ typedef struct	s_token
 	struct s_token	*next;
 }	t_token;
 
-typedef struct s_path_cmds
-{
-	char	*path;
-	char	**paths;
-	char	*path_env;
-	int		index;
-}	t_path_cmds;
 
 typedef struct s_minishell
 {
+	char		*exec;
 	char		*input;
 	bool		exec_status;
 	int			exit_status;
 	int			is_pipe;
 	pid_t		pid;
-	// pid_t		pipe_fd[2];
 	int			fd_in;
 	int			fd_out;
 	t_options	*options;
@@ -134,17 +96,19 @@ typedef struct s_minishell
 	t_fds		fds;
 }	t_minishell;
 
-void	free_ast_2(t_ast *node);
 
-void	print_ast(t_ast *node, int depth, bool *exec_status);
-void	print_cmd_node(t_ast *node, char *prefix);
-void	print_redirect_node(t_ast *node, char *symbol);
 
-// t_list	*add_node(t_list **env, char *content); // ????????
+
+void	minishell_main_loop(t_minishell *minishell);
+char	*read_input(t_minishell *minishell);
+
+
+
+
+
 // void	free_list(t_list *list);
 void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
 
-void	signal_handler(int signum);
 void	handle_signal_main(void);
 void	handle_signal_child(void);
 
@@ -201,233 +165,10 @@ void	update_shlvl(t_list *env);
 
 /*	----------- parsing ----------------------------------------------------- */
 
-/**
- * @brief Tokenizes the input string into a linked list of tokens.
- *
- * This function iterates through the input string and splits it into
- * tokens separated
- * by spaces. For each token encountered, it calls extract_token() to
- * obtain the token string.
- * If extraction fails at any point, the function frees the already
- * allocated list and returns NULL.
- *
- * @param input The input string to tokenize.
- * @return A pointer to the head of a linked list containing the tokens, or NULL
- * on failure.
- */
-// t_list	*tokenize_input(char *input);
-
-/**
- * @brief Checks the input string for unclosed quotes.
- *
- * This function scans the input string and uses the is_quote() helper to
- * detect opening
- * quote characters (either single or double quotes). For each opening quote
- * found, it
- * searches for a matching closing quote. If a closing quote is not found before
- * the end
- * of the string, the function prints a syntax error message to STDERR using the
- * QUOTES_S format (with the unclosed quote character) and returns 0.
- *
- * @param input The input string to be checked for unclosed quotes.
- * @return 1 if all quotes are properly closed, 0 if an unclosed quote is
- * detected.
- */
-int		check_unclosed_quotes(char *input);
-
-/**
- * @brief Checks if a character is a quote.
- *
- * This function returns a non-zero value if the given character is either a
- * single quote (')
- * or a double quote (").
- *
- * @param c The character to check.
- * @return Non-zero if c is a quote, 0 otherwise.
- */
-int		is_quote(char c); //
-
-/**
- * @brief Clears a linked list of tokens.
- *
- * This function iterates through the linked list of tokens,
- * freeing the memory
- * associated with each node's content and the node itself.
- * The next pointer of the
- * first node is reset to NULL before processing the rest of the list.
- *
- * @param token Pointer to the head of the token lipidst.
- */
-void	clear_token_list(t_list *token);
-
-/**
- * @brief Computes the length of a word in the input string, accounting for
- * quoted segments.
- *
- * Starting from the given start index, this function calculates the length of
- * a word.
- * A word is defined as a sequence of characters terminated by a space or tab.
- * Quoted segments
- * are processed appropriately using count_quoted_length.
- *
- * @param input The input string.
- * @param start The starting index for the word.
- * @return The length of the word.
- */
-size_t	get_word_length(char *input, size_t start);
-
-/**
- * @brief Copies characters from src to dest while preserving quotes.
- *
- * This function copies characters from the source string to the destination
- * buffer until
- * a space or a tab is encountered. When a quote is encountered, it copies the
- * entire quoted
- * segment (including the quotes) into dest. The variable pointed to by len is
- * updated with
- * the number of characters processed in src.
- *
- * @param dest The destination buffer.
- * @param src The source string.
- * @param len Pointer to a size_t variable that will receive the number of
- * characters processed.
- */
-void	copy_with_quotes(char *dest, char *src, size_t *len);
-
-// t_list	*split_operators(const char *str, size_t i, size_t start);
-
-bool	add_token_to_list(t_list **tokens, char *content);
-
-
-char	*create_token(const char *str, size_t start, size_t len);
-
-t_list	*handle_operator_error(t_list *tokens, const char *op);
-
-t_redirect_error	check_operator_syntax(const char *str);
-
-t_list	*handle_redirect_error(t_list *tokens, t_redirect_error error, \
-	const char *token);
-
-void	print_redirect_error(t_redirect_error error, const char *token);
-
-
-/* ---- operator_utils */
-
-size_t	get_operator_len(const char *str, size_t pos);
-
-bool	is_redirection(char c);
-bool	is_operator(char c, bool in_quotes);
 
 /* ---- ast */
 
-typedef struct s_branch
-{
-	t_token	*token_redir;
-	t_ast	*node_cmd;
-	t_ast	*node_redir;
-	t_ast	*node;
-}	t_branch;
-
-t_ast	*build_ast(t_token **token, bool *exec_status);
-t_ast	*create_ast_tree_node(t_node_type type, char *content, bool expand, t_ast *parent);
-t_ast	*create_branch(t_token **token, t_ast *root, t_ast *sub_ast);
-
-t_ast	*add_up(t_ast *root, t_ast *node);
-t_ast	*add_to_rightmost(t_ast *root, t_ast *node);
-t_ast	*add_to_left(t_ast *root, t_ast *node);
-t_ast	*add_down_right(t_ast *root, t_ast *node);
-t_ast	*add_to_ast(t_ast *root, t_ast *node);
-
-
-int		is_redir_node(t_node_type type);
-int		is_redir_node_not_heredoc(t_node_type type);
-int		is_operator_node(t_node_type type);
-
-char	**update_heredoc(char **cmds, char *content);
-int		still_heredoc_left(t_token *token);
-
-void	free_ast(t_ast *node);
-void	ft_free(char **split);
-t_ast	*error_handling_ast(t_ast *root, t_ast *sub_ast, char *str);
-
-
 /* ---- exec */
-
-typedef int (* t_handler)(t_ast *node, t_minishell *minishell);
-
-
-int		error_handling_exec(t_minishell *minishell, char *message);
-int		is_builtin(char *cmds);
-void	free_tab(char **tab, int i);
-int		start_as_file(t_ast *node);
-
-int		exec_minishell(t_ast *node, t_minishell *minishell);
-
-typedef struct	s_exp_qu
-{
-	char	*expanded;
-	char	*temp;
-	char	*final;
-	int		exp;
-	int		quote;
-	int		i;
-	int		j;
-}	t_exp_qu;
-
-int		expand_quotes_exec(t_ast *node, t_minishell *minishell);
-char	*handle_quotes_exec(char *input);
-
-int		handle_cmd(t_ast *node, t_minishell *minishell);
-char	*find_exec_cmd(char **cmds, t_minishell *minishell, char **env);
-int		check_cmd_content(t_ast *node);
-int		check_cmd(t_ast *node);
-void	free_join_full_path(t_path_cmds *path_cmds,	char *str,
-			char **env, t_minishell *minishell);
-int		error_handling_cmd_path(t_path_cmds *path_cmds,	char *str,
-			char **env, t_minishell *minishell);
-int		free_error_cmd_path(t_minishell *minishell,
-			char *message, char **env, char *cmds);
-
-int		handle_and(t_ast *node, t_minishell *minishell);
-int		handle_or(t_ast *node, t_minishell *minishell);
-
-int		handle_pipe(t_ast *node, t_minishell *minishell);
-
-int		handle_redirin(t_ast *node, t_minishell *minishell);
-
-int		handle_heredocin(t_ast *node, t_minishell *minishell);
-
-int		handle_redirout(t_ast *node, t_minishell *minishell);
-
-int		handle_redirappend(t_ast *node, t_minishell *minishell);
-
-int		handle_builtin(t_ast *node, t_minishell *minishell);
-int		ft_pwd(char **cmds, t_minishell *minishell);
-
-int		ft_cd(char **cmds, t_minishell *minishell);
-int		update_cd_env(t_list **envp, char *path, int to_home);
-
-t_list	*copy_env(t_list *env);
-int	ft_export(char **cmds, t_minishell *minishell);
-int		check_export(char **cmds);
-int		add_export_to_env(char *cmds, t_list **env);
-int		add_or_append_env(char *content, t_list **env, int len);
-int		find_env_var_node(char *var, t_list **env);
-
-int remove_node(t_list **head, char *var);
-int	ft_unset(char **cmds, t_minishell *minishell);
-int	ft_echo(char **cmds, t_minishell *minishell);
-int	ft_exit(char **cmds, t_minishell *minishell);
-
-void 	swap_data(t_list *a, t_list *b);
-void	ft_list_sort(t_list **begin_list, int (*cmp)(char *, char *));
-void	swap_strs(char **s1, char **s2);
-
-char	**ft_free_double(char **strs);
-char	*ft_strndup(const char *s, size_t len);
-
-int		ft_strnlen(char *str, char c);
-int		ascii_cmp(char *a, char *b);
 
 /* test signal */
 
@@ -438,6 +179,7 @@ char	*read_input(t_minishell *minishell);
 
 int		return_global(void);
 
+
 /* ---- REFACTOR T_TOKEN TESTS ---- */
 
 void	free_token_list(t_token *tokens);
@@ -445,13 +187,15 @@ bool	add_token(t_token **tokens, char *content, t_node_type type);
 bool	add_token_in_place(t_token **tokens, char *content, t_node_type type);
 
 t_token	*init_token_node(char *content, t_node_type type);
-t_token *split_operators(t_token *tokens, bool *exec_status);
-t_token	*tokenize_input(char *input, bool *exec_status);
+
+void	split_operators(t_minishell *minishell);
+void	tokenize_input(t_minishell *minishell);
 
 
 
-int	syntax_check(t_minishell *minishell);
-int	check_unbalanced_parenthesis(t_token *token, int *paren_count,
+
+void	syntax_check(t_minishell *minishell);
+int		check_unbalanced_parenthesis(t_token *token, int *paren_count,
 									t_minishell *minishell);
 int	check_parentheses_tokens(t_token *current, t_token *next,
 								t_minishell *minishell);
@@ -461,12 +205,6 @@ void	add_manpath_to_env(t_list **env);
 int		add_or_replace_env(char *content, t_list **env, int len, int add);
 
 /* ---- HANDLE FD ---- */
-
-int *add_fd(t_fd_info *fd, int fd_in);
-void delete_fd(t_fd_info *fd, int nb_elem);
-int dup_fd(t_fd_info *fd, int fd_redirect);
-void	close_fd(t_fd_info *fd);
-void	close_and_free_fds(t_fd_info *fd);
 
 
 

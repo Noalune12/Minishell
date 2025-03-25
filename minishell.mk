@@ -13,6 +13,7 @@ override HEREDOCDIR	:= heredoc/
 override EXPANDDIR	:= expand/
 override WILDCARDIR	:= wildcard/
 override OPTIONSDIR	:= options/
+override SIGNALSDIR	:= signals/
 
 SRC	+= $(addprefix $(EXPANDDIR), $(addsuffix .c, $(EXPANDSRC)))
 
@@ -30,13 +31,14 @@ SRC	+= $(addprefix $(MAINDIR), $(addsuffix .c, $(MAINSRC)))
 
 override MAINSRC	:= \
 	minishell \
+	loop \
+	prompt \
 
 SRC +=  $(addprefix $(INITDIR), $(addsuffix .c, $(INITSRC)))
 
 override INITSRC	:= \
 	env_init \
 	minishell_init \
-	signal_init \
 
 SRC += $(addprefix $(UTILSDIR), $(addsuffix .c, $(UTILSSRC)))
 
@@ -98,6 +100,7 @@ override EXECSRC	:= \
 	handle_fd \
 	expand_quotes_exec \
 	quotes_utils \
+	remake_cmds \
 
 SRC	+= $(addprefix $(BUILTINDIR), $(addsuffix .c, $(BUILTINSRC)))
 
@@ -142,3 +145,9 @@ override OPTIONSSRC	:= \
 	options_setup \
 	print_tokens \
 	wrappers \
+
+SRC	+= $(addprefix $(SIGNALSDIR), $(addsuffix .c, $(SIGNALSSRC)))
+
+override SIGNALSSRC	:= \
+	signals_init \
+	signals_utils \

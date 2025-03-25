@@ -1,10 +1,10 @@
 #include "options.h"
 #include "minishell.h"
+#include "ast.h"
 
 void	ast_wrapper(t_minishell *minishell)
 {
-	if (minishell->options->display_ast)
-		print_ast(minishell->ast_node, 0, &minishell->exec_status);
+	print_ast(minishell, minishell->ast_node, 0);
 }
 
 void	options_wrapper(t_minishell *minishell)

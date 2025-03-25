@@ -1,4 +1,5 @@
-#include "minishell.h"
+#include "built_in.h"
+#include "libft.h"
 
 void	swap_strs(char **s1, char **s2)
 {
@@ -7,24 +8,6 @@ void	swap_strs(char **s1, char **s2)
 	temp = *s1;
 	*s1 = *s2;
 	free(temp);
-}
-
-char	*ft_strndup(const char *s, size_t len)
-{
-	char		*str;
-	size_t		i;
-
-	str = (char *)malloc((len + 1) * sizeof(char));
-	if (!str)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		str[i] = s[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
 }
 
 int	ft_strnlen(char *str, char c)

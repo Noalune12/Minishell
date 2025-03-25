@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:52:11 by gueberso          #+#    #+#             */
-/*   Updated: 2025/02/28 18:35:20 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/24 14:53:26 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,27 @@ char	*ft_strjoin_free(const char *s1, char *s2)
 {
 	char	*res;
 	size_t	s1_len;
-	size_t	s2_len;
 	size_t	i;
 	size_t	j;
 
 	if (!s1 || !s2)
 		return (NULL);
 	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	res = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
-	if (!res)
+	res = (char *)malloc(sizeof(char) * (s1_len + ft_strlen(s2) + 1));
+	if (res == NULL)
+	{
+		free(s2);
 		return (NULL);
+	}
 	i = 0;
 	j = 0;
 	while (i < s1_len)
 		res[i++] = s1[j++];
 	j = 0;
-	while (j < s2_len)
+	while (j < ft_strlen(s2))
 		res[i++] = s2[j++];
 	res[i] = '\0';
 	free(s2);
+	s2 = NULL;
 	return (res);
 }

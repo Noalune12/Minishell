@@ -1,5 +1,7 @@
 #include "minishell.h"
-
+#include "ast.h"
+#include "exec.h"
+#include "built_in.h"
 //TODO exit minishell when malloc, pipe, fork error ??
 
 int	exec_minishell(t_ast *node, t_minishell *minishell)
@@ -11,7 +13,8 @@ int	exec_minishell(t_ast *node, t_minishell *minishell)
 
 	if (!node || minishell->exec_status == false)
 		return (0);
-	expand_quotes_exec(node, minishell);
+	if (expand_quotes_exec(node, minishell) == 1)
+		return (1);
 	if (!node->cmd->cmds[0])
 		return (0);
 	ret = exec[node->type](node, minishell);

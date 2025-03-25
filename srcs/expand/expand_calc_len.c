@@ -57,7 +57,7 @@ static size_t	process_dollar(char *s, t_minishell *minishell, size_t *i)
 {
 	if (s[*i + 1] == '$')
 	{
-		(*i)++;
+		// (*i)++;
 		return (1);
 	}
 	else if (s[*i + 1] == '?')

@@ -5,10 +5,10 @@ t_token	*init_token_node(char *content, t_node_type type)
 	t_token	*token;
 
 	token = malloc(sizeof(t_token));
-	if (!token)
+	if (token == NULL)
 		return (NULL);
 	token->content = ft_strdup(content);
-	if (!token->content)
+	if (token->content == NULL)
 	{
 		free(token);
 		return (NULL);
@@ -44,9 +44,9 @@ bool	add_token_in_place(t_token **tokens, char *content, t_node_type type)
 	t_token	*new;
 
 	new = init_token_node(content, type);
-	if (!new)
+	if (new == NULL)
 		return (false);
-	if (!*tokens)
+	if (*tokens == NULL)
 		*tokens = new;
 	else
 	{

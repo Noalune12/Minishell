@@ -1,4 +1,6 @@
 #include "minishell.h"
+#include "ast.h"
+#include "exec.h"
 
 int	handle_or(t_ast *node, t_minishell *minishell)
 {

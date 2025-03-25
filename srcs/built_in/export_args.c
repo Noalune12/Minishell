@@ -1,4 +1,6 @@
-#include "minishell.h"
+#include "built_in.h"
+#include "ft_dprintf.h"
+#include "libft.h"
 
 void	remove_export(char **cmds, int i)
 {
@@ -15,18 +17,6 @@ void	remove_export(char **cmds, int i)
 	}
 	cmds[j] = NULL;
 }
-
-// void	print_double(char **strs)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (strs[i])
-// 	{
-// 		printf(BLUE"%s\n"RESET, strs[i]);
-// 		i++;
-// 	}
-// }
 
 void	check_if_space(char **cmds, int *ret)
 {

@@ -1,20 +1,22 @@
-#include "minishell.h"
+#include "common.h"
+#include "built_in.h"
 #include "env.h"
+#include "ft_dprintf.h"
+#include "libft.h"
 
-int	find_env_var_node(char *var, t_list **env) // credit a Sammy pour avoir trouvé ca
+int	find_env_var_node(char *var, t_list **env)
 {
 	char	*env_var;
 	t_list	*temp;
 
 	temp = *env;
-	while (temp)
+	while (temp != NULL)
 	{
 		env_var = ft_strndup(temp->content, ft_strnlen(temp->content, '='));
-		if (!env_var)
+		if (env_var == NULL)
 		{
 			free(var);
-			ft_dprintf(STDERR_FILENO, "Malloc failed\n");
-			return (1); // j'ai remplacé par 1 parce que
+			return (1);
 		}
 		if (ft_strcmp(var, env_var) == 0)
 		{
@@ -41,7 +43,6 @@ static int	add_or_replace_condition(char *content, t_list **env,
 		if (!temp->content)
 		{
 			temp->content = temp_content;
-			ft_dprintf(STDERR_FILENO, "Malloc failed\n");
 			return (1);
 		}
 		free(temp_content);
@@ -49,10 +50,7 @@ static int	add_or_replace_condition(char *content, t_list **env,
 	else if (!temp)
 	{
 		if (!add_node(env, content))
-		{
-			ft_dprintf(STDERR_FILENO, "Malloc failed\n");
 			return (1);
-		}
 	}
 	return (0);
 }
@@ -65,10 +63,7 @@ int	add_or_replace_env(char *content, t_list **env, int len, int add)
 	var = ft_strndup(content, len);
 	temp = *env;
 	if (!var)
-	{
-		ft_dprintf(STDERR_FILENO, "Malloc failed\n");
 		return (1);
-	}
 	if (find_env_var_node(var, &temp) == 1)
 		return (1);
 	if (add_or_replace_condition(content, env, add, temp) == 1)

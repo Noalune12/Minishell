@@ -1,12 +1,14 @@
+#include "types.h"
+#include "ast.h"
 #include "minishell.h"
 
-t_ast	*create_operator(t_token **token, t_ast *root, t_ast *sub_ast)
+static t_ast	*create_operator(t_token **token, t_ast *root, t_ast *sub_ast)
 {
-	t_ast	*node;
+	t_ast	*node = NULL;
 
 	node = create_ast_tree_node((*token)->type, (*token)->content, 0, NULL);
 	if (!node)
-		return (error_handling_ast(root, sub_ast, "Malloc failed\n"));
+		return (error_handling_ast(root, sub_ast));
 	return (node);
 }
 
@@ -27,7 +29,7 @@ static void	place_subast(t_token **token, t_ast **root,
 		add_to_rightmost(*root, *sub_ast);
 }
 
-t_ast	*make_subast(t_token **token, t_ast *root, int *par)
+static t_ast	*make_subast(t_token **token, t_ast *root, int *par)
 {
 	t_ast	*sub_ast;
 
@@ -50,31 +52,41 @@ t_ast	*make_subast(t_token **token, t_ast *root, int *par)
 	return (root);
 }
 
-t_ast	*build_ast(t_token **token, bool *exec_status)
+static void create_node(t_ast **root, t_token **temp, int *par)
+{
+	*par = 0;
+	if ((*temp)->type == NODE_COMMAND || is_redir_node((*temp)->type))
+		*root = add_to_ast(*root, create_branch(temp, *root, NULL));
+	else if (is_operator_node((*temp)->type))
+		*root = add_to_ast(*root, create_operator(temp, *root, NULL));
+	else if ((*temp)->type == NODE_OPEN_PAR)
+		*root = make_subast(temp, *root, par);
+}
+
+void	build_ast(t_minishell *ms)
 {
 	t_token	*temp;
 	t_ast	*root;
 	int		par;
 
-	if (*exec_status == false)
-		return (NULL);
-	temp = *token;
+	if (ms->exec_status == false)
+		return ;
+	temp = ms->token;
 	root = NULL;
 	while (temp)
 	{
-		par = 0;
-		if (temp->type == NODE_COMMAND || is_redir_node(temp->type))
-			root = add_to_ast(root, create_branch(&temp, root, NULL));
-		else if (is_operator_node(temp->type))
-			root = add_to_ast(root, create_operator(&temp, root, NULL));
-		else if (temp->type == NODE_OPEN_PAR)
-			root = make_subast(&temp, root, &par);
+		create_node(&root, &temp, &par);
 		if (!root)
-			return (NULL);
+		{
+			ms->ast_node = root;
+			ms->exec_status = false;
+			ms->exit_status = 1;
+			return ;
+		}
 		if (!temp)
 			break ;
 		if (par == 0)
 			temp = temp->next;
 	}
-	return (root);
+	ms->ast_node = root;
 }

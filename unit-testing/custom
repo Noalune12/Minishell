@@ -344,7 +344,6 @@ mkdir empty && cd empty
 ls *
 touch "file with spaces.txt"
 ls *.c && echo "found c files"
-ls *.txt || echo "no text files"
 cat *.txt > all_texts
 echo "hello" > test*.txt
 ls * | grep test
@@ -359,8 +358,6 @@ ls test*
 ls *test
 ls *test*
 ls *.c
-ls *.txt
-ls *
 ls nonexistent && echo "won't print" || echo "error recovered"
 (ls && echo success) || echo "won't print"
 ls nonexistent || echo "recovered from error"

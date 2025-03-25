@@ -1,4 +1,6 @@
 #include "minishell.h"
+#include "ast.h"
+#include "exec.h"
 
 static int	exec_left(t_ast *node, t_minishell *minishell, int pipe_fd[2])
 {

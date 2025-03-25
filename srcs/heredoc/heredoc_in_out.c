@@ -2,6 +2,7 @@
 
 #include "heredoc.h"
 #include "minishell.h"
+#include "parsing.h"
 
 static int	write_heredoc_line(int fd, char *line)
 {

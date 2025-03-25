@@ -1,8 +1,9 @@
+#include "built_in.h"
+#include "libft.h"
 #include "minishell.h"
-
 #include "options.h"
-
-typedef int (* t_builtin)(char **cmds, t_minishell *minishell);
+#include "ast.h"
+#include "exec.h"
 
 static int	print_env(char **cmds, t_minishell *minishell)
 {
@@ -21,11 +22,13 @@ static int	print_env(char **cmds, t_minishell *minishell)
 
 static int	ft_builtin(t_ast *node, t_minishell *minishell)
 {
-	int	ret;
-	int	i;
+	int					ret;
+	int					i;
 	static t_builtin	builtin[] = {&ft_pwd, &ft_cd, &print_env, &ft_unset,
-		&ft_export, &ft_echo, &ft_exit, &print_options_wrapper, &update_ptree_wrapper, &update_ptokens_wrapper};
-	static char	*builtin_name[] = {"pwd", "cd", "env", "unset", "export", "echo", "exit", "options", "ptree", "ptokens"};
+		&ft_export, &ft_echo, &ft_exit, &print_options_wrapper,
+		&update_ptree_wrapper, &update_ptokens_wrapper};
+	static char			*builtin_name[] = {PWD_BI, CD, ENV, UNSET, EXPORT,
+		ECHO, EXIT, OPTIONS_BI, PTREE_BI, PTOKENS_BI};
 
 	ret = 0;
 	i = 0;
@@ -37,6 +40,23 @@ static int	ft_builtin(t_ast *node, t_minishell *minishell)
 	}
 	ret = builtin[i](node->cmd->cmds, minishell);
 	return (ret);
+}
+
+static int	dup_fd_builtin(t_minishell *minishell)
+{
+	if (dup_fd(&minishell->fds.fd_in, STDIN_FILENO) == 0)
+	{
+		close(minishell->fd_in);
+		close(minishell->fd_out);
+		return (error_handling_exec(NULL, "Dup2 failed"));
+	}
+	if (dup_fd(&minishell->fds.fd_out, STDOUT_FILENO) == 0)
+	{
+		close(minishell->fd_in);
+		close(minishell->fd_out);
+		return (error_handling_exec(NULL, "Dup2 failed"));
+	}
+	return (0);
 }
 
 int	handle_builtin(t_ast *node, t_minishell *minishell)
@@ -52,18 +72,8 @@ int	handle_builtin(t_ast *node, t_minishell *minishell)
 		close(minishell->fd_in);
 		return (error_handling_exec(NULL, "Dup failed"));
 	}
-	if (dup_fd(&minishell->fds.fd_in, STDIN_FILENO) == 0)
-	{
-		close(minishell->fd_in);
-		close(minishell->fd_out);
-		return (error_handling_exec(NULL, "Dup2 failed"));
-	}
-	if (dup_fd(&minishell->fds.fd_out, STDOUT_FILENO) == 0)
-	{
-		close(minishell->fd_in);
-		close(minishell->fd_out);
-		return (error_handling_exec(NULL, "Dup2 failed"));
-	}
+	if (dup_fd_builtin(minishell) == 1)
+		return (1);
 	ret = ft_builtin(node, minishell);
 	if (dup2(minishell->fd_in, STDIN_FILENO) == -1) // TODO recheck how to protect
 		exit (error_handling_exec(minishell, "Dup2 failed"));

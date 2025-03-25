@@ -1,7 +1,9 @@
-#include "minishell.h"
-
 #include <sys/types.h>
 #include <sys/stat.h>
+
+#include "minishell.h"
+#include "ast.h"
+#include "exec.h"
 
 int	check_cmd_content(t_ast *node)
 {
