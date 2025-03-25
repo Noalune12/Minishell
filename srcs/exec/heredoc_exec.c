@@ -8,7 +8,7 @@ static int	error_handling_heredoc(char *filename, char *str, int fd)
 {
 	if (filename)
 	{
-		ft_dprintf(STDERR_FILENO, "minishell: %s: ", filename);
+		ft_dprintf(STDERR_FILENO, SIMPLE_ERR, filename);
 		perror("");
 	}
 	if (str)
@@ -66,7 +66,7 @@ static int	open_and_replace(char *filename, t_minishell *minishell)
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
-		ft_dprintf(STDERR_FILENO, "minishell: %s: ", filename);
+		ft_dprintf(STDERR_FILENO, SIMPLE_ERR, filename);
 		perror("");
 		return (1);
 	}
@@ -95,7 +95,7 @@ int	handle_heredocin(t_ast *node, t_minishell *minishell)
 	fd = open(node->cmd->cmds[0], O_RDONLY);
 	if (fd == -1)
 	{
-		ft_dprintf(STDERR_FILENO, "minishell: %s: ", node->cmd->cmds[0]);
+		ft_dprintf(STDERR_FILENO, SIMPLE_ERR, node->cmd->cmds[0]);
 		perror("");
 		return (1);
 	}

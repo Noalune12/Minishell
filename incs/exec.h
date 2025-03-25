@@ -3,6 +3,17 @@
 
 # define DUP2_ERR "Dup2 failed"
 # define DUP_ERR "Dup failed"
+# define EXECVE_ERR "execve failed"
+# define FORK_ERR "fork failed"
+# define WAIT_ERR "Waitpid failed"
+# define PIPE_ERR "pipe failed"
+# define CMD_NOT_FOUND "minishell: %s: command not found\n"
+# define DOT_ERR "minishell: %s: filename argument required\n"
+# define SIMPLE_ERR "minishell: %s: "
+# define SIGQUIT_MESSAGE "Quit (core dumped)\n"
+# define PATH_EQUAL "PATH="
+# define ERROR_INFILE "minishell: %s: No such file or directory\n"
+# define IS_REDIR "minishell: %s: Is a directory\n"
 
 typedef struct s_minishell	t_minishell;
 typedef struct s_ast		t_ast;

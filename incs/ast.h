@@ -14,14 +14,14 @@ typedef struct s_cmd
 	bool	to_expand;
 }	t_cmd;
 
-typedef struct s_ast // rajouter boolean d'expand pour heredoc
+typedef struct s_ast
 {
-	t_node_type		type; // type de noeud definis par lenum
-	t_cmd			*cmd; // ce qu'on recupere du parsing -> remplacer par t_cmd ?
+	t_node_type		type;
+	t_cmd			*cmd;
 	struct s_ast	*left;
 	struct s_ast	*right;
 	struct s_ast	*root; // top priority node
-}	t_ast; // pas sur du nom, a discuter (t_node, t_ast_node, t_node_ast...)
+}	t_ast;
 
 typedef struct s_branch
 {
@@ -32,7 +32,7 @@ typedef struct s_branch
 }	t_branch;
 
 void	free_ast(t_ast *node);
-void	free_ast_2(t_minishell *minishell); // TODO make free ast exec without unlink
+void	free_ast_2(t_minishell *minishell);
 void	free_tab(char **tab, int i);
 void	print_ast(t_minishell *ms, t_ast *node, int depth);
 void	print_cmd_node(t_ast *node, char *prefix);

@@ -14,7 +14,7 @@ static char	*find_env_path(t_list *envp, t_minishell *minishell)
 	temp = envp;
 	while (temp)
 	{
-		if (ft_strncmp(temp->content, "PATH=", 5) == 0)
+		if (ft_strncmp(temp->content, PATH_EQUAL, 5) == 0)
 		{
 			path_env = ft_strdup(temp->content + 5);
 			if (path_env == NULL)
@@ -46,7 +46,7 @@ static char	*join_full_path(t_minishell *minishell, t_path_cmds *path_cmds,
 	if (access(full_path, F_OK) == 0 && access(full_path, X_OK) != 0
 		&& stat(full_path, &path) == 0 && !S_ISDIR(path.st_mode))
 	{
-		ft_dprintf(STDERR_FILENO, "minishell: %s: ", cmds[0]);
+		ft_dprintf(STDERR_FILENO, SIMPLE_ERR, cmds[0]);
 		perror("");
 		free_join_full_path(path_cmds, full_path, env, minishell);
 		error_handling_exec(minishell, NULL);

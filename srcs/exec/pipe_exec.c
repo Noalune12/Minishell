@@ -23,7 +23,7 @@ static int	exec_right(t_ast *node, t_minishell *minishell, int pipe_fd[2])
 	close(pipe_fd[1]);
 	minishell->pid = fork();
 	if (minishell->pid == -1)
-		return (error_handling_exec(NULL, "fork failed"));
+		return (error_handling_exec(NULL, FORK_ERR));
 	if (minishell->pid == 0)
 	{
 		if (add_fd(&minishell->fds.fd_in, pipe_fd[0]) == NULL)
@@ -37,7 +37,7 @@ static int	exec_right(t_ast *node, t_minishell *minishell, int pipe_fd[2])
 		exit(ret);
 	}
 	if (waitpid(minishell->pid, &ret, 0) == -1)
-		return (error_handling_exec(NULL, "Waitpid failed"));
+		return (error_handling_exec(NULL, WAIT_ERR));
 	if (WIFEXITED(ret))
 		return (WEXITSTATUS(ret));
 	return (1);
@@ -58,12 +58,12 @@ int	handle_pipe(t_ast *node, t_minishell *minishell)
 	int	pipe_fd[2];
 
 	if (pipe(pipe_fd) == -1)
-		return (error_handling_exec(NULL, "pipe failed"));
+		return (error_handling_exec(NULL, PIPE_ERR));
 	minishell->is_pipe = 1;
 	handle_signal_wait();
 	minishell->pid = fork();
 	if (minishell->pid == -1)
-		return (error_handling_pipe(pipe_fd, "fork failed"));
+		return (error_handling_pipe(pipe_fd, FORK_ERR));
 	if (minishell->pid == 0)
 		exec_left(node, minishell, pipe_fd);
 	else
@@ -76,6 +76,6 @@ int	handle_pipe(t_ast *node, t_minishell *minishell)
 	if (g_signal_received == SIGINT)
 		ft_dprintf(STDOUT_FILENO, "\n");
 	else if (g_signal_received == SIGQUIT)
-		ft_dprintf(STDOUT_FILENO, "Quit (core dumped)\n");
+		ft_dprintf(STDOUT_FILENO, SIGQUIT_MESSAGE);
 	return (ret);
 }
