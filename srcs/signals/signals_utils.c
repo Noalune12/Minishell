@@ -11,6 +11,7 @@ void	init_global(void)
 {
 	g_signal_received = 0;
 }
+
 int	return_global(void)
 {
 	return (g_signal_received);

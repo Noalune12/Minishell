@@ -1,7 +1,11 @@
+#include <stdlib.h>
+
+#include "libft.h"
 #include "minishell.h"
+#include "utils.h"
 #include "wildcard.h"
 
-static bool	replace_for_expanded_filename(t_token *current, char **file_names)
+static bool	replace_for_expanded_filename(t_token *current, char **file_names) // FILE DONE
 {
 	t_token	*last;
 	int		i;
@@ -40,7 +44,7 @@ static bool	expand_token_wildcard(t_token *current)
 	if (file_names == NULL)
 		return (false);
 	res = replace_for_expanded_filename(current, file_names);
-	free_file_names_array(file_names);
+	ft_free_double(file_names);
 	return (res);
 }
 

@@ -1,10 +1,9 @@
-#include <dirent.h>
+#include <stdlib.h>
 
-#include "common.h"
-#include "minishell.h"
+#include "libft.h"
 #include "wildcard.h"
 
-static void	swap_files(char **first_file, char **second_file)
+static void	swap_files(char **first_file, char **second_file) // FILE COMPLETLY DONE
 {
 	char	*tmp;
 
@@ -38,8 +37,6 @@ static bool	get_file_names_setup(t_wildcard *data, int count)
 	data->dir = opendir(CURRENT_DIR);
 	if (data->file_names == NULL || data->dir == NULL)
 	{
-		if (data->file_names == NULL)
-			ft_dprintf(STDERR_FILENO, MALLOC_FAIL);
 		if (data->file_names != NULL)
 		{
 			free(data->file_names);
@@ -91,7 +88,7 @@ char	**get_file_names(char *pattern, int count)
 		d.entry = readdir(d.dir);
 		if (d.entry == NULL)
 			break ;
-		if (should_include_file(pattern, d.entry->d_name) == true) // reprendre ici
+		if (should_include_file(pattern, d.entry->d_name) == true)
 		{
 			if (add_filename(d.file_names, d.entry->d_name, d.i++) == false)
 			{

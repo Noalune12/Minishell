@@ -1,8 +1,8 @@
 #include <stdbool.h>
 
-#include "wildcard.h"
+bool	wildcard_match(const char *pattern, const char *str);
 
-static bool	wildcard_match_end(const char *pattern, const char *str)
+static bool	wildcard_match_end(const char *pattern, const char *str) // FINE DONE
 {
 	if (*pattern == '\0')
 		return (*str == '\0');

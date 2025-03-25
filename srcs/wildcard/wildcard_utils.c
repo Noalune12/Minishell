@@ -1,11 +1,10 @@
 #include <dirent.h>
+#include <stdlib.h>
 
-#include "types.h"
-#include "ast.h"
-#include "minishell.h"
+#include "libft.h"
 #include "wildcard.h"
 
-bool	contain_wildcard(char *token)
+bool	contain_wildcard(char *token)										// FILE DONE
 {
 	bool	in_squotes;
 	bool	in_dquotes;
@@ -45,7 +44,7 @@ int	count_matches(char *pattern)
 			continue ;
 		}
 		if (wildcard_match(pattern, data.entry->d_name))
-		data.count++;
+			data.count++;
 		data.entry = readdir(data.dir);
 	}
 	if (data.dir != NULL)
@@ -73,7 +72,6 @@ bool	should_include_file(char *pattern, char *filename)
 
 bool	add_filename(char **filenames, char *name, int index)
 {
-	(void) name;
 	filenames[index] = ft_strdup(name);
 	if (filenames[index] == NULL)
 		return (false);
