@@ -70,7 +70,6 @@ override ASTSRC		:= \
 SRC	+= $(addprefix $(PARSINGDIR), $(addsuffix .c, $(PARSINGSRC)))
 
 override PARSINGSRC	:= \
-	operator_check \
 	operator_utils \
 	operators \
 	parenthesis_check \
@@ -140,7 +139,6 @@ override WILDCARDSRC	:= \
 SRC += $(addprefix $(OPTIONSDIR), $(addsuffix .c, $(OPTIONSSRC)))
 
 override OPTIONSSRC	:= \
-	options_setup \
 	print_tokens \
 	wrappers \
 
