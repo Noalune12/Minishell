@@ -39,7 +39,7 @@ static char	**update_cmd(char **cmds, char *content)
 	i = 0;
 	while (cmds[i])
 		i++;
-	new_cmds = (char **)malloc((i + 2) * sizeof(char *));
+	new_cmds = malloc((i + 2) * sizeof(char *));
 	if (new_cmds == NULL)
 	{
 		ft_free_double(cmds);

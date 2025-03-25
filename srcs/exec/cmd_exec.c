@@ -9,8 +9,8 @@ static char	**list_to_tab(t_minishell *minishell)
 	size_t	i;
 
 	temp = minishell->envp;
-	tab = (char **)malloc((ft_lstsize(temp) + 1) * sizeof(char *));
-	if (!tab)
+	tab = malloc((ft_lstsize(temp) + 1) * sizeof(char *));
+	if (tab == NULL)
 		exit (error_handling_exec(minishell, NULL));
 	i = 0;
 	while (temp)
@@ -51,7 +51,7 @@ static int	exec_cmd(t_ast *node, t_minishell *minishell)
 	if (access(node->cmd->cmds[0], X_OK) == 0)
 	{
 		node->cmd->path = ft_strdup(node->cmd->cmds[0]);
-		if (!(node->cmd->path))
+		if (node->cmd->path == NULL)
 			exit(error_handling_exec(minishell, NULL));
 		if (execve(node->cmd->path, node->cmd->cmds, env) == -1)
 			node->cmd->path = find_exec_cmd(node->cmd->cmds, minishell, env);

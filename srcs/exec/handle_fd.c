@@ -7,7 +7,7 @@ int	*ft_realloc(int *tab, int len, int nb_elem)
 
 	i = 0;
 	ret = malloc(len);
-	if (!ret)
+	if (ret == NULL)
 	{
 		if (len > 1)
 			free(tab);
@@ -30,7 +30,7 @@ int	*add_fd(t_fd_info *fd, int fd_in)
 	{
 		fd->fds = ft_realloc(fd->fds, sizeof(int) * (fd->capacity + 10),
 				fd->nb_elems);
-		if (!fd->fds)
+		if (fd->fds == NULL)
 			return (NULL);
 		fd->capacity += 10;
 	}

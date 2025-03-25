@@ -8,11 +8,11 @@ static t_cmd	*add_cmd(char *content)
 {
 	t_cmd	*new_cmd;
 
-	new_cmd = (t_cmd *)malloc(sizeof(t_cmd));
+	new_cmd = malloc(sizeof(t_cmd));
 	if (new_cmd == NULL)
 		return (NULL);
 	new_cmd->path = NULL;
-	new_cmd->cmds = (char **)malloc(2 * sizeof(char *));
+	new_cmd->cmds = malloc(2 * sizeof(char *));
 	if (new_cmd->cmds == NULL)
 	{
 		free(new_cmd);
@@ -34,7 +34,7 @@ t_ast	*create_ast_tree_node(t_node_type type, char *content,
 {
 	t_ast	*node;
 
-	node = (t_ast *)malloc(sizeof(t_ast));
+	node = malloc(sizeof(t_ast));
 	if (node == NULL)
 		return (NULL);
 	node->type = type;

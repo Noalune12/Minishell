@@ -12,7 +12,7 @@ static int	exec_left(t_ast *node, t_minishell *minishell, int pipe_fd[2])
 	}
 	exec_minishell(node->left, minishell);
 	close(pipe_fd[1]);
-	error_handling_exec(minishell, NULL); // TODO fct free all minishell ?
+	error_handling_exec(minishell, NULL);
 	exit(0);
 }
 
@@ -33,7 +33,7 @@ static int	exec_right(t_ast *node, t_minishell *minishell, int pipe_fd[2])
 		}
 		ret = exec_minishell(node->right, minishell);
 		close(pipe_fd[0]);
-		error_handling_exec(minishell, NULL); // TODO fct free all minishell ?
+		error_handling_exec(minishell, NULL);
 		exit(ret);
 	}
 	if (waitpid(minishell->pid, &ret, 0) == -1)

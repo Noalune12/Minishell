@@ -1,4 +1,3 @@
-
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -18,7 +17,7 @@ static char	*find_env_path(t_list *envp, t_minishell *minishell)
 		if (ft_strncmp(temp->content, "PATH=", 5) == 0)
 		{
 			path_env = ft_strdup(temp->content + 5);
-			if (!path_env)
+			if (path_env == NULL)
 			{
 				error_handling_exec(minishell, NULL);
 				exit (1);
@@ -38,10 +37,10 @@ static char	*join_full_path(t_minishell *minishell, t_path_cmds *path_cmds,
 	struct stat	path;
 
 	dir = ft_strjoin(path_cmds->paths[path_cmds->index], "/");
-	if (!dir)
+	if (dir == NULL)
 		exit(error_handling_cmd_path(path_cmds, NULL, env, minishell));
 	full_path = ft_strjoin(dir, cmds[0]);
-	if (!full_path)
+	if (full_path == NULL)
 		exit(error_handling_cmd_path(path_cmds, dir, env, minishell));
 	free(dir);
 	if (access(full_path, F_OK) == 0 && access(full_path, X_OK) != 0
@@ -54,7 +53,7 @@ static char	*join_full_path(t_minishell *minishell, t_path_cmds *path_cmds,
 		exit(126);
 	}
 	if (access(full_path, F_OK | X_OK) == 0 && stat(full_path, &path) == 0
-		&& !S_ISDIR(path.st_mode)) //TODO test with exec
+		&& !S_ISDIR(path.st_mode))
 		return (full_path);
 	free(full_path);
 	return (NULL);
@@ -66,7 +65,7 @@ static char	*find_full_path(t_minishell *minishell, t_path_cmds *path_cmds,
 	char	*full_path;
 
 	path_cmds->paths = ft_split(path_cmds->path_env, ':');
-	if (!path_cmds->paths)
+	if (path_cmds->paths == NULL)
 	{
 		free_tab(env, ft_lstsize(minishell->envp));
 		free(path_cmds->path_env);
@@ -104,7 +103,7 @@ char	*find_exec_cmd(char **cmds, t_minishell *minishell, char **env)
 	}
 	else
 		full_path = NULL;
-	if (!full_path)
+	if (full_path == NULL)
 		exit(free_error_cmd_path(minishell, CMD_NOT_FOUND, env, cmds[0]));
 	return (full_path);
 }

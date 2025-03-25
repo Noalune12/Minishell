@@ -29,8 +29,8 @@ static void	expand_condition(t_ast *node, t_exp_qu *exp_qu)
 
 static int	quote_condition(t_ast *node, t_exp_qu *exp_qu)
 {
-	exp_qu->final = handle_quotes_exec(node->cmd->cmds[exp_qu->i - 1]); // TODO protect
-	if (!exp_qu->final)
+	exp_qu->final = handle_quotes_exec(node->cmd->cmds[exp_qu->i - 1]);
+	if (exp_qu->final == NULL)
 		return (1);
 	if (exp_qu->final)
 	{
@@ -53,8 +53,8 @@ static int	expand_quotes_init(t_ast *node, t_exp_qu *exp_qu,
 	exp_qu->exp = 0;
 	exp_qu->quote = 0;
 	exp_qu->expanded = expand_env_vars(node->cmd->cmds[exp_qu->i],
-			minishell, &exp_qu->exp, &exp_qu->quote); // TODO protect
-	if (!exp_qu->expanded)
+			minishell, &exp_qu->exp, &exp_qu->quote);
+	if (exp_qu->expanded == NULL)
 		return (1);
 	exp_qu->temp = node->cmd->cmds[exp_qu->i];
 	expand_condition(node, exp_qu);
@@ -73,8 +73,8 @@ int	expand_quotes_exec(t_ast *node, t_minishell *minishell)
 		if (exp_qu.exp == 1 && exp_qu.quote == 0 && node->cmd->cmds[exp_qu.i])
 		{
 			exp_qu.tmp_cmds = node->cmd->cmds;
-			node->cmd->cmds = remake_cmds(node->cmd->cmds, &exp_qu.i); // TODO protect
-			if (!node->cmd->cmds)
+			node->cmd->cmds = remake_cmds(node->cmd->cmds, &exp_qu.i);
+			if (node->cmd->cmds == NULL)
 			{
 				ft_free_double(exp_qu.tmp_cmds);
 				return (1);
@@ -83,8 +83,8 @@ int	expand_quotes_exec(t_ast *node, t_minishell *minishell)
 			exp_qu.i++;
 		}
 		else if ((exp_qu.exp == 0 || (exp_qu.exp == 1 && exp_qu.quote == 1
-				&& ++exp_qu.i)) && quote_condition(node, &exp_qu) == 1)
-				return (1);
+					&& ++exp_qu.i)) && quote_condition(node, &exp_qu) == 1)
+			return (1);
 	}
 	return (0);
 }

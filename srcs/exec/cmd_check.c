@@ -7,7 +7,7 @@
 
 int	check_cmd_content(t_ast *node)
 {
-	if (!node->cmd->cmds[0][0]) //TODO find a better solution
+	if (!node->cmd->cmds[0][0])
 	{
 		ft_dprintf(STDERR_FILENO, CMD_NOT_FOUND, "");
 		return (127);

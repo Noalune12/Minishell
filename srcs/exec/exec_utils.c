@@ -9,7 +9,7 @@ char	*ft_strjoin_free_s1(char *s1, char *s2)
 	size_t	i;
 	size_t	j;
 
-	if (!s1 || !s2)
+	if (s1 == NULL || s2 == NULL)
 		return (NULL);
 	s1_len = ft_strlen(s1);
 	res = malloc(sizeof(char) * (s1_len + ft_strlen(s2) + 1));
@@ -29,7 +29,6 @@ char	*ft_strjoin_free_s1(char *s1, char *s2)
 	free(s1);
 	return (res);
 }
-
 
 int	error_handling_exec(t_minishell *minishell, char *message)
 {
