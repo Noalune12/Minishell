@@ -7,7 +7,7 @@
 
 int	check_cmd_content(t_ast *node)
 {
-	if (!node->cmd->cmds[0][0]) //TODO find a better solution
+	if (!node->cmd->cmds[0][0])
 	{
 		ft_dprintf(STDERR_FILENO, CMD_NOT_FOUND, "");
 		return (127);
@@ -37,7 +37,7 @@ int	check_cmd(t_ast *node)
 		}
 		if (path.st_mode && start_as_file(node) == 1 && !S_ISREG(path.st_mode))
 		{
-			ft_dprintf(STDERR_FILENO, "minishell: %s: ", node->cmd->cmds[0]);
+			ft_dprintf(STDERR_FILENO, SIMPLE_ERR, node->cmd->cmds[0]);
 			perror("");
 			return (127);
 		}

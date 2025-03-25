@@ -8,7 +8,7 @@ char	**update_heredoc(char **cmds, char *content)
 {
 	char	**new_cmd;
 
-	new_cmd = (char **)malloc(2 * sizeof(char *));
+	new_cmd = malloc(2 * sizeof(char *));
 	new_cmd[0] = ft_strdup(content);
 	new_cmd[1] = NULL;
 	ft_free_double(cmds);

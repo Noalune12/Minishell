@@ -8,7 +8,7 @@ static int	error_handling_heredoc(char *filename, char *str, int fd)
 {
 	if (filename)
 	{
-		ft_dprintf(STDERR_FILENO, "minishell: %s: ", filename);
+		ft_dprintf(STDERR_FILENO, SIMPLE_ERR, filename);
 		perror("");
 	}
 	if (str)
@@ -32,11 +32,11 @@ static int	get_content(int fd, char **content, char *filename)
 		if (b_read == -1)
 			return (error_handling_heredoc(filename, *content, fd));
 		buffer[b_read] = '\0';
-		if (!*content)
+		if (*content == NULL)
 			*content = ft_strndup(buffer, b_read);
 		else
 			*content = ft_strjoin_free_s1(*content, buffer);
-		if (!content)
+		if (*content == NULL)
 			return (error_handling_heredoc(NULL, NULL, fd));
 	}
 	return (0);
@@ -66,7 +66,7 @@ static int	open_and_replace(char *filename, t_minishell *minishell)
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
-		ft_dprintf(STDERR_FILENO, "minishell: %s: ", filename);
+		ft_dprintf(STDERR_FILENO, SIMPLE_ERR, filename);
 		perror("");
 		return (1);
 	}
@@ -75,7 +75,7 @@ static int	open_and_replace(char *filename, t_minishell *minishell)
 	close(fd);
 	expanded = expand_heredoc(content, minishell);
 	free(content);
-	if (!expanded)
+	if (expanded == NULL)
 		return (error_handling_heredoc(NULL, NULL, -1));
 	if (write_in_heredoc(filename, expanded) == 1)
 		return (1);
@@ -95,7 +95,7 @@ int	handle_heredocin(t_ast *node, t_minishell *minishell)
 	fd = open(node->cmd->cmds[0], O_RDONLY);
 	if (fd == -1)
 	{
-		ft_dprintf(STDERR_FILENO, "minishell: %s: ", node->cmd->cmds[0]);
+		ft_dprintf(STDERR_FILENO, SIMPLE_ERR, node->cmd->cmds[0]);
 		perror("");
 		return (1);
 	}

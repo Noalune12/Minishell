@@ -12,7 +12,7 @@ static char	**update_cmd_content(char **cmds, char **new_cmds, char *content)
 	while (cmds[i])
 	{
 		new_cmds[i] = ft_strdup(cmds[i]);
-		if (!new_cmds[i])
+		if (new_cmds[i] == NULL)
 		{
 			ft_free_double(cmds);
 			free_tab(new_cmds, i);
@@ -21,7 +21,7 @@ static char	**update_cmd_content(char **cmds, char **new_cmds, char *content)
 		i++;
 	}
 	new_cmds[i] = ft_strdup(content);
-	if (!new_cmds[i])
+	if (new_cmds[i] == NULL)
 	{
 		ft_free_double(cmds);
 		free_tab(new_cmds, i);
@@ -39,8 +39,8 @@ static char	**update_cmd(char **cmds, char *content)
 	i = 0;
 	while (cmds[i])
 		i++;
-	new_cmds = (char **)malloc((i + 2) * sizeof(char *));
-	if (!new_cmds)
+	new_cmds = malloc((i + 2) * sizeof(char *));
+	if (new_cmds == NULL)
 	{
 		ft_free_double(cmds);
 		return (NULL);
@@ -58,11 +58,11 @@ static int	create_redir(t_token **token, t_branch *branch,
 	(*token) = (*token)->next;
 	if (is_redir_node_not_heredoc(branch->token_redir->type)
 		|| (branch->token_redir->type == NODE_HEREDOC
-			&& !still_heredoc_left(*token)))
+			&& still_heredoc_left(*token) == 0))
 	{
 		branch->node_redir = create_ast_tree_node(branch->token_redir->type,
 				(*token)->content, (*token)->to_expand, branch->node_redir);
-		if (!(branch->node_redir))
+		if (branch->node_redir == NULL)
 		{
 			free_ast(branch->node);
 			free_ast(branch->node_cmd);
@@ -70,7 +70,7 @@ static int	create_redir(t_token **token, t_branch *branch,
 			return (0);
 		}
 	}
-	if (!(branch->node))
+	if (branch->node == NULL)
 		branch->node = branch->node_redir;
 	return (1);
 }
@@ -82,7 +82,7 @@ static t_ast	*create_cmd(t_token **token, t_branch *branch,
 	{
 		branch->node_cmd->cmd->cmds = update_cmd(branch->node_cmd->cmd->cmds,
 				(*token)->content);
-		if (!branch->node_cmd->cmd->cmds)
+		if (branch->node_cmd->cmd->cmds == NULL)
 		{
 			free_ast(branch->node);
 			free_ast(branch->node_cmd);
@@ -93,7 +93,7 @@ static t_ast	*create_cmd(t_token **token, t_branch *branch,
 	{
 		branch->node_cmd = create_ast_tree_node(NODE_COMMAND,
 				(*token)->content, 0, NULL);
-		if (!branch->node_cmd)
+		if (branch->node_cmd == NULL)
 		{
 			free_ast(branch->node);
 			free_ast(branch->node_cmd);
@@ -122,7 +122,7 @@ t_ast	*create_branch(t_token **token, t_ast *root, t_ast *sub_ast)
 			break ;
 		(*token) = (*token)->next;
 	}
-	if (!branch.node)
+	if (branch.node == NULL)
 		branch.node = branch.node_cmd;
 	else if (branch.node_redir)
 		branch.node_redir->left = branch.node_cmd;

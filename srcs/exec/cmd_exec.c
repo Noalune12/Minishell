@@ -9,8 +9,8 @@ static char	**list_to_tab(t_minishell *minishell)
 	size_t	i;
 
 	temp = minishell->envp;
-	tab = (char **)malloc((ft_lstsize(temp) + 1) * sizeof(char *));
-	if (!tab)
+	tab = malloc((ft_lstsize(temp) + 1) * sizeof(char *));
+	if (tab == NULL)
 		exit (error_handling_exec(minishell, NULL));
 	i = 0;
 	while (temp)
@@ -33,7 +33,7 @@ static int	check_permission(t_ast *node, t_minishell *minishell)
 	if (start_as_file(node) == 1 && access(node->cmd->cmds[0], F_OK) == 0
 		&& access(node->cmd->cmds[0], X_OK) != 0)
 	{
-		ft_dprintf(STDERR_FILENO, "minishell: %s: ", node->cmd->cmds[0]);
+		ft_dprintf(STDERR_FILENO, SIMPLE_ERR, node->cmd->cmds[0]);
 		perror("");
 		error_handling_exec(minishell, NULL);
 		return (0);
@@ -51,7 +51,7 @@ static int	exec_cmd(t_ast *node, t_minishell *minishell)
 	if (access(node->cmd->cmds[0], X_OK) == 0)
 	{
 		node->cmd->path = ft_strdup(node->cmd->cmds[0]);
-		if (!(node->cmd->path))
+		if (node->cmd->path == NULL)
 			exit(error_handling_exec(minishell, NULL));
 		if (execve(node->cmd->path, node->cmd->cmds, env) == -1)
 			node->cmd->path = find_exec_cmd(node->cmd->cmds, minishell, env);
@@ -63,7 +63,7 @@ static int	exec_cmd(t_ast *node, t_minishell *minishell)
 	if (execve(node->cmd->path, node->cmd->cmds, env) == -1)
 	{
 		free_tab(env, ft_lstsize(minishell->envp));
-		exit(error_handling_exec(minishell, "execve failed"));
+		exit(error_handling_exec(minishell, EXECVE_ERR));
 	}
 	return (1);
 }
@@ -72,20 +72,20 @@ static int	exec_in_child(t_ast *node, t_minishell *minishell, int *ret)
 {
 	minishell->pid = fork();
 	if (minishell->pid == -1)
-		return (error_handling_exec(NULL, "fork failed"));
+		return (error_handling_exec(NULL, FORK_ERR));
 	if (minishell->pid == 0)
 	{
 		handle_signal_child();
 		if (dup_fd(&minishell->fds.fd_in, STDIN_FILENO) == 0)
-			exit (error_handling_exec(minishell, "Dup2 failed"));
+			exit (error_handling_exec(minishell, DUP2_ERR));
 		if (dup_fd(&minishell->fds.fd_out, STDOUT_FILENO) == 0)
-			exit (error_handling_exec(minishell, "Dup2 failed"));
+			exit (error_handling_exec(minishell, DUP2_ERR));
 		close_fd(&minishell->fds.fd_in);
 		close_fd(&minishell->fds.fd_out);
 		exec_cmd(node, minishell);
 	}
 	if (waitpid(minishell->pid, ret, 0) == -1)
-		return (error_handling_exec(NULL, "Waitpid failed"));
+		return (error_handling_exec(NULL, WAIT_ERR));
 	return (0);
 }
 
@@ -106,7 +106,7 @@ int	handle_cmd(t_ast *node, t_minishell *minishell)
 	if (minishell->is_pipe == 0 && g_signal_received == SIGINT)
 		ft_dprintf(STDOUT_FILENO, "\n");
 	else if (minishell->is_pipe == 0 && g_signal_received == SIGQUIT)
-		ft_dprintf(STDOUT_FILENO, "Quit (core dumped)\n");
+		ft_dprintf(STDOUT_FILENO, SIGQUIT_MESSAGE);
 	minishell->is_pipe = 0;
 	if (WIFEXITED(ret))
 	{

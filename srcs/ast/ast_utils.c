@@ -3,11 +3,10 @@
 #include "types.h"
 #include "ast.h"
 #include "minishell.h"
-
 #include "ft_dprintf.h"
 #include "utils.h"
 
-void	free_ast_2(t_minishell *minishell) // TODO make free ast exec without unlink
+void	free_ast_2(t_minishell *minishell)
 {
 	if (minishell->ast_node == NULL)
 		return ;
@@ -25,7 +24,7 @@ void	free_ast_2(t_minishell *minishell) // TODO make free ast exec without unlin
 	}
 	if (minishell->ast_node != NULL)
 		free(minishell->ast_node);
-	minishell->ast_node = NULL; // rigolo
+	minishell->ast_node = NULL;
 }
 
 void	free_ast(t_ast *node)

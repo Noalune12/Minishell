@@ -61,7 +61,7 @@ int	ft_unset(char **cmds, t_minishell *minishell)
 
 	i = 0;
 	ret = 0;
-	if (!cmds[++i])
+	if (cmds[++i] == NULL)
 		return (ret);
 	while (cmds[i])
 	{

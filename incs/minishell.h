@@ -44,13 +44,8 @@ extern int	g_signal_received;
 # define NEWLINE_SYNTAX "minishell: syntax error near unexpected token `newline'\n"
 # define STR_SYNTAX "minishell: syntax error near unexpected token `%s'\n"
 # define CHAR_SYNTAX "minishell: syntax error near unexpected token `%c'\n"
-# define CMD_NOT_FOUND "minishell: %s: command not found\n"
 # define FILE_NOT_FOUND "minishell: %s: %s: No such file or directory\n"
 # define ERROR_SYNTAX_TO_MODIFY "syntax error\n" // a modifier
-# define ERROR_INFILE "minishell: %s: No such file or directory\n"
-# define SIGQUIT_MESSAGE "Quit (core dumped)\n"
-# define DOT_ERR "minishell: %s: filename argument required\n"
-# define IS_REDIR "minishell: %s: Is a directory\n"
 
 // Error builtin
 

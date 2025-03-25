@@ -33,6 +33,15 @@
 # define ERROR_INFILE "minishell: %s: No such file or directory\n"
 # define SIGQUIT_MESSAGE "Quit (core dumped)\n"
 
+/* ---------- BUILTIN ERRORS ------------------------------------------------ */
+
+// in built_in.h
+// # define EXIT_ERROR "minishell: exit: %s: numeric argument required\n"
+// # define TOO_MANY_ARGS "minishell: %s: too many arguments\n"
+// # define EXPORT_ERROR "minishell: export: `%s': not a valid identifier\n"
+// # define CD_HOME "minishell: cd: HOME not set\n"
+// # define PWD_ERROR "minishell: pwd: %s: invalid option\npwd: usage: pwd\n"
+
 /* ---------- ENV VARIABLES ------------------------------------------------- */
 
 # define PWD            "PWD"

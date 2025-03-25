@@ -15,7 +15,7 @@ char	*find_home(t_list *env)
 		return (NULL);
 	while (temp)
 	{
-		if (ft_strncmp(temp->content, "HOME=", 5) == 0)
+		if (ft_strncmp(temp->content, HOME_EQUAL, 5) == 0)
 		{
 			home = temp->content + 5;
 			break ;
@@ -49,7 +49,7 @@ static int	make_chdir(char **cmds, t_list **envp)
 {
 	char	*get_env;
 
-	get_env = ft_getenv("OLDPWD", *envp);
+	get_env = ft_getenv(OLDPWD, *envp);
 	if (get_env == NULL)
 		return (1);
 	if (ft_strcmp(cmds[1], "-") == 0)
@@ -62,7 +62,7 @@ static int	make_chdir(char **cmds, t_list **envp)
 	}
 	else if (chdir(cmds[1]) != 0)
 	{
-		ft_dprintf(STDERR_FILENO, "minishell: %s: %s: ", "cd", cmds[1]);
+		ft_dprintf(STDERR_FILENO, DOUBLE_STR_ERR, CD, cmds[1]);
 		perror("");
 		return (1);
 	}
@@ -96,7 +96,7 @@ int	ft_cd(char **cmds, t_minishell *minishell)
 	}
 	else if (cmds[2])
 	{
-		ft_dprintf(STDERR_FILENO, TOO_MANY_ARGS, "cd");
+		ft_dprintf(STDERR_FILENO, TOO_MANY_ARGS, CD);
 		return (1);
 	}
 	else
