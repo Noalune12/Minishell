@@ -5,6 +5,15 @@
 
 # include "types.h"
 
+# define AND 				"&&"
+# define APPEND				">>"
+# define CLOSE_PAR			")"
+# define HEREDOC			"<<"
+# define OPEN_PAR			"("
+# define OR					"||"
+# define PIPE				"|"
+# define REDIRIN			"<"
+# define REDIROUT			">"
 # define HEREDOC_PATH_BASE_NAME "/tmp/.heredoc_"
 # define RANDOM_NAME_LENGHT 10
 # define AUTORIZED_CHAR \
