@@ -1,59 +1,15 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-// typedef struct s_fds			t_fds;
-typedef struct s_options		t_options;
-typedef struct s_list			t_list;
-typedef struct s_ast			t_ast;
-
 extern int	g_signal_received;
 
-# include <fcntl.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <signal.h>
 # include <stdbool.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <sys/wait.h>
 # include <unistd.h>
+# include <sys/types.h>
 
-# include "expand.h"
-# include "libft.h"
 # include "options.h"
 # include "fd.h" // cannot include it otherwise --> error
-# include "types.h"
-
-# define RED		"\001\033[0;31m\002"
-# define BOLD_RED	"\001\033[1;31m\002"
-# define GREEN		"\001\033[1;32m\002"
-# define YELLOW		"\001\033[1;33m\002"
-# define BLUE		"\001\033[1;34m\002"
-# define WHITE_BOLD	"\001\033[1;37m\002"
-# define PURPLE		"\001\033[0;35m\002"
-# define CYAN		"\001\033[1;36m\002"
-# define RESET		"\001\033[0m\002"
-
-# define GREEN_ARROW "\001\033[32m\xe2\x9e\002\x9c\001\033[0m\002"
-# define RED_ARROW   "\001\033[31m\xe2\x9e\002\x9c\001\033[0m\002"
-
-
-// liste de define derreurs + dautres plus tard
-# define FILENAME_SYNTAX "syntax error: missing filename after redirection\n"
-# define NEWLINE_SYNTAX "minishell: syntax error near unexpected token `newline'\n"
-# define STR_SYNTAX "minishell: syntax error near unexpected token `%s'\n"
-# define CHAR_SYNTAX "minishell: syntax error near unexpected token `%c'\n"
-# define FILE_NOT_FOUND "minishell: %s: %s: No such file or directory\n"
-# define ERROR_SYNTAX_TO_MODIFY "syntax error\n" // a modifier
-
-// Error builtin
-
-// liste de define plutot que decrire en brut
-
-// liste de define de message derreur
-
-
-// heredoc defines
+# include "types.h" // je crois lui aussi on peut pas faire autrement
 
 typedef struct	s_token
 {
@@ -62,7 +18,6 @@ typedef struct	s_token
 	t_node_type		type;
 	struct s_token	*next;
 }	t_token;
-
 
 typedef struct s_minishell
 {
@@ -81,111 +36,22 @@ typedef struct s_minishell
 	t_fds		fds;
 }	t_minishell;
 
-
-
-
-void	minishell_main_loop(t_minishell *minishell);
-char	*read_input(t_minishell *minishell);
-
-
-
-
-
-void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
-
-void	handle_signal_main(void);
-void	handle_signal_child(void);
-
-bool	replace_token(t_list *current, t_list *new_tokens);
-
-
-
-
-
-/**
- * @brief Checks if standard input and output are attached to a TTY.
- *
- * This function verifies that both STDIN and STDOUT are associated with a
- * terminal device.
- * If either is not a TTY (for example, when the shell is executed in a
- * non-interactive context like a pipeline),
- * an error message is printed to STDERR and the program exits successfully.
- *
- * @note The function uses ft_dprintf to output the error message; consider
- * replacing it with your custom
- * stderr printing function if needed.
- */
-void	tty_check(void);
-
-/**
- * @brief Updates the PWD environment variable in the environment list.
- *
- * This function retrieves the current working directory using getcwd,
- * constructs a new string in the
- * format "PWD=<current_working_directory>", and updates the environment
- * list accordingly.
- * If the environment list is empty or if any memory allocation fails,
- * no changes are made.
- *
- * @param env Pointer to the environment list.
- */
-void	update_pwd(t_list **env);
-
-/**
- * @brief Updates the SHLVL environment variable in the environment list.
- *
- * This function searches for the "SHLVL" node in the environment list,
- * converts its current value,
- * increments it (unless it exceeds 999 or is non-positive, in which case it
- * resets to 1), and updates the node.
- * An error message is printed to STDERR if SHLVL is too high.
- *
- * @param env The environment list.
- */
-void	update_shlvl(t_list *env);
-
-/*	----------- parsing ----------------------------------------------------- */
-
-
-/* ---- ast */
-
-/* ---- exec */
-
-/* test signal */
-
-void	init_global(void);
-void	handle_signal_wait(void);
-
-char	*read_input(t_minishell *minishell);
-
-int		return_global(void);
-
-
-/* ---- REFACTOR T_TOKEN TESTS ---- */
-
-bool	add_token(t_token **tokens, char *content, t_node_type type);
-
 void	split_operators(t_minishell *minishell);
 void	tokenize_input(t_minishell *minishell);
-
-
-
-
 void	syntax_check(t_minishell *minishell);
-int		check_unbalanced_parenthesis(t_token *token, int *paren_count,
-									t_minishell *minishell);
-int	check_parentheses_tokens(t_token *current, t_token *next,
-								t_minishell *minishell);
+void	minishell_main_loop(t_minishell *minishell);
+void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
 
-void	add_manpath_to_env(t_list **env);
-
-int		add_or_replace_env(char *content, t_list **env, int len, int add);
-
-/* ---- HANDLE FD ---- */
+char	*read_input(t_minishell *minishell);
 
 
 
-t_node_type	get_operator_type(const char *content, \
-	size_t i, size_t op_len);
+
+
+
+
+
+
+
 
 #endif

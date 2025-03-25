@@ -1,5 +1,7 @@
 #include "minishell.h"
 #include "heredoc.h"
+#include "expand.h"
+#include "libft.h"
 
 static char	*ft_reallocate(char *str, char c, int len)
 {

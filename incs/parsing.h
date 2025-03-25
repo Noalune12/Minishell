@@ -4,6 +4,8 @@
 # include <stdbool.h>
 # include <stddef.h>
 
+# include "types.h"
+
 typedef struct s_token			t_token;
 typedef struct s_list			t_list;
 typedef enum e_redirect_error	t_redirect_error;
@@ -46,21 +48,6 @@ size_t	get_word_length(char *input, size_t start);
  */
 int	is_quote(char c);
 
-/**
- * @brief Tokenizes the input string into a linked list of tokens.
- *
- * This function iterates through the input string and splits it into
- * tokens separated
- * by spaces. For each token encountered, it calls extract_token() to
- * obtain the token string.
- * If extraction fails at any point, the function frees the already
- * allocated list and returns NULL.
- *
- * @param input The input string to tokenize.
- * @return A pointer to the head of a linked list containing the tokens, or NULL
- * on failure.
- */
-// t_list	*tokenize_input(char *input);
 
 /**
  * @brief Checks the input string for unclosed quotes.
@@ -116,14 +103,16 @@ void	clear_token_list(t_list *token);
 void	copy_with_quotes(char *dest, char *src, size_t *len);
 
 
+int		check_unbalanced_parenthesis(t_token *token, int *paren_count,
+	t_minishell *minishell);
+int		check_parentheses_tokens(t_token *current, t_token *next,
+t_minishell *minishell);
 
 
 
-t_redirect_error	check_operator_syntax(const char *str);
 
-t_list	*handle_redirect_error(t_list *tokens, t_redirect_error error, \
-	const char *token);
-
+t_node_type	get_operator_type(const char *content, \
+	size_t i, size_t op_len);
 
 size_t	get_operator_len(const char *str, size_t pos);
 

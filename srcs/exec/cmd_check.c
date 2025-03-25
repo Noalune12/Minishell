@@ -1,10 +1,11 @@
-#include <sys/types.h>
 #include <sys/stat.h>
+#include <stdio.h>
 
 #include "minishell.h"
 #include "ast.h"
 #include "exec.h"
 #include "ft_dprintf.h"
+#include "libft.h"
 
 int	check_cmd_content(t_ast *node)
 {

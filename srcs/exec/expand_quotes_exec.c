@@ -2,6 +2,8 @@
 #include "ast.h"
 #include "exec.h"
 #include "utils.h"
+#include "expand.h"
+#include "libft.h"
 
 static void	expand_condition(t_ast *node, t_exp_qu *exp_qu)
 {

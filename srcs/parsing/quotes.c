@@ -1,5 +1,7 @@
 #include "minishell.h"
 #include "ft_dprintf.h"
+#include "common.h"
+#include "libft.h"
 
 int is_quote(char c)
 {

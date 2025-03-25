@@ -5,6 +5,8 @@
 #include "exec.h"
 #include "utils.h"
 #include "ft_dprintf.h"
+#include "options.h"
+#include "signals.h"
 
 static void	build_and_execute(t_minishell *minishell)
 {

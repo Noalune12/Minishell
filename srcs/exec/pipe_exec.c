@@ -1,7 +1,11 @@
+#include <sys/wait.h>
+#include <signal.h>
+
 #include "minishell.h"
 #include "ast.h"
 #include "exec.h"
 #include "ft_dprintf.h"
+#include "signals.h"
 
 static int	exec_left(t_ast *node, t_minishell *minishell, int pipe_fd[2])
 {

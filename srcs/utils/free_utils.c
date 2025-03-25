@@ -3,6 +3,7 @@
 
 #include "minishell.h"
 #include "fd.h"
+#include "libft.h"
 
 void	close_and_free_fds(t_fd_info *fd)
 {

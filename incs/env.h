@@ -3,6 +3,9 @@
 
 # include "types.h"
 
+# define SHLVL_TOO_HIGH	\
+			"minishell: warning: shell level (%d) too high, resetting to 1\n"
+
 typedef struct s_shlvl
 {
 	t_list	*shlvl_node;
@@ -20,5 +23,8 @@ void	update_shlvl(t_list *env);
 void	add_manpath_to_env(t_list **env);
 
 char	*ft_getenv(char *var_name, t_list *env);
+
+int		add_or_replace_env(char *content, t_list **env, int len, int add);
+
 
 #endif

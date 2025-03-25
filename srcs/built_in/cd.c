@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include "built_in.h"
 #include "env.h"
 #include "ft_dprintf.h"

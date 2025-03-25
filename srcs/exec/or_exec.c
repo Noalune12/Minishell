@@ -1,3 +1,5 @@
+#include <signal.h>
+
 #include "minishell.h"
 #include "ast.h"
 #include "exec.h"

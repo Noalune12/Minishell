@@ -3,6 +3,7 @@
 #include "types.h"
 #include "ast.h"
 #include "minishell.h"
+#include "options.h"
 
 static void	print_spaces(int depth)
 {

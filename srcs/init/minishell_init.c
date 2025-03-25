@@ -3,6 +3,8 @@
 #include "minishell.h"
 #include "utils.h"
 #include "ft_dprintf.h"
+#include "libft.h"
+#include "options.h"
 
 void	tty_check(void)
 {

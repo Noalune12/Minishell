@@ -1,5 +1,7 @@
 #include "heredoc.h"
 #include "minishell.h"
+#include "expand.h"
+#include "libft.h"
 
 t_token	*find_last_heredoc(t_token *start, t_token **last_heredoc)
 {

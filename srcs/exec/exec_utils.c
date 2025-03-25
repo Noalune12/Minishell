@@ -5,6 +5,7 @@
 #include "utils.h"
 #include "fd.h"
 #include "ft_dprintf.h"
+#include "libft.h"
 
 char	*ft_strjoin_free_s1(char *s1, char *s2)
 {

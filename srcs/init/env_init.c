@@ -1,3 +1,4 @@
+#include "libft.h"
 #include "common.h"
 #include "env.h"
 #include "minishell.h"

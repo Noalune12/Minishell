@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "libft.h"
 
 int	*ft_realloc(int *tab, int len, int nb_elem)
 {

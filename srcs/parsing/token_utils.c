@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "libft.h"
 
 void	clear_token_list(t_list *token)
 {

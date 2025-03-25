@@ -4,6 +4,7 @@
 #include "minishell.h"
 #include "common.h"
 #include "env.h"
+#include "libft.h"
 
 void	add_manpath_to_env(t_list **env)
 {

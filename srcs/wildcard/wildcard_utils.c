@@ -1,4 +1,3 @@
-#include <dirent.h>
 #include <stdlib.h>
 
 #include "libft.h"
@@ -10,7 +9,7 @@ bool	contain_wildcard(char *token)										// FILE DONE
 	bool	in_dquotes;
 	size_t	i;
 
-	if (!token)
+	if (token == NULL)
 		return (false);
 	in_squotes = false;
 	in_dquotes = false;

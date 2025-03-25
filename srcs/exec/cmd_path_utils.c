@@ -2,6 +2,7 @@
 #include "exec.h"
 #include "utils.h"
 #include "ft_dprintf.h"
+#include "libft.h"
 
 void	free_join_full_path(t_path_cmds *path_cmds,	char *str,
 	char **env, t_minishell *minishell)

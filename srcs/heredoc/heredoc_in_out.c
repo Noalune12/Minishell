@@ -1,9 +1,13 @@
 #include <signal.h>
+#include <fcntl.h>
+#include <readline/readline.h>
 
 #include "heredoc.h"
 #include "minishell.h"
 #include "parsing.h"
 #include "ft_dprintf.h"
+#include "libft.h"
+#include "signals.h"
 
 static int	write_heredoc_line(int fd, char *line)
 {
