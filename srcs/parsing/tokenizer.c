@@ -9,7 +9,6 @@ static char	*extract_token(char *input, size_t *pos)
 	char	*final_token;
 
 	len = get_word_length(input, *pos);
-	(void) len;
 	token = malloc(sizeof(char) * (len + 1));
 	if (token == NULL)
 		return (NULL);

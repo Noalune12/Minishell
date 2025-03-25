@@ -56,10 +56,7 @@ int	handle_dollar_quoted(t_expand_data *data, char quote_char)
 static size_t	process_dollar(char *s, t_minishell *minishell, size_t *i)
 {
 	if (s[*i + 1] == '$')
-	{
-		// (*i)++;
 		return (1);
-	}
 	else if (s[*i + 1] == '?')
 		return (handle_dollar_question(minishell, i));
 	else if (s[*i + 1] && (ft_isalnum(s[*i + 1]) || s[*i + 1] == '_'))

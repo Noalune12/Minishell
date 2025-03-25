@@ -15,7 +15,7 @@ static char	*setup_exit_code(int code)
 {
 	char	*exit_code;
 	char	*temp;
-	(void) code;
+
 	exit_code = ft_itoa(code);
 	if (exit_code == NULL)
 		return (NULL);
