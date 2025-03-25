@@ -404,4 +404,5 @@ Dans l'idée on doit gérer les heredoc de la meme facon que bash mais on est li
 
 
 ## Remonté d'erreur
-- [ ] init
+- [x] wildcard
+- [x] init

@@ -51,9 +51,9 @@ void	cleanup_shell(t_minishell *minishell)
 {
 	close_and_free_fds(&minishell->fds.fd_in);
 	close_and_free_fds(&minishell->fds.fd_out);
-	if (minishell->envp)
+	if (minishell->envp != NULL)
 		free_list(minishell->envp);
-	if (minishell->options)
+	if (minishell->options != NULL)
 		free(minishell->options);
 	minishell->envp = NULL;
 	minishell->token = NULL;
