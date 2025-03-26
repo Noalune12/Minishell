@@ -10,7 +10,7 @@ DEPS		:= $(OBJS:.o=.d)
 # ********** FLAGS AND COMPILATION FLAGS ************************************* #
 
 CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror -g3 # ENLEVER G3
+CFLAGS		:= -Wall -Wextra -Werror
 CPPFLAGS	:= -MMD -MP -I incs/ -I libft/incs/
 RLFLAGS		:= -lreadline
 
@@ -22,8 +22,6 @@ DIR_DUP		= mkdir -p $(BUILD_DIR)
 .DEFAULT_GOAL	:= all
 
 # ********** DEBUG *********************************************************** #
-
-# en bloc ici pour l'instant, on ferra peut etre des modes de compilations plus tard je sais pas comment faire pour l'instant
 
 VALGRIND_SUPPRESS_FILE := $(abspath .valgrind_suppress.txt)
 
@@ -39,23 +37,31 @@ VALGRIND_FLAGS := valgrind \
 	--track-fds=yes \
 	--show-leak-kinds=all \
 
-# ********** RULES *********************************************************** #
-
--include $(DEPS)
+# ********** COUNT FILES ***************************************************** #
 
 NEED_REBUILD_SRC := $(shell find $(SRCSDIR) -name "*.c" -newer $(NAME) 2>/dev/null | wc -l)
 NEWER_HEADERS := $(shell find incs/ libft/incs/ -name "*.h" -newer $(NAME) 2>/dev/null | wc -l)
 EXECUTABLE_EXISTS := $(shell [ -f $(NAME) ] && echo 1 || echo 0)
 
-ifeq ($(EXECUTABLE_EXISTS),0)
-    NEED_REBUILD := $(words $(SRCS))
+RE_TARGET := $(filter re,$(MAKECMDGOALS))
+
+ifneq ($(RE_TARGET),)
+	NEED_REBUILD := $(words $(SRCS))
 else
-    ifeq ($(NEWER_HEADERS),0)
-        NEED_REBUILD := $(NEED_REBUILD_SRC)
-    else
-        NEED_REBUILD := $(words $(SRCS))
-    endif
+	ifeq ($(EXECUTABLE_EXISTS),0)
+		NEED_REBUILD := $(words $(SRCS))
+	else
+		ifeq ($(NEWER_HEADERS),0)
+			NEED_REBUILD := $(NEED_REBUILD_SRC)
+		else
+			NEED_REBUILD := $(words $(SRCS))
+		endif
+	endif
 endif
+
+# ********** RULES *********************************************************** #
+
+-include $(DEPS)
 
 .PHONY: init
 init:
@@ -68,9 +74,7 @@ all: init $(NAME)
 
 $(NAME): libft/libft.a Makefile $(OBJS) $(MAN_PAGE)
 	@$(CC) $(CFLAGS) $(CPPFLAGS) -o $(NAME) $(OBJS) -L libft -lft $(RLFLAGS)
-	@echo "\n$(GREEN_BOLD)✓ $(NAME) is ready$(RESETC)\n"
-
-# on peut rajouter tes petit emojis si tu veux 💫✨💫 🧹🧹🧹
+	@echo "\n$(GREEN_BOLD)✓ $(NAME) is ready ✨$(RESETC)\n"
 
 libft/libft.a: FORCE
 	@$(MAKE) -C libft
@@ -110,13 +114,13 @@ valgrindenv: init $(VALGRIND_SUPPRESS_FILE) $(NAME)
 
 .PHONY: clean
 clean:
-	@$(MAKE) clean -C libft/
+	$(MAKE) clean -C libft/
 	@$(RM) $(OBJS) $(DEPS) $(VALGRIND_SUPPRESS_FILE)
 	@echo "$(RED_BOLD)[Cleaning]$(RESETC)"
 
 .PHONY: fclean
 fclean: clean
-	@$(MAKE) fclean -C libft/
+	$(MAKE) fclean -C libft/
 	@$(RM) $(RMDIR) $(NAME) $(BUILD_DIR)
 	@$(RM) $(RMDIR) $(MAN_BASE_DIR)
 	@echo "$(RED_BOLD)✓ $(NAME) is fully cleaned!$(RESETC)"
@@ -131,8 +135,8 @@ FORCE:
 
 # ********** COLORS AND BACKGROUND COLORS ************************************ #
 
-RESETC				:=	\033[0m
-ERASE				:=	\033[2K\r
+RESETC				:= \033[0m
+ERASE				:= \033[2K\r
 
 GREEN_BOLD			:= \033[1;32m
 RED_BOLD			:= \033[1;31m
