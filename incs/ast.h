@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:12:40 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:12:42 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 13:51:50 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define AST_H
 
 # include <stdbool.h>
-# include <stdlib.h>
 
 # include "types.h"
 
@@ -24,8 +23,8 @@ typedef enum e_node_type		t_node_type;
 
 typedef struct s_cmd
 {
-	char	*path;
 	char	**cmds;
+	char	*path;
 	bool	to_expand;
 }	t_cmd;
 
@@ -45,15 +44,12 @@ typedef struct s_branch
 	t_ast	*node;
 }	t_branch;
 
-void	build_ast(t_minishell *ms);
-void	free_ast_2(t_minishell *minishell);
+void	build_ast(t_minishell *minishell);
+void	ast_free_unlink(t_minishell *minishell);
 void	free_ast(t_ast *node);
-void	free_tab(char **tab, int i);
-void	print_ast(t_minishell *ms, t_ast *node, int depth);
+void	print_ast(t_minishell *minishell, t_ast *node, int depth);
 void	print_cmd_node(t_ast *node, char *prefix);
 void	print_redirect_node(t_ast *node, char *symbol);
-
-char	**update_heredoc(char **cmds, char *content);
 
 int		is_operator_node(t_node_type type);
 int		is_redir_node_not_heredoc(t_node_type type);

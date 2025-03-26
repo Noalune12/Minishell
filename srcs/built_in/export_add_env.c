@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   export_add_env.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:40 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:20:41 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 12:41:53 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
-#include "common.h"
 #include "env.h"
-#include "ft_dprintf.h"
 #include "libft.h"
 
 int	find_env_var_node(char *var, t_list **env)
@@ -22,6 +20,7 @@ int	find_env_var_node(char *var, t_list **env)
 	t_list	*temp;
 
 	temp = *env;
+	env_var = NULL;
 	while (temp != NULL)
 	{
 		env_var = ft_strndup(temp->content, ft_strnlen(temp->content, '='));
@@ -48,6 +47,7 @@ static int	add_or_replace_condition(char *content, t_list **env,
 {
 	char	*temp_content;
 
+	temp_content = NULL;
 	if (temp && add)
 	{
 		temp_content = temp->content;

@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ast_print_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:11 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:20:13 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 12:22:12 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 
 #include "ast.h"
-#include "types.h"
 
 static void	print_cmd_value(char *cmd)
 {
@@ -21,17 +20,6 @@ static void	print_cmd_value(char *cmd)
 		printf("%s +", cmd);
 	else
 		printf("null +");
-}
-
-void	print_cmd_node(t_ast *node, char *prefix)
-{
-	int	i;
-
-	i = -1;
-	printf("%s: ", prefix);
-	while (node->cmd->cmds[++i])
-		print_cmd_value(node->cmd->cmds[i]);
-	printf("\n");
 }
 
 static void	print_redirect_value(char *symbol, char *cmd)
@@ -48,6 +36,17 @@ static void	print_single_redirect(char *symbol, char *cmd)
 		printf("%s:%s\n", symbol, cmd);
 	else
 		printf("%s:null\n", symbol);
+}
+
+void	print_cmd_node(t_ast *node, char *prefix)
+{
+	int	i;
+
+	i = -1;
+	printf("%s: ", prefix);
+	while (node->cmd->cmds[++i])
+		print_cmd_value(node->cmd->cmds[i]);
+	printf("\n");
 }
 
 void	print_redirect_node(t_ast *node, char *symbol)

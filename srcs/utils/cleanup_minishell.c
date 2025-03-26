@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:14 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 09:21:15 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:25:09 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include "ast.h"
 #include "env.h"
 #include "minishell.h"
-#include "types.h"
 
 static void	close_free_and_reinit_fds(t_fd_info *fd)
 {
@@ -39,7 +38,7 @@ void	cleanup_loop(t_minishell *minishell)
 {
 	free(minishell->input);
 	if (minishell->ast_node)
-		free_ast_2(minishell);
+		ast_free_unlink(minishell);
 	if (minishell->fd_in)
 		close(minishell->fd_in);
 	if (minishell->fd_out)

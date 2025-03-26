@@ -6,30 +6,12 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:28 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 09:21:29 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:38:34 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "minishell.h"
-
-void	clear_token_list(t_list *token)
-{
-	t_list	*current;
-	t_list	*next;
-
-	if (!token)
-		return ;
-	current = token;
-	while (current)
-	{
-		next = current->next;
-		if (current->content)
-			free(current->content);
-		free(current);
-		current = next;
-	}
-}
+#include "types.h"
 
 t_node_type	get_operator_type(const char *content, \
 	size_t i, size_t op_len)

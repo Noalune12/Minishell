@@ -6,7 +6,7 @@
 /*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:22:17 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:22:18 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 13:48:27 by lbuisson         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,6 @@ static size_t	handle_dollar_var(char *s, t_minishell *minishell, size_t *i)
 	return (len);
 }
 
-int	handle_dollar_quoted(t_expand_data *data, char quote_char)
-{
-	(data->i) += 2;
-	while (data->str[data->i] && data->str[data->i] != quote_char)
-		data->expanded[data->j++] = data->str[data->i++];
-	if (data->str[data->i] == quote_char)
-		(data->i)++;
-	(data->i)--;
-	return (1);
-}
-
 static size_t	process_dollar(char *s, t_minishell *minishell, size_t *i)
 {
 	if (s[*i + 1] == '$')
@@ -71,6 +60,17 @@ static size_t	process_dollar(char *s, t_minishell *minishell, size_t *i)
 		return (handle_dollar_question(minishell, i));
 	else if (s[*i + 1] && (ft_isalnum(s[*i + 1]) || s[*i + 1] == '_'))
 		return (handle_dollar_var(s, minishell, i));
+	return (1);
+}
+
+int	handle_dollar_quoted(t_expand_data *data, char quote_char)
+{
+	(data->i) += 2;
+	while (data->str[data->i] && data->str[data->i] != quote_char)
+		data->expanded[data->j++] = data->str[data->i++];
+	if (data->str[data->i] == quote_char)
+		(data->i)++;
+	(data->i)--;
 	return (1);
 }
 

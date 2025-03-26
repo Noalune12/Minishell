@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_update_env.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:31 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:20:32 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 12:30:45 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "env.h"
 #include "libft.h"
 
-t_list	*find_info_env(t_list **envp, char *content, int equal)
+static t_list	*find_info_env(t_list **envp, char *content, int equal)
 {
 	t_list	*searched;
 
@@ -44,6 +44,7 @@ static int	update_cd_oldpwd(t_list **envp, t_list *env_oldpwd, t_list *env_pwd)
 {
 	char	*temp;
 
+	temp = NULL;
 	if (env_oldpwd && env_pwd)
 	{
 		temp = ft_strjoin(OLDPWD_EQUAL, env_pwd->content + 4);

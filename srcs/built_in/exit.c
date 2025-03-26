@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:38 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:20:39 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 12:39:14 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "limits.h"
 #include "minishell.h"
 
-int	check_arg_exit(char *str)
+static int	check_arg_exit(char *str)
 {
 	int	i;
 
@@ -53,11 +53,11 @@ static void	skip_whitespace_sign(char *str, int *sign, int *i)
 	}
 }
 
-int	exit_return(char *str)
+static int	exit_return(char *str)
 {
+	unsigned long long	nb;
 	int					sign;
 	int					i;
-	unsigned long long	nb;
 
 	sign = 1;
 	i = 0;

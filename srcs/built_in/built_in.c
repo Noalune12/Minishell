@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:23 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:20:27 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 12:27:30 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <unistd.h>
 
 #include "ast.h"
 #include "built_in.h"
@@ -44,7 +45,6 @@ static int	ft_builtin(t_ast *node, t_minishell *minishell)
 	static char			*builtin_name[] = {PWD_BI, CD, ENV, UNSET, EXPORT,
 		ECHO, EXIT, OPTIONS_BI, PTREE_BI, PTOKENS_BI};
 
-	ret = 0;
 	i = 0;
 	while (i < 10)
 	{

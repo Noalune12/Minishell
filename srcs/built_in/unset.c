@@ -6,12 +6,10 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:56 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:26:42 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 12:53:16 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "built_in.h"
-#include "ft_dprintf.h"
 #include "libft.h"
 #include "minishell.h"
 

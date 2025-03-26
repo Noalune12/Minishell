@@ -6,14 +6,16 @@
 /*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:46 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:21:48 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 13:30:51 by lbuisson         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "minishell.h"
+#include <stdlib.h>
+#include <unistd.h>
 
-int	*ft_realloc(int *tab, int len, int nb_elem)
+#include "fd.h"
+
+static int	*ft_realloc(int *tab, int len, int nb_elem)
 {
 	int	*ret;
 	int	i;

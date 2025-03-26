@@ -6,14 +6,12 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:12 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 09:21:13 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:26:19 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include <unistd.h>
 
-#include "fd.h"
 #include "libft.h"
 #include "minishell.h"
 

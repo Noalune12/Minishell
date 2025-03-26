@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:22:14 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 09:26:10 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:03:39 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ static char	*setup_exit_code(int code)
 
 char	*read_input(t_minishell *minishell)
 {
+	char	*exit_code;
 	char	*input;
 	char	*prompt;
-	char	*exit_code;
 	int		code;
 
 	code = minishell->exit_status;

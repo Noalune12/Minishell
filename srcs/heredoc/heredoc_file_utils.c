@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_file_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:22:32 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 09:22:33 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:41:37 by lbuisson         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
+#include <unistd.h>
 
 #include "heredoc.h"
 #include "libft.h"
-#include "minishell.h"
 
 static void	format_file_name(char *file_name, int fd)
 {

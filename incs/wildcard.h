@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:19:13 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:19:14 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 11:34:54 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 # include <dirent.h>
 # include <stdbool.h>
 
-# define CURRENT_DIR	"."
-
 typedef struct s_minishell	t_minishell;
 typedef struct s_token		t_token;
+
+# define CURRENT_DIR	"."
 
 typedef struct s_wildcard
 {

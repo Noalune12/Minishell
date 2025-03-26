@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_check.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:29 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:21:30 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 13:04:58 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,8 @@
 #include "exec.h"
 #include "ft_dprintf.h"
 #include "libft.h"
-#include "minishell.h"
 
-int	check_cmd_content(t_ast *node)
+static int	check_cmd_content(t_ast *node)
 {
 	if (!node->cmd->cmds[0][0])
 	{

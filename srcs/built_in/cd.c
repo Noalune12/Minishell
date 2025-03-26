@@ -6,19 +6,19 @@
 /*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:33 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:20:35 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 13:57:04 by lbuisson         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 
 #include "built_in.h"
-#include "env.h"
+#include "expand.h"
 #include "ft_dprintf.h"
 #include "libft.h"
 #include "minishell.h"
 
-char	*find_home(t_list *env)
+static char	*find_home(t_list *env)
 {
 	t_list	*temp;
 	char	*home;
@@ -63,6 +63,7 @@ static int	make_chdir(char **cmds, t_list **envp)
 {
 	char	*get_env;
 
+	get_env = NULL;
 	if (ft_strcmp(cmds[1], "-") == 0)
 	{
 		get_env = ft_getenv(OLDPWD, *envp);

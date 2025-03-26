@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:22:17 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 09:25:55 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:02:04 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 void	tty_check(void)
 {
-	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
+	if (isatty(STDIN_FILENO) == 0 || isatty(STDOUT_FILENO) == 0)
 	{
 		ft_dprintf(STDERR_FILENO, NOT_A_TTY);
 		exit(EXIT_FAILURE);
@@ -53,7 +53,7 @@ static bool	init_fd_info(t_fd_info *fd)
 void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp)
 {
 	(void) ac;
-	(void) av;
+
 	tty_check();
 	ft_memset(minishell, 0, sizeof(t_minishell));
 	minishell->exec = av[0];

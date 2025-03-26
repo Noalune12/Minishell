@@ -3,20 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:17 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:20:19 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 12:24:54 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 #include "ft_dprintf.h"
 #include "minishell.h"
-#include "types.h"
 #include "utils.h"
 
-void	free_ast_2(t_minishell *minishell)
+void	ast_free_unlink(t_minishell *minishell)
 {
 	if (minishell->ast_node == NULL)
 		return ;

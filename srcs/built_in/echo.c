@@ -6,17 +6,16 @@
 /*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:36 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:20:37 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 14:00:59 by lbuisson         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 
-#include "built_in.h"
 #include "ft_dprintf.h"
 #include "minishell.h"
 
-static inline int	is_no_nl(char *str)
+static int	is_no_nl(char *str)
 {
 	int	i;
 
@@ -74,7 +73,7 @@ int	ft_echo(char **cmds, t_minishell *minishell)
 		no_nl = 1;
 		i++;
 	}
-	if (!cmds[i])
+	if (cmds[i] == NULL)
 		return (0);
 	ft_print_echo(cmds, i, no_nl);
 	return (0);

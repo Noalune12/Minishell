@@ -3,18 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ast_node_creation.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:09 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:20:10 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 12:19:31 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-
 #include "ast.h"
 #include "libft.h"
-#include "types.h"
 
 static t_cmd	*add_cmd(char *content)
 {

@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:25 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 09:21:26 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:39:23 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 
 static char	*extract_token(char *input, size_t *pos)
 {
-	size_t	len;
-	char	*token;
 	char	*final_token;
+	char	*token;
+	size_t	len;
 
 	len = get_word_length(input, *pos);
 	token = malloc(sizeof(char) * (len + 1));

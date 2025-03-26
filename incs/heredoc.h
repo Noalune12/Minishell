@@ -6,7 +6,7 @@
 /*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:15:58 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:15:59 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 13:40:54 by lbuisson         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 
 # include <stdbool.h>
 
-# include "types.h"
+typedef struct s_token		t_token;
+typedef struct s_minishell	t_minishell;
+
+extern int					g_signal_received;
 
 # define AND 				"&&"
 # define APPEND				">>"
@@ -37,8 +40,6 @@
 # define HEREDOC_ERROR_MESSAGE \
 	"minishell: warning: here-document delimited by end-of-file (wanted `%s')\n"
 
-extern int	g_signal_received;
-
 typedef struct s_heredoc
 {
 	char	*line;
@@ -52,7 +53,6 @@ void	handle_regular_heredoc(t_token *current);
 
 char	*create_temp_file(void);
 char	*handle_heredoc(char *delimiter);
-char	*handle_quotes_exec(char *input);
 
 bool	check_expand(char *delimiter);
 

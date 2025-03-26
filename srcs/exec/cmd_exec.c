@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:31 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:21:33 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 13:14:06 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 
 #include "ast.h"
 #include "exec.h"
-#include "fd.h"
 #include "ft_dprintf.h"
 #include "libft.h"
 #include "minishell.h"

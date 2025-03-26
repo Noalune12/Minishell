@@ -6,7 +6,7 @@
 /*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:22:26 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:22:27 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 13:54:59 by lbuisson         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft.h"
 #include "minishell.h"
 
-int	handle_variable_expansion(t_expand_data *data)
+static int	handle_variable_expansion(t_expand_data *data)
 {
 	if (data->str[data->i] == '$' && data->str[data->i + 1]
 		&& (ft_isalnum(data->str[data->i + 1]) \
@@ -36,7 +36,7 @@ int	handle_variable_expansion(t_expand_data *data)
 	return (1);
 }
 
-int	process_character(t_expand_data *data) // issues ?
+int	process_character(t_expand_data *data)
 {
 	if (data->str[data->i] == '$' && data->str[data->i + 1] == '"' \
 									&& !data->in_squotes && !data->in_dquotes)

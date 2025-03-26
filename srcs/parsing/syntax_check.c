@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:30 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 09:21:31 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:37:32 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	check_last_token(t_token *token, t_minishell *minishell)
 }
 
 static int	check_consecutive_operators(t_token *current, t_token *next,
-									t_minishell *minishell)
+														t_minishell *minishell)
 {
 	if ((current->type == NODE_PIPE || current->type == NODE_OR \
 		|| current->type == NODE_AND || current->type == NODE_OPEN_PAR)
@@ -66,7 +66,7 @@ static int	check_consecutive_operators(t_token *current, t_token *next,
 }
 
 static int	check_token_sequence(t_token *current, int *paren_count,
-							t_minishell *minishell)
+														t_minishell *minishell)
 {
 	t_token	*next;
 
@@ -90,8 +90,8 @@ static int	check_token_sequence(t_token *current, int *paren_count,
 
 void	syntax_check(t_minishell *minishell)
 {
-	t_token	*current;
 	int		paren_count;
+	t_token	*current;
 
 	current = minishell->token;
 	if (current == NULL || minishell->exec_status == false)

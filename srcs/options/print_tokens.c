@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:41 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 09:21:42 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:48:24 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	print_tokens(t_minishell *minishell)
 		current = current->next;
 		i++;
 	}
+	if (minishell->options->display_ast == true)
+		printf("\n");
 }
 
 int	update_ptokens_wrapper(char **cmds, t_minishell *minishell)

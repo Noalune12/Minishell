@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ast_cmd_redir.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:02 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:20:03 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 13:17:42 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 #include "libft.h"
+#include "exec.h"
 #include "minishell.h"
-#include "types.h"
 #include "utils.h"
 
 static char	**update_cmd_content(char **cmds, char **new_cmds, char *content)

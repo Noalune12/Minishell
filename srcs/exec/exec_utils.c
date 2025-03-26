@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:39 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:21:40 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 13:16:24 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 #include "built_in.h"
 #include "env.h"
-#include "fd.h"
 #include "ft_dprintf.h"
 #include "libft.h"
 #include "minishell.h"

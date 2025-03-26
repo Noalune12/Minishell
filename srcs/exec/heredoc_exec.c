@@ -6,7 +6,7 @@
 /*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:49 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:21:51 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 13:32:46 by lbuisson         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 #include "ft_dprintf.h"
 #include "libft.h"
 #include "minishell.h"
-
-#define READ_LEN 1000
 
 static int	error_handling_heredoc(char *filename, char *str, int fd)
 {

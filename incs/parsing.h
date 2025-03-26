@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:16:56 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:17:04 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 13:38:29 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 
 # include "types.h"
 
-typedef enum e_redirect_error	t_redirect_error;
 typedef struct s_list			t_list;
 typedef struct s_token			t_token;
+typedef enum e_redirect_error	t_redirect_error;
 
 typedef struct s_tokenizer
 {
@@ -31,7 +31,6 @@ typedef struct s_tokenizer
 	char	*str;
 }	t_tokenizer;
 
-void		clear_token_list(t_list *token);
 void		copy_with_quotes(char *dest, char *src, size_t *len);
 void		handle_quotes(char c, bool *in_quotes, char *quote_type);
 
