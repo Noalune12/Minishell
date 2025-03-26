@@ -6,13 +6,14 @@
 /*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:14:40 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:17:41 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 11:12:26 by lbuisson         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXEC_H
 # define EXEC_H
 
+# define AMBIGUOUS_ERR "minishell: %s: ambiguous redirect\n"
 # define CMD_NOT_FOUND "minishell: %s: command not found\n"
 # define DOT_ERR "minishell: %s: filename argument required\n"
 # define DUP_ERR "Dup failed"
@@ -33,22 +34,23 @@ typedef int					(*t_handler)(t_ast *node, t_minishell *minishell);
 
 typedef struct s_path_cmds
 {
-	char	*path;
 	char	**paths;
+	char	*path;
 	char	*path_env;
 	int		index;
 }	t_path_cmds;
 
 typedef struct s_exp_qu
 {
-	char	*expanded;
-	char	*temp;
-	char	*final;
 	char	**tmp_cmds;
+	char	*expanded;
+	char	*final;
+	char	*temp;
 	int		exp;
-	int		quote;
+	int		export;
 	int		i;
 	int		j;
+	int		quote;
 }	t_exp_qu;
 
 void	free_tab(char **tab, int i);
