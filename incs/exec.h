@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:14:40 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 11:23:52 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:11:33 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ char	*find_exec_cmd(char **cmds, t_minishell *minishell, char **env);
 char	*ft_strjoin_free_s1(char *s1, char *s2);
 char	*handle_quotes_exec(char *input);
 
-int		check_cmd_content(t_ast *node);
 int		check_cmd(t_ast *node);
 int		error_handling_exec(t_minishell *minishell, char *message);
 int		exec_minishell(t_ast *node, t_minishell *minishell);

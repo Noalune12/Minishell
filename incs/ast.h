@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:12:40 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 12:24:48 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:18:01 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ typedef struct s_branch
 void	build_ast(t_minishell *minishell);
 void	ast_free_unlink(t_minishell *minishell);
 void	free_ast(t_ast *node);
-void	free_tab(char **tab, int i);
 void	print_ast(t_minishell *ms, t_ast *node, int depth);
 void	print_cmd_node(t_ast *node, char *prefix);
 void	print_redirect_node(t_ast *node, char *symbol);

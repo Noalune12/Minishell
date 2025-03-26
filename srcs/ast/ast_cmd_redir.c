@@ -6,12 +6,13 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:02 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 12:14:52 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:17:42 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 #include "libft.h"
+#include "exec.h"
 #include "minishell.h"
 #include "utils.h"
 
