@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   patterns.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:21:02 by gueberso          #+#    #+#             */
+/*   Updated: 2025/03/26 09:21:03 by gueberso         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdbool.h>
 
-#include "wildcard.h"
+bool	wildcard_match(const char *pattern, const char *str);
 
 static bool	wildcard_match_end(const char *pattern, const char *str)
 {

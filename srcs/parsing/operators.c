@@ -1,5 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   operators.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:21:36 by gueberso          #+#    #+#             */
+/*   Updated: 2025/03/26 09:21:37 by gueberso         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
 #include "minishell.h"
 #include "parsing.h"
+#include "utils.h"
 
 static bool	handle_first_part(t_token **result, const char *content,
 							size_t *i, size_t *start)

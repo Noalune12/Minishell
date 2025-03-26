@@ -1,8 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc_in_out.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:22:30 by gueberso          #+#    #+#             */
+/*   Updated: 2025/03/26 09:22:31 by gueberso         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <fcntl.h>
+#include <readline/readline.h>
 #include <signal.h>
 
+#include "ft_dprintf.h"
 #include "heredoc.h"
+#include "libft.h"
 #include "minishell.h"
 #include "parsing.h"
+#include "signals.h"
 
 static int	write_heredoc_line(int fd, char *line)
 {
@@ -28,7 +45,7 @@ static void	write_heredoc_loop(t_heredoc_utils *data, char *delimiter)
 		{
 			rl_replace_line("", 0);
 			rl_done = 1;
-			print_redirect_error(REDIR_HEREDOC_EOF, delimiter);
+			ft_dprintf(STDERR_FILENO, HEREDOC_ERROR_MESSAGE, delimiter);
 			break ;
 		}
 		if (ft_strcmp(data->line, delimiter) == 0)

@@ -1,4 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   syntax_check.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:21:30 by gueberso          #+#    #+#             */
+/*   Updated: 2025/03/26 09:21:31 by gueberso         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "common.h"
+#include "ft_dprintf.h"
 #include "minishell.h"
+#include "parsing.h"
 
 static int	check_first_token(t_token *token, t_minishell *minishell)
 {

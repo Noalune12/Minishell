@@ -1,5 +1,19 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quotes_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:22:03 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:22:05 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "expand.h"
 #include "heredoc.h"
+#include "libft.h"
+#include "minishell.h"
 
 static char	*ft_reallocate(char *str, char c, int len)
 {

@@ -1,7 +1,17 @@
-#include <stdlib.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ast_add.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:19:49 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:19:51 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "types.h"
 #include "ast.h"
+#include "types.h"
 
 t_ast	*add_up(t_ast *root, t_ast *node)
 {
@@ -14,7 +24,7 @@ t_ast	*add_to_rightmost(t_ast *root, t_ast *node)
 	t_ast	*temp;
 
 	temp = root;
-	if (!root)
+	if (root == NULL)
 		return (node);
 	while (temp->right)
 		temp = temp->right;
@@ -27,7 +37,7 @@ t_ast	*add_to_left(t_ast *root, t_ast *node)
 	t_ast	*temp;
 
 	temp = root;
-	if (!root)
+	if (root == NULL)
 		return (node);
 	while (temp->left)
 		temp = temp->left;
@@ -35,7 +45,7 @@ t_ast	*add_to_left(t_ast *root, t_ast *node)
 	return (root);
 }
 
-t_ast	*add_down_right(t_ast *root, t_ast *node) //or up if needed
+t_ast	*add_to_right_top_or_insert(t_ast *root, t_ast *node)
 {
 	t_ast	*temp;
 
@@ -57,9 +67,9 @@ t_ast	*add_down_right(t_ast *root, t_ast *node) //or up if needed
 
 t_ast	*add_to_ast(t_ast *root, t_ast *node)
 {
-	if (!node)
+	if (node == NULL)
 		return (NULL);
-	if (!root)
+	if (root == NULL)
 		return (node);
 	if (root->type == NODE_COMMAND || is_redir_node(root->type))
 		return (add_up(root, node));
@@ -67,7 +77,7 @@ t_ast	*add_to_ast(t_ast *root, t_ast *node)
 	{
 		if (node->type == NODE_AND || node->type == NODE_OR)
 			return (add_up(root, node));
-		return (add_down_right(root, node));
+		return (add_to_right_top_or_insert(root, node));
 	}
 	return (root);
 }

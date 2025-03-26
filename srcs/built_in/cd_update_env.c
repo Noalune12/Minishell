@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd_update_env.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:20:31 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:20:32 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "built_in.h"
 #include "env.h"
 #include "libft.h"
@@ -34,14 +46,14 @@ static int	update_cd_oldpwd(t_list **envp, t_list *env_oldpwd, t_list *env_pwd)
 
 	if (env_oldpwd && env_pwd)
 	{
-		temp = ft_strjoin("OLDPWD=", env_pwd->content + 4);
+		temp = ft_strjoin(OLDPWD_EQUAL, env_pwd->content + 4);
 		if (temp == NULL)
 			return (1);
 		swap_strs(&env_oldpwd->content, &temp);
 	}
 	else if (env_oldpwd == NULL && env_pwd)
 	{
-		temp = ft_strjoin("OLDPWD=", env_pwd->content + 4);
+		temp = ft_strjoin(OLDPWD_EQUAL, env_pwd->content + 4);
 		if (temp == NULL)
 			return (1);
 		if (add_node(envp, temp) == NULL)
@@ -51,7 +63,7 @@ static int	update_cd_oldpwd(t_list **envp, t_list *env_oldpwd, t_list *env_pwd)
 		}
 		free(temp);
 	}
-	else if (remove_node(envp, "OLDPWD") == 1)
+	else if (remove_node(envp, OLDPWD) == 1)
 		return (1);
 	return (0);
 }
@@ -60,7 +72,7 @@ static int	update_cd_pwd(t_list **envp, t_list *env_pwd, char *path)
 {
 	char	*temp;
 
-	temp = ft_strjoin("PWD=", path);
+	temp = ft_strjoin(PWD_EQUAL, path);
 	if (temp == NULL)
 		return (1);
 	if (env_pwd)
@@ -82,12 +94,12 @@ int	update_cd_env(t_list **envp, char *path, int to_home)
 	t_list	*env_oldpwd;
 	t_list	*env_pwd;
 
-	env_oldpwd = find_info_env(envp, "OLDPWD=", 1);
+	env_oldpwd = find_info_env(envp, OLDPWD_EQUAL, 1);
 	if (env_oldpwd == NULL)
-		env_oldpwd = find_info_env(envp, "OLDPWD", 0);
-	env_pwd = find_info_env(envp, "PWD=", 1);
+		env_oldpwd = find_info_env(envp, OLDPWD_EQUAL, 0);
+	env_pwd = find_info_env(envp, PWD_EQUAL, 1);
 	if (env_pwd == NULL)
-		env_pwd = find_info_env(envp, "PWD", 0);
+		env_pwd = find_info_env(envp, PWD, 0);
 	if (update_cd_oldpwd(envp, env_oldpwd, env_pwd) == 1)
 	{
 		if (to_home == 0)

@@ -1,6 +1,18 @@
-#include "options.h"
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   wrappers.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:21:44 by gueberso          #+#    #+#             */
+/*   Updated: 2025/03/26 09:21:45 by gueberso         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ast.h"
+#include "minishell.h"
+#include "options.h"
 
 void	ast_wrapper(t_minishell *minishell)
 {

@@ -1,4 +1,14 @@
-#include <stdlib.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_calc_len.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:22:17 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:22:18 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "expand.h"
 #include "libft.h"
@@ -56,10 +66,7 @@ int	handle_dollar_quoted(t_expand_data *data, char quote_char)
 static size_t	process_dollar(char *s, t_minishell *minishell, size_t *i)
 {
 	if (s[*i + 1] == '$')
-	{
-		// (*i)++;
 		return (1);
-	}
 	else if (s[*i + 1] == '?')
 		return (handle_dollar_question(minishell, i));
 	else if (s[*i + 1] && (ft_isalnum(s[*i + 1]) || s[*i + 1] == '_'))

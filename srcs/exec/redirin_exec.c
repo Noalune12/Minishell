@@ -1,6 +1,22 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirin_exec.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:22:08 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:22:09 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <fcntl.h>
+#include <stdio.h>
+
 #include "ast.h"
 #include "exec.h"
+#include "ft_dprintf.h"
+#include "minishell.h"
 
 int	handle_redirin(t_ast *node, t_minishell *minishell)
 {
@@ -10,7 +26,7 @@ int	handle_redirin(t_ast *node, t_minishell *minishell)
 	fd = open(node->cmd->cmds[0], O_RDONLY);
 	if (fd == -1)
 	{
-		ft_dprintf(STDERR_FILENO, "minishell: %s: ", node->cmd->cmds[0]);
+		ft_dprintf(STDERR_FILENO, SIMPLE_ERR, node->cmd->cmds[0]);
 		perror("");
 		return (1);
 	}

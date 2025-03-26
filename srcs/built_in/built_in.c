@@ -1,9 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   built_in.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:20:23 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:20:27 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <stdio.h>
+
+#include "ast.h"
 #include "built_in.h"
+#include "exec.h"
 #include "libft.h"
 #include "minishell.h"
 #include "options.h"
-#include "ast.h"
-#include "exec.h"
 
 static int	print_env(char **cmds, t_minishell *minishell)
 {
@@ -48,13 +62,13 @@ static int	dup_fd_builtin(t_minishell *minishell)
 	{
 		close(minishell->fd_in);
 		close(minishell->fd_out);
-		return (error_handling_exec(NULL, "Dup2 failed"));
+		return (error_handling_exec(NULL, DUP2_ERR));
 	}
 	if (dup_fd(&minishell->fds.fd_out, STDOUT_FILENO) == 0)
 	{
 		close(minishell->fd_in);
 		close(minishell->fd_out);
-		return (error_handling_exec(NULL, "Dup2 failed"));
+		return (error_handling_exec(NULL, DUP2_ERR));
 	}
 	return (0);
 }
@@ -65,20 +79,20 @@ int	handle_builtin(t_ast *node, t_minishell *minishell)
 
 	minishell->fd_in = dup(STDIN_FILENO);
 	if (minishell->fd_in == -1)
-		return (error_handling_exec(NULL, "Dup failed"));
+		return (error_handling_exec(NULL, DUP_ERR));
 	minishell->fd_out = dup(STDOUT_FILENO);
 	if (minishell->fd_out == -1)
 	{
 		close(minishell->fd_in);
-		return (error_handling_exec(NULL, "Dup failed"));
+		return (error_handling_exec(NULL, DUP_ERR));
 	}
 	if (dup_fd_builtin(minishell) == 1)
 		return (1);
 	ret = ft_builtin(node, minishell);
-	if (dup2(minishell->fd_in, STDIN_FILENO) == -1) // TODO recheck how to protect
-		exit (error_handling_exec(minishell, "Dup2 failed"));
+	if (dup2(minishell->fd_in, STDIN_FILENO) == -1)
+		exit (error_handling_exec(minishell, DUP2_ERR));
 	if (dup2(minishell->fd_out, STDOUT_FILENO) == -1)
-		exit (error_handling_exec(minishell, "Dup2 failed"));
+		exit (error_handling_exec(minishell, DUP2_ERR));
 	close(minishell->fd_in);
 	close(minishell->fd_out);
 	exec_minishell(node->left, minishell);

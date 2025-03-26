@@ -1,5 +1,17 @@
-#include "libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   remake_cmds.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:22:13 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:22:16 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "exec.h"
+#include "libft.h"
 #include "utils.h"
 
 static int	fill_new_cmds(char **cmds, int *index, char **new_cmd, char **ret)

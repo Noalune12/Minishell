@@ -1,8 +1,24 @@
-#include "minishell.h"
-#include "wildcard.h"
-#include "heredoc.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   loop.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:22:02 by gueberso          #+#    #+#             */
+/*   Updated: 2025/03/26 09:26:02 by gueberso         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ast.h"
 #include "exec.h"
+#include "ft_dprintf.h"
+#include "heredoc.h"
+#include "minishell.h"
+#include "options.h"
+#include "signals.h"
+#include "utils.h"
+#include "wildcard.h"
 
 static void	build_and_execute(t_minishell *minishell)
 {
@@ -35,7 +51,7 @@ static int	process_input(t_minishell *minishell)
 	}
 	if (minishell->input == NULL)
 	{
-		// ft_dprintf(STDERR_FILENO, "exit\n");
+		ft_dprintf(STDERR_FILENO, "exit\n");
 		return (-1);
 	}
 	init_global();

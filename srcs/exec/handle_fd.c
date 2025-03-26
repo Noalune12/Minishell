@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_fd.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:21:46 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:21:48 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
 #include "minishell.h"
 
 int	*ft_realloc(int *tab, int len, int nb_elem)
@@ -7,7 +20,7 @@ int	*ft_realloc(int *tab, int len, int nb_elem)
 
 	i = 0;
 	ret = malloc(len);
-	if (!ret)
+	if (ret == NULL)
 	{
 		if (len > 1)
 			free(tab);
@@ -30,7 +43,7 @@ int	*add_fd(t_fd_info *fd, int fd_in)
 	{
 		fd->fds = ft_realloc(fd->fds, sizeof(int) * (fd->capacity + 10),
 				fd->nb_elems);
-		if (!fd->fds)
+		if (fd->fds == NULL)
 			return (NULL);
 		fd->capacity += 10;
 	}
@@ -55,8 +68,10 @@ void	delete_fd(t_fd_info *fd, int nb_elem)
 int	dup_fd(t_fd_info *fd, int fd_redirect)
 {
 	if (fd->nb_elems > 0)
+	{
 		if (dup2(fd->fds[fd->nb_elems - 1], fd_redirect) == -1)
 			return (0);
+	}
 	return (1);
 }
 

@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:20:38 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:20:39 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "built_in.h"
+#include "exec.h"
 #include "ft_dprintf.h"
 #include "libft.h"
 #include "limits.h"
 #include "minishell.h"
-#include "exec.h"
 
 int	check_arg_exit(char *str)
 {
@@ -76,7 +88,7 @@ int	ft_exit(char **cmds, t_minishell *minishell)
 
 	ret = 0;
 	if (minishell->pid != 0)
-		ft_dprintf(STDOUT_FILENO, "exit\n");
+		ft_dprintf(STDOUT_FILENO, "%s\n", EXIT);
 	if (cmds[1] == NULL)
 		ret = 0;
 	else if (check_arg_exit(cmds[1]) == 0)
@@ -86,7 +98,7 @@ int	ft_exit(char **cmds, t_minishell *minishell)
 	}
 	else if (cmds[2])
 	{
-		ft_dprintf(STDOUT_FILENO, TOO_MANY_ARGS, "exit");
+		ft_dprintf(STDOUT_FILENO, TOO_MANY_ARGS, EXIT);
 		return (1);
 	}
 	else

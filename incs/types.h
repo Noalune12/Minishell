@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   types.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:19:07 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:19:08 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef TYPES_H
 # define TYPES_H
 
@@ -24,13 +36,6 @@ typedef enum e_node_type
 	NODE_CLOSE_PAR,
 	NODE_BUILTIN
 }	t_node_type;
-
-typedef enum e_quote
-{
-	NONE_QUOTE,
-	SINGLE_QUOTE,
-	DOUBLE_QUOTE,
-}	t_quote;
 
 typedef enum e_redirect_error
 {

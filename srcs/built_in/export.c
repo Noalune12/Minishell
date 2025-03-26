@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:20:49 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:20:50 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "built_in.h"
 #include "ft_dprintf.h"
 #include "libft.h"
@@ -7,7 +19,7 @@ static void	free_env_export(t_list *env)
 {
 	t_list	*temp;
 
-	if (!env)
+	if (env == NULL)
 		return ;
 	temp = env;
 	while (temp)
@@ -26,13 +38,13 @@ static int	ft_print_export(t_list *env)
 	t_list	*temp;
 
 	sorted = copy_env(env);
-	if (!sorted)
+	if (sorted == NULL)
 		return (1);
 	ft_list_sort(&sorted, &ascii_cmp);
 	temp = sorted;
 	while (temp)
 	{
-		ft_dprintf(STDIN_FILENO, "export %s\n", temp->content);
+		ft_dprintf(STDIN_FILENO, "%s %s\n", EXPORT, temp->content);
 		temp = temp->next;
 	}
 	free_env_export(sorted);
@@ -46,7 +58,7 @@ int	ft_export(char **cmds, t_minishell *minishell)
 
 	i = 0;
 	ret = 0;
-	if (!cmds[++i])
+	if (cmds[++i] == NULL)
 	{
 		ret = ft_print_export(minishell->envp);
 		return (ret);

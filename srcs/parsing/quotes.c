@@ -1,6 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quotes.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:21:32 by gueberso          #+#    #+#             */
+/*   Updated: 2025/03/26 09:21:33 by gueberso         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "common.h"
+#include "ft_dprintf.h"
+#include "libft.h"
 #include "minishell.h"
 
-int is_quote(char c)
+int	is_quote(char c)
 {
 	return (c == '\'' || c == '\"');
 }

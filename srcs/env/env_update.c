@@ -1,7 +1,20 @@
-#include "minishell.h"
-#include <unistd.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_update.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:21:22 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:21:23 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "common.h"
 #include "env.h"
+#include "ft_dprintf.h"
+#include "libft.h"
+#include "minishell.h"
 
 void	add_manpath_to_env(t_list **env)
 {
@@ -50,6 +63,7 @@ void	update_pwd(t_list **env)
 		free(actual_pwd);
 	}
 }
+
 void	update_shlvl(t_list *env)
 {
 	t_shlvl	u;

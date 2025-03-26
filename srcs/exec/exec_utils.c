@@ -1,6 +1,23 @@
-#include "minishell.h"
-#include "env.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:21:39 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:21:40 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ast.h"
+#include "built_in.h"
+#include "env.h"
+#include "fd.h"
+#include "ft_dprintf.h"
+#include "libft.h"
+#include "minishell.h"
+#include "utils.h"
 
 char	*ft_strjoin_free_s1(char *s1, char *s2)
 {
@@ -9,7 +26,7 @@ char	*ft_strjoin_free_s1(char *s1, char *s2)
 	size_t	i;
 	size_t	j;
 
-	if (!s1 || !s2)
+	if (s1 == NULL || s2 == NULL)
 		return (NULL);
 	s1_len = ft_strlen(s1);
 	res = malloc(sizeof(char) * (s1_len + ft_strlen(s2) + 1));
@@ -29,7 +46,6 @@ char	*ft_strjoin_free_s1(char *s1, char *s2)
 	free(s1);
 	return (res);
 }
-
 
 int	error_handling_exec(t_minishell *minishell, char *message)
 {
@@ -54,16 +70,16 @@ int	error_handling_exec(t_minishell *minishell, char *message)
 
 int	is_builtin(char *cmds)
 {
-	if (ft_strcmp(cmds, "echo\0") == 0
-		|| ft_strcmp(cmds, "cd\0") == 0
-		|| ft_strcmp(cmds, "pwd\0") == 0
-		|| ft_strcmp(cmds, "export\0") == 0
-		|| ft_strcmp(cmds, "unset\0") == 0
-		|| ft_strcmp(cmds, "env\0") == 0
-		|| ft_strcmp(cmds, "exit\0") == 0
-		|| ft_strcmp(cmds, "options\0") == 0
-		|| ft_strcmp(cmds, "ptree\0") == 0
-		|| ft_strcmp(cmds, "ptokens\0") == 0)
+	if (ft_strcmp(cmds, ECHO) == 0
+		|| ft_strcmp(cmds, CD) == 0
+		|| ft_strcmp(cmds, PWD_BI) == 0
+		|| ft_strcmp(cmds, EXPORT) == 0
+		|| ft_strcmp(cmds, UNSET) == 0
+		|| ft_strcmp(cmds, ENV) == 0
+		|| ft_strcmp(cmds, EXIT) == 0
+		|| ft_strcmp(cmds, OPTIONS_BI) == 0
+		|| ft_strcmp(cmds, PTREE_BI) == 0
+		|| ft_strcmp(cmds, PTOKENS_BI) == 0)
 		return (1);
 	return (0);
 }

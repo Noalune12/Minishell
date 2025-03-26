@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_builtin.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:21:19 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:21:20 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "built_in.h"
 #include "libft.h"
 
@@ -45,7 +57,7 @@ void	ft_list_sort(t_list **begin_list, int (*cmp)(char *,
 	t_list	*next;
 	bool	swap;
 
-	if (!begin_list || !cmp)
+	if (begin_list == NULL || !cmp)
 		return ;
 	swap = true;
 	while (swap)

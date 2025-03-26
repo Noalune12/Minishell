@@ -11,7 +11,7 @@ $(MAN_PAGE):
 	@mkdir -p $(MAN_DIR)
 	@echo "$(CYAN)[Creating]$(RESETC) man page for minishell"
 	@echo ".\\\"Man page for minishell shell" > $@
-	@echo ".TH MINISHELL 1 \"March 2025\" \"minishell 1.1\" \"User Commands\"" >> $@
+	@echo ".TH MINISHELL 1 \"March 2025\" \"minishell 1.2\" \"User Commands\"" >> $@
 	@echo ".SH NAME" >> $@
 	@echo "minishell \\- a simplified Unix shell with bash-like functionality" >> $@
 	@echo ".SH SYNOPSIS" >> $@
@@ -55,10 +55,13 @@ $(MAN_PAGE):
 	@echo ".SS Special Features" >> $@
 	@echo ".TP" >> $@
 	@echo ".B Variable expansion in heredocs" >> $@
-	@echo "Environment variables are expanded in heredoc content." >> $@
+	@echo "Environment variables are expanded in heredoc content. If any part of word is quoted, the delimiter is the result of quote removal on word, and the lines in the here-document are not expanded." >> $@
 	@echo ".TP" >> $@
 	@echo ".B export +=" >> $@
 	@echo "Append mode for export - allows appending values to existing variables." >> $@
+	@echo ".TP" >> $@
+	@echo ".B Word splitting" >> $@
+	@echo "Sequences of whitespace characters space, tab, and newline are ignored at the beginning and end of the word, as long as the whitespace character is in the value of IFS (an IFS whitespace character). For more informations refer on the section 3.5.7 Word Splitting of the GNU Bash Reference Manual " >> $@
 	@echo ".TP" >> $@
 	@echo ".B cd -" >> $@
 	@echo "Returns to the previous directory (OLDPWD)." >> $@

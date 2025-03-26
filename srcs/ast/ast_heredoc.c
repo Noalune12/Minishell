@@ -1,14 +1,26 @@
-#include "types.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ast_heredoc.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:20:04 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:20:06 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ast.h"
 #include "libft.h"
 #include "minishell.h"
+#include "types.h"
 #include "utils.h"
 
 char	**update_heredoc(char **cmds, char *content)
 {
 	char	**new_cmd;
 
-	new_cmd = (char **)malloc(2 * sizeof(char *));
+	new_cmd = malloc(2 * sizeof(char *));
 	new_cmd[0] = ft_strdup(content);
 	new_cmd[1] = NULL;
 	ft_free_double(cmds);

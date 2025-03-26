@@ -1,35 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals_utils.c                                    :+:      :+:    :+:   */
+/*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/26 09:21:18 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 09:21:19 by gueberso         ###   ########.fr       */
+/*   Created: 2025/03/26 09:20:54 by gueberso          #+#    #+#             */
+/*   Updated: 2025/03/26 09:25:51 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
+#include <readline/readline.h>
 
+#include "ast.h"
+#include "heredoc.h"
+#include "minishell.h"
 #include "signals.h"
+#include "utils.h"
+#include "wildcard.h"
 
-void	signal_handler_exec(int signum)
+int	main(int ac, char **av, char **envp)
 {
-	g_signal_received = signum;
-}
+	t_minishell	minishell;
+	int			ret;
 
-void	init_global(void)
-{
-	g_signal_received = 0;
-}
-
-int	return_global(void)
-{
-	return (g_signal_received);
-}
-
-int	event(void)
-{
-	return (0);
+	minishell_init(&minishell, ac, av, envp);
+	rl_event_hook = &event;
+	minishell_main_loop(&minishell);
+	ret = minishell.exit_status;
+	cleanup_exit(&minishell);
+	return (ret);
 }

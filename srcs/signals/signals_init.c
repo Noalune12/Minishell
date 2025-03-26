@@ -1,5 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals_init.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:21:20 by gueberso          #+#    #+#             */
+/*   Updated: 2025/03/26 09:21:21 by gueberso         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <readline/readline.h>
 #include <signal.h>
 
+#include "libft.h"
 #include "minishell.h"
 #include "signals.h"
 
@@ -50,7 +64,7 @@ void	handle_signal_wait(void)
 
 	g_signal_received = 0;
 	sigemptyset(&s_sigaction.sa_mask);
-	s_sigaction.sa_flags = SA_RESTART; // mais pourquoi ??
+	s_sigaction.sa_flags = SA_RESTART;
 	sigaddset(&s_sigaction.sa_mask, SIGINT);
 	sigaddset(&s_sigaction.sa_mask, SIGQUIT);
 	sigaddset(&s_sigaction.sa_mask, SIGPIPE);

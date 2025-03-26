@@ -1,8 +1,19 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:21:42 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:21:43 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ast.h"
-#include "exec.h"
 #include "built_in.h"
-//TODO exit minishell when malloc, pipe, fork error ??
+#include "exec.h"
+#include "minishell.h"
 
 int	exec_minishell(t_ast *node, t_minishell *minishell)
 {
@@ -11,11 +22,11 @@ int	exec_minishell(t_ast *node, t_minishell *minishell)
 		&handle_and, &handle_redirin, &handle_redirout, &handle_heredocin,
 		&handle_redirappend, 0, 0, &handle_builtin};
 
-	if (!node || minishell->exec_status == false)
+	if (node == NULL || minishell->exec_status == false)
 		return (0);
 	if (expand_quotes_exec(node, minishell) == 1)
 		return (1);
-	if (!node->cmd->cmds[0])
+	if (node->cmd->cmds[0] == NULL)
 		return (0);
 	ret = exec[node->type](node, minishell);
 	return (ret);

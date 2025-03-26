@@ -1,3 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:21:12 by gueberso          #+#    #+#             */
+/*   Updated: 2025/03/26 09:21:13 by gueberso         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <stdlib.h>
+#include <unistd.h>
+
+#include "fd.h"
+#include "libft.h"
 #include "minishell.h"
 
 void	close_and_free_fds(t_fd_info *fd)
@@ -45,18 +62,6 @@ void	free_list(t_list *list)
 		free(current);
 		current = next;
 	}
-}
-
-void	cleanup_shell(t_minishell *minishell)
-{
-	close_and_free_fds(&minishell->fds.fd_in);
-	close_and_free_fds(&minishell->fds.fd_out);
-	if (minishell->envp != NULL)
-		free_list(minishell->envp);
-	if (minishell->options != NULL)
-		free(minishell->options);
-	minishell->envp = NULL;
-	minishell->token = NULL;
 }
 
 char	**ft_free_double(char **strs)

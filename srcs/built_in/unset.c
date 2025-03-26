@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unset.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:20:56 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:26:42 by gueberso         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "built_in.h"
 #include "ft_dprintf.h"
 #include "libft.h"
 #include "minishell.h"
 
-static void	free_node(t_list *node) //TODO utils ?
+static void	free_node(t_list *node)
 {
 	if (node)
 	{
@@ -61,7 +73,7 @@ int	ft_unset(char **cmds, t_minishell *minishell)
 
 	i = 0;
 	ret = 0;
-	if (!cmds[++i])
+	if (cmds[++i] == NULL)
 		return (ret);
 	while (cmds[i])
 	{

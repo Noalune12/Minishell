@@ -1,6 +1,22 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   prompt.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:22:14 by gueberso          #+#    #+#             */
+/*   Updated: 2025/03/26 09:26:10 by gueberso         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <readline/history.h>
+#include <readline/readline.h>
+
 #include "common.h"
 #include "exec.h"
+#include "libft.h"
+#include "minishell.h"
 
 static char	*free_input_setup(char *tmp, char *exit_code)
 {
@@ -15,7 +31,7 @@ static char	*setup_exit_code(int code)
 {
 	char	*exit_code;
 	char	*temp;
-	(void) code;
+
 	exit_code = ft_itoa(code);
 	if (exit_code == NULL)
 		return (NULL);
@@ -47,7 +63,7 @@ char	*read_input(t_minishell *minishell)
 	if (prompt == NULL)
 		input = readline(DEFAULT_PROMPT);
 	else
-		input = readline(DEFAULT_PROMPT);
+		input = readline(prompt);
 	if (prompt != NULL)
 		free(prompt);
 	if (input && *input)

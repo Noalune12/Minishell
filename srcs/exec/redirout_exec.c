@@ -1,6 +1,22 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirout_exec.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:22:10 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:22:11 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <fcntl.h>
+#include <stdio.h>
+
 #include "ast.h"
 #include "exec.h"
+#include "ft_dprintf.h"
+#include "minishell.h"
 
 int	handle_redirout(t_ast *node, t_minishell *minishell)
 {
@@ -10,7 +26,7 @@ int	handle_redirout(t_ast *node, t_minishell *minishell)
 	fd = open(node->cmd->cmds[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
-		ft_dprintf(STDERR_FILENO, "minishell: %s: ", node->cmd->cmds[0]);
+		ft_dprintf(STDERR_FILENO, SIMPLE_ERR, node->cmd->cmds[0]);
 		perror("");
 		return (1);
 	}

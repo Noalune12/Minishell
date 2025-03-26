@@ -1,4 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:20:36 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:20:37 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <stdio.h>
+
 #include "built_in.h"
+#include "ft_dprintf.h"
 #include "minishell.h"
 
 static inline int	is_no_nl(char *str)

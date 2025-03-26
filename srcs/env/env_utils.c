@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:21:24 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:21:26 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "common.h"
+#include "libft.h"
 #include "minishell.h"
 
 t_list	*find_env_node(t_list *env, const char *var_searched)
@@ -16,7 +29,7 @@ t_list	*find_env_node(t_list *env, const char *var_searched)
 	return (NULL);
 }
 
-t_list	*add_node(t_list **env, char *content) // nom a changer probablement + retour derreur
+t_list	*add_node(t_list **env, char *content)
 {
 	t_list	*temp;
 	t_list	*new_node;

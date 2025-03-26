@@ -1,6 +1,20 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   and_exec.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:21:27 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:21:28 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <signal.h>
+
 #include "ast.h"
 #include "exec.h"
+#include "minishell.h"
 
 int	handle_and(t_ast *node, t_minishell *minishell)
 {

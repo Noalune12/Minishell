@@ -1,6 +1,19 @@
-#include "parsing.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:21:25 by gueberso          #+#    #+#             */
+/*   Updated: 2025/03/26 09:21:26 by gueberso         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
+#include "parsing.h"
+#include "utils.h"
 
 static char	*extract_token(char *input, size_t *pos)
 {
@@ -9,7 +22,6 @@ static char	*extract_token(char *input, size_t *pos)
 	char	*final_token;
 
 	len = get_word_length(input, *pos);
-	(void) len;
 	token = malloc(sizeof(char) * (len + 1));
 	if (token == NULL)
 		return (NULL);

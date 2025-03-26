@@ -1,13 +1,22 @@
-#include <stdlib.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ast_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:20:17 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:20:19 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "types.h"
 #include "ast.h"
-#include "minishell.h"
-
 #include "ft_dprintf.h"
+#include "minishell.h"
+#include "types.h"
 #include "utils.h"
 
-void	free_ast_2(t_minishell *minishell) // TODO make free ast exec without unlink
+void	free_ast_2(t_minishell *minishell)
 {
 	if (minishell->ast_node == NULL)
 		return ;
@@ -25,7 +34,7 @@ void	free_ast_2(t_minishell *minishell) // TODO make free ast exec without unlin
 	}
 	if (minishell->ast_node != NULL)
 		free(minishell->ast_node);
-	minishell->ast_node = NULL; // rigolo
+	minishell->ast_node = NULL;
 }
 
 void	free_ast(t_ast *node)
