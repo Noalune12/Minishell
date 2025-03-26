@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:19:30 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:19:31 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -6,11 +18,8 @@
 # include <sys/types.h>
 
 # include "options.h"
-
-
-# include "fd.h" // cannot include it otherwise --> error
-# include "types.h" // je crois lui aussi on peut pas faire autrement
-
+# include "fd.h"
+# include "types.h"
 
 extern int	g_signal_received;
 
@@ -26,24 +35,24 @@ typedef struct s_minishell
 {
 	char		*exec;
 	char		*input;
-	bool		exec_status;
 	int			exit_status;
-	int			is_pipe;
-	pid_t		pid;
 	int			fd_in;
 	int			fd_out;
-	t_options	*options;
-	t_list		*envp;
-	t_token		*token;
+	int			is_pipe;
+	bool		exec_status;
+	pid_t		pid;
 	t_ast		*ast_node;
 	t_fds		fds;
+	t_list		*envp;
+	t_options	*options;
+	t_token		*token;
 }	t_minishell;
 
-void	split_operators(t_minishell *minishell);
-void	tokenize_input(t_minishell *minishell);
-void	syntax_check(t_minishell *minishell);
-void	minishell_main_loop(t_minishell *minishell);
 void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp);
+void	minishell_main_loop(t_minishell *minishell);
+void	split_operators(t_minishell *minishell);
+void	syntax_check(t_minishell *minishell);
+void	tokenize_input(t_minishell *minishell);
 
 char	*read_input(t_minishell *minishell);
 
