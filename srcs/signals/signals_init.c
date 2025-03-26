@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:20 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 09:21:21 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:29:17 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <signal.h>
 
 #include "libft.h"
-#include "minishell.h"
 #include "signals.h"
 
 int	g_signal_received = 0;

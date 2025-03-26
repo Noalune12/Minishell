@@ -6,11 +6,9 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:18 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 09:21:19 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:28:42 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <signal.h>
 
 #include "signals.h"
 
