@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:15:58 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 11:27:01 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:40:54 by lbuisson         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	handle_regular_heredoc(t_token *current);
 
 char	*create_temp_file(void);
 char	*handle_heredoc(char *delimiter);
-char	*handle_quotes_exec(char *input);
 
 bool	check_expand(char *delimiter);
 

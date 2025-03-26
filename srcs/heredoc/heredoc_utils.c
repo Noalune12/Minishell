@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:22:26 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 09:22:27 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:46:10 by lbuisson         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "libft.h"
 #include "minishell.h"
 #include "parsing.h"
-#include "types.h"
 
 int	is_valid_heredoc_delimiter(char *token)
 {

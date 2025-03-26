@@ -6,13 +6,12 @@
 /*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:22:34 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:22:35 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 13:58:56 by lbuisson         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expand.h"
 #include "libft.h"
-#include "minishell.h"
 
 static void	copy_var_value_heredoc(char *var_name, t_heredoc_data *data)
 {

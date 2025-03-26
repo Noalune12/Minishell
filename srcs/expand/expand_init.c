@@ -6,7 +6,7 @@
 /*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:22:21 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:22:23 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 13:49:38 by lbuisson         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,6 @@ bool	init_expand_data(t_expand_data *data, char *str, t_minishell *minishell)
 	data->str = str;
 	data->env = minishell->envp;
 	data->minishell = minishell;
-	return (true);
-}
-
-bool	init_expand_len_data(t_exp_len *data, t_minishell *minishell)
-{
-	ft_memset(data, 0, sizeof(t_exp_len));
-	data->exit_code_str = ft_itoa(minishell->exit_status);
-	if (data->exit_code_str == NULL)
-		return (false);
 	return (true);
 }
 
