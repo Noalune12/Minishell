@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:23 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 09:21:24 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:40:00 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 size_t	get_word_length(char *input, size_t start)
 {
-	size_t	i;
 	bool	in_quotes;
 	char	quote_type;
+	size_t	i;
 
 	i = 0;
 	in_quotes = false;

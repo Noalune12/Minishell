@@ -6,16 +6,12 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:38 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 09:21:39 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:31:06 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
-
-bool	is_redirection(char c)
-{
-	return (c == '<' || c == '>');
-}
+#include <stdbool.h>
+#include <stddef.h>
 
 bool	is_operator(char c, bool in_quotes)
 {

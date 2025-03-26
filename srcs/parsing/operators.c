@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:36 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 09:21:37 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:33:15 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ static bool	handle_first_part(t_token **result, const char *content,
 static bool	process_op(t_token **result, const char *content,
 							size_t *i, size_t *start)
 {
+	char		*str;
 	size_t		op_len;
 	t_node_type	op_type;
-	char		*str;
 
 	if (handle_first_part(result, content, i, start) == false)
 		return (false);
