@@ -93,7 +93,6 @@ override EXPANDSRC		:= \
 SRC += $(addprefix $(HEREDOCDIR), $(addsuffix .c, $(HEREDOCSRC)))
 
 override HEREDOCSRC	:= \
-	heredoc_utils \
 	heredoc_file_utils \
 	heredoc_in_out \
 	heredoc_process \
