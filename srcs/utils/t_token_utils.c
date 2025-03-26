@@ -6,15 +6,14 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:07 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 09:21:08 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:27:31 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
-#include "types.h"
 
-t_token	*init_token_node(char *content, t_node_type type)
+static t_token	*init_token_node(char *content, t_node_type type)
 {
 	t_token	*token;
 
@@ -39,7 +38,7 @@ bool	add_token(t_token **tokens, char *content, t_node_type type)
 	t_token	*last;
 
 	new = init_token_node(content, type);
-	if (!new)
+	if (new == NULL)
 		return (false);
 	if (!*tokens)
 		*tokens = new;
