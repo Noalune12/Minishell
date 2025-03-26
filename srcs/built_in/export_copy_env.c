@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   export_copy_env.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:47 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:20:48 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 12:48:00 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "built_in.h"
 #include "env.h"
 #include "libft.h"
 
-char	*dup_dquotes(char *content)
+static char	*dup_dquotes(char *content)
 {
 	char	*content_dquotes;
 	size_t	i;
@@ -43,12 +42,13 @@ char	*dup_dquotes(char *content)
 	return (content_dquotes);
 }
 
-t_list	*copy_dquotes(t_list **new_list)
+static t_list	*copy_dquotes(t_list **new_list)
 {
 	t_list	*temp;
 	char	*content_dquotes;
 
 	temp = *new_list;
+	content_dquotes = NULL;
 	while (temp)
 	{
 		content_dquotes = dup_dquotes(temp->content);

@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   export_append.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:42 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:20:44 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 12:44:56 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 #include "env.h"
-#include "ft_dprintf.h"
 #include "libft.h"
 
 static char	*remove_plus(char *content)

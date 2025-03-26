@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:19 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:21:20 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 12:54:57 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "built_in.h"
 #include "libft.h"
 
 void	swap_strs(char **s1, char **s2)
@@ -41,7 +40,7 @@ int	ascii_cmp(char *a, char *b)
 	return (ft_strcmp(a, b));
 }
 
-void	swap_data(t_list *a, t_list *b)
+static void	swap_data(t_list *a, t_list *b)
 {
 	char	*temp;
 
@@ -50,8 +49,7 @@ void	swap_data(t_list *a, t_list *b)
 	b->content = temp;
 }
 
-void	ft_list_sort(t_list **begin_list, int (*cmp)(char *,
-	char *))
+void	ft_list_sort(t_list **begin_list, int (*cmp)(char *, char *))
 {
 	t_list	*list;
 	t_list	*next;

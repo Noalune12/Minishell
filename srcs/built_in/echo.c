@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:36 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:20:37 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 12:36:07 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 
-#include "built_in.h"
 #include "ft_dprintf.h"
 #include "minishell.h"
 
@@ -74,7 +73,7 @@ int	ft_echo(char **cmds, t_minishell *minishell)
 		no_nl = 1;
 		i++;
 	}
-	if (!cmds[i])
+	if (cmds[i] == NULL)
 		return (0);
 	ft_print_echo(cmds, i, no_nl);
 	return (0);

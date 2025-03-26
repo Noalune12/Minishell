@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_args.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:45 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:20:46 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 12:46:12 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "ft_dprintf.h"
 #include "libft.h"
 
-void	remove_export(char **cmds, int i)
+static void	remove_export(char **cmds, int i)
 {
 	int	j;
 
@@ -30,7 +30,7 @@ void	remove_export(char **cmds, int i)
 	cmds[j] = NULL;
 }
 
-void	check_if_space(char **cmds, int *ret)
+static void	check_if_space(char **cmds, int *ret)
 {
 	int	i;
 	int	j;

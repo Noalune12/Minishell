@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:12:45 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 11:20:45 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 12:54:31 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ getcwd: cannot access parent directories: "
 # define HOME_EQUAL		"HOME="
 
 void	ft_list_sort(t_list **begin_list, int (*cmp)(char *, char *));
-void	swap_data(t_list *a, t_list *b);
 void	swap_strs(char **s1, char **s2);
 
 int		add_export_to_env(char *cmds, t_list **env);
