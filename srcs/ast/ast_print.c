@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:14 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 11:28:12 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 12:23:07 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "ast.h"
 #include "minishell.h"
 #include "options.h"
-#include "types.h"
 
 static void	print_spaces(int depth)
 {

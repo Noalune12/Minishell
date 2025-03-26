@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ast_identification.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:07 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:20:08 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 12:18:49 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
-#include "types.h"
 
 int	is_redir_node(t_node_type type)
 {

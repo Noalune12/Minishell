@@ -6,14 +6,13 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:19:49 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 11:20:06 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 12:11:13 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
 #include "ast.h"
-#include "types.h"
 
 t_ast	*add_up(t_ast *root, t_ast *node)
 {

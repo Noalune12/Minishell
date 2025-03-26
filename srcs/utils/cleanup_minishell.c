@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:14 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 09:21:15 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 12:24:51 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	cleanup_loop(t_minishell *minishell)
 {
 	free(minishell->input);
 	if (minishell->ast_node)
-		free_ast_2(minishell);
+		ast_free_unlink(minishell);
 	if (minishell->fd_in)
 		close(minishell->fd_in);
 	if (minishell->fd_out)

@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:19:59 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 11:28:02 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 12:13:21 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 #include "ast.h"
 #include "minishell.h"
-#include "types.h"
 
 static t_ast	*create_operator(t_token **token, t_ast *root, t_ast *sub_ast)
 {
@@ -77,24 +76,24 @@ static void	create_node(t_ast **root, t_token **temp, int *par)
 		*root = make_subast(temp, *root, par);
 }
 
-void	build_ast(t_minishell *ms)
+void	build_ast(t_minishell *minishell)
 {
 	t_token	*temp;
 	t_ast	*root;
 	int		par;
 
-	if (ms->exec_status == false)
+	if (minishell->exec_status == false)
 		return ;
-	temp = ms->token;
+	temp = minishell->token;
 	root = NULL;
 	while (temp)
 	{
 		create_node(&root, &temp, &par);
 		if (root == NULL)
 		{
-			ms->ast_node = root;
-			ms->exec_status = false;
-			ms->exit_status = 1;
+			minishell->ast_node = root;
+			minishell->exec_status = false;
+			minishell->exit_status = 1;
 			return ;
 		}
 		if (temp == NULL)
@@ -102,5 +101,5 @@ void	build_ast(t_minishell *ms)
 		if (par == 0)
 			temp = temp->next;
 	}
-	ms->ast_node = root;
+	minishell->ast_node = root;
 }
