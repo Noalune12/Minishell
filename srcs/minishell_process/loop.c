@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:22:02 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 09:22:03 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 09:26:02 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	process_input(t_minishell *minishell)
 	}
 	if (minishell->input == NULL)
 	{
-		// ft_dprintf(STDERR_FILENO, "exit\n");
+		ft_dprintf(STDERR_FILENO, "exit\n");
 		return (-1);
 	}
 	init_global();

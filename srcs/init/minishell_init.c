@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:22:17 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 09:22:18 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 09:25:55 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	minishell_init(t_minishell *minishell, int ac, char **av, char **envp)
 {
 	(void) ac;
 	(void) av;
-	// tty_check();
+	tty_check();
 	ft_memset(minishell, 0, sizeof(t_minishell));
 	minishell->exec = av[0];
 	minishell->envp = env_init(envp);

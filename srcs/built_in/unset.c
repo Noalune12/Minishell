@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:56 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:21:17 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 09:26:42 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 #include "libft.h"
 #include "minishell.h"
 
-
-static void	free_node(t_list *node) //TODO utils ?
+static void	free_node(t_list *node)
 {
 	if (node)
 	{
@@ -24,7 +23,6 @@ static void	free_node(t_list *node) //TODO utils ?
 		free(node);
 	}
 }
-
 
 static int	compare_remove_node(t_list **head, char *content,
 	t_list *current, t_list *prev)

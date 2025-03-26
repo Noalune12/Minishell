@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:54 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 09:20:55 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 09:25:51 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int ac, char **av, char **envp)
 	int			ret;
 
 	minishell_init(&minishell, ac, av, envp);
-	// rl_event_hook = &event;
+	rl_event_hook = &event;
 	minishell_main_loop(&minishell);
 	ret = minishell.exit_status;
 	cleanup_exit(&minishell);

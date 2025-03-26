@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:22:14 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 09:22:15 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 09:26:10 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*read_input(t_minishell *minishell)
 	if (prompt == NULL)
 		input = readline(DEFAULT_PROMPT);
 	else
-		input = readline(DEFAULT_PROMPT);
+		input = readline(prompt);
 	if (prompt != NULL)
 		free(prompt);
 	if (input && *input)
