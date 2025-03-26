@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:19:30 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:19:31 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 11:31:21 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 # define MINISHELL_H
 
 # include <stdbool.h>
-# include <unistd.h>
 # include <sys/types.h>
 
-# include "options.h"
 # include "fd.h"
 # include "types.h"
 

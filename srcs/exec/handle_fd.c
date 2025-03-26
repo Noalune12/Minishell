@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   handle_fd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:46 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:21:48 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 11:28:52 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <unistd.h>
 
 #include "libft.h"
 #include "minishell.h"

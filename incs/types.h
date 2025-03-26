@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:19:07 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:19:08 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 11:33:57 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPES_H
 # define TYPES_H
 
-typedef struct s_options	t_options;
-typedef struct s_list		t_list;
 typedef struct s_ast		t_ast;
+typedef struct s_cmd		t_cmd;
 typedef struct s_fd_info	t_fd_info;
 typedef struct s_fds		t_fds;
-typedef struct s_token		t_token;
+typedef struct s_list		t_list;
 typedef struct s_minishell	t_minishell;
-typedef struct s_cmd		t_cmd;
+typedef struct s_options	t_options;
+typedef struct s_token		t_token;
 
 typedef enum e_node_type
 {
@@ -36,16 +36,5 @@ typedef enum e_node_type
 	NODE_CLOSE_PAR,
 	NODE_BUILTIN
 }	t_node_type;
-
-typedef enum e_redirect_error
-{
-	REDIR_SUCCESS,
-	REDIR_UNEXPECTED_NEWLINE,
-	REDIR_UNEXPECTED_TOKEN,
-	REDIR_MISSING_FILENAME,
-	REDIR_FILE_ERROR,
-	REDIR_HEREDOC_EOF,
-	REDIR_SYNTAX_ERROR,
-}	t_redirect_error;
 
 #endif

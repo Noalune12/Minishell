@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ast_add.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:19:49 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:19:51 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 11:20:06 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <stdlib.h>
 
 #include "ast.h"
 #include "types.h"

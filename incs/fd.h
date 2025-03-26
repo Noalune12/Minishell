@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:15:33 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:15:34 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 11:25:23 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	close_fd(t_fd_info *fd);
 void	delete_fd(t_fd_info *fd, int nb_elem);
 
 int		*add_fd(t_fd_info *fd, int fd_in);
+
 int		dup_fd(t_fd_info *fd, int fd_redirect);
 
 #endif

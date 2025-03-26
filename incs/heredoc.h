@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:15:58 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:15:59 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 11:27:01 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 
 # include <stdbool.h>
 
-# include "types.h"
+typedef struct s_token		t_token;
+typedef struct s_minishell	t_minishell;
+
+extern int					g_signal_received;
 
 # define AND 				"&&"
 # define APPEND				">>"
@@ -36,8 +39,6 @@
 	"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 # define HEREDOC_ERROR_MESSAGE \
 	"minishell: warning: here-document delimited by end-of-file (wanted `%s')\n"
-
-extern int	g_signal_received;
 
 typedef struct s_heredoc
 {

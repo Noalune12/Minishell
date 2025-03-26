@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:13:59 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:14:00 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 11:23:17 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 # define ENV_H
 
-# include "types.h"
+typedef struct s_list		t_list;
 
 # define SHLVL_TOO_HIGH	\
 			"minishell: warning: shell level (%d) too high, resetting to 1\n"

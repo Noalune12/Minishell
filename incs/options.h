@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   options.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:16:40 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:16:42 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 11:32:12 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 
 # include <stdbool.h>
 
+typedef struct s_minishell	t_minishell;
+typedef void				(*t_option_handler)(t_minishell *);
+
 # define PRINT_ACTIVATED	"print %s\t%sactivated%s\n"
 # define PRINT_UNACTIVATED	"print %s\t%sunactivated%s\n"
 
 # define PTREE				"tree"
 # define PTOKENS			"tokens"
-
-typedef struct s_minishell	t_minishell;
-typedef void				(*t_option_handler)(t_minishell *);
 
 typedef enum e_options
 {

@@ -6,9 +6,11 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:22:28 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 09:22:29 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 11:29:12 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <unistd.h>
 
 #include "heredoc.h"
 #include "libft.h"

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:12:40 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:12:42 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 11:20:18 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define AST_H
 
 # include <stdbool.h>
-# include <stdlib.h>
 
 # include "types.h"
 
@@ -24,8 +23,8 @@ typedef enum e_node_type		t_node_type;
 
 typedef struct s_cmd
 {
-	char	*path;
 	char	**cmds;
+	char	*path;
 	bool	to_expand;
 }	t_cmd;
 

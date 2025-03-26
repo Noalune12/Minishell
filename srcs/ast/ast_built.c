@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ast_built.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:19:59 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:20:01 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 11:28:02 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <unistd.h>
 
 #include "ast.h"
 #include "minishell.h"

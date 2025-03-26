@@ -6,11 +6,12 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:22:32 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 09:22:33 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 11:29:05 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
+#include <unistd.h>
 
 #include "heredoc.h"
 #include "libft.h"

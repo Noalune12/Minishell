@@ -3,28 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:12:45 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:12:46 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 11:20:45 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILT_IN_H
 # define BUILT_IN_H
 
-# include <stdlib.h>
-
-# define OLDPWD "OLDPWD"
-# define OLDPWD_EQUAL "OLDPWD="
-# define PWD "PWD"
-# define PWD_EQUAL "PWD="
-# define HOME_EQUAL "HOME="
-
 typedef struct s_minishell	t_minishell;
 typedef struct s_ast		t_ast;
 typedef struct s_list		t_list;
-
 typedef int					(*t_builtin)(char **cmds, t_minishell *minishell);
 
 # define CD_HOME "minishell: cd: HOME not set\n"
@@ -38,16 +29,22 @@ typedef int					(*t_builtin)(char **cmds, t_minishell *minishell);
 	"%s: error retrieving current directory: \
 getcwd: cannot access parent directories: "
 
-# define CD "cd"
-# define ECHO "echo"
-# define ENV "env"
-# define EXIT "exit"
-# define EXPORT "export"
-# define OPTIONS_BI "options"
-# define PTOKENS_BI "ptokens"
-# define PTREE_BI "ptree"
-# define PWD_BI "pwd"
-# define UNSET "unset"
+# define CD				"cd"
+# define ECHO			"echo"
+# define ENV			"env"
+# define EXIT			"exit"
+# define EXPORT			"export"
+# define OPTIONS_BI		"options"
+# define PTOKENS_BI		"ptokens"
+# define PTREE_BI		"ptree"
+# define PWD_BI			"pwd"
+# define UNSET			"unset"
+
+# define OLDPWD			"OLDPWD"
+# define OLDPWD_EQUAL	"OLDPWD="
+# define PWD			"PWD"
+# define PWD_EQUAL		"PWD="
+# define HOME_EQUAL		"HOME="
 
 void	ft_list_sort(t_list **begin_list, int (*cmp)(char *, char *));
 void	swap_data(t_list *a, t_list *b);
