@@ -6,19 +6,18 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:22:19 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 09:22:20 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:57:09 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "common.h"
 #include "env.h"
 #include "libft.h"
-#include "minishell.h"
 
 static t_list	*ft_get_env(char **envp)
 {
-	t_list	*env;
 	size_t	i;
+	t_list	*env;
 
 	i = 0;
 	env = NULL;
