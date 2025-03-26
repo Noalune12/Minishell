@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_update.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:22 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:21:23 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 12:57:09 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "env.h"
 #include "ft_dprintf.h"
 #include "libft.h"
-#include "minishell.h"
 
 void	add_manpath_to_env(t_list **env)
 {
@@ -22,17 +21,17 @@ void	add_manpath_to_env(t_list **env)
 	char	*own_manpath;
 	char	*temp;
 
-	if (!env)
+	if (env == NULL)
 		return ;
 	cwd = getcwd(NULL, 4096);
-	if (!cwd)
+	if (cwd == NULL)
 		return ;
 	temp = ft_strjoin_free(MANPATH, cwd);
-	if (!temp)
+	if (temp == NULL)
 		return ;
 	own_manpath = ft_strjoin(temp, "/man");
 	free(temp);
-	if (!own_manpath)
+	if (own_manpath == NULL)
 		return ;
 	add_or_replace_env(own_manpath, env, 7, 1);
 	free(own_manpath);

@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:24 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 09:21:26 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 12:59:13 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "common.h"
 #include "libft.h"
-#include "minishell.h"
 
 t_list	*find_env_node(t_list *env, const char *var_searched)
 {
