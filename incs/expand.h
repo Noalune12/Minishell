@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:15:17 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 11:25:00 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:52:50 by lbuisson         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,10 @@ int		handle_dollar_quoted(t_expand_data *data, char quote_char);
 int		handle_dollar_sign(t_expand_data *data);
 int		handle_exit_code(char *expanded, size_t *i, size_t *j, int exit_code);
 int		handle_heredoc_dollar_sign(t_heredoc_data *data);
-int		handle_variable_expansion(t_expand_data *data);
 int		process_character(t_expand_data *data);
 int		init_heredoc_expand(t_heredoc_data *data, char *str, \
 														t_minishell *minishell);
 
-bool	init_expand_len_data(t_exp_len *data, t_minishell *minishell);
 bool	init_expand_data(t_expand_data *data, char *str, \
 														t_minishell *minishell);
 bool	update_quotes_expand(char c, bool *in_squotes, bool *in_dquotes, \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:13:59 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 11:23:17 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:58:15 by lbuisson         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ void	add_manpath_to_env(t_list **env);
 void	free_list(t_list *list);
 void	update_pwd(t_list **env);
 void	update_shlvl(t_list *env);
-
-char	*ft_getenv(char *var_name, t_list *env);
 
 int		add_or_replace_env(char *content, t_list **env, int len, int add);
 

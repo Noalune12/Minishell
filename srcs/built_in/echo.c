@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:36 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 12:36:07 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:00:59 by lbuisson         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "ft_dprintf.h"
 #include "minishell.h"
 
-static inline int	is_no_nl(char *str)
+static int	is_no_nl(char *str)
 {
 	int	i;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:14:40 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 13:11:33 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:33:04 by lbuisson         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 typedef struct s_ast		t_ast;
 typedef struct s_minishell	t_minishell;
 typedef int					(*t_handler)(t_ast *node, t_minishell *minishell);
+
+# define READ_LEN 1000
 
 # define AMBIGUOUS_ERR "minishell: %s: ambiguous redirect\n"
 # define CMD_NOT_FOUND "minishell: %s: command not found\n"
