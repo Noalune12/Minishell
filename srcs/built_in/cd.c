@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:20:33 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:20:35 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 
 #include "built_in.h"
@@ -51,11 +63,11 @@ static int	make_chdir(char **cmds, t_list **envp)
 {
 	char	*get_env;
 
-	get_env = ft_getenv(OLDPWD, *envp);
-	if (get_env == NULL)
-		return (1);
 	if (ft_strcmp(cmds[1], "-") == 0)
 	{
+		get_env = ft_getenv(OLDPWD, *envp);
+		if (get_env == NULL)
+			return (1);
 		if (chdir(get_env) != 0)
 		{
 			ft_dprintf(STDERR_FILENO, OLDPWD_NOT_SET);

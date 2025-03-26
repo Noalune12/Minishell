@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:22:32 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:22:33 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "expand.h"
 #include "libft.h"
 #include "minishell.h"
@@ -9,7 +21,7 @@ char	*ft_getenv(char *var_name, t_list *env)
 	int		len;
 
 	var = ft_strjoin(var_name, "=");
-	if (!var)
+	if (var == NULL)
 		return (NULL);
 	temp = env;
 	len = ft_strlen(var);

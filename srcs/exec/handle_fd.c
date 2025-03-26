@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_fd.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:21:46 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:21:48 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "minishell.h"
 
@@ -56,8 +68,10 @@ void	delete_fd(t_fd_info *fd, int nb_elem)
 int	dup_fd(t_fd_info *fd, int fd_redirect)
 {
 	if (fd->nb_elems > 0)
+	{
 		if (dup2(fd->fds[fd->nb_elems - 1], fd_redirect) == -1)
 			return (0);
+	}
 	return (1);
 }
 

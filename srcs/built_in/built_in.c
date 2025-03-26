@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   built_in.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:20:23 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:20:27 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 
 #include "ast.h"
@@ -77,7 +89,7 @@ int	handle_builtin(t_ast *node, t_minishell *minishell)
 	if (dup_fd_builtin(minishell) == 1)
 		return (1);
 	ret = ft_builtin(node, minishell);
-	if (dup2(minishell->fd_in, STDIN_FILENO) == -1) // TODO recheck how to protect
+	if (dup2(minishell->fd_in, STDIN_FILENO) == -1)
 		exit (error_handling_exec(minishell, DUP2_ERR));
 	if (dup2(minishell->fd_out, STDOUT_FILENO) == -1)
 		exit (error_handling_exec(minishell, DUP2_ERR));

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirappend_exec.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:22:06 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:22:07 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <fcntl.h>
 #include <stdio.h>
 
@@ -12,7 +24,7 @@ int	handle_redirappend(t_ast *node, t_minishell *minishell)
 	int	fd;
 
 	fd = open(node->cmd->cmds[0], O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (minishell->fd_out == -1)
+	if (fd == -1)
 	{
 		ft_dprintf(STDERR_FILENO, SIMPLE_ERR, node->cmd->cmds[0]);
 		perror("");

@@ -1,11 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:21:42 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:21:43 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ast.h"
 #include "built_in.h"
 #include "exec.h"
 #include "minishell.h"
-
-
-//TODO exit minishell when malloc, pipe, fork error ??
-
 
 int	exec_minishell(t_ast *node, t_minishell *minishell)
 {

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 09:15:58 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/03/26 09:15:59 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef HEREDOC_H
 # define HEREDOC_H
 
@@ -35,10 +47,8 @@ typedef struct s_heredoc
 	int		original_stdin;
 }	t_heredoc_utils;
 
-t_token	*find_last_heredoc(t_token *start, t_token **last_heredoc);
-
-void	handle_regular_heredoc(t_token *current);
 void	check_heredoc(t_minishell *minishell);
+void	handle_regular_heredoc(t_token *current);
 
 char	*create_temp_file(void);
 char	*handle_heredoc(char *delimiter);
