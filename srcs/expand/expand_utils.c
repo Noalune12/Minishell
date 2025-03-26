@@ -9,7 +9,7 @@ char	*ft_getenv(char *var_name, t_list *env)
 	int		len;
 
 	var = ft_strjoin(var_name, "=");
-	if (!var)
+	if (var == NULL)
 		return (NULL);
 	temp = env;
 	len = ft_strlen(var);

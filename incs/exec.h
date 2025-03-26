@@ -43,6 +43,11 @@ void	free_tab(char **tab, int i);
 void	free_join_full_path(t_path_cmds *path_cmds,	char *str,
 			char **env, t_minishell *minishell);
 
+char	*handle_quotes_exec(char *input);
+char	*find_exec_cmd(char **cmds, t_minishell *minishell, char **env);
+char	*ft_strjoin_free_s1(char *s1, char *s2);
+char	**remake_cmds(char **cmds, int *index);
+
 int		error_handling_exec(t_minishell *minishell, char *message);
 int		is_builtin(char *cmds);
 int		start_as_file(t_ast *node);
@@ -62,10 +67,5 @@ int		handle_redirin(t_ast *node, t_minishell *minishell);
 int		handle_heredocin(t_ast *node, t_minishell *minishell);
 int		handle_redirout(t_ast *node, t_minishell *minishell);
 int		handle_redirappend(t_ast *node, t_minishell *minishell);
-
-char	*handle_quotes_exec(char *input);
-char	*find_exec_cmd(char **cmds, t_minishell *minishell, char **env);
-char	*ft_strjoin_free_s1(char *s1, char *s2);
-char	**remake_cmds(char **cmds, int *index);
 
 #endif

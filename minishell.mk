@@ -121,7 +121,6 @@ override BUILTINSRC	:= \
 SRC += $(addprefix $(HEREDOCDIR), $(addsuffix .c, $(HEREDOCSRC)))
 
 override HEREDOCSRC	:= \
-	heredoc_exec \
 	heredoc_utils \
 	heredoc_file_utils \
 	heredoc_in_out \

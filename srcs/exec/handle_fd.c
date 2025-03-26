@@ -56,8 +56,10 @@ void	delete_fd(t_fd_info *fd, int nb_elem)
 int	dup_fd(t_fd_info *fd, int fd_redirect)
 {
 	if (fd->nb_elems > 0)
+	{
 		if (dup2(fd->fds[fd->nb_elems - 1], fd_redirect) == -1)
 			return (0);
+	}
 	return (1);
 }
 

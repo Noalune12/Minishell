@@ -51,11 +51,11 @@ static int	make_chdir(char **cmds, t_list **envp)
 {
 	char	*get_env;
 
-	get_env = ft_getenv(OLDPWD, *envp);
-	if (get_env == NULL)
-		return (1);
 	if (ft_strcmp(cmds[1], "-") == 0)
 	{
+		get_env = ft_getenv(OLDPWD, *envp);
+		if (get_env == NULL)
+			return (1);
 		if (chdir(get_env) != 0)
 		{
 			ft_dprintf(STDERR_FILENO, OLDPWD_NOT_SET);

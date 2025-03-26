@@ -35,8 +35,6 @@ typedef struct s_heredoc
 	int		original_stdin;
 }	t_heredoc_utils;
 
-t_token	*find_last_heredoc(t_token *start, t_token **last_heredoc);
-
 void	handle_regular_heredoc(t_token *current);
 void	check_heredoc(t_minishell *minishell);
 
