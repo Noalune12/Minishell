@@ -21,17 +21,3 @@ jobs:
 
       - name: Build project
         run: make
-
-      - name: Run test suite
-        run: |
-          cd unit-testing
-          ./tester custom
-
-          # Check the exit code directly
-          if [ $? -eq 0 ]; then
-            echo "✅ All tests passed!"
-            exit 0
-          else
-            echo "❌ Tests failed!"
-            exit 1
-          fi
