@@ -29,25 +29,24 @@ Avant de continuer la lecture de ce **README**, voici quelques explications de c
 **À tout lecteur apeuré par l'ampleur du projet, la lecture de cette partie ne peut qu'être recommandée.**
 
 Nous avons décidé de ne partager que les ressources que nous avons utilisées pour venir à bout de notre *Minishell*.
-Au départ, nous pensions détailler la réflexion sur l'implémentation de chaque feature en plus de lister les notions et les outils pour les mettre en place. Avec du recul, nous avons décidé de ne pas le faire : chaque *Minishell* est différent, ce repo n'est et ne sera jamais un guide. Nous n'avons pas la prétention d'en faire un.
+Au départ, nous pensions détailler la réflexion sur l'implémentation de chaque feature en plus de lister les notions et les outils pour les mettre en place. Avec du recul, nous avons décidé de ne pas le faire : chaque *Minishell* est différent, ce repo n'est et ne sera jamais un guide. Nous n'avons pas la prétention d'en faire un. Voyez le plutôt comme un retour d'expérience et une source de documentation.
 
 Maintenant que le contexte est posé, voici comment se sont passés nos deux mois sur le projet.
 
 Dès le départ, nous avions en tête de rendre le projet le plus complet possible, avec des features supplémentaires que nous trouvions soit intéressantes, soit fun. *Deux mois, c'est long, et se limiter à faire des choses sans prendre du plaisir aurait été pesant.* Nous avons pris le plus tôt possible des décisions sur la façon dont nous allions travailler et faisions des points plusieurs fois par semaine sur l'avancement du projet, les choses à faire et/ou ne pas faire.
 
 Grâce à *Minishell*, nous avons **appris** à tenir une certaine rigueur, mais aussi à mettre en place un travail de groupe efficace au possible ! Avec dès le départ des règles assez strictes :
-- Sur le nom de nos branches
-- Des commits
-- Des pull requests
-- Puis plus tard la mise en place de Github Actions *(et par la même occasion faire des tests unitaires)*
+- Sur le nom de nos branches, la nomenclature de nos commits
+- Des pull requests récurrentes
+- Puis plus tard la mise en place de Github Actions *(et par la même occasion des tests unitaires)*
 
 Tous ces petits détails ont fait que travailler à deux n'a jamais impacté négativement l'autre mais, au contraire, a permis de constater rapidement son avancée.
 
 > **Un conseil** : prenez à **deux** des décisions rapidement, **tenez-y vous**, et faites le point **régulièrement** sur ce que vous faites ou avez fait !
 
-Concernant la répartition du travail, même si comme beaucoup de groupes nous avons séparé en deux parties (*lexing/parsing - exec*), au final nous avons tous les deux touché aux deux parties. Il y a eu un gros travail de recherche en amont, une bonne semaine de recherche avant de taper les premières lignes de code qui resteront jusqu'au bout du projet. Cette partie de recherche est assez propre à chacun : certains fonctionnent en testant, d'autres en mettant en pratique la théorie. Sur ce point, nous avons été assez complémentaires. C'est grâce à cela que nous avons rendu un projet dont la construction repose sur des logiques globales vues lors des recherches et non pas sur du *"recopiage"* de ce que nous avons observé lors de nos phases de tests.
+Concernant la répartition du travail, même si comme beaucoup de groupes nous avons séparé en deux parties (*lexing/parsing - exec*), au final nous avons tous les deux touché aux deux. Il y a eu un gros travail de recherche en amont, une bonne semaine de recherche avant de taper les premières lignes de code qui resteront jusqu'au bout du projet. Cette partie de recherche est propre à chacun : certains fonctionnent en testant, d'autres en mettant en pratique la théorie. Sur ce point, nous avons été assez complémentaires. C'est grâce à cela que nous avons rendu un projet dont la construction repose sur des logiques globales vues lors des recherches et non pas sur du *"recopiage"* de ce que nous avons observé lors de nos phases de tests.
 
-Pour terminer, servez-vous des ressources que nous avons mises à disposition, mais ne vous arrêtez pas là : nous avons en réalité utilisé tellement plus de choses dans la construction que juste ceci. Enjoy !
+Pour terminer, servez-vous des ressources que nous avons mises à disposition si vous le souhaitez, mais ne vous arrêtez pas là : nous avons en réalité vu tellement plus de choses...
 
 # Table des Matières
 
@@ -215,11 +214,11 @@ L'input utilisateur, une chaîne de caractères doit être "décomposée" en mor
 **Objectifs de l'analyse lexicale (qu'on appellera Lexer)**
 - **Identifier** et **extraire** les éléments syntaxiques (mots, opérateurs, séparateurs, variables d'environnements ?) qui constituent la commande.
 - **Types de tokens**
-  - Commandes: `ls`, `echo`, `cd` ... comprend les commandes **et** les built-in
-  - Arguments: Les chaînes qui suivent la commande et précisent les paramètres (options pour les fonctions, `-la`, `"Directory..."`, etc)
-  - Opérateurs spéciaux: Opérateurs logiques `||`, `&&` ; Redirections `>`, `<`, `>>`, `<<` ; pipes `|` ...
-  - Espaces et séparateurs: Les espaces peuvent séparer des tokens mais peuvent aussi faire partie des chaînes de caractères `" "`
-  - Gestion des guillemets et échappements: Cas particuliers comme les chaînes de caractères entre guillemets ou les caractères échappés `\` (par exemple) ne doivent pas couper un argument qui contient des espaces ou des caractères spéciaux.
+  - **Commandes**: `ls`, `echo`, `cd` ... comprend les commandes **et** les built-in
+  - **Arguments**: Les chaînes qui suivent la commande et précisent les paramètres (options pour les fonctions, `-la`, `"Directory..."`, etc). Finalement également considéré comme des commandes.
+  - **Opérateurs spéciaux**: Opérateurs logiques `||`, `&&` ; Redirections `>`, `<`, `>>`, `<<` ; pipes `|` ...
+  - **Espaces et séparateurs**: Les espaces peuvent séparer des tokens mais peuvent aussi faire partie des chaînes de caractères `" "`
+  - **Gestion des guillemets et échappements**: Cas particuliers comme les chaînes de caractères entre guillemets ou les caractères échappés `\` (par exemple) ne doivent pas couper un argument qui contient des espaces ou des caractères spéciaux. La gestion de l'échappement n'étant pas demandée, propre à chacun de s'y atteler.
 
 ### Analyse syntaxique (Parsing) : Organiser les tokens
 
@@ -229,10 +228,11 @@ Comprendre la relation des tokens entre eux.
 - Vérifier la syntaxe (s'assure que la commande est correctement formée) et créer une structure représentant la hiérarchie et les relations entre les tokens. *Référence aux **AST** [Arbre syntaxique abstrait](https://en.wikipedia.org/wiki/Abstract_syntax_tree)* (ou tout autre représentation similaire qui sépare par exemple la commande principale des redirections et des pipes).
 - **Structure d'un AST dans Minishell**
   - **Nœud commande**: Représente la commande principale et ses arguments
-  - **Nœud opérateur**: Représente les relations (`pipe`) qui connecte la sortie d'une commande à l'entrée d'une autre, ou les redirections qui indiquent où lire/écrire les données.
-  - **Hiérarchie et priorité**: Le parser doit tenir compte des priorités.
+  - **Nœud opérateur**: Représente les relations qui connecte la sortie d'une commande à l'entrée d'une autre, ou les redirections qui indiquent où lire/écrire les données.
+- **Hiérarchie et priorité**: Le parser doit tenir compte des priorités.
   - **Exemple**: `cat file.txt | grep "motif" > output.txt` -> le pipe relie `cat` et `grep`, la redirection s'applique à la sortie de `grep`
-- Validation de la syntaxe: Implique la vérification de la syntaxe (pas de redirections mal placées ou opérateurs isolés sans commandes associées)
+  - **Exemple complexe**: `(ls -la > files.txt && cat < files.txt | grep "txt") || (echo "Erreur" >> log.txt)` -> les parenthèses isolent deux groupes de commandes liés par `||`. Dans le premier groupe, `ls` redirige vers un fichier puis `&&` exécute `cat` suivi d'un pipe vers `grep` seulement si `ls` réussit. Si tout le premier groupe échoue, le deuxième groupe s'exécute et redirige sa sortie vers `log.txt` en mode ajout.
+- **Validation de la syntaxe**: Implique la vérification de la syntaxe (pas de redirections mal placées ou opérateurs isolés sans commandes associées)
 
 ### Interprétation et exécution
 
@@ -246,5 +246,4 @@ Pour chaque commande dans l'AST, le shell doit :
 - Gérer la communication entre processus: S'il y a `pipe`, connecter la `stdout` d'un processus à la `stdin` du suivant
 - Redirections: Modifier les descripteurs de fichiers pour rediriger les entrées/sorties vers/depuis des fichiers, en fonction des opérateurs (`>`, `<`)
 
-> Fonctionnement détaillé et outils nécessaires à l'exécution de commande dans mon [pipex](https://github.com/AzehLM/pipex/blob/master/README.md)
-
+> Fonctionnement détaillé et outils nécessaires à l'exécution de commande dans [pipex](https://github.com/AzehLM/pipex/blob/master/README.md)
