@@ -21,15 +21,43 @@ make
 # Exécuter le shell
 ./minishell
 ```
----
+
+# Manifeste
+
+Avant de continuer la lecture de ce **README**, voici quelques explications de ce qu'il en est et pourquoi.
+
+**À tout lecteur apeuré par l'ampleur du projet, la lecture de cette partie ne peut qu'être recommandée.**
+
+Nous avons décidé de ne partager que les ressources que nous avons utilisées pour venir à bout de notre *Minishell*.
+Au départ, nous pensions détailler la réflexion sur l'implémentation de chaque feature en plus de lister les notions et les outils pour les mettre en place. Avec du recul, nous avons décidé de ne pas le faire : chaque *Minishell* est différent, ce repo n'est et ne sera jamais un guide. Nous n'avons pas la prétention d'en faire un.
+
+Maintenant que le contexte est posé, voici comment se sont passés nos deux mois sur le projet.
+
+Dès le départ, nous avions en tête de rendre le projet le plus complet possible, avec des features supplémentaires que nous trouvions soit intéressantes, soit fun. *Deux mois, c'est long, et se limiter à faire des choses sans prendre du plaisir aurait été pesant.* Nous avons pris le plus tôt possible des décisions sur la façon dont nous allions travailler et faisions des points plusieurs fois par semaine sur l'avancement du projet, les choses à faire et/ou ne pas faire.
+
+Grâce à *Minishell*, nous avons **appris** à tenir une certaine rigueur, mais aussi à mettre en place un travail de groupe efficace au possible ! Avec dès le départ des règles assez strictes :
+- Sur le nom de nos branches
+- Des commits
+- Des pull requests
+- Puis plus tard la mise en place de Github Actions *(et par la même occasion faire des tests unitaires)*
+
+Tous ces petits détails ont fait que travailler à deux n'a jamais impacté négativement l'autre mais, au contraire, a permis de constater rapidement son avancée.
+
+> **Un conseil** : prenez à **deux** des décisions rapidement, **tenez-y vous**, et faites le point **régulièrement** sur ce que vous faites ou avez fait !
+
+Concernant la répartition du travail, même si comme beaucoup de groupes nous avons séparé en deux parties (*lexing/parsing - exec*), au final nous avons tous les deux touché aux deux parties. Il y a eu un gros travail de recherche en amont, une bonne semaine de recherche avant de taper les premières lignes de code qui resteront jusqu'au bout du projet. Cette partie de recherche est assez propre à chacun : certains fonctionnent en testant, d'autres en mettant en pratique la théorie. Sur ce point, nous avons été assez complémentaires. C'est grâce à cela que nous avons rendu un projet dont la construction repose sur des logiques globales vues lors des recherches et non pas sur du *"recopiage"* de ce que nous avons observé lors de nos phases de tests.
+
+Pour terminer, servez-vous des ressources que nous avons mises à disposition, mais ne vous arrêtez pas là : nous avons en réalité utilisé tellement plus de choses dans la construction que juste ceci. Enjoy !
 
 # Table des Matières
 
 - [Minishell](#minishell)
   - [Installation et utilisation](#installation-et-utilisation)
+- [Manifeste](#manifeste)
 - [Table des Matières](#table-des-matières)
   - [Ressources pour travailler en groupe avec Git](#ressources-pour-travailler-en-groupe-avec-git)
   - [Ressources utilisées/vues](#ressources-utiliséesvues)
+    - [Books](#books)
       - [Analyse Lexicale/Parsing](#analyse-lexicaleparsing)
       - [Random links](#random-links)
       - [Man pages](#man-pages)
@@ -45,6 +73,7 @@ make
     - [Analyse lexicale (Lexing) : Découper l'input utilisateur en tokens](#analyse-lexicale-lexing--découper-linput-utilisateur-en-tokens)
     - [Analyse syntaxique (Parsing) : Organiser les tokens](#analyse-syntaxique-parsing--organiser-les-tokens)
     - [Interprétation et exécution](#interprétation-et-exécution)
+    - [**Exécution des commandes**](#exécution-des-commandes)
     - [Expansions et gestion des variables](#expansions-et-gestion-des-variables)
 
 
@@ -65,6 +94,11 @@ make
 - [Write your own shell](https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf)
 - [The Architecture of Open Source Applications (Volume 1)](https://aosabook.org/en/v1/bash.html)
 
+### Books
+
+- [Crafting Interpreters by Robert Nystrom](https://www.google.fr/books/edition/Crafting_Interpreters/q0c6EAAAQBAJ?hl=fr&gbpv=0)
+- [The Linux Programming Interface by Michael Kerrisk](https://www.google.fr/books/edition/The_Linux_Programming_Interface/2SAQAQAAQBAJ?hl=fr&gbpv=0)
+- [Programmation Shell sous Unix/Linux by Christine Deffaix Rémy](https://www.google.fr/books/edition/Programmation_shell_sous_Unix_Linux/d7l2hA1fAn8C?hl=fr&gbpv=0)
 
 #### Analyse Lexicale/Parsing
 
@@ -122,7 +156,7 @@ Décomposition **"./program_name"**
 
 ### Valgrind and `readline()` leaks
 
-Options à utiliser avec valgrind pour masquer les leaks de `readline()` : **make valgrind**
+Options à utiliser avec valgrind pour masquer les leaks de `readline()` : ```make valgrind```
 
 `valgrind --suppressions=.valgrind_suppress.txt --leak-check=full --trace-children=yes --track-fds=yes --show-leak-kinds=all`
 
@@ -205,7 +239,7 @@ Comprendre la relation des tokens entre eux.
 
 Une fois l'**AST** ou la structure des commandes construite, on passe à l'exécution
 
-**Exécution des commandes**
+### **Exécution des commandes**
 
 Pour chaque commande dans l'AST, le shell doit :
 - Localiser l'exécutable: Rechercher le chemin complet en utilisant la variable d'environnement `PATH` (et/ou chercher dans le répertoire courant le binaire)
