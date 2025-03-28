@@ -102,21 +102,20 @@ Pour terminer, servez-vous des ressources que nous avons mises à disposition si
 
 - [Compiler/lexical analyzer](https://rosettacode.org/wiki/Compiler/lexical_analyzer#C)
 - [Compiler/syntax analyzer](https://rosettacode.org/wiki/Compiler/syntax_analyzer#C)
-- [Parsing #1](https://eli.thegreenplace.net/2012/08/02/parsing-expressions-by-precedence-climbing)
-- [Parsing #2 - Shunting-Yard algo 1](https://brilliant.org/wiki/shunting-yard-algorithm/)
-- [Parsing #2 - Shunting-Yard algo 2](https://fr.wikipedia.org/wiki/Algorithme_Shunting-yard)
-- [Parsing #3 - AST](https://github.com/fraqioui/minishell/blob/main/tree.png)
-- [Shunting Yard Video #1](https://www.youtube.com/watch?v=Wz85Hiwi5MY)
-- [Shunting Yard Video #2](https://www.youtube.com/watch?v=unh6aK8WMwM)
+- [Parsing expressions by precedence climbing](https://eli.thegreenplace.net/2012/08/02/parsing-expressions-by-precedence-climbing)
+- [Shunting Yard Algorithm #1](https://brilliant.org/wiki/shunting-yard-algorithm/)
+- [Shunting Yard Algorithm #2](https://fr.wikipedia.org/wiki/Algorithme_Shunting-yard)
+- [ASTree Graphical Representation](https://github.com/fraqioui/minishell/blob/main/tree.png)
+- [Shunting Yard Algorithm Calculator Representation](https://www.youtube.com/watch?v=unh6aK8WMwM)
+- [Comp Sci in 5: Shunting Yard Algorithm Calculator Representation (goofy guy video)](https://www.youtube.com/watch?v=Wz85Hiwi5MY)
 
 #### Random links
 
-- [Compiler/AST interpreter](https://rosettacode.org/wiki/Compiler/AST_interpreter#C)
-- [3-3 Signaux](https://mtodorovic.developpez.com/linux/programmation-avancee/?page=page_3)
-- [Pipes](https://www.idc-online.com/technical_references/pdfs/information_technology/How_Linux_pipes_work_under_the_hood.pdf)
-- [Expand](https://effective-shell.com/part-6-advanced-techniques/understanding-shell-expansion/)
-- [video](https://youtu.be/ubt-UjcQUYg?si=xo-UOU1YY5098p3t)
-- [video 2](https://youtu.be/SToUyjAsaFk?si=7pwlKfqdbji8I_o9)
+- [3-3 Signaux (et plus)](https://mtodorovic.developpez.com/linux/programmation-avancee/?page=page_3)
+- [Pipes (ma synthèse préférée (de loin!))](https://www.idc-online.com/technical_references/pdfs/information_technology/How_Linux_pipes_work_under_the_hood.pdf)
+- [Understanding Shell Expansion (explication plus poussée que le manuel Bash)](https://effective-shell.com/part-6-advanced-techniques/understanding-shell-expansion/)
+- [Shell Program Explained](https://youtu.be/ubt-UjcQUYg?si=xo-UOU1YY5098p3t)
+- [Recursive Descent Parsing (suite du lien ci-dessus)](https://youtu.be/SToUyjAsaFk?si=7pwlKfqdbji8I_o9)
 
 #### Man pages
 
@@ -129,9 +128,6 @@ Pour terminer, servez-vous des ressources que nous avons mises à disposition si
 - [Bash Posix](https://pubs.opengroup.org/onlinepubs/9799919799/)
 
 ---
-
-
-
 
 ## Informations dump
 
