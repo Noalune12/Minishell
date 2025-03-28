@@ -74,7 +74,6 @@ Pour terminer, servez-vous des ressources que nous avons mises à disposition, m
     - [Analyse syntaxique (Parsing) : Organiser les tokens](#analyse-syntaxique-parsing--organiser-les-tokens)
     - [Interprétation et exécution](#interprétation-et-exécution)
     - [**Exécution des commandes**](#exécution-des-commandes)
-    - [Expansions et gestion des variables](#expansions-et-gestion-des-variables)
 
 
 ## Ressources pour travailler en groupe avec Git
@@ -249,16 +248,3 @@ Pour chaque commande dans l'AST, le shell doit :
 
 > Fonctionnement détaillé et outils nécessaires à l'exécution de commande dans mon [pipex](https://github.com/AzehLM/pipex/blob/master/README.md)
 
-### Expansions et gestion des variables
-
-Minishell doit gérer la gestion des variables et des expansions.
-
-**Variables d'environnement**
-- Remplacer les tokens `$HOME`, `$PATH` ... par leur valeur correspondante dans l'environnement
-
-**Expansions de commandes**
-- On pourrait vouloir exécuter une commande et utiliser sa sortie dans une autre commande (exemple: `echo 'date'` ou `$(date)`), ce qui demande d'évaluer une sous-commande et d'insérer son résultat dans le flux des tokens
-
-**Gestion des guillemets**
-- Guillemets simples ou doubles peuvent modifier la façon dont les expansions et les séparations se font.
-- **Exemple**: `"Hello $USER"`, `$USER` doit être remplacé par sa valeur, alors que `'Hello $USER'` doit rester littéral
