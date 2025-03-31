@@ -21,15 +21,42 @@ make
 # Exécuter le shell
 ./minishell
 ```
----
+
+# Manifeste
+
+Avant de continuer la lecture de ce **README**, voici quelques explications de ce qu'il en est et pourquoi.
+
+**À tout lecteur apeuré par l'ampleur du projet, la lecture de cette partie ne peut qu'être recommandée.**
+
+Nous avons décidé de ne partager que les ressources que nous avons utilisées pour venir à bout de notre *Minishell*.
+Au départ, nous pensions détailler la réflexion sur l'implémentation de chaque feature en plus de lister les notions et les outils pour les mettre en place. Avec du recul, nous avons décidé de ne pas le faire : chaque *Minishell* est différent, ce repo n'est et ne sera jamais un guide. Nous n'avons pas la prétention d'en faire un. Voyez le plutôt comme un retour d'expérience et une source de documentation.
+
+Maintenant que le contexte est posé, voici comment se sont passés nos deux mois sur le projet.
+
+Dès le départ, nous avions en tête de rendre le projet le plus complet possible, avec des features supplémentaires que nous trouvions soit intéressantes, soit fun. *Deux mois, c'est long, et se limiter à faire des choses sans prendre du plaisir aurait été pesant.* Nous avons pris le plus tôt possible des décisions sur la façon dont nous allions travailler et faisions des points plusieurs fois par semaine sur l'avancement du projet, les choses à faire et/ou ne pas faire.
+
+Grâce à *Minishell*, nous avons **appris** à tenir une certaine rigueur, mais aussi à mettre en place un travail de groupe efficace au possible ! Avec dès le départ des règles assez strictes :
+- Sur le nom de nos branches, la nomenclature de nos commits
+- Des pull requests récurrentes
+- Puis plus tard la mise en place de Github Actions *(et par la même occasion des tests unitaires)*
+
+Tous ces petits détails ont fait que travailler à deux n'a jamais impacté négativement l'autre mais, au contraire, a permis de constater rapidement son avancée.
+
+> **Un conseil** : prenez à **deux** des décisions rapidement, **tenez-y vous**, et faites le point **régulièrement** sur ce que vous faites ou avez fait !
+
+Concernant la répartition du travail, même si comme beaucoup de groupes nous avons séparé en deux parties (*lexing/parsing - exec*), au final nous avons tous les deux touché aux deux. Il y a eu un gros travail de recherche en amont, une bonne semaine de recherche avant de taper les premières lignes de code qui resteront jusqu'au bout du projet. Cette partie de recherche est propre à chacun : certains fonctionnent en testant, d'autres en mettant en pratique la théorie. Sur ce point, nous avons été assez complémentaires. C'est grâce à cela que nous avons rendu un projet dont la construction repose sur des logiques globales vues lors des recherches et non pas sur du *"recopiage"* de ce que nous avons observé lors de nos phases de tests.
+
+Pour terminer, servez-vous des ressources que nous avons mises à disposition si vous le souhaitez, mais ne vous arrêtez pas là : nous avons en réalité vu tellement plus de choses...
 
 # Table des Matières
 
 - [Minishell](#minishell)
   - [Installation et utilisation](#installation-et-utilisation)
+- [Manifeste](#manifeste)
 - [Table des Matières](#table-des-matières)
   - [Ressources pour travailler en groupe avec Git](#ressources-pour-travailler-en-groupe-avec-git)
   - [Ressources utilisées/vues](#ressources-utiliséesvues)
+    - [Books](#books)
       - [Analyse Lexicale/Parsing](#analyse-lexicaleparsing)
       - [Random links](#random-links)
       - [Man pages](#man-pages)
@@ -45,7 +72,7 @@ make
     - [Analyse lexicale (Lexing) : Découper l'input utilisateur en tokens](#analyse-lexicale-lexing--découper-linput-utilisateur-en-tokens)
     - [Analyse syntaxique (Parsing) : Organiser les tokens](#analyse-syntaxique-parsing--organiser-les-tokens)
     - [Interprétation et exécution](#interprétation-et-exécution)
-    - [Expansions et gestion des variables](#expansions-et-gestion-des-variables)
+    - [**Exécution des commandes**](#exécution-des-commandes)
 
 
 ## Ressources pour travailler en groupe avec Git
@@ -65,26 +92,30 @@ make
 - [Write your own shell](https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf)
 - [The Architecture of Open Source Applications (Volume 1)](https://aosabook.org/en/v1/bash.html)
 
+### Books
+
+- [Crafting Interpreters by Robert Nystrom](https://www.google.fr/books/edition/Crafting_Interpreters/q0c6EAAAQBAJ?hl=fr&gbpv=0)
+- [The Linux Programming Interface by Michael Kerrisk](https://www.google.fr/books/edition/The_Linux_Programming_Interface/2SAQAQAAQBAJ?hl=fr&gbpv=0)
+- [Programmation Shell sous Unix/Linux by Christine Deffaix Rémy](https://www.google.fr/books/edition/Programmation_shell_sous_Unix_Linux/d7l2hA1fAn8C?hl=fr&gbpv=0)
 
 #### Analyse Lexicale/Parsing
 
 - [Compiler/lexical analyzer](https://rosettacode.org/wiki/Compiler/lexical_analyzer#C)
 - [Compiler/syntax analyzer](https://rosettacode.org/wiki/Compiler/syntax_analyzer#C)
-- [Parsing #1](https://eli.thegreenplace.net/2012/08/02/parsing-expressions-by-precedence-climbing)
-- [Parsing #2 - Shunting-Yard algo 1](https://brilliant.org/wiki/shunting-yard-algorithm/)
-- [Parsing #2 - Shunting-Yard algo 2](https://fr.wikipedia.org/wiki/Algorithme_Shunting-yard)
-- [Parsing #3 - AST](https://github.com/fraqioui/minishell/blob/main/tree.png)
-- [Shunting Yard Video #1](https://www.youtube.com/watch?v=Wz85Hiwi5MY)
-- [Shunting Yard Video #2](https://www.youtube.com/watch?v=unh6aK8WMwM)
+- [Parsing expressions by precedence climbing](https://eli.thegreenplace.net/2012/08/02/parsing-expressions-by-precedence-climbing)
+- [Shunting Yard Algorithm #1](https://brilliant.org/wiki/shunting-yard-algorithm/)
+- [Shunting Yard Algorithm #2](https://fr.wikipedia.org/wiki/Algorithme_Shunting-yard)
+- [ASTree Graphical Representation](https://github.com/fraqioui/minishell/blob/main/tree.png)
+- [Shunting Yard Algorithm Calculator Representation](https://www.youtube.com/watch?v=unh6aK8WMwM)
+- [Comp Sci in 5: Shunting Yard Algorithm Calculator Representation (goofy guy video)](https://www.youtube.com/watch?v=Wz85Hiwi5MY)
 
 #### Random links
 
-- [Compiler/AST interpreter](https://rosettacode.org/wiki/Compiler/AST_interpreter#C)
-- [3-3 Signaux](https://mtodorovic.developpez.com/linux/programmation-avancee/?page=page_3)
-- [Pipes](https://www.idc-online.com/technical_references/pdfs/information_technology/How_Linux_pipes_work_under_the_hood.pdf)
-- [Expand](https://effective-shell.com/part-6-advanced-techniques/understanding-shell-expansion/)
-- [video](https://youtu.be/ubt-UjcQUYg?si=xo-UOU1YY5098p3t)
-- [video 2](https://youtu.be/SToUyjAsaFk?si=7pwlKfqdbji8I_o9)
+- [3-3 Signaux (et plus)](https://mtodorovic.developpez.com/linux/programmation-avancee/?page=page_3)
+- [Pipes (ma synthèse préférée (de loin!))](https://www.idc-online.com/technical_references/pdfs/information_technology/How_Linux_pipes_work_under_the_hood.pdf)
+- [Understanding Shell Expansion (explication plus poussée que le manuel Bash)](https://effective-shell.com/part-6-advanced-techniques/understanding-shell-expansion/)
+- [Shell Program Explained](https://youtu.be/ubt-UjcQUYg?si=xo-UOU1YY5098p3t)
+- [Recursive Descent Parsing (suite du lien ci-dessus)](https://youtu.be/SToUyjAsaFk?si=7pwlKfqdbji8I_o9)
 
 #### Man pages
 
@@ -97,9 +128,6 @@ make
 - [Bash Posix](https://pubs.opengroup.org/onlinepubs/9799919799/)
 
 ---
-
-
-
 
 ## Informations dump
 
@@ -122,7 +150,7 @@ Décomposition **"./program_name"**
 
 ### Valgrind and `readline()` leaks
 
-Options à utiliser avec valgrind pour masquer les leaks de `readline()` : **make valgrind**
+Options à utiliser avec valgrind pour masquer les leaks de `readline()` : ```make valgrind```
 
 `valgrind --suppressions=.valgrind_suppress.txt --leak-check=full --trace-children=yes --track-fds=yes --show-leak-kinds=all`
 
@@ -182,11 +210,11 @@ L'input utilisateur, une chaîne de caractères doit être "décomposée" en mor
 **Objectifs de l'analyse lexicale (qu'on appellera Lexer)**
 - **Identifier** et **extraire** les éléments syntaxiques (mots, opérateurs, séparateurs, variables d'environnements ?) qui constituent la commande.
 - **Types de tokens**
-  - Commandes: `ls`, `echo`, `cd` ... comprend les commandes **et** les built-in
-  - Arguments: Les chaînes qui suivent la commande et précisent les paramètres (options pour les fonctions, `-la`, `"Directory..."`, etc)
-  - Opérateurs spéciaux: Opérateurs logiques `||`, `&&` ; Redirections `>`, `<`, `>>`, `<<` ; pipes `|` ...
-  - Espaces et séparateurs: Les espaces peuvent séparer des tokens mais peuvent aussi faire partie des chaînes de caractères `" "`
-  - Gestion des guillemets et échappements: Cas particuliers comme les chaînes de caractères entre guillemets ou les caractères échappés `\` (par exemple) ne doivent pas couper un argument qui contient des espaces ou des caractères spéciaux.
+  - **Commandes**: `ls`, `echo`, `cd` ... comprend les commandes **et** les built-in
+  - **Arguments**: Les chaînes qui suivent la commande et précisent les paramètres (options pour les fonctions, `-la`, `"Directory..."`, etc). Finalement également considéré comme des commandes.
+  - **Opérateurs spéciaux**: Opérateurs logiques `||`, `&&` ; Redirections `>`, `<`, `>>`, `<<` ; pipes `|` ...
+  - **Espaces et séparateurs**: Les espaces peuvent séparer des tokens mais peuvent aussi faire partie des chaînes de caractères `" "`
+  - **Gestion des guillemets et échappements**: Cas particuliers comme les chaînes de caractères entre guillemets ou les caractères échappés `\` (par exemple) ne doivent pas couper un argument qui contient des espaces ou des caractères spéciaux. La gestion de l'échappement n'étant pas demandée, propre à chacun de s'y atteler.
 
 ### Analyse syntaxique (Parsing) : Organiser les tokens
 
@@ -196,16 +224,17 @@ Comprendre la relation des tokens entre eux.
 - Vérifier la syntaxe (s'assure que la commande est correctement formée) et créer une structure représentant la hiérarchie et les relations entre les tokens. *Référence aux **AST** [Arbre syntaxique abstrait](https://en.wikipedia.org/wiki/Abstract_syntax_tree)* (ou tout autre représentation similaire qui sépare par exemple la commande principale des redirections et des pipes).
 - **Structure d'un AST dans Minishell**
   - **Nœud commande**: Représente la commande principale et ses arguments
-  - **Nœud opérateur**: Représente les relations (`pipe`) qui connecte la sortie d'une commande à l'entrée d'une autre, ou les redirections qui indiquent où lire/écrire les données.
-  - **Hiérarchie et priorité**: Le parser doit tenir compte des priorités.
+  - **Nœud opérateur**: Représente les relations qui connecte la sortie d'une commande à l'entrée d'une autre, ou les redirections qui indiquent où lire/écrire les données.
+- **Hiérarchie et priorité**: Le parser doit tenir compte des priorités.
   - **Exemple**: `cat file.txt | grep "motif" > output.txt` -> le pipe relie `cat` et `grep`, la redirection s'applique à la sortie de `grep`
-- Validation de la syntaxe: Implique la vérification de la syntaxe (pas de redirections mal placées ou opérateurs isolés sans commandes associées)
+  - **Exemple complexe**: `(ls -la > files.txt && cat < files.txt | grep "txt") || (echo "Erreur" >> log.txt)` -> les parenthèses isolent deux groupes de commandes liés par `||`. Dans le premier groupe, `ls` redirige vers un fichier puis `&&` exécute `cat` suivi d'un pipe vers `grep` seulement si `ls` réussit. Si tout le premier groupe échoue, le deuxième groupe s'exécute et redirige sa sortie vers `log.txt` en mode ajout.
+- **Validation de la syntaxe**: Implique la vérification de la syntaxe (pas de redirections mal placées ou opérateurs isolés sans commandes associées)
 
 ### Interprétation et exécution
 
 Une fois l'**AST** ou la structure des commandes construite, on passe à l'exécution
 
-**Exécution des commandes**
+### **Exécution des commandes**
 
 Pour chaque commande dans l'AST, le shell doit :
 - Localiser l'exécutable: Rechercher le chemin complet en utilisant la variable d'environnement `PATH` (et/ou chercher dans le répertoire courant le binaire)
@@ -213,18 +242,4 @@ Pour chaque commande dans l'AST, le shell doit :
 - Gérer la communication entre processus: S'il y a `pipe`, connecter la `stdout` d'un processus à la `stdin` du suivant
 - Redirections: Modifier les descripteurs de fichiers pour rediriger les entrées/sorties vers/depuis des fichiers, en fonction des opérateurs (`>`, `<`)
 
-> Fonctionnement détaillé et outils nécessaires à l'exécution de commande dans mon [pipex](https://github.com/AzehLM/pipex/blob/master/README.md)
-
-### Expansions et gestion des variables
-
-Minishell doit gérer la gestion des variables et des expansions.
-
-**Variables d'environnement**
-- Remplacer les tokens `$HOME`, `$PATH` ... par leur valeur correspondante dans l'environnement
-
-**Expansions de commandes**
-- On pourrait vouloir exécuter une commande et utiliser sa sortie dans une autre commande (exemple: `echo 'date'` ou `$(date)`), ce qui demande d'évaluer une sous-commande et d'insérer son résultat dans le flux des tokens
-
-**Gestion des guillemets**
-- Guillemets simples ou doubles peuvent modifier la façon dont les expansions et les séparations se font.
-- **Exemple**: `"Hello $USER"`, `$USER` doit être remplacé par sa valeur, alors que `'Hello $USER'` doit rester littéral
+> Fonctionnement détaillé et outils nécessaires à l'exécution de commande dans [pipex](https://github.com/AzehLM/pipex/blob/master/README.md)
