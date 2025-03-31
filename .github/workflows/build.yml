@@ -1,4 +1,4 @@
-name: Build and Test Minishell
+name: Build Minishell
 
 on:
   push:
