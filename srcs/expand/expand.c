@@ -6,7 +6,7 @@
 /*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:22:34 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 13:58:56 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/05/20 14:28:28 by lbuisson         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	copy_var_value_heredoc(char *var_name, t_heredoc_data *data)
 {
 	char	*var_value;
 
-	var_value = ft_getenv(var_name, data->env);
+	var_value = ft_getenv(var_name, data->env, 0);
 	if (var_value)
 	{
 		while (*var_value)

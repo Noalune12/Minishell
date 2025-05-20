@@ -6,7 +6,7 @@
 /*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:15:17 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 13:52:50 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/05/20 14:27:56 by lbuisson         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ typedef struct s_dollar_exp
 void	copy_var_value(char *var_name, t_expand_data *data);
 
 char	*expand_heredoc(char *str, t_minishell *minishell);
-char	*ft_getenv(char *var_name, t_list *env);
+char	*ft_getenv(char *var_name, t_list *env, int *error);
 char	*expand_env_vars(char *str, t_minishell *minishell, \
 														int *exp, int *quote);
 

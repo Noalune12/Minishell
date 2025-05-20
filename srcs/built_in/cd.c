@@ -6,7 +6,7 @@
 /*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:33 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 13:57:04 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/05/20 14:28:55 by lbuisson         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,20 @@ static int	ft_cd_home(t_list *envp)
 static int	make_chdir(char **cmds, t_list **envp)
 {
 	char	*get_env;
+	int		error;
 
 	get_env = NULL;
+	error = 0;
 	if (ft_strcmp(cmds[1], "-") == 0)
 	{
-		get_env = ft_getenv(OLDPWD, *envp);
-		if (get_env == NULL)
-			return (1);
-		if (chdir(get_env) != 0)
+		get_env = ft_getenv(OLDPWD, *envp, &error);
+		if (error == 0 && chdir(get_env) != 0)
 		{
 			ft_dprintf(STDERR_FILENO, OLDPWD_NOT_SET);
 			return (1);
 		}
+		if (get_env == NULL)
+			return (1);
 	}
 	else if (chdir(cmds[1]) != 0)
 	{

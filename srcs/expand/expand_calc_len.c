@@ -6,7 +6,7 @@
 /*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:22:17 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 13:48:27 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/05/20 14:28:08 by lbuisson         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static size_t	handle_dollar_var(char *s, t_minishell *minishell, size_t *i)
 	var_name = ft_substr(s, *i, var_len);
 	if (!var_name)
 		return (0);
-	var_value = ft_getenv(var_name, minishell->envp);
+	var_value = ft_getenv(var_name, minishell->envp, 0);
 	len = 0;
 	if (var_value)
 		len = ft_strlen(var_value);
