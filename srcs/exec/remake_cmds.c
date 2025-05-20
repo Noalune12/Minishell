@@ -6,7 +6,7 @@
 /*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:22:13 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 13:39:31 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/05/20 14:13:33 by lbuisson         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	**remake_cmds(char **cmds, int *index)
 
 	cmds_len = 0;
 	new_cmd_len = 0;
-	new_cmd = ft_split(cmds[*index], ' ');
+	new_cmd = ft_split_charset(cmds[*index], " \t\n\v\f\r");
 	if (new_cmd == NULL)
 		return (NULL);
 	while (cmds[cmds_len])

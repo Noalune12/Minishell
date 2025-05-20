@@ -6,7 +6,7 @@
 #    By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/14 10:09:03 by gueberso          #+#    #+#              #
-#    Updated: 2025/03/24 09:20:36 by lbuisson         ###   ########lyon.fr    #
+#    Updated: 2025/05/20 14:11:49 by lbuisson         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,6 +76,7 @@ override MEMORYSRC := \
 SRC += $(addprefix $(STRINGDIR), $(addsuffix .c, $(STRINGSRC)))
 
 override STRINGSRC := \
+	ft_split_charset \
 	ft_split \
 	ft_strchr \
 	ft_strcmp \
