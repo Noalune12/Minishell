@@ -6,12 +6,13 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:22:14 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 14:03:39 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/06/03 14:32:36 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <readline/history.h>
 #include <readline/readline.h>
+#include <signal.h>
 
 #include "common.h"
 #include "exec.h"
@@ -66,7 +67,7 @@ char	*read_input(t_minishell *minishell)
 		input = readline(prompt);
 	if (prompt != NULL)
 		free(prompt);
-	if (input && *input)
+	if (input && *input && g_signal_received != SIGINT)
 		add_history(input);
 	return (input);
 }
