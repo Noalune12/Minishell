@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:38 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 12:39:14 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/06/03 19:19:05 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	ft_exit(char **cmds, t_minishell *minishell)
 	if (minishell->pid != 0)
 		ft_dprintf(STDOUT_FILENO, "%s\n", EXIT);
 	if (cmds[1] == NULL)
-		ret = 0;
+		ret = minishell->exit_status;
 	else if (check_arg_exit(cmds[1]) == 0)
 	{
 		ft_dprintf(STDOUT_FILENO, EXIT_ERROR, cmds[1]);
