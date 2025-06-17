@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:36 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 13:15:35 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/06/17 20:18:45 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ static char	*find_full_path(t_minishell *minishell, t_path_cmds *path_cmds,
 {
 	char	*full_path;
 
+	full_path = NULL;
 	path_cmds->paths = ft_split(path_cmds->path_env, ':');
 	if (path_cmds->paths == NULL)
 	{
