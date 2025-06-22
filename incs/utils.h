@@ -6,12 +6,14 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:18:57 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 11:34:25 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/06/22 19:03:11 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_H
 # define UTILS_H
+
+# define IFS_CHARACTERS " \t\n"
 
 typedef struct s_minishell	t_minishell;
 typedef struct s_token		t_token;
