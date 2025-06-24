@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remake_cmds.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:22:13 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/05/20 14:13:33 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/06/22 19:03:19 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ char	**remake_cmds(char **cmds, int *index)
 	int		new_cmd_len;
 	char	**ret;
 
-	cmds_len = 0;
-	new_cmd_len = 0;
-	new_cmd = ft_split_charset(cmds[*index], " \t\n\v\f\r");
+	new_cmd = ft_split_charset(cmds[*index], IFS_CHARACTERS);
 	if (new_cmd == NULL)
 		return (NULL);
+	cmds_len = 0;
+	new_cmd_len = 0;
 	while (cmds[cmds_len])
 		cmds_len++;
 	while (new_cmd[new_cmd_len])
