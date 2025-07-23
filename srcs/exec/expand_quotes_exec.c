@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_quotes_exec.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:44 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 13:27:36 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/07/23 18:04:33 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,30 @@
 #include "utils.h"
 #include "ft_dprintf.h"
 #include "built_in.h"
+
+static bool	is_ambiguous_redirect(t_minishell *ms, t_node_type redir_type)
+{
+	t_token	*current;
+	int		count;
+
+	current = ms->token;
+	while (current)
+	{
+		if (current->type == redir_type)
+		{
+			count = 0;
+			current = current->next;
+			while (current && current->type == NODE_COMMAND)
+			{
+				count++;
+				current = current->next;
+			}
+			return (count != 1);
+		}
+		current = current->next;
+	}
+	return (false);
+}
 
 static void	expand_condition(t_ast *node, t_exp_qu *exp_qu)
 {
@@ -69,16 +93,23 @@ static int	qu_check(t_ast *node, t_exp_qu *exp_qu)
 static int	expand_quotes_init(t_ast *node, t_exp_qu *exp_qu,
 	t_minishell *minishell)
 {
+	bool wildcard;
+
 	exp_qu->exp = 0;
 	exp_qu->quote = 0;
 	exp_qu->expanded = expand_env_vars(node->cmd->cmds[exp_qu->i],
 			minishell, &exp_qu->exp, &exp_qu->quote);
 	if (exp_qu->expanded == NULL)
 		return (1);
-	if (is_redir_node(node->type) == 1 && !exp_qu->expanded[0])
+	wildcard = is_ambiguous_redirect(minishell, node->type);
+	if (is_redir_node(node->type) == 1 && exp_qu->i == 0 && 
+		(!exp_qu->expanded[0] || wildcard))
 	{
 		free(exp_qu->expanded);
-		ft_dprintf(STDERR_FILENO, AMBIGUOUS_ERR, node->cmd->cmds[0]);
+		if (wildcard)
+			ft_dprintf(STDERR_FILENO, AMBIGUOUS_ERR, "*");
+		else
+			ft_dprintf(STDERR_FILENO, AMBIGUOUS_ERR, node->cmd->cmds[0]);
 		return (1);
 	}
 	exp_qu->temp = node->cmd->cmds[exp_qu->i];
