@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:18:57 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/06/22 19:03:11 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/07/24 13:08:35 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define UTILS_H
 
 # define IFS_CHARACTERS " \t\n"
+# define EXIT_NL		"exit\n"
 
 typedef struct s_minishell	t_minishell;
 typedef struct s_token		t_token;
