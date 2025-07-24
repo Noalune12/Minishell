@@ -5,79 +5,62 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/26 09:20:56 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 13:23:09 by gueberso         ###   ########.fr       */
+/*   Created: 2025/07/24 12:00:00 by gueberso          #+#    #+#             */
+/*   Updated: 2025/07/24 14:06:12 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "minishell.h"
 #include "utils.h"
 #include "wildcard.h"
 
-static bool	replace_for_expanded_filename(t_token *current, char **file_names)
+char	*expand_wildcard_pattern(char *pattern)
 {
-	t_token	*last;
-	int		i;
-
-	if (file_names[0] == NULL)
-		return (true);
-	free(current->content);
-	current->content = ft_strdup(file_names[0]);
-	if (current->content == NULL)
-		return (false);
-	i = 1;
-	last = current;
-	while (file_names[i] != NULL)
-	{
-		if (add_token_in_place(&last, file_names[i], NODE_COMMAND) == false)
-			return (false);
-		last = last->next;
-		i++;
-	}
-	return (true);
+	if (!pattern || !contain_wildcard(pattern))
+		return (ft_strdup(pattern));
+	return (ft_strdup(pattern));
 }
 
-static bool	expand_token_wildcard(t_token *current)
+int	count_wildcard_matches(char *pattern)
+{
+	int	count;
+
+	if (!pattern || !contain_wildcard(pattern))
+		return (1);
+	count = count_matches(pattern);
+	if (count == 0)
+		return (1);
+	return (count);
+}
+
+char	**expand_wildcard_in_cmds(char **cmds, int index)
 {
 	char	**file_names;
-	int		count_found_files;
-	bool	res;
+	char	**new_cmds;
+	int		count;
 
-	count_found_files = 0;
-	if (current == NULL || current->content == NULL)
-		return (false);
-	count_found_files = count_matches(current->content);
-	if (count_found_files == -1)
-		return (false);
-	file_names = get_file_names(current->content, count_found_files);
-	if (file_names == NULL)
-		return (false);
-	res = replace_for_expanded_filename(current, file_names);
+	if (!cmds || !cmds[index] || !contain_wildcard(cmds[index]))
+		return (cmds);
+	count = count_matches(cmds[index]);
+	if (count <= 0)
+		return (cmds);
+	file_names = get_file_names(cmds[index], count);
+	if (!file_names)
+		return (cmds);
+	new_cmds = create_new_cmds_array(cmds, index, file_names, count);
 	ft_free_double(file_names);
-	return (res);
+	if (!new_cmds)
+		return (cmds);
+	ft_free_double(cmds);
+	return (new_cmds);
 }
 
-void	expand_wildcards(t_minishell *minishell)
+bool	is_ambiguous_redirect(char *original_pattern)
 {
-	t_token	*current;
-	t_token	*next;
+	int	count;
 
-	if (minishell->token == NULL || minishell->exec_status == false)
-		return ;
-	current = minishell->token;
-	while (current != NULL)
-	{
-		next = current->next;
-		if (current->type == NODE_COMMAND && contain_wildcard(current->content))
-		{
-			if (expand_token_wildcard(current) == false)
-			{
-				minishell->exec_status = false;
-				return ;
-			}
-			current = next;
-		}
-		current = next;
-	}
+	if (!original_pattern || !contain_wildcard(original_pattern))
+		return (false);
+	count = count_matches(original_pattern);
+	return (count != 1);
 }
