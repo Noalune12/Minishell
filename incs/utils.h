@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:18:57 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/07/24 14:17:59 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:52:06 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	cleanup_shell(t_minishell *minishell);
 void	free_token_list(t_token *tokens);
 
 char	**ft_free_double(char **strs);
-char	**create_new_cmds_array(char **old_cmds, int old_index, 
+char	**create_new_cmds_array(char **old_cmds, int old_index, \
 								char **file_names, int file_count);
 
 bool	add_token_in_place(t_token **tokens, char *content, t_node_type type);

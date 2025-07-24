@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:19:13 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/07/24 15:49:27 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:51:52 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,9 @@ int		count_wildcard_matches(char *pattern);
 int		qu_check(t_ast *node, t_exp_qu *exp_qu);
 int		check_redirect_ambiguity(t_ast *node, t_exp_qu *exp_qu, \
 					char *original_pattern);
-int	init_expansion_data(t_ast *node, t_exp_qu *exp_qu, \
+int		init_expansion_data(t_ast *node, t_exp_qu *exp_qu, \
 				t_minishell *minishell, char **original_pattern);
 
 void	expand_condition(t_ast *node, t_exp_qu *exp_qu);
-
 
 #endif
