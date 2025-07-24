@@ -61,22 +61,23 @@ SRC	+= $(addprefix $(EXECDIR), $(addsuffix .c, $(EXECSRC)))
 
 override EXECSRC		:= \
 	and_exec \
-	exec \
 	cmd_check \
-	cmd_path \
-	cmd_path_utils \
 	cmd_exec \
+	cmd_path_utils \
+	cmd_path \
+	exec_utils \
+	exec \
+	expand_quotes_exec \
+	expand_routine \
+	handle_fd \
+	heredoc_exec \
 	or_exec \
 	pipe_exec \
+	quotes_utils \
 	redirappend_exec \
 	redirin_exec \
 	redirout_exec \
-	heredoc_exec \
-	exec_utils \
-	handle_fd \
-	expand_quotes_exec \
-	quotes_utils \
-	remake_cmds \
+	remake_cmds
 
 SRC	+= $(addprefix $(EXPANDDIR), $(addsuffix .c, $(EXPANDSRC)))
 
@@ -88,7 +89,7 @@ override EXPANDSRC		:= \
 	expand_main_loop \
 	expand_quote_handling \
 	expand_utils \
-	expand \
+	expand
 
 SRC += $(addprefix $(HEREDOCDIR), $(addsuffix .c, $(HEREDOCSRC)))
 
@@ -146,7 +147,8 @@ override UTILSSRC		:= \
 SRC += $(addprefix $(WILDCARDIR), $(addsuffix .c, $(WILDCARDSRC)))
 
 override WILDCARDSRC	:= \
+	create_array \
 	file_utils \
 	patterns \
-	wildcard_utils \
 	wildcard \
+	wildcard_utils
