@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:19:13 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/07/24 15:34:04 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:49:27 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ bool	handle_wildcard_expansion(t_ast *node, t_exp_qu *exp_qu);
 char	**allocate_2d_array(int count);
 char	**get_file_names(char *pattern, int count);
 char	**expand_wildcard_in_cmds(char **cmds, int index);
-
-char	*expand_wildcard_pattern(char *pattern);
 
 int		count_matches(char *pattern);
 int		count_wildcard_matches(char *pattern);

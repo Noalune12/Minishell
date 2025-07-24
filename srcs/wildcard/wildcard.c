@@ -6,20 +6,13 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 12:00:00 by gueberso          #+#    #+#             */
-/*   Updated: 2025/07/24 14:06:12 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:49:25 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "utils.h"
 #include "wildcard.h"
-
-char	*expand_wildcard_pattern(char *pattern)
-{
-	if (!pattern || !contain_wildcard(pattern))
-		return (ft_strdup(pattern));
-	return (ft_strdup(pattern));
-}
 
 int	count_wildcard_matches(char *pattern)
 {
