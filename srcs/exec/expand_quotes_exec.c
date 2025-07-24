@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:44 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/07/23 18:04:33 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:32:08 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,32 +18,9 @@
 #include "utils.h"
 #include "ft_dprintf.h"
 #include "built_in.h"
+#include "wildcard.h"
 
-static bool	is_ambiguous_redirect(t_minishell *ms, t_node_type redir_type)
-{
-	t_token	*current;
-	int		count;
-
-	current = ms->token;
-	while (current)
-	{
-		if (current->type == redir_type)
-		{
-			count = 0;
-			current = current->next;
-			while (current && current->type == NODE_COMMAND)
-			{
-				count++;
-				current = current->next;
-			}
-			return (count != 1);
-		}
-		current = current->next;
-	}
-	return (false);
-}
-
-static void	expand_condition(t_ast *node, t_exp_qu *exp_qu)
+void	expand_condition(t_ast *node, t_exp_qu *exp_qu)
 {
 	if (exp_qu->expanded[0])
 	{
@@ -67,7 +44,7 @@ static void	expand_condition(t_ast *node, t_exp_qu *exp_qu)
 	}
 }
 
-static int	qu_check(t_ast *node, t_exp_qu *exp_qu)
+int	qu_check(t_ast *node, t_exp_qu *exp_qu)
 {
 	exp_qu->final = handle_quotes_exec(node->cmd->cmds[exp_qu->i - 1]);
 	if (exp_qu->final == NULL)
@@ -90,58 +67,55 @@ static int	qu_check(t_ast *node, t_exp_qu *exp_qu)
 	return (0);
 }
 
-static int	expand_quotes_init(t_ast *node, t_exp_qu *exp_qu,
-	t_minishell *minishell)
+bool	handle_wildcard_expansion(t_ast *node, t_exp_qu *exp_qu)
 {
-	bool wildcard;
+	char	**new_cmds;
+	int		wildcard_count;
 
+	if (!contain_wildcard(node->cmd->cmds[exp_qu->i - 1]))
+		return (true);
+	wildcard_count = count_wildcard_matches(node->cmd->cmds[exp_qu->i - 1]);
+	new_cmds = expand_wildcard_in_cmds(node->cmd->cmds, exp_qu->i - 1);
+	if (!new_cmds)
+		return (false);
+	if (new_cmds != node->cmd->cmds)
+	{
+		node->cmd->cmds = new_cmds;
+		exp_qu->i = exp_qu->i - 1 + wildcard_count;
+	}
+	return (true);
+}
+
+int	check_redirect_ambiguity(t_ast *node, t_exp_qu *exp_qu, \
+	char *original_pattern)
+{
+	if (is_redir_node(node->type) != 1 || exp_qu->i != 0)
+		return (0);
+	if (exp_qu->expanded[0] && !is_ambiguous_redirect(original_pattern))
+		return (0);
+	free(exp_qu->expanded);
+	if (is_ambiguous_redirect(original_pattern))
+		ft_dprintf(STDERR_FILENO, AMBIGUOUS_ERR, original_pattern);
+	else
+		ft_dprintf(STDERR_FILENO, AMBIGUOUS_ERR, node->cmd->cmds[0]);
+	return (1);
+}
+
+int	init_expansion_data(t_ast *node, t_exp_qu *exp_qu, \
+	t_minishell *minishell, char **original_pattern)
+{
 	exp_qu->exp = 0;
 	exp_qu->quote = 0;
+	*original_pattern = ft_strdup(node->cmd->cmds[exp_qu->i]);
+	if (!*original_pattern)
+		return (1);
+	(void) minishell;
 	exp_qu->expanded = expand_env_vars(node->cmd->cmds[exp_qu->i],
 			minishell, &exp_qu->exp, &exp_qu->quote);
 	if (exp_qu->expanded == NULL)
-		return (1);
-	wildcard = is_ambiguous_redirect(minishell, node->type);
-	if (is_redir_node(node->type) == 1 && exp_qu->i == 0 && 
-		(!exp_qu->expanded[0] || wildcard))
 	{
-		free(exp_qu->expanded);
-		if (wildcard)
-			ft_dprintf(STDERR_FILENO, AMBIGUOUS_ERR, "*");
-		else
-			ft_dprintf(STDERR_FILENO, AMBIGUOUS_ERR, node->cmd->cmds[0]);
+		free(*original_pattern);
 		return (1);
-	}
-	exp_qu->temp = node->cmd->cmds[exp_qu->i];
-	expand_condition(node, exp_qu);
-	return (0);
-}
-
-int	expand_quotes_exec(t_ast *node, t_minishell *minishell)
-{
-	t_exp_qu	data;
-
-	ft_memset(&data, 0, sizeof(t_exp_qu));
-	while (node->cmd->cmds[data.i])
-	{
-		if (expand_quotes_init(node, &data, minishell) == 1)
-			return (1);
-		if (data.export == 0 && data.exp == 1 && data.quote == 0
-			&& node->cmd->cmds[data.i])
-		{
-			data.tmp_cmds = node->cmd->cmds;
-			node->cmd->cmds = remake_cmds(node->cmd->cmds, &data.i);
-			if (node->cmd->cmds == NULL)
-			{
-				ft_free_double(data.tmp_cmds);
-				return (1);
-			}
-			free(data.expanded);
-			data.i++;
-		}
-		else if ((data.export == 1 || data.exp == 0 || (data.exp == 1 \
-				&& data.quote == 1 && ++data.i)) && qu_check(node, &data) == 1)
-			return (1);
 	}
 	return (0);
 }
