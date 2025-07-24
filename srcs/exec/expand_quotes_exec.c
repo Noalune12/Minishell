@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:44 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/07/24 15:32:08 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:50:37 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,6 @@ int	init_expansion_data(t_ast *node, t_exp_qu *exp_qu, \
 	*original_pattern = ft_strdup(node->cmd->cmds[exp_qu->i]);
 	if (!*original_pattern)
 		return (1);
-	(void) minishell;
 	exp_qu->expanded = expand_env_vars(node->cmd->cmds[exp_qu->i],
 			minishell, &exp_qu->exp, &exp_qu->quote);
 	if (exp_qu->expanded == NULL)
