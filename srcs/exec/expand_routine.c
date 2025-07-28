@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_routine.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:31:05 by gueberso          #+#    #+#             */
-/*   Updated: 2025/07/24 15:38:54 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/07/28 08:05:45 by lbuisson         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	handle_quote_processing(t_ast *node, t_exp_qu *data)
 	return (0);
 }
 
-int	expand_quotes_exec(t_ast *node, t_minishell *minishell)
+int	expander(t_ast *node, t_minishell *minishell)
 {
 	t_exp_qu	data;
 

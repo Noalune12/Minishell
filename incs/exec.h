@@ -6,7 +6,7 @@
 /*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:14:40 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 13:33:04 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/07/28 08:07:31 by lbuisson         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*handle_quotes_exec(char *input);
 int		check_cmd(t_ast *node);
 int		error_handling_exec(t_minishell *minishell, char *message);
 int		exec_minishell(t_ast *node, t_minishell *minishell);
-int		expand_quotes_exec(t_ast *node, t_minishell *minishell);
+int		expander(t_ast *node, t_minishell *minishell);
 int		handle_and(t_ast *node, t_minishell *minishell);
 int		handle_cmd(t_ast *node, t_minishell *minishell);
 int		handle_heredocin(t_ast *node, t_minishell *minishell);

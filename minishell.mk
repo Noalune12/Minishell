@@ -67,8 +67,8 @@ override EXECSRC		:= \
 	cmd_path \
 	exec_utils \
 	exec \
-	expand_quotes_exec \
 	expand_routine \
+	expand_utils \
 	handle_fd \
 	heredoc_exec \
 	or_exec \

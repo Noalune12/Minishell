@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:42 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/07/24 15:48:01 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/07/28 08:07:24 by lbuisson         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	exec_minishell(t_ast *node, t_minishell *minishell)
 
 	if (node == NULL || minishell->exec_status == false)
 		return (0);
-	if (expand_quotes_exec(node, minishell) == 1)
+	if (expander(node, minishell) == 1)
 		return (1);
 	if (node->cmd->cmds[0] == NULL)
 		return (0);
