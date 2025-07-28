@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:42 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/03/26 13:19:30 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:48:01 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 
 int	exec_minishell(t_ast *node, t_minishell *minishell)
 {
-	int					ret;
-	static t_handler	exec[] = {&handle_cmd, &handle_pipe, &handle_or,
+	int						ret;
+	static const t_handler	exec[] = {&handle_cmd, &handle_pipe, &handle_or,
 		&handle_and, &handle_redirin, &handle_redirout, &handle_heredocin,
 		&handle_redirappend, 0, 0, &handle_builtin};
 

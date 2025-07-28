@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:22:02 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 13:50:38 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:39:28 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 #include "options.h"
 #include "signals.h"
 #include "utils.h"
-#include "wildcard.h"
 
 static void	build_and_execute(t_minishell *minishell)
 {
@@ -35,7 +34,6 @@ static void	process_command(t_minishell *minishell)
 	tokenize_input(minishell);
 	split_operators(minishell);
 	check_heredoc(minishell);
-	expand_wildcards(minishell);
 	syntax_check(minishell);
 	print_tokens(minishell);
 	build_and_execute(minishell);
@@ -51,7 +49,7 @@ static int	process_input(t_minishell *minishell)
 	}
 	if (minishell->input == NULL)
 	{
-		ft_dprintf(STDERR_FILENO, "exit\n");
+		ft_dprintf(STDERR_FILENO, EXIT_NL);
 		return (-1);
 	}
 	init_global();
