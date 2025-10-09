@@ -76,6 +76,7 @@ int		handle_pipe(t_ast *node, t_minishell *minishell);
 int		handle_redirappend(t_ast *node, t_minishell *minishell);
 int		handle_redirin(t_ast *node, t_minishell *minishell);
 int		handle_redirout(t_ast *node, t_minishell *minishell);
+int		has_path_env(t_minishell *minishell);
 int		is_builtin(char *cmds);
 int		start_as_file(t_ast *node);
 int		error_handling_cmd_path(t_path_cmds *path_cmds,	char *str,

@@ -19,6 +19,20 @@
 #include "minishell.h"
 #include "utils.h"
 
+int	has_path_env(t_minishell *minishell)
+{
+	t_list	*temp;
+
+	temp = minishell->envp;
+	while (temp)
+	{
+		if (ft_strncmp(temp->content, PATH_EQUAL, 5) == 0)
+			return (1);
+		temp = temp->next;
+	}
+	return (0);
+}
+
 static char	*find_env_path(t_list *envp, t_minishell *minishell)
 {
 	char	*path_env;
