@@ -65,15 +65,14 @@ static int	exec_cmd(t_ast *node, t_minishell *minishell)
 	char	**env;
 
 	if (check_permission(node, minishell) == 0)
-		exit (126);
+		exit(126);
 	env = list_to_tab(minishell);
-	if (access(node->cmd->cmds[0], X_OK) == 0)
+	if (((has_path_env(minishell) == 0 && start_as_file(node) == 0) \
+		|| start_as_file(node) == 1) && access(node->cmd->cmds[0], X_OK) == 0)
 	{
 		node->cmd->path = ft_strdup(node->cmd->cmds[0]);
 		if (node->cmd->path == NULL)
 			exit(error_handling_exec(minishell, NULL));
-		if (execve(node->cmd->path, node->cmd->cmds, env) == -1)
-			node->cmd->path = find_exec_cmd(node->cmd->cmds, minishell, env);
 	}
 	else
 		node->cmd->path = find_exec_cmd(node->cmd->cmds, minishell, env);
