@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:34 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 13:34:11 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/10/16 10:38:05 by gueberso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 int	check_parentheses_tokens(t_token *current, t_token *next,
 								t_minishell *minishell)
 {
-	if (current->type == NODE_CLOSE_PAR && next->type == NODE_COMMAND)
+	if (current->type == NODE_CLOSE_PAR && \
+				(next->type == NODE_COMMAND || next->type == NODE_OPEN_PAR))
 	{
 		ft_dprintf(STDERR_FILENO, STR_SYNTAX, next->content);
 		minishell->exit_status = 2;
