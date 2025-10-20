@@ -6,7 +6,7 @@
 /*   By: gueberso <gueberso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:21:04 by gueberso          #+#    #+#             */
-/*   Updated: 2025/03/26 13:21:49 by gueberso         ###   ########.fr       */
+/*   Updated: 2025/10/20 19:45:55 by gueberso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,6 @@ static bool	get_file_names_setup(t_wildcard *data, int count)
 			data->file_names = NULL;
 		}
 		if (data->dir != NULL)
-			closedir(data->dir);
-		return (false);
-	}
-	data->entry = readdir(data->dir);
-	if (data->entry == NULL)
-	{
-		if (data->file_names)
-			free(data->file_names);
-		if (data->dir)
 			closedir(data->dir);
 		return (false);
 	}
