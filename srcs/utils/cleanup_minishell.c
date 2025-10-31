@@ -31,7 +31,8 @@ static void	close_free_and_reinit_fds(t_fd_info *fd)
 	if (fd->fds)
 		free(fd->fds);
 	fd->fds = malloc(sizeof(int) * 10);
-	if (!fd->fds) {
+	if (!fd->fds)
+	{
 		fd->nb_elems = 0;
 		fd->capacity = 0;
 		return ;
