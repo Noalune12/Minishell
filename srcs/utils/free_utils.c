@@ -26,6 +26,7 @@ void	close_and_free_fds(t_fd_info *fd)
 		i++;
 	}
 	free(fd->fds);
+	fd->fds = NULL;	
 }
 
 void	free_token_list(t_token *tokens)
